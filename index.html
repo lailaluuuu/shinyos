@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shiny World · Prototype</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Top bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="logo-mark">◎</div>
+        <div class="logo-text">
+          <span class="logo-main">shinyworld</span>
+          <span class="logo-sub">learn like it’s a game</span>
+        </div>
+      </div>
+      <div class="top-bar-metrics">
+        <div class="metric">
+          <span class="metric-label">XP</span>
+          <span class="metric-value" id="xpValue">120</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">streak</span>
+          <span class="metric-value">🦔 3</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">era</span>
+          <span class="metric-value" id="eraLabel">Foundations</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main layout -->
+    <main class="layout">
+      <!-- Left: world / subjects -->
+      <section class="world-panel">
+        <div class="world-header">
+          <h2>Atlas Map</h2>
+          <p class="world-subtitle">
+            Tap a city to jump into a subject. Your world evolves as you learn.
+          </p>
+        </div>
+
+        <div class="world-map">
+          <!-- Era ring -->
+          <div class="era-pill">
+            <span class="era-dot"></span>
+            <span id="eraPillLabel">Foundations Era</span>
+          </div>
+
+          <!-- Subject “cities” -->
+          <div class="world-grid">
+            <button class="world-node world-node--economics is-active" data-subject="economics">
+              <span class="node-title">Economics City</span>
+              <span class="node-subtitle">Markets · Trade · Systems</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 45%;"></div>
+              </div>
+            </button>
+
+            <button class="world-node world-node--investing" data-subject="investing">
+              <span class="node-title">Investing District</span>
+              <span class="node-subtitle">Portfolios · Risk · Behaviour</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 10%;"></div>
+              </div>
+            </button>
+
+            <button class="world-node world-node--history" data-subject="history">
+              <span class="node-title">History Port</span>
+              <span class="node-subtitle">Empires · Crises · Change</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 25%;"></div>
+              </div>
+            </button>
+
+            <button class="world-node world-node--psych" data-subject="psych">
+              <span class="node-title">Psychology Quarter</span>
+              <span class="node-subtitle">Biases · Choices · Minds</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 5%;"></div>
+              </div>
+            </button>
+
+            <button class="world-node world-node--maths" data-subject="maths">
+              <span class="node-title">Maths Grid</span>
+              <span class="node-subtitle">Patterns · Proofs · Puzzles</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 30%;"></div>
+              </div>
+            </button>
+
+            <button class="world-node world-node--science" data-subject="science">
+              <span class="node-title">Science Lab</span>
+              <span class="node-subtitle">Matter · Life · Cosmos</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 18%;"></div>
+              </div>
+            </button>
+
+            <!-- NEW: Space + History subject -->
+            <button class="world-node world-node--space" data-subject="space">
+              <span class="node-title">Cosmic History</span>
+              <span class="node-subtitle">Space Race · Orbits · Cold War</span>
+              <div class="node-progress">
+                <div class="node-progress-bar" style="width: 12%;"></div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: lesson / journal / missions -->
+      <section class="lesson-panel">
+        <div class="lesson-tabs">
+          <button class="tab is-active" data-tab="lesson">Lesson</button>
+          <button class="tab" data-tab="journal">Journal</button>
+          <button class="tab" data-tab="missions">Missions</button>
+        </div>
+
+        <div class="lesson-card" id="lessonCard">
+          <div class="lesson-chip-row">
+            <span class="chip chip--subject" id="subjectChip">Economics · Markets</span>
+            <span class="chip chip--unit" id="unitChip">Unit: Planned Economies</span>
+          </div>
+
+          <h1 class="lesson-title" id="lessonTitle">Planned Economies</h1>
+          <p class="lesson-subtitle" id="lessonSubtitle">
+            When the state takes the steering wheel of the market.
+          </p>
+
+          <div class="lesson-progress">
+            <div class="lesson-progress-top">
+              <span>Lesson progress</span>
+              <span id="lessonProgressLabel">1 / 4</span>
+            </div>
+            <div class="lesson-progress-bar">
+              <div class="lesson-progress-fill" id="lessonProgressFill" style="width: 25%;"></div>
+            </div>
+          </div>
+
+          <!-- Content container -->
+          <div class="lesson-body">
+            <div id="lessonContent">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <!-- Quiz area -->
+          <div class="quiz-block" id="quizBlock">
+            <!-- Filled by JS -->
+          </div>
+
+          <!-- Footer: XP etc -->
+          <div class="lesson-footer">
+            <div class="footer-left">
+              <span class="xp-pill">⭐ +<span id="pendingXp">0</span> XP</span>
+              <span class="hint-text" id="hintText">Tap an answer to check your understanding.</span>
+            </div>
+            <button class="next-btn" id="nextBtn">Next ▸</button>
+          </div>
+        </div>
+
+        <!-- Journal placeholder -->
+        <div class="journal-panel is-hidden" id="journalPanel">
+          <h2>Your Atlas Page</h2>
+          <p class="journal-text" id="journalText">
+            This is where your stamps, diagrams, and one-line notes for this topic will live.
+          </p>
+        </div>
+
+        <!-- Missions placeholder -->
+        <div class="missions-panel is-hidden" id="missionsPanel">
+          <h2>Simulation Mission</h2>
+          <p class="journal-text" id="missionsText">
+            Soon: you’ll be able to run a tiny simulation and watch your city change as you make decisions.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
