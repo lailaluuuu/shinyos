@@ -58,145 +58,21 @@
             <span id="eraPillLabel">Foundations Era</span>
           </div>
 
-          <!-- Subject “cities” -->
-          <div class="world-grid">
-            <button class="world-node world-node--economics is-active" data-subject="economics" onclick="console.log('ECONOMICS INLINE CLICK'); window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">💰</div>
-              <div class="node-content">
-                <span class="node-title">Economics City</span>
-                <span class="node-subtitle">Planned Economies</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 45%;"></div>
-              </div>
-            </button>
+          <!-- Breadcrumb navigation -->
+          <div class="breadcrumb" id="breadcrumb">
+            <button class="breadcrumb-item is-active" onclick="window.showCategories && window.showCategories()">🗺️ Categories</button>
+            <span class="breadcrumb-separator" id="breadcrumbSeparator" style="display: none;"> → </span>
+            <span class="breadcrumb-current" id="breadcrumbCurrent"></span>
+          </div>
 
-            <button class="world-node world-node--investing" data-subject="investing" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">📈</div>
-              <div class="node-content">
-                <span class="node-title">Investing District</span>
-                <span class="node-subtitle">Price Perception</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 38%;"></div>
-              </div>
-            </button>
+          <!-- Category folders (shown by default) -->
+          <div class="world-grid" id="categoryGrid">
+            <!-- Categories will be dynamically populated by JS -->
+          </div>
 
-            <button class="world-node world-node--history" data-subject="history" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🏛️</div>
-              <div class="node-content">
-                <span class="node-title">History Port</span>
-                <span class="node-subtitle">Empire Collapse</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 35%;"></div>
-              </div>
-            </button>
-
-            <button class="world-node world-node--psych" data-subject="psych" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🧠</div>
-              <div class="node-content">
-                <span class="node-title">Psychology Quarter</span>
-                <span class="node-subtitle">Cognitive Biases</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 42%;"></div>
-              </div>
-            </button>
-
-            <button class="world-node world-node--maths" data-subject="maths" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">⌨️</div>
-              <div class="node-content">
-                <span class="node-title">Tech Grid</span>
-                <span class="node-subtitle">Path Dependence</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 28%;"></div>
-              </div>
-            </button>
-
-            <button class="world-node world-node--science" data-subject="science" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🔬</div>
-              <div class="node-content">
-                <span class="node-title">Science Lab</span>
-                <span class="node-subtitle">Placebo Effect</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 31%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: Space + History subject -->
-            <button class="world-node world-node--space" data-subject="space" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🚀</div>
-              <div class="node-content">
-                <span class="node-title">Cosmic History</span>
-                <span class="node-subtitle">The Space Race</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 12%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: Crypto - Digital Wild West -->
-            <button class="world-node world-node--crypto" data-subject="crypto" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🪙</div>
-              <div class="node-content">
-                <span class="node-title">Crypto Wild West</span>
-                <span class="node-subtitle">Digital Gold & Chaos</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 8%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: Black Holes & Cosmic Violence -->
-            <button class="world-node world-node--blackholes" data-subject="blackholes" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">🌌</div>
-              <div class="node-content">
-                <span class="node-title">Black Hole Zone</span>
-                <span class="node-subtitle">Cosmic Violence</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 15%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: Glaciers & Ice Ages -->
-            <button class="world-node world-node--glaciers" data-subject="glaciers" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">❄️</div>
-              <div class="node-content">
-                <span class="node-title">Glacier Lab</span>
-                <span class="node-subtitle">Frozen Time Machines</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 6%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: Nuclear Everything -->
-            <button class="world-node world-node--nuclear" data-subject="nuclear" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">☢️</div>
-              <div class="node-content">
-                <span class="node-title">Nuclear Core</span>
-                <span class="node-subtitle">Atoms & Explosions</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 4%;"></div>
-              </div>
-            </button>
-
-            <!-- NEW: How Money Works -->
-            <button class="world-node world-node--money" data-subject="money" onclick="window.handleSubjectClickDirect && window.handleSubjectClickDirect(this);">
-              <div class="node-icon">💵</div>
-              <div class="node-content">
-                <span class="node-title">Economics Hub</span>
-                <span class="node-subtitle">How Money Works</span>
-              </div>
-              <div class="node-progress">
-                <div class="node-progress-bar" style="width: 10%;"></div>
-              </div>
-            </button>
+          <!-- Subject grid (shown when category is selected) -->
+          <div class="world-grid is-hidden" id="subjectGrid">
+            <!-- Subjects will be dynamically populated by JS -->
           </div>
         </div>
       </section>

@@ -319,6 +319,81 @@ body::after {
   line-height: 1.5;
 }
 
+/* Breadcrumb navigation */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.breadcrumb-item {
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 13px;
+}
+
+.breadcrumb-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.breadcrumb-item.is-active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.breadcrumb-separator {
+  color: var(--text-softer);
+  font-size: 12px;
+}
+
+.breadcrumb-current {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Category folder styling */
+.category-folder {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 165, 0, 0.08));
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-folder:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 
+    0 8px 24px rgba(255, 215, 0, 0.2),
+    0 0 40px rgba(255, 215, 0, 0.1);
+}
+
+.folder-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FFD700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .world-map {
   margin-top: 8px;
   position: relative;

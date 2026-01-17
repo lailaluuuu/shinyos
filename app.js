@@ -7,6 +7,70 @@ setTimeout(() => {
   console.log("Button check:", nextBtn ? "✅ Found" : "❌ Missing");
 }, 1000);
 
+// === CATEGORY STRUCTURE ===
+const categories = {
+  finance: {
+    id: "finance",
+    icon: "💰",
+    title: "Finance & Markets",
+    subtitle: "Money, investing, and crypto",
+    color: "#FFD700",
+    subjects: ["money", "investing", "crypto"]
+  },
+  sciences: {
+    id: "sciences",
+    icon: "🔬",
+    title: "Sciences",
+    subtitle: "Biology, physics, and climate",
+    color: "#4A90E2",
+    subjects: ["biology", "nuclear", "glaciers", "blackholes", "science"]
+  },
+  human: {
+    id: "human",
+    icon: "🧠",
+    title: "Human Systems",
+    subtitle: "Psychology, game theory, history",
+    color: "#9B59B6",
+    subjects: ["psych", "humans", "history"]
+  },
+  tech: {
+    id: "tech",
+    icon: "⚙️",
+    title: "Technology & Resources",
+    subtitle: "Systems, space, and materials",
+    color: "#E74C3C",
+    subjects: ["maths", "space", "minerals"]
+  },
+  existential: {
+    id: "existential",
+    icon: "🌋",
+    title: "Existential Risks",
+    subtitle: "World-ending scenarios",
+    color: "#E67E22",
+    subjects: ["apocalypse"]
+  }
+};
+
+// Subject metadata for navigation
+const subjectMeta = {
+  money: { icon: "💵", title: "Economics Hub", subtitle: "How Money Works" },
+  investing: { icon: "📈", title: "Investing District", subtitle: "Stock Markets & Strategy" },
+  crypto: { icon: "🪙", title: "Crypto Wild West", subtitle: "Digital Gold & Chaos" },
+  biology: { icon: "🧬", title: "Bio Lab", subtitle: "CRISPR & Immortality" },
+  nuclear: { icon: "☢️", title: "Nuclear Core", subtitle: "Atoms & Explosions" },
+  glaciers: { icon: "❄️", title: "Glacier Lab", subtitle: "Frozen Time Machines" },
+  blackholes: { icon: "🌌", title: "Black Hole Zone", subtitle: "Cosmic Violence" },
+  science: { icon: "🔬", title: "Science Lab", subtitle: "Placebo Effect" },
+  psych: { icon: "🧠", title: "Psychology Quarter", subtitle: "Cognitive Biases" },
+  humans: { icon: "🧩", title: "Game Theory Lab", subtitle: "Strategic Decisions" },
+  history: { icon: "🏛️", title: "History Port", subtitle: "Empire Collapse" },
+  maths: { icon: "⌨️", title: "Tech Grid", subtitle: "Path Dependence" },
+  space: { icon: "🚀", title: "Cosmic History", subtitle: "The Space Race" },
+  minerals: { icon: "⚡", title: "Resource Mines", subtitle: "Lithium, Copper & Power" },
+  apocalypse: { icon: "🌋", title: "Apocalypse Zone", subtitle: "World-Ending Scenarios" },
+  economics: { icon: "💰", title: "Economics City", subtitle: "Planned Economies" }
+};
+
 const subjectLessons = {
   economics: [
     {
@@ -676,6 +740,276 @@ const subjectLessons = {
       ],
       explanation:
         "**Half-life** of some isotopes is tens of thousands of years. That means it takes that long for radioactivity to drop to 'safe' levels."
+    }
+  ],
+
+  // Minerals & Metals ⚡
+  minerals: [
+    {
+      id: 1,
+      type: "content",
+      title: "Why Lithium Matters",
+      paragraphs: [
+        "**Lithium** is the new oil. It powers every electric vehicle battery, every smartphone, every laptop. Demand is exploding. Supply? Concentrated in a few countries: **Australia**, **Chile**, and **China**.",
+        "EVs need **10kg of lithium per battery**. As the world electrifies, lithium demand could increase **40x by 2040**. That's a supply crunch waiting to happen."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "Why is lithium critical for the future?",
+      options: [
+        { id: "a", text: "It's the key element in EV batteries", correct: true },
+        { id: "b", text: "It's used in nuclear reactors", correct: false },
+        { id: "c", text: "It makes phones faster", correct: false }
+      ],
+      explanation:
+        "**Lithium-ion batteries** are the only viable technology for EVs and grid storage. No lithium = no electrification = climate goals fail."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Copper: The Wiring of Civilization",
+      paragraphs: [
+        "**Copper** conducts electricity better than almost anything else. Every power grid, every building, every electric motor needs copper. The world uses **25 million tons per year**.",
+        "Problem: **peak copper** is approaching. Easy-to-mine deposits are running out. Future supply comes from deeper, dirtier, more expensive mines. And EVs need **4x more copper** than gas cars."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "⚡ Resource Geopolitics",
+      scenario: "You're the leader of a lithium-rich country. China offers to build infrastructure in exchange for exclusive lithium mining rights. The West offers cash but wants open markets. What do you do?",
+      options: [
+        { id: "a", text: "🇨🇳 Accept China's infrastructure deal", consequence: "You get roads, ports, and factories. But China controls your lithium supply chain. 10 years later, they dictate prices. You're locked in.", correct: false },
+        { id: "b", text: "🌍 Accept Western cash, keep markets open", consequence: "You get money but must build infrastructure yourself. Markets stay competitive. You maintain leverage. Smart long-term play.", correct: true },
+        { id: "c", text: "⚖️ Play both sides, auction to highest bidder", consequence: "Short-term gains but both sides lose trust. You're seen as unreliable. Future investment dries up. Bad move.", correct: false },
+        { id: "d", text: "🚫 Nationalize lithium, refuse all deals", consequence: "You control resources but lack tech and capital to extract them. Economy stagnates. You become the next Venezuela.", correct: false }
+      ],
+      explanation: "**Resource geopolitics** is about balancing sovereignty, development, and long-term leverage. Lock-in with one power = loss of negotiating power."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Supply Chains: Fragile by Design",
+      paragraphs: [
+        "Modern supply chains are **optimized for efficiency**, not resilience. Just-in-time delivery = zero buffer stock. One factory fire in Taiwan? Global chip shortage for 2 years.",
+        "**80% of rare earth metals** come from China. If China stops exporting, the West can't make smartphones, wind turbines, or missiles. That's strategic vulnerability."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "Why are supply chains so fragile?",
+      options: [
+        { id: "a", text: "They're optimized for cost, not resilience", correct: true },
+        { id: "b", text: "Companies are lazy", correct: false },
+        { id: "c", text: "There's a global shortage of everything", correct: false }
+      ],
+      explanation:
+        "**Efficiency vs resilience trade-off**: just-in-time delivery saves money but creates single points of failure. One disruption = cascading collapse."
+    }
+  ],
+
+  // Human Weirdness 🧩
+  humans: [
+    {
+      id: 1,
+      type: "content",
+      title: "Game Theory: The Math of Strategy",
+      paragraphs: [
+        "**Game theory** studies strategic decision-making when your outcome depends on others' choices. It's not about games—it's about **nuclear war**, **business**, **evolution**, and **everyday life**.",
+        "Key insight: **rational individual choices often lead to terrible collective outcomes**. That's why cooperation is hard and conflict is easy."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What is game theory?",
+      options: [
+        { id: "a", text: "The study of strategic decision-making", correct: true },
+        { id: "b", text: "How to win board games", correct: false },
+        { id: "c", text: "Psychology of gambling", correct: false }
+      ],
+      explanation:
+        "Game theory analyzes **situations where your best choice depends on what others do**. Economics, war, evolution—all game theory."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "The Prisoner's Dilemma",
+      paragraphs: [
+        "Two criminals are arrested. Police offer each a deal: **betray your partner** (go free) or **stay silent** (both get light sentences). If both betray, both get heavy sentences.",
+        "**The trap**: betraying is the 'rational' choice for each individual, but if both do it, they're worse off. Cooperation is better collectively but risky individually. This explains arms races, pollution, and why trust is valuable."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🎭 Prisoner's Dilemma",
+      scenario: "You and your partner are arrested. Police offer you a deal: betray your partner and go free (they get 10 years). If you both stay silent, you both get 1 year. If you both betray, you both get 5 years. What do you do?",
+      options: [
+        { id: "a", text: "🤐 Stay silent (cooperate)", consequence: "If your partner stays silent too: both get 1 year. Best outcome! But if they betray you: you get 10 years. Trust = risk.", correct: true },
+        { id: "b", text: "🗣️ Betray your partner (defect)", consequence: "If they stayed silent: you go free, they get 10 years. If they also betrayed: you both get 5 years. 'Rational' but collectively worse.", correct: false }
+      ],
+      explanation: "**The dilemma**: individual rationality (betray) leads to mutual harm (5 years each). Cooperation (silence) is collectively better but requires trust. This is why **repeated games and reputation matter**."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Cognitive Biases in Action",
+      paragraphs: [
+        "**Anchoring**: the first number you hear influences all subsequent estimates. Stores use this by showing 'original price' before discounts.",
+        "**Sunk cost fallacy**: you continue bad investments because you've already spent money/time. Rational choice ignores sunk costs. Humans don't. **Prospect theory**: losses hurt more than equivalent gains feel good. Losing £100 > gaining £100 emotionally."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "What is the sunk cost fallacy?",
+      options: [
+        { id: "a", text: "Continuing bad investments because you've already spent resources", correct: true },
+        { id: "b", text: "Refusing to invest in anything risky", correct: false },
+        { id: "c", text: "Investing too much too quickly", correct: false }
+      ],
+      explanation:
+        "**Sunk costs** are unrecoverable past expenses. Rational decision-making ignores them. But humans hate 'wasting' past investments, so we throw good money after bad."
+    }
+  ],
+
+  // Biology Sci-Fi 🧬
+  biology: [
+    {
+      id: 1,
+      type: "content",
+      title: "CRISPR: Editing the Code of Life",
+      paragraphs: [
+        "**CRISPR** is molecular scissors that can cut and edit DNA with precision. Scientists can now delete genes, insert new ones, or fix genetic diseases. It's genetic engineering made easy.",
+        "**2018**: Chinese scientist He Jiankui edited human embryos to make them HIV-resistant. The babies were born. The world freaked out. He was jailed. We now have the power to design humans."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What is CRISPR?",
+      options: [
+        { id: "a", text: "A tool for editing DNA precisely", correct: true },
+        { id: "b", text: "A new type of microscope", correct: false },
+        { id: "c", text: "A protein that causes diseases", correct: false }
+      ],
+      explanation:
+        "**CRISPR-Cas9** is a gene-editing system borrowed from bacteria. It allows scientists to cut DNA at specific locations and modify genes. Revolutionary and terrifying."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Tardigrades: Indestructible Micro-Bears",
+      paragraphs: [
+        "**Tardigrades** (water bears) are microscopic animals that can survive: **-272°C to +150°C**, **radiation 1000x lethal to humans**, **decades without water**, **the vacuum of space**. They're basically immortal.",
+        "How? They enter **cryptobiosis**—a state where metabolism stops completely. They dry out, replace water with protective sugars, and wait. Add water years later? They wake up. It's biological suspended animation."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🧬 CRISPR Ethics",
+      scenario: "You're a genetic scientist. A couple wants you to edit their embryo to remove a gene causing fatal childhood disease. Legal in your country. Do you do it?",
+      options: [
+        { id: "a", text: "✅ Yes, remove the disease gene", consequence: "Child is born healthy. Family is grateful. But: you've crossed into human genetic modification. Slippery slope to designer babies begins.", correct: true },
+        { id: "b", text: "❌ No, it's too risky", consequence: "Child is born with disease, dies at age 8. Family devastated. You could have prevented it. Was caution worth a child's life?", correct: false },
+        { id: "c", text: "🧪 Edit for disease + add intelligence genes", consequence: "You create a 'designer baby.' Public outcry. You're fired and prosecuted. Child grows up as a media spectacle. Ethical catastrophe.", correct: false },
+        { id: "d", text: "📋 Refer them to another clinic", consequence: "You avoid responsibility. Someone else does it anyway. Nothing changes except you didn't help or hinder.", correct: false }
+      ],
+      explanation: "**Gene editing dilemma**: preventing suffering vs playing God. Medical fixes seem reasonable until you ask: where's the line between therapy and enhancement?"
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Senescence: Why We Age",
+      paragraphs: [
+        "**Senescence** is the process of aging. Cells accumulate damage, telomeres shorten, repair mechanisms fail. Eventually: cancer, organ failure, death. But some organisms don't age.",
+        "**Hydra** (tiny water polyps) show **negligible senescence**. They don't age. Given ideal conditions, they're biologically immortal. **Naked mole rats** live 10x longer than similar-sized rodents and rarely get cancer. We're studying them to hack human aging."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "What is senescence?",
+      options: [
+        { id: "a", text: "The biological process of aging", correct: true },
+        { id: "b", text: "A type of cancer", correct: false },
+        { id: "c", text: "When cells stop dividing", correct: false }
+      ],
+      explanation:
+        "**Senescence** = aging at the cellular and organismal level. Damage accumulates, repair fails, death follows. Some organisms escape this. We're trying to figure out how."
+    }
+  ],
+
+  // If the World Ends 🌋
+  apocalypse: [
+    {
+      id: 1,
+      type: "content",
+      title: "Supervolcanoes: Civilization Killers",
+      paragraphs: [
+        "A **supervolcano** eruption would dwarf any historical volcano. **Yellowstone** has a magma chamber 80km across. If it erupts, it would eject **1,000 cubic kilometers** of rock and ash.",
+        "Result: **volcanic winter**. Ash blocks sunlight for years. Global temperatures drop 10°C. Crops fail worldwide. Mass starvation. Civilization collapses. Last time Yellowstone erupted? **640,000 years ago**. It's overdue."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What makes supervolcanoes so dangerous?",
+      options: [
+        { id: "a", text: "They block sunlight and cause global cooling", correct: true },
+        { id: "b", text: "The lava covers entire continents", correct: false },
+        { id: "c", text: "They trigger earthquakes everywhere", correct: false }
+      ],
+      explanation:
+        "**Volcanic winter**: ash in the stratosphere blocks sunlight, dropping temperatures globally for years. Crops fail. Famine follows. It's an extinction-level threat."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Pandemic Math: Exponential Growth",
+      paragraphs: [
+        "**R₀** (R-naught) = how many people each infected person infects. If R₀ > 1, the disease **spreads exponentially**. If R₀ < 1, it dies out.",
+        "COVID-19 had R₀ ≈ 3. That means: 1 person → 3 people → 9 → 27 → 81 → 243 → 729 in just 7 generations. Exponential growth is why pandemics explode before governments react."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🦠 Pandemic Response",
+      scenario: "A novel virus emerges. R₀ = 4. Fatality rate = 2%. It's spreading fast. You're the health minister. What's your first move?",
+      options: [
+        { id: "a", text: "🔒 Immediate lockdown + contact tracing", consequence: "You stop exponential spread early. Economy takes a hit but deaths stay low. Lockdown fatigue sets in after 3 months. You saved thousands.", correct: true },
+        { id: "b", text: "💉 Wait for vaccine development first", consequence: "Vaccines take 12-18 months. Virus spreads unchecked. Millions die. Healthcare collapses. Catastrophic failure.", correct: false },
+        { id: "c", text: "🏥 Focus on hospital capacity only", consequence: "Hospitals are overwhelmed in weeks. Exponential growth outruns any capacity. Doctors forced to choose who lives. Nightmare scenario.", correct: false },
+        { id: "d", text: "😷 Masks optional, trust personal responsibility", consequence: "Not enough compliance. R₀ stays above 1. Exponential spread continues. Death toll climbs. You failed.", correct: false }
+      ],
+      explanation: "**Exponential spread demands exponential response**. Early aggressive action (lockdown, tracing) buys time. Delays = deaths compound. It's math, not politics."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Nuclear Winter: The Aftermath",
+      paragraphs: [
+        "A nuclear war wouldn't just kill via explosions/radiation. The real killer: **nuclear winter**. Cities burn, smoke rises into the stratosphere, sunlight is blocked. Global temperatures drop **20-30°C**.",
+        "**90% of humans would die from starvation** in the following months. Crops fail. Ecosystems collapse. Even a 'small' nuclear war (India vs Pakistan, 100 warheads) would cause global famine killing **2 billion people**."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "What is nuclear winter?",
+      options: [
+        { id: "a", text: "Global cooling caused by smoke blocking sunlight after nuclear war", correct: true },
+        { id: "b", text: "The cold war during winter months", correct: false },
+        { id: "c", text: "When nuclear reactors freeze", correct: false }
+      ],
+      explanation:
+        "**Nuclear winter**: soot and smoke from burning cities rise into the stratosphere, block sunlight, and cause global cooling for years. Crops fail. Mass starvation. Existential threat."
     }
   ],
 
@@ -1608,6 +1942,46 @@ function updateMetaForSubject(subject) {
       "Economics Hub. Stamps for inflation cycles, central bank decisions, housing markets, and interest rate mechanics.";
     missionsText.textContent =
       "Soon: run a central bank, set interest rates, and manage inflation vs recession trade-offs.";
+  } else if (subject === "minerals") {
+    subjectChip.textContent = "Resources · Materials";
+    unitChip.textContent = "Unit: Critical Minerals";
+    lessonTitle.textContent = "Minerals & Metals";
+    lessonSubtitle.textContent = "Lithium, copper, and the supply chains that power civilization.";
+    era = "Modern";
+    journalText.textContent =
+      "Resource Mines. Stamps for lithium extraction, copper demand, supply chain fragility, and geopolitical control.";
+    missionsText.textContent =
+      "Soon: manage a lithium mine, negotiate with superpowers, and navigate resource geopolitics.";
+  } else if (subject === "humans") {
+    subjectChip.textContent = "Psychology · Strategy";
+    unitChip.textContent = "Unit: Game Theory";
+    lessonTitle.textContent = "Human Weirdness";
+    lessonSubtitle.textContent = "Game theory, cognitive biases, and why we're predictably irrational.";
+    era = "Foundations";
+    journalText.textContent =
+      "Game Theory Lab. Stamps for prisoner's dilemma, Nash equilibrium, anchoring bias, and sunk cost fallacy.";
+    missionsText.textContent =
+      "Soon: play strategic games, test your biases, and see how rational you really are.";
+  } else if (subject === "biology") {
+    subjectChip.textContent = "Biology · Future";
+    unitChip.textContent = "Unit: Genetic Engineering";
+    lessonTitle.textContent = "Biology That Feels Like Sci-Fi";
+    lessonSubtitle.textContent = "CRISPR, tardigrades, and the quest for immortality.";
+    era = "Future";
+    journalText.textContent =
+      "Bio Lab. Stamps for CRISPR mechanics, tardigrade survival, senescence, and gene editing ethics.";
+    missionsText.textContent =
+      "Soon: design genetic modifications, balance ethics vs progress, and explore biological immortality.";
+  } else if (subject === "apocalypse") {
+    subjectChip.textContent = "Existential · Risks";
+    unitChip.textContent = "Unit: Catastrophic Scenarios";
+    lessonTitle.textContent = "If the World Ends";
+    lessonSubtitle.textContent = "Supervolcanoes, pandemics, nuclear winter, and other fun scenarios.";
+    era = "Crisis";
+    journalText.textContent =
+      "Apocalypse Zone. Stamps for supervolcano mechanics, pandemic math, nuclear winter models, and survival strategies.";
+    missionsText.textContent =
+      "Soon: simulate pandemic responses, calculate nuclear winter outcomes, and manage existential crises.";
   } else {
     // Placeholder for other subjects
     subjectChip.textContent = "Prototype · Subject";
@@ -1688,11 +2062,101 @@ if (document.readyState === 'loading') {
   initApp();
 }
 
+// === CATEGORY NAVIGATION ===
+let currentCategory = null;
+
+function showCategories() {
+  console.log("📁 Showing categories");
+  currentCategory = null;
+  
+  const categoryGrid = $("#categoryGrid");
+  const subjectGrid = $("#subjectGrid");
+  const breadcrumbSeparator = $("#breadcrumbSeparator");
+  const breadcrumbCurrent = $("#breadcrumbCurrent");
+  
+  // Show category grid, hide subject grid
+  categoryGrid.classList.remove("is-hidden");
+  subjectGrid.classList.add("is-hidden");
+  
+  // Update breadcrumb
+  breadcrumbSeparator.style.display = "none";
+  breadcrumbCurrent.textContent = "";
+  
+  // Clear and populate categories
+  categoryGrid.innerHTML = "";
+  Object.values(categories).forEach(cat => {
+    const node = document.createElement("button");
+    node.className = "world-node category-folder";
+    node.dataset.category = cat.id;
+    node.innerHTML = `
+      <div class="node-icon">${cat.icon}</div>
+      <div class="node-content">
+        <span class="node-title">${cat.title}</span>
+        <span class="node-subtitle">${cat.subtitle}</span>
+      </div>
+      <div class="folder-badge">${cat.subjects.length} topics</div>
+    `;
+    node.onclick = () => showCategorySubjects(cat.id);
+    categoryGrid.appendChild(node);
+  });
+}
+
+function showCategorySubjects(categoryId) {
+  console.log("📂 Opening category:", categoryId);
+  currentCategory = categoryId;
+  
+  const category = categories[categoryId];
+  const categoryGrid = $("#categoryGrid");
+  const subjectGrid = $("#subjectGrid");
+  const breadcrumbSeparator = $("#breadcrumbSeparator");
+  const breadcrumbCurrent = $("#breadcrumbCurrent");
+  
+  // Show subject grid, hide category grid
+  categoryGrid.classList.add("is-hidden");
+  subjectGrid.classList.remove("is-hidden");
+  
+  // Update breadcrumb
+  breadcrumbSeparator.style.display = "inline";
+  breadcrumbCurrent.textContent = category.title;
+  
+  // Clear and populate subjects
+  subjectGrid.innerHTML = "";
+  category.subjects.forEach(subjectId => {
+    const meta = subjectMeta[subjectId];
+    if (!meta) return;
+    
+    const node = document.createElement("button");
+    node.className = `world-node world-node--${subjectId}`;
+    node.dataset.subject = subjectId;
+    node.innerHTML = `
+      <div class="node-icon">${meta.icon}</div>
+      <div class="node-content">
+        <span class="node-title">${meta.title}</span>
+        <span class="node-subtitle">${meta.subtitle}</span>
+      </div>
+      <div class="node-progress">
+        <div class="node-progress-bar" style="width: ${Math.floor(Math.random() * 50)}%;"></div>
+      </div>
+    `;
+    node.onclick = () => {
+      window.handleSubjectClickDirect && window.handleSubjectClickDirect(node);
+    };
+    subjectGrid.appendChild(node);
+  });
+}
+
+// Make functions globally accessible
+window.showCategories = showCategories;
+window.showCategorySubjects = showCategorySubjects;
+
 function initApp() {
   // Initialize game UI
   updateGameUI();
   
-  // Start with economics wired
+  // Show categories on startup
+  showCategories();
+  
+  // Start with economics wired (but don't navigate to it yet)
   updateMetaForSubject("economics");
   renderLesson();
 
