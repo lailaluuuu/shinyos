@@ -1,4 +1,6 @@
 // Subject → lessons mapping
+console.log("🔥 JavaScript file is loading!");
+alert("JavaScript is working! Check console (F12) for more details.");
 
 const subjectLessons = {
   economics: [
