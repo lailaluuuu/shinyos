@@ -120,15 +120,26 @@ function renderLesson() {
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
 
-  // Update progress
+  // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
   const pct = ((currentIndex + 1) / lessons.length) * 100;
   progressFill.style.width = `${pct}%`;
 
   // Reset hint + pending XP display
   pendingXp = 0;
-  pendingXpEl.textContent = pendingXp.toString();
+  pendingXpEl.textContent = "0";
   hintText.textContent = "Tap an answer to check your understanding.";
+
+  // Add fade-in effect
+  contentEl.style.opacity = '0';
+  quizBlock.style.opacity = '0';
+  
+  setTimeout(() => {
+    contentEl.style.transition = 'opacity 0.4s ease-out';
+    quizBlock.style.transition = 'opacity 0.4s ease-out';
+    contentEl.style.opacity = '1';
+    quizBlock.style.opacity = '1';
+  }, 50);
 
   // Render content vs quiz
   if (lesson.type === "content") {
@@ -137,21 +148,34 @@ function renderLesson() {
 
     if (lesson.title) {
       const titleP = document.createElement("p");
-      titleP.style.fontWeight = "600";
+      titleP.style.fontWeight = "700";
+      titleP.style.fontSize = "15px";
+      titleP.style.marginBottom = "10px";
+      titleP.style.color = "var(--text)";
       titleP.textContent = lesson.title;
       contentEl.appendChild(titleP);
     }
 
-    lesson.paragraphs.forEach((text) => {
+    lesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
       p.textContent = text;
+      p.style.opacity = '0';
+      p.style.transform = 'translateY(10px)';
       contentEl.appendChild(p);
+      
+      // Staggered entrance animation
+      setTimeout(() => {
+        p.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+        p.style.opacity = '1';
+        p.style.transform = 'translateY(0)';
+      }, 100 + index * 100);
     });
   } else if (lesson.type === "quiz") {
     // Simple intro content
     contentEl.innerHTML = "";
     const intro = document.createElement("p");
     intro.textContent = "Quick check-in before we move on:";
+    intro.style.fontWeight = "600";
     contentEl.appendChild(intro);
 
     // Render quiz
@@ -170,10 +194,14 @@ function renderLesson() {
     const optionsWrapper = document.createElement("div");
     optionsWrapper.className = "quiz-options";
 
-    lesson.options.forEach((opt) => {
+    lesson.options.forEach((opt, index) => {
       const btn = document.createElement("button");
       btn.className = "quiz-option";
       btn.dataset.optionId = opt.id;
+      
+      // Staggered entrance for quiz options
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateX(-10px)';
 
       const textSpan = document.createElement("span");
       textSpan.textContent = opt.text;
@@ -188,6 +216,13 @@ function renderLesson() {
       btn.addEventListener("click", () => handleQuizClick(btn, opt, lesson));
 
       optionsWrapper.appendChild(btn);
+      
+      // Animate in
+      setTimeout(() => {
+        btn.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateX(0)';
+      }, 200 + index * 80);
     });
 
     quizBlock.appendChild(optionsWrapper);
@@ -215,6 +250,12 @@ function handleQuizClick(button, option, lesson) {
 
     pendingXp = 8;
     hintText.textContent = lesson.explanation;
+    
+    // Add celebration effect
+    button.style.animation = 'none';
+    setTimeout(() => {
+      button.style.animation = 'subtle-float 0.5s ease-out';
+    }, 10);
   } else {
     button.classList.add("incorrect");
     const indicator = button.querySelector(".option-indicator");
@@ -227,9 +268,41 @@ function handleQuizClick(button, option, lesson) {
         : "Not quite. Read the question again and think about the key names.";
   }
 
+  // Animate XP gain
+  const oldXp = xp;
   xp += pendingXp;
-  xpValue.textContent = xp.toString();
-  pendingXpEl.textContent = pendingXp.toString();
+  animateCounter(xpValue, oldXp, xp, 600);
+  
+  // Animate pending XP display
+  pendingXpEl.style.transform = 'scale(1.3)';
+  pendingXpEl.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  setTimeout(() => {
+    pendingXpEl.textContent = `+${pendingXp}`;
+    pendingXpEl.style.transform = 'scale(1)';
+  }, 50);
+}
+
+// Smooth counter animation
+function animateCounter(element, start, end, duration) {
+  const startTime = performance.now();
+  const diff = end - start;
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Easing function for smooth animation
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+    const current = Math.round(start + diff * easeOutQuart);
+    
+    element.textContent = current.toString();
+    
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+  
+  requestAnimationFrame(update);
 }
 
 function goNext() {
@@ -324,6 +397,12 @@ function handleSubjectClick(node) {
     .querySelectorAll(".world-node")
     .forEach((n) => n.classList.remove("is-active"));
   node.classList.add("is-active");
+  
+  // Add a subtle pulse effect to the clicked node
+  node.style.animation = 'none';
+  setTimeout(() => {
+    node.style.animation = 'subtle-float 0.6s ease-out';
+  }, 10);
 
   // Only economics + space have real lessons right now
   if (subject === "economics" || subject === "space") {
@@ -334,14 +413,22 @@ function handleSubjectClick(node) {
   } else {
     activeSubject = "economics"; // keep a safe base for data
     updateMetaForSubject(subject);
-    $("#lessonContent").innerHTML =
-      "<p>Prototype mode: this subject will get its own lesson flow. For now, Economics City and Cosmic History are the ones that are alive.</p>";
+    const contentEl = $("#lessonContent");
+    contentEl.innerHTML =
+      "<p style='font-weight: 600; opacity: 0.9;'>Prototype mode: this subject will get its own lesson flow. For now, Economics City and Cosmic History are the ones that are alive.</p>";
     $("#quizBlock").innerHTML = "";
     const lessons = getCurrentLessons();
     const progressLabel = $("#lessonProgressLabel");
     const progressFill = $("#lessonProgressFill");
     progressLabel.textContent = `0 / ${lessons.length}`;
     progressFill.style.width = "0%";
+    
+    // Fade in the message
+    contentEl.style.opacity = '0';
+    setTimeout(() => {
+      contentEl.style.transition = 'opacity 0.4s ease-out';
+      contentEl.style.opacity = '1';
+    }, 50);
   }
 }
 
