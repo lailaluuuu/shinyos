@@ -571,6 +571,38 @@ body::after {
   opacity: 0.6;
 }
 
+.world-node--crypto {
+  border-left: 4px solid #f4b65e;
+}
+
+.world-node--crypto::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(244, 182, 94, 0.12), transparent 60%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.world-node--blackholes {
+  border-left: 4px solid #9b59b6;
+}
+
+.world-node--blackholes::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(155, 89, 182, 0.12), transparent 60%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 /* Node progress bar */
 .node-progress {
   position: absolute;

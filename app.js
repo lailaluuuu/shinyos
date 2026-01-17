@@ -473,6 +473,142 @@ const subjectLessons = {
         "It also means drug trials must compare new medicines against placebos, not just 'nothing' — because doing something often helps, even if the something is inert."
       ]
     }
+  ],
+
+  // Crypto: Digital Wild West 🪙💀
+  crypto: [
+    {
+      id: 1,
+      type: "content",
+      title: "What is Blockchain?",
+      paragraphs: [
+        "Imagine a spreadsheet that **no one controls**, everyone can see, and no one can cheat. That's blockchain. It's a **public ledger** of transactions, copied across thousands of computers.",
+        "Why does this matter? **Banks can freeze your account. Governments can print money. Blockchain can't be stopped.** It runs on math, not trust."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What makes blockchain different from a bank?",
+      options: [
+        { id: "a", text: "No single authority controls it", correct: true },
+        { id: "b", text: "It's faster than banks", correct: false },
+        { id: "c", text: "It's free to use", correct: false }
+      ],
+      explanation:
+        "Blockchain is **decentralized**. No CEO, no government, no middleman. Just code and consensus."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Bitcoin vs Ethereum: The Big Two",
+      paragraphs: [
+        "**Bitcoin** is digital gold. It's simple: send money, store value, don't trust banks. **21 million coins max**. That's it. That's the feature.",
+        "**Ethereum** is a **programmable blockchain**. You can build apps on it (DeFi, NFTs, smart contracts). It's not just money — it's a **computer that no one owns**."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🎯 Crypto Choice: What do you buy?",
+      scenario: "You have £1,000 to invest. Bitcoin is at £40,000. Ethereum is at £2,500. A new meme coin promises '100x gains!' What's your move?",
+      options: [
+        { id: "a", text: "🟠 All in on Bitcoin - digital gold", consequence: "Safe bet. Bitcoin is boring but reliable. It 2x over 2 years. Your £1,000 → £2,000. Solid.", correct: true },
+        { id: "b", text: "💎 Split 50/50 Bitcoin and Ethereum", consequence: "Smart diversification. Bitcoin 2x, ETH 3x. Your £1,000 → £2,500. Well played.", correct: true },
+        { id: "c", text: "🚀 All in on the meme coin", consequence: "It pumped 10x... then crashed 95%. You rode the wave but sold late. £1,000 → £200. Painful lesson.", correct: false },
+        { id: "d", text: "🧠 70% BTC/ETH, 10% meme coin for fun", consequence: "Balanced risk. Main stack 2.5x, meme coin failed. £1,000 → £2,350. You played it right.", correct: true }
+      ],
+      explanation: "Rule of crypto: **never bet the farm on sh*tcoins**. Bitcoin and Ethereum are boring for a reason — they survive."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Security: Don't Get Rekt",
+      paragraphs: [
+        "**Exchanges** (Coinbase, Binance) are like banks. Easy to use, but they hold your keys. If they get hacked or go bankrupt, **your coins vanish**.",
+        "**Wallets** (hardware or software) give you full control. **'Not your keys, not your crypto.'** But if you lose your keys, no one can help you. Ever."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "Spot the scam:",
+      options: [
+        { id: "a", text: "'Send me 1 ETH and I'll send back 2 ETH!' - Elon Musk (fake account)", correct: true },
+        { id: "b", text: "A coin with a public team, audited code, and real use case", correct: false },
+        { id: "c", text: "Bitcoin hitting a new all-time high", correct: false }
+      ],
+      explanation:
+        "If it sounds too good to be true, **it's a scam**. No one gives free money. Ever. Crypto is full of grifters."
+    }
+  ],
+
+  // Black Holes & Cosmic Violence 🌌💀
+  blackholes: [
+    {
+      id: 1,
+      type: "content",
+      title: "What is a Black Hole?",
+      paragraphs: [
+        "A black hole is what happens when **gravity wins**. A star dies, collapses, and crushes so much mass into such a tiny space that **nothing can escape**. Not even light.",
+        "How small? A black hole with the mass of Earth would fit in your pocket. The actual **event horizon** (point of no return) would be **9mm wide**. Terrifying."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "Why can't light escape a black hole?",
+      options: [
+        { id: "a", text: "Gravity is so strong it bends spacetime into a trap", correct: true },
+        { id: "b", text: "Black holes absorb light like a sponge", correct: false },
+        { id: "c", text: "Light runs out of energy", correct: false }
+      ],
+      explanation:
+        "Black holes warp **spacetime itself**. Once you cross the event horizon, all paths lead inward. There's no 'up' anymore."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Spaghettification (Yes, Really)",
+      paragraphs: [
+        "As you fall into a black hole, **tidal forces** stretch you. Your feet feel stronger gravity than your head. You get **pulled apart like taffy**.",
+        "Small black holes? You spaghettify **before** you cross the event horizon. Supermassive ones? You'd cross and not even notice... until it's too late."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🌀 You're Falling Into a Black Hole...",
+      scenario: "You're an astronaut who just crossed the event horizon of a supermassive black hole. What do you see?",
+      options: [
+        { id: "a", text: "🌟 The entire future of the universe flashing before your eyes", consequence: "Correct! Time dilation means you see the universe age rapidly as you fall. The stars die, galaxies collide, and the cosmos ends. Then you hit the singularity.", correct: true },
+        { id: "b", text: "🕳️ Total darkness immediately", consequence: "Not quite. Light from outside can still reach you for a while. It's only when you look back that you see darkness.", correct: false },
+        { id: "c", text: "👻 Your own past replayed backwards", consequence: "Nope. Time doesn't reverse. It just gets *weird*. You'd see the outside universe, not your memories.", correct: false },
+        { id: "d", text: "🔥 You burn up instantly", consequence: "Not from heat. Supermassive black holes are surprisingly *gentle* at the horizon. You spaghettify deeper inside.", correct: false }
+      ],
+      explanation: "Black holes break physics in the best way. Time, space, and causality stop making sense."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Hawking Radiation: Black Holes Die",
+      paragraphs: [
+        "Stephen Hawking proved that black holes aren't **perfectly** black. They leak tiny amounts of radiation. Over trillions of years, they **evaporate**.",
+        "Small black holes evaporate fast. Supermassive ones? They'll outlive the stars. But eventually, even black holes die."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "What happens to black holes over time?",
+      options: [
+        { id: "a", text: "They slowly evaporate via Hawking radiation", correct: true },
+        { id: "b", text: "They grow forever", correct: false },
+        { id: "c", text: "They explode", correct: false }
+      ],
+      explanation:
+        "Black holes **lose mass** through quantum effects at the event horizon. It's incredibly slow, but it happens."
+    }
   ]
 };
 
@@ -1044,7 +1180,6 @@ function animateCounter(element, start, end, duration) {
 }
 
 function goNext() {
-  console.log("🚀 goNext() function called!");
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
 
@@ -1186,15 +1321,35 @@ function updateMetaForSubject(subject) {
     missionsText.textContent =
       "Soon: design a drug trial and see how placebo effects complicate the search for real medical effects.";
   } else if (subject === "investing") {
-    subjectChip.textContent = "Investing · Pricing";
-    unitChip.textContent = "Unit: Why Prices Feel Unfair";
-    lessonTitle.textContent = "Price Perception";
-    lessonSubtitle.textContent = "Information asymmetry and the fairness instinct.";
+    subjectChip.textContent = "Investing · Real Humans";
+    unitChip.textContent = "Unit: Stock Markets & Strategy";
+    lessonTitle.textContent = "Investing for Real Humans";
+    lessonSubtitle.textContent = "Build wealth without the jargon.";
     era = "Modern";
     journalText.textContent =
-      "Investing District · Pricing. Stamps for anchoring, information gaps, and notes on why fair pricing feels personal.";
+      "Investing District · Markets. Stamps for ETFs, risk profiles, and portfolio archetypes. Build your strategy.";
     missionsText.textContent =
-      "Soon: set prices in a market simulation and watch how perception shapes customer behavior.";
+      "Soon: build your portfolio, backtest strategies, and simulate market crashes to see how you'd react.";
+  } else if (subject === "crypto") {
+    subjectChip.textContent = "Crypto · Digital Wild West";
+    unitChip.textContent = "Unit: Blockchain & Bitcoin";
+    lessonTitle.textContent = "Crypto: Digital Wild West";
+    lessonSubtitle.textContent = "Decentralized chaos and digital gold.";
+    era = "Future";
+    journalText.textContent =
+      "Crypto Wild West. Stamps for Bitcoin, Ethereum, security rules, and notes on how to not get rekt.";
+    missionsText.textContent =
+      "Soon: sim trading with fake money, spot ponzi schemes, and build your crypto strategy (bull vs bear markets).";
+  } else if (subject === "blackholes") {
+    subjectChip.textContent = "Astrophysics · Violence";
+    unitChip.textContent = "Unit: Black Holes";
+    lessonTitle.textContent = "Black Holes & Cosmic Violence";
+    lessonSubtitle.textContent = "Where gravity wins and physics breaks.";
+    era = "Cosmic";
+    journalText.textContent =
+      "Black Hole Zone. Stamps for event horizons, spaghettification, Hawking radiation, and time dilation weirdness.";
+    missionsText.textContent =
+      "Soon: simulate falling into black holes, calculate escape velocities, and visualize spacetime warping.";
   } else {
     // Placeholder for other subjects
     subjectChip.textContent = "Prototype · Subject";
@@ -1228,7 +1383,7 @@ function handleSubjectClick(node) {
   }, 10);
 
   // Check if subject has lesson content
-  const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing"];
+  const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "blackholes"];
   if (liveSubjects.includes(subject)) {
     activeSubject = subject;
     currentIndex = 0;
@@ -1264,15 +1419,6 @@ if (document.readyState === 'loading') {
 }
 
 function initApp() {
-  console.log("🎯 APP IS INITIALIZING!");
-  
-  // Create visible indicator
-  const indicator = document.createElement("div");
-  indicator.textContent = "✅ JS LOADED & WORKING";
-  indicator.style.cssText = "position: fixed; top: 0; left: 0; right: 0; background: lime; color: black; text-align: center; padding: 5px; font-weight: bold; z-index: 99999; font-size: 14px;";
-  document.body.appendChild(indicator);
-  setTimeout(() => indicator.remove(), 3000);
-  
   // Initialize game UI
   updateGameUI();
   
@@ -1280,36 +1426,13 @@ function initApp() {
   updateMetaForSubject("economics");
   renderLesson();
 
-  // Next button with multiple binding methods  
+  // Next button
   const nextBtn = document.getElementById("nextBtn");
-  console.log("🔍 Looking for next button...", nextBtn);
-  console.log("Button exists?", !!nextBtn);
-  console.log("Button disabled?", nextBtn?.disabled);
-  console.log("Button style display:", nextBtn ? window.getComputedStyle(nextBtn).display : "N/A");
-  
   if (nextBtn) {
-    // Remove any existing listeners
-    const newBtn = nextBtn.cloneNode(true);
-    nextBtn.parentNode.replaceChild(newBtn, nextBtn);
-    
-    // Add fresh listener
-    newBtn.addEventListener("click", function(e) {
-      console.log("🎉 BUTTON CLICKED!");
+    nextBtn.addEventListener("click", function(e) {
       e.preventDefault();
-      e.stopPropagation();
       goNext();
-    }, false);
-    
-    // Also test with onclick
-    newBtn.onclick = function() {
-      console.log("🎉 ONCLICK FIRED!");
-      goNext();
-    };
-    
-    console.log("✅ Button handlers attached to:", newBtn);
-  } else {
-    console.error("❌❌❌ NEXT BUTTON NOT FOUND!");
-    alert("ERROR: Next button not found in HTML!");
+    });
   }
 
   // Tabs
@@ -1351,16 +1474,4 @@ function initApp() {
     }
   });
   
-  // DEBUG: Log ALL clicks
-  document.addEventListener("click", function(e) {
-    console.log("👆 CLICK DETECTED:", {
-      tag: e.target.tagName,
-      id: e.target.id,
-      class: e.target.className,
-      text: e.target.textContent?.substring(0, 30)
-    });
-  }, true);
-  
-  console.log("✅✅✅ APP FULLY INITIALIZED!");
-  alert("APP READY! Now try clicking the Continue button and check console (F12)");
 }
