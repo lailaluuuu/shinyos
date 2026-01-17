@@ -543,6 +543,210 @@ const subjectLessons = {
     }
   ],
 
+  // Glaciers & Ice Ages ❄️
+  glaciers: [
+    {
+      id: 1,
+      type: "content",
+      title: "What is a Glacier?",
+      paragraphs: [
+        "A **glacier** is a river of ice that flows like a very slow liquid. It's snow compressed over thousands of years into solid ice that's so heavy it moves under its own weight.",
+        "They move at **centimeters per day**. But that 'slow' motion can carve valleys, grind mountains to dust, and reshape entire continents. They're planetary machinery."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "Why do glaciers move?",
+      options: [
+        { id: "a", text: "Ice flows like a super-slow liquid under pressure", correct: true },
+        { id: "b", text: "Wind pushes them", correct: false },
+        { id: "c", text: "They slide on water", correct: false }
+      ],
+      explanation:
+        "Ice under extreme pressure behaves like a **plastic material** - it deforms and flows. That's why glaciers move downhill over centuries."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Ice Cores: Time Capsules",
+      paragraphs: [
+        "Drill into a glacier and you're drilling through **time**. Each layer of ice is a snapshot of the atmosphere from when that snow fell. Trapped air bubbles = ancient atmosphere.",
+        "Scientists have drilled ice cores going back **800,000 years**. They can measure CO₂ levels, temperature, volcanic eruptions, even pollen from extinct plants. It's a climate time machine."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "🧊 Ice Core Discovery",
+      scenario: "You're drilling an ice core in Antarctica. At 2,000 meters deep, you find a layer of ash, ancient viruses, and air bubbles with unusual CO₂ levels. What do you do?",
+      options: [
+        { id: "a", text: "🔬 Analyze the air bubbles first", consequence: "You discover CO₂ levels were 50% higher than expected. This rewrites climate history! You publish and win awards. Legend.", correct: true },
+        { id: "b", text: "🦠 Study the ancient viruses immediately", consequence: "You accidentally revive a dormant virus. It's harmless but causes a biosecurity panic. Your lab gets shut down for 6 months.", correct: false },
+        { id: "c", text: "🌋 Focus on the ash layer", consequence: "You identify a supervolcano eruption from 40,000 years ago that caused a mini ice age. Solid discovery, paper published!", correct: true },
+        { id: "d", text: "📸 Take photos and seal the sample", consequence: "Safe but slow. Another team publishes first using your data. You get credited but miss the spotlight.", correct: false }
+      ],
+      explanation: "Ice cores hold **viruses**, **pollen**, **volcanic ash**, and **atmospheric snapshots**. Every layer is a treasure trove of ancient data."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "When Will They Melt?",
+      paragraphs: [
+        "**Greenland** and **Antarctica** hold enough ice to raise sea levels by **65+ meters**. If they melted completely, most coastal cities would vanish.",
+        "Current rate: Greenland loses **280 billion tons of ice per year**. That's accelerating. Even a partial melt would flood London, New York, Shanghai, and Mumbai. We're talking decades, not centuries."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "What happens if Greenland's ice sheet melts?",
+      options: [
+        { id: "a", text: "Sea levels rise ~7 meters, flooding major cities", correct: true },
+        { id: "b", text: "Nothing, it's already floating", correct: false },
+        { id: "c", text: "It triggers a new ice age", correct: false }
+      ],
+      explanation:
+        "Greenland's ice sits on **land**, not water. When it melts, all that water flows into the ocean. **7 meters** of sea level rise = catastrophic."
+    }
+  ],
+
+  // Nuclear Everything ☢️
+  nuclear: [
+    {
+      id: 1,
+      type: "content",
+      title: "Fusion vs Fission",
+      paragraphs: [
+        "**Fission**: Split a big atom (uranium) → releases energy + radiation + waste. That's what nuclear power plants do. **Fusion**: Smash small atoms (hydrogen) together → releases MASSIVE energy, no long-lived waste. That's what the sun does.",
+        "Fission works but creates radioactive waste that lasts thousands of years. Fusion is clean and limitless... but we can't sustain it yet. We've been '30 years away' for 70 years."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What's the difference between fusion and fission?",
+      options: [
+        { id: "a", text: "Fission splits atoms, fusion combines them", correct: true },
+        { id: "b", text: "Fusion is what nuclear bombs use", correct: false },
+        { id: "c", text: "They're the same thing", correct: false }
+      ],
+      explanation:
+        "**Fission** breaks big atoms apart. **Fusion** forces small atoms together. Fusion is cleaner but way harder to achieve."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Chernobyl: What Went Wrong",
+      paragraphs: [
+        "**April 26, 1986**: A safety test at Chernobyl reactor 4 went catastrophically wrong. The reactor overheated, exploded, and released **400 times more radiation** than Hiroshima.",
+        "Why? Soviet reactor design had a fatal flaw: at low power, it became **unstable**. Operators disabled safety systems during the test. The reactor went supercritical in seconds. Boom."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "☢️ Reactor Meltdown Scenario",
+      scenario: "You're the control room operator. Reactor temperature is rising fast. Alarms are screaming. You have 30 seconds. What do you do?",
+      options: [
+        { id: "a", text: "🔴 SCRAM - emergency shutdown all control rods", consequence: "Reactor stops immediately. Crisis averted. You're a hero. This is the correct response for any runaway reactor.", correct: true },
+        { id: "b", text: "💧 Flood the reactor with coolant water", consequence: "Water turns to steam instantly, pressure spikes, reactor explodes. Chernobyl scenario. You just killed everyone.", correct: false },
+        { id: "c", text: "⚡ Cut all power to the reactor", consequence: "Pumps stop, cooling fails, meltdown begins. Without power, you can't control anything. Bad move.", correct: false },
+        { id: "d", text: "📞 Call your supervisor first", consequence: "While you're calling, the reactor goes critical. Explosion. Never hesitate in an emergency.", correct: false }
+      ],
+      explanation: "**SCRAM** (Safety Control Rod Axe Man) = emergency shutdown. Drop all control rods to absorb neutrons and stop the chain reaction. This is drilled into every operator."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Nuclear Waste: The 10,000 Year Problem",
+      paragraphs: [
+        "Spent nuclear fuel stays dangerously radioactive for **10,000+ years**. We can't just bury it and forget it — we need storage that outlasts civilizations.",
+        "Current plan: deep geological repositories. Dig 500 meters underground, store waste in steel/concrete, seal it, and mark it with warnings that future humans (or post-humans) can understand. How do you warn someone 10,000 years from now?"
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "Why is nuclear waste so dangerous long-term?",
+      options: [
+        { id: "a", text: "It stays radioactive for thousands of years", correct: true },
+        { id: "b", text: "It explodes if disturbed", correct: false },
+        { id: "c", text: "It poisons water instantly", correct: false }
+      ],
+      explanation:
+        "**Half-life** of some isotopes is tens of thousands of years. That means it takes that long for radioactivity to drop to 'safe' levels."
+    }
+  ],
+
+  // How Money Works 💵
+  money: [
+    {
+      id: 1,
+      type: "content",
+      title: "What is Inflation?",
+      paragraphs: [
+        "**Inflation** = your money loses buying power over time. That £100 in your pocket? Next year it buys you £97 worth of stuff. The money didn't disappear — prices just went up.",
+        "Why does it happen? Too much money chasing too few goods. Governments print money, people spend more, demand rises, prices rise. It's a feedback loop."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "What causes inflation?",
+      options: [
+        { id: "a", text: "Too much money in circulation relative to goods/services", correct: true },
+        { id: "b", text: "Banks stealing from savers", correct: false },
+        { id: "c", text: "Businesses being greedy", correct: false }
+      ],
+      explanation:
+        "Inflation is about **supply and demand**. More money + same goods = higher prices. It's not greed, it's math."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Interest Rates: The Economy's Gas Pedal",
+      paragraphs: [
+        "When the economy overheats (inflation), central banks raise **interest rates**. This makes borrowing expensive, spending slows, inflation cools.",
+        "When the economy crashes (recession), they **lower rates**. Cheap loans = people borrow and spend more = economy grows. It's economic steering."
+      ]
+    },
+    {
+      id: 4,
+      type: "scenario",
+      question: "💰 Central Bank Decision",
+      scenario: "You're the head of the central bank. Inflation is 8% (very high). Unemployment is 3% (very low). Housing prices are soaring. What do you do?",
+      options: [
+        { id: "a", text: "📈 Raise interest rates aggressively", consequence: "Inflation drops to 3% over 12 months. Housing cools. But unemployment rises to 5% and recession hits. Tough choice, but it worked.", correct: true },
+        { id: "b", text: "📉 Lower interest rates to help people", consequence: "Inflation explodes to 12%. Prices spiral out of control. Currency collapses. You get fired. Economic disaster.", correct: false },
+        { id: "c", text: "⏸️ Do nothing and wait", consequence: "Inflation stays high for years. Savers lose wealth. Public loses trust. Riots break out. You failed.", correct: false },
+        { id: "d", text: "🖨️ Print more money to give people cash", consequence: "Hyperinflation. Currency becomes worthless. Zimbabwe / Weimar Germany scenario. Catastrophic failure.", correct: false }
+      ],
+      explanation: "High inflation = **raise rates**. It causes short-term pain (recession) but prevents long-term disaster (hyperinflation)."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Housing Markets: Why Prices Explode",
+      paragraphs: [
+        "Housing prices are driven by **supply, demand, and credit**. When interest rates are low, mortgages are cheap. More people can afford to buy. Demand skyrockets. Prices follow.",
+        "Add in: limited supply (not building enough), foreign investment, and FOMO (fear of missing out). Result: **prices double in 5 years**. First-time buyers get priced out."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "Why do low interest rates push housing prices up?",
+      options: [
+        { id: "a", text: "Cheap mortgages = more buyers = higher demand = higher prices", correct: true },
+        { id: "b", text: "Banks force prices up intentionally", correct: false },
+        { id: "c", text: "Low rates mean houses are worth more", correct: false }
+      ],
+      explanation:
+        "When borrowing is cheap, **more people can afford to buy**. More buyers competing for the same houses = prices go up. It's supply and demand."
+    }
+  ],
+
   // Black Holes & Cosmic Violence 🌌💀
   blackholes: [
     {
@@ -1374,6 +1578,36 @@ function updateMetaForSubject(subject) {
       "Black Hole Zone. Stamps for event horizons, spaghettification, Hawking radiation, and time dilation weirdness.";
     missionsText.textContent =
       "Soon: simulate falling into black holes, calculate escape velocities, and visualize spacetime warping.";
+  } else if (subject === "glaciers") {
+    subjectChip.textContent = "Climate · Ice Ages";
+    unitChip.textContent = "Unit: Glaciers & Time";
+    lessonTitle.textContent = "Glaciers & Ice Ages";
+    lessonSubtitle.textContent = "Frozen rivers that reshape continents.";
+    era = "Earth";
+    journalText.textContent =
+      "Glacier Lab. Stamps for ice cores, climate timelines, sea level rise, and notes on planetary machinery.";
+    missionsText.textContent =
+      "Soon: drill ice cores, analyze ancient atmospheres, and predict sea level changes based on melt rates.";
+  } else if (subject === "nuclear") {
+    subjectChip.textContent = "Physics · Atomic";
+    unitChip.textContent = "Unit: Nuclear Everything";
+    lessonTitle.textContent = "Nuclear Everything";
+    lessonSubtitle.textContent = "Fusion, fission, and catastrophic failures.";
+    era = "Modern";
+    journalText.textContent =
+      "Nuclear Core. Stamps for fusion vs fission, Chernobyl, waste timelines, and reactor mechanics.";
+    missionsText.textContent =
+      "Soon: manage a nuclear reactor, prevent meltdowns, and design waste storage for 10,000 years.";
+  } else if (subject === "money") {
+    subjectChip.textContent = "Economics · Macro";
+    unitChip.textContent = "Unit: How Money Works";
+    lessonTitle.textContent = "How Money Works";
+    lessonSubtitle.textContent = "Inflation, interest rates, and housing bubbles.";
+    era = "Modern";
+    journalText.textContent =
+      "Economics Hub. Stamps for inflation cycles, central bank decisions, housing markets, and interest rate mechanics.";
+    missionsText.textContent =
+      "Soon: run a central bank, set interest rates, and manage inflation vs recession trade-offs.";
   } else {
     // Placeholder for other subjects
     subjectChip.textContent = "Prototype · Subject";
