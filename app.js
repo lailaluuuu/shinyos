@@ -425,6 +425,8 @@ function $(selector) {
 // ===== CONFETTI SYSTEM =====
 function createConfetti() {
   const canvas = $("#confettiCanvas");
+  if (!canvas) return;
+  
   const ctx = canvas.getContext("2d");
   
   canvas.width = window.innerWidth;
@@ -492,6 +494,8 @@ function showCelebration(type = "correct", xpGained = 8) {
   const text = $("#celebrationText");
   const xpText = $("#celebrationXpText");
   
+  if (!overlay || !icon || !text || !xpText) return;
+  
   if (type === "correct") {
     icon.textContent = ["🎉", "✨", "🌟", "💫", "⭐"][Math.floor(Math.random() * 5)];
     text.textContent = ["Awesome!", "Perfect!", "Brilliant!", "Amazing!", "Nailed it!"][Math.floor(Math.random() * 5)];
@@ -520,6 +524,8 @@ function checkAndShowAchievement(achievementKey) {
     const title = $("#achievementTitle");
     const desc = $("#achievementDesc");
     
+    if (!popup || !title || !desc) return;
+    
     title.textContent = "Achievement Unlocked!";
     desc.textContent = achievements[achievementKey].name;
     
@@ -533,16 +539,26 @@ function checkAndShowAchievement(achievementKey) {
 
 // ===== UPDATE UI =====
 function updateGameUI() {
-  $("#xpValue").textContent = xp;
-  $("#levelValue").textContent = level;
-  $("#streakValue").textContent = streak;
-  $("#todayGoal").textContent = `${todayLessons}/${todayGoal}`;
+  const xpValueEl = $("#xpValue");
+  const levelValueEl = $("#levelValue");
+  const streakValueEl = $("#streakValue");
+  const todayGoalEl = $("#todayGoal");
+  const xpProgressMiniEl = $("#xpProgressMini");
   
-  // Update XP progress bar
+  if (xpValueEl) xpValueEl.textContent = xp;
+  if (levelValueEl) levelValueEl.textContent = level;
+  if (streakValueEl) streakValueEl.textContent = streak;
+  if (todayGoalEl) todayGoalEl.textContent = `${todayLessons}/${todayGoal}`;
+  
+  // Calculate level thresholds
   const currentLevelXP = LEVEL_XP[level - 1] || 0;
   const nextLevelXP = LEVEL_XP[level] || currentLevelXP + 500;
-  const progress = ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
-  $("#xpProgressMini").style.width = `${Math.min(progress, 100)}%`;
+  
+  // Update XP progress bar
+  if (xpProgressMiniEl) {
+    const progress = ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+    xpProgressMiniEl.style.width = `${Math.min(progress, 100)}%`;
+  }
   
   // Check for level up
   if (xp >= nextLevelXP && level < LEVEL_XP.length) {
@@ -788,6 +804,8 @@ function showLevelUp() {
   const overlay = $("#levelUpOverlay");
   const number = $("#levelUpNumber");
   
+  if (!overlay || !number) return;
+  
   number.textContent = level;
   overlay.classList.add("active");
   
@@ -796,8 +814,13 @@ function showLevelUp() {
 
 function closeLevelUp() {
   const overlay = $("#levelUpOverlay");
+  if (!overlay) return;
+  
   overlay.classList.remove("active");
 }
+
+// Make closeLevelUp globally accessible for inline onclick
+window.closeLevelUp = closeLevelUp;
 
 function switchTab(tab) {
   const lessonCard = $("#lessonCard");
@@ -987,6 +1010,20 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".world-node").forEach((node) => {
     node.addEventListener("click", () => handleSubjectClick(node));
   });
+  
+  // Level up continue button
+  const levelUpBtn = document.querySelector(".level-up-continue");
+  if (levelUpBtn) {
+    levelUpBtn.addEventListener("click", closeLevelUp);
+  }
+  
+  // Close celebration overlay when clicked
+  const celebrationOverlay = $("#celebrationOverlay");
+  if (celebrationOverlay) {
+    celebrationOverlay.addEventListener("click", () => {
+      celebrationOverlay.classList.remove("active");
+    });
+  }
   
   // Resize confetti canvas on window resize
   window.addEventListener("resize", () => {
