@@ -1044,6 +1044,7 @@ function animateCounter(element, start, end, duration) {
 }
 
 function goNext() {
+  console.log("🚀 goNext() function called!");
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
 
@@ -1063,6 +1064,9 @@ function goNext() {
   }
   renderLesson();
 }
+
+// Expose globally for inline onclick
+window.goNextDirect = goNext;
 
 function showLevelUp() {
   const overlay = $("#levelUpOverlay");

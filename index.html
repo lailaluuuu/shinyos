@@ -188,7 +188,7 @@
               <span class="xp-pill">⭐ +<span id="pendingXp">0</span> XP</span>
               <span class="hint-text" id="hintText">Tap an answer to check your understanding.</span>
             </div>
-            <button class="next-btn" id="nextBtn">Continue</button>
+            <button class="next-btn" id="nextBtn" onclick="window.goNextDirect && window.goNextDirect(); console.log('INLINE ONCLICK FIRED!');">Continue</button>
           </div>
         </div>
 
@@ -240,6 +240,11 @@
 
   <!-- Confetti canvas -->
   <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+  
+  <!-- DEBUG TEST BUTTON -->
+  <button onclick="alert('TEST BUTTON WORKS!'); console.log('TEST button clicked!');" style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; padding: 15px 25px; background: red; color: white; border: 3px solid yellow; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 10px;">
+    🧪 TEST CLICK
+  </button>
 
   <script src="app.js"></script>
 </body>
