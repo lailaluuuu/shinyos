@@ -1,4 +1,11 @@
 // Subject → lessons mapping
+console.log("🚀 App loading...");
+
+// Immediate test
+setTimeout(() => {
+  const nextBtn = document.querySelector("#nextBtn");
+  console.log("Button check:", nextBtn ? "✅ Found" : "❌ Missing");
+}, 1000);
 
 const subjectLessons = {
   economics: [
@@ -270,8 +277,84 @@ const subjectLessons = {
     }
   ],
 
-  // Investing: Why prices feel unfair
+  // NEW: Investing for Real Humans 🦔
   investing: [
+    {
+      id: 1,
+      type: "content",
+      title: "How Stock Markets Actually Work",
+      paragraphs: [
+        "A stock market is like a **giant auction house** where people trade tiny slices of companies. When you buy a stock, you own a microscopic piece of that business.",
+        "Why do prices move? Two forces: **1)** How well the company is doing (earnings, products, growth). **2)** How everyone *feels* about it (hype, fear, news).",
+        "The weird part: **feeling matters more** than you think. A company can have amazing earnings and still drop **20%** if investors get spooked."
+      ]
+    },
+    {
+      id: 2,
+      type: "scenario",
+      question: "📊 Market Crash Scenario: What do you do?",
+      scenario: "The market just dropped 15% in one day. Your £10,000 portfolio is now worth £8,500. What's your move?",
+      options: [
+        { id: "a", text: "🔴 Panic sell everything to stop the bleeding", consequence: "You lock in losses. Market rebounds next month. You missed the recovery. -£1,500 permanent loss.", correct: false },
+        { id: "b", text: "💎 Hold steady and do nothing", consequence: "Market recovers over 6 months. Your portfolio returns to £10,000, then grows to £11,200. Smart patience.", correct: true },
+        { id: "c", text: "🛒 Buy more while prices are low", consequence: "Risky but bold! You buy £1,000 more at the dip. Portfolio rebounds to £13,500. Legend status.", correct: true },
+        { id: "d", text: "🏃 Switch everything to bonds", consequence: "Safe but slow. You avoid further drops but miss the rebound. Final value: £8,800. Mediocre outcome.", correct: false }
+      ],
+      explanation: "History lesson: Markets always crash. But they **always recover**. The S&P 500 has survived every crash since **1928** and still averages **10%** annual returns."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "Dividends vs Growth: Pick Your Fighter",
+      paragraphs: [
+        "**Dividend stocks:** Companies that pay you cash regularly (like rent from a property). Think: mature, stable, boring. Example: Coca-Cola, utilities.",
+        "**Growth stocks:** Companies that reinvest everything to expand. No cash now, but the stock price explodes if they succeed. Example: Tesla, tech startups.",
+        "Which is better? **It depends**. Young? Go growth (you have time). Retired? Dividends give you income. Smart investors own both."
+      ]
+    },
+    {
+      id: 4,
+      type: "quiz",
+      question: "Which is a growth stock?",
+      options: [
+        { id: "a", text: "A 100-year-old utility company paying 5% dividends", correct: false },
+        { id: "b", text: "A 3-year-old AI startup reinvesting all profits", correct: true },
+        { id: "c", text: "A bank paying steady quarterly dividends", correct: false }
+      ],
+      explanation: "Growth stocks reinvest profits to scale fast. They're volatile but can **10x**. Dividend stocks are the tortoises: slow, steady, reliable."
+    },
+    {
+      id: 5,
+      type: "interactive-slider",
+      title: "⚖️ Risk vs Reward Simulator",
+      question: "Adjust your risk level and see potential outcomes:",
+      min: 0,
+      max: 100,
+      defaultValue: 50,
+      labels: { 0: "🐢 Safe", 50: "⚖️ Balanced", 100: "🦈 Aggressive" },
+      outcomes: {
+        0: { text: "100% Bonds: +3% per year. Safe but slow. £10k → £13,439 in 10 years.", color: "#35c27e" },
+        25: { text: "75% Bonds, 25% Stocks: +5% per year. £10k → £16,289 in 10 years.", color: "#4ea2ff" },
+        50: { text: "50/50 Split: +7% per year. £10k → £19,672 in 10 years.", color: "#f4b65e" },
+        75: { text: "75% Stocks, 25% Bonds: +9% per year. £10k → £23,674 in 10 years. More swings!", color: "#ff9a56" },
+        100: { text: "100% Stocks: +10% per year. £10k → £25,937 in 10 years. Wild ride! 🎢", color: "#ff6b6b" }
+      }
+    },
+    {
+      id: 6,
+      type: "content",
+      title: "Bubbles & Manias: Humans Gone Wild",
+      paragraphs: [
+        "**1637:** Tulip Mania. Dutch people paid a year's salary for a single tulip bulb. It crashed. Tulips became worthless.",
+        "**2000:** Dotcom Bubble. Any company with \".com\" in its name went **10x**. Most had no profits. **80%** collapsed.",
+        "**2021:** Crypto mania, NFT madness, meme stocks. GME went from £4 to £400 then back to £20. Classic bubble behavior.",
+        "Pattern: **Euphoria → FOMO → Crash**. Every generation thinks \"this time is different.\" It never is."
+      ]
+    }
+  ],
+
+  // OLD: Price perception
+  oldInvesting: [
     {
       id: 1,
       type: "content",
@@ -719,7 +802,161 @@ function renderLesson() {
     });
 
     quizBlock.appendChild(optionsWrapper);
+  } else if (lesson.type === "scenario") {
+    // Scenario-based decision making
+    contentEl.innerHTML = "";
+    
+    const scenarioBox = document.createElement("div");
+    scenarioBox.style.cssText = "background: linear-gradient(135deg, rgba(244, 182, 94, 0.15), rgba(0, 0, 0, 0.5)); padding: 20px; border-radius: 14px; border: 2px solid rgba(244, 182, 94, 0.4); margin-bottom: 16px;";
+    scenarioBox.innerHTML = `<div style="font-size: 16px; line-height: 1.6; color: #fff;">${lesson.scenario}</div>`;
+    contentEl.appendChild(scenarioBox);
+
+    // Render quiz-style options
+    quizBlock.innerHTML = "";
+    const label = document.createElement("div");
+    label.className = "quiz-label";
+    label.textContent = "Your Decision";
+    quizBlock.appendChild(label);
+
+    const q = document.createElement("div");
+    q.className = "quiz-question";
+    q.textContent = lesson.question;
+    quizBlock.appendChild(q);
+
+    const optionsWrapper = document.createElement("div");
+    optionsWrapper.className = "quiz-options";
+
+    lesson.options.forEach((opt, index) => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-option";
+      btn.dataset.optionId = opt.id;
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateX(-10px)';
+
+      const textSpan = document.createElement("span");
+      textSpan.textContent = opt.text;
+
+      const indicator = document.createElement("span");
+      indicator.className = "option-indicator";
+      indicator.textContent = "○";
+
+      btn.appendChild(textSpan);
+      btn.appendChild(indicator);
+
+      btn.addEventListener("click", () => {
+        handleScenarioClick(btn, opt, lesson);
+      });
+
+      optionsWrapper.appendChild(btn);
+
+      setTimeout(() => {
+        btn.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateX(0)';
+      }, 200 + index * 80);
+    });
+
+    quizBlock.appendChild(optionsWrapper);
+  } else if (lesson.type === "interactive-slider") {
+    // Interactive slider lesson
+    contentEl.innerHTML = "";
+    quizBlock.innerHTML = "";
+
+    const titleDiv = document.createElement("div");
+    titleDiv.style.cssText = "font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #fff;";
+    titleDiv.textContent = lesson.title;
+    contentEl.appendChild(titleDiv);
+
+    const questionDiv = document.createElement("div");
+    questionDiv.style.cssText = "font-size: 16px; margin-bottom: 20px; color: var(--text-soft);";
+    questionDiv.textContent = lesson.question;
+    contentEl.appendChild(questionDiv);
+
+    // Slider container
+    const sliderContainer = document.createElement("div");
+    sliderContainer.style.cssText = "background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.6)); padding: 24px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.15);";
+
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = lesson.min;
+    slider.max = lesson.max;
+    slider.value = lesson.defaultValue;
+    slider.style.cssText = "width: 100%; height: 8px; margin: 20px 0;";
+
+    const labelDiv = document.createElement("div");
+    labelDiv.style.cssText = "display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 600;";
+    labelDiv.innerHTML = `<span>${lesson.labels[lesson.min]}</span><span>${lesson.labels[50]}</span><span>${lesson.labels[lesson.max]}</span>`;
+
+    const resultDiv = document.createElement("div");
+    resultDiv.style.cssText = "margin-top: 24px; padding: 20px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border-left: 4px solid #4ea2ff; font-size: 16px; line-height: 1.6;";
+    resultDiv.textContent = lesson.outcomes[lesson.defaultValue].text;
+    resultDiv.style.borderLeftColor = lesson.outcomes[lesson.defaultValue].color;
+
+    slider.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value);
+      const closest = Object.keys(lesson.outcomes).reduce((prev, curr) =>
+        Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
+      );
+      resultDiv.textContent = lesson.outcomes[closest].text;
+      resultDiv.style.borderLeftColor = lesson.outcomes[closest].color;
+    });
+
+    sliderContainer.appendChild(labelDiv);
+    sliderContainer.appendChild(slider);
+    sliderContainer.appendChild(resultDiv);
+
+    quizBlock.appendChild(sliderContainer);
   }
+}
+
+function handleScenarioClick(button, option, lesson) {
+  // Lock all options
+  const allOptions = document.querySelectorAll(".quiz-option");
+  allOptions.forEach((btn) => {
+    btn.disabled = true;
+  });
+
+  const hintText = $("#hintText");
+  const pendingXpEl = $("#pendingXp");
+  
+  if (!hintText || !pendingXpEl) return;
+
+  if (option.correct) {
+    button.classList.add("correct");
+    const indicator = button.querySelector(".option-indicator");
+    if (indicator) indicator.textContent = "✓";
+
+    pendingXp = 12; // Scenarios give more XP
+    combo++;
+    totalCorrect++;
+    
+    // Show consequence
+    hintText.innerHTML = `<strong style="color: #35c27e;">✓ Good call!</strong><br/>${option.consequence}<br/><br/><em style="color: var(--text-muted);">${lesson.explanation}</em>`;
+    
+    setTimeout(() => {
+      showCelebration("correct", pendingXp);
+    }, 300);
+  } else {
+    button.classList.add("incorrect");
+    const indicator = button.querySelector(".option-indicator");
+    if (indicator) indicator.textContent = "✗";
+
+    pendingXp = 3;
+    combo = 0;
+    
+    // Show consequence
+    hintText.innerHTML = `<strong style="color: #ff7b7b;">Outcome:</strong><br/>${option.consequence}<br/><br/><em style="color: var(--text-muted);">${lesson.explanation}</em>`;
+  }
+
+  xp += pendingXp;
+  updateGameUI();
+  
+  pendingXpEl.style.transform = 'scale(1.3)';
+  pendingXpEl.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  setTimeout(() => {
+    pendingXpEl.textContent = `+${pendingXp}`;
+    pendingXpEl.style.transform = 'scale(1)';
+  }, 50);
 }
 
 function handleQuizClick(button, option, lesson) {
@@ -1015,7 +1252,23 @@ function handleSubjectClick(node) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// Wait for DOM to be fully ready
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
+
+function initApp() {
+  console.log("🎯 APP IS INITIALIZING!");
+  
+  // Create visible indicator
+  const indicator = document.createElement("div");
+  indicator.textContent = "✅ JS LOADED & WORKING";
+  indicator.style.cssText = "position: fixed; top: 0; left: 0; right: 0; background: lime; color: black; text-align: center; padding: 5px; font-weight: bold; z-index: 99999; font-size: 14px;";
+  document.body.appendChild(indicator);
+  setTimeout(() => indicator.remove(), 3000);
+  
   // Initialize game UI
   updateGameUI();
   
@@ -1023,12 +1276,36 @@ document.addEventListener("DOMContentLoaded", () => {
   updateMetaForSubject("economics");
   renderLesson();
 
-  // Next button
-  const nextBtn = $("#nextBtn");
+  // Next button with multiple binding methods  
+  const nextBtn = document.getElementById("nextBtn");
+  console.log("🔍 Looking for next button...", nextBtn);
+  console.log("Button exists?", !!nextBtn);
+  console.log("Button disabled?", nextBtn?.disabled);
+  console.log("Button style display:", nextBtn ? window.getComputedStyle(nextBtn).display : "N/A");
+  
   if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
+    // Remove any existing listeners
+    const newBtn = nextBtn.cloneNode(true);
+    nextBtn.parentNode.replaceChild(newBtn, nextBtn);
+    
+    // Add fresh listener
+    newBtn.addEventListener("click", function(e) {
+      console.log("🎉 BUTTON CLICKED!");
+      e.preventDefault();
+      e.stopPropagation();
       goNext();
-    });
+    }, false);
+    
+    // Also test with onclick
+    newBtn.onclick = function() {
+      console.log("🎉 ONCLICK FIRED!");
+      goNext();
+    };
+    
+    console.log("✅ Button handlers attached to:", newBtn);
+  } else {
+    console.error("❌❌❌ NEXT BUTTON NOT FOUND!");
+    alert("ERROR: Next button not found in HTML!");
   }
 
   // Tabs
@@ -1069,4 +1346,17 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = window.innerHeight;
     }
   });
-});
+  
+  // DEBUG: Log ALL clicks
+  document.addEventListener("click", function(e) {
+    console.log("👆 CLICK DETECTED:", {
+      tag: e.target.tagName,
+      id: e.target.id,
+      class: e.target.className,
+      text: e.target.textContent?.substring(0, 30)
+    });
+  }, true);
+  
+  console.log("✅✅✅ APP FULLY INITIALIZED!");
+  alert("APP READY! Now try clicking the Continue button and check console (F12)");
+}
