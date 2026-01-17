@@ -1,5 +1,19 @@
 // Subject → lessons mapping
 console.log("🔥 JavaScript file is loading!");
+console.log("Document readyState:", document.readyState);
+
+// Create a visible indicator that JS is running
+const indicator = document.createElement("div");
+indicator.textContent = "✅ JAVASCRIPT IS LOADED";
+indicator.style.cssText = "position: fixed; top: 0; left: 0; right: 0; background: lime; color: black; text-align: center; padding: 10px; font-weight: bold; z-index: 99999;";
+document.documentElement.appendChild(indicator);
+
+setTimeout(() => {
+  console.log("⏰ 2 seconds passed, checking DOM state...");
+  console.log("Document readyState:", document.readyState);
+  console.log("Body exists?", !!document.body);
+  console.log("App div exists?", !!document.querySelector(".app"));
+}, 2000);
 
 const subjectLessons = {
   economics: [
@@ -1024,15 +1038,30 @@ function handleSubjectClick(node) {
   }
 }
 
+console.log("⚡ BEFORE DOMContentLoaded - Script is running!");
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 App initializing...");
+  console.log("🚀 App initializing... DOMContentLoaded fired!");
   
-  // Initialize game UI
-  updateGameUI();
+  try {
+    // Initialize game UI
+    updateGameUI();
+  } catch (error) {
+    console.error("❌ Error in updateGameUI:", error);
+  }
   
   // Start with economics wired
-  updateMetaForSubject("economics");
-  renderLesson();
+  try {
+    updateMetaForSubject("economics");
+  } catch (error) {
+    console.error("❌ Error in updateMetaForSubject:", error);
+  }
+  
+  try {
+    renderLesson();
+  } catch (error) {
+    console.error("❌ Error in renderLesson:", error);
+  }
 
   // Next button
   const nextBtn = $("#nextBtn");
