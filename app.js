@@ -810,9 +810,21 @@ function getCurrentLessons() {
 }
 
 function renderLesson() {
+  console.log("📝 renderLesson() called");
+  console.log("Current subject:", activeSubject);
+  console.log("Current index:", currentIndex);
+  
   const lessons = getCurrentLessons();
+  console.log("Got lessons:", lessons.length);
+  
   const lesson = lessons[currentIndex] || lessons[0];
-  if (!lesson) return;
+  if (!lesson) {
+    console.error("❌ No lesson found!");
+    return;
+  }
+  
+  console.log("Rendering lesson type:", lesson.type);
+  console.log("Lesson title/question:", lesson.title || lesson.question);
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -821,7 +833,10 @@ function renderLesson() {
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
   
-  if (!contentEl || !quizBlock) return;
+  if (!contentEl || !quizBlock) {
+    console.error("❌ Missing UI elements!");
+    return;
+  }
 
   // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
@@ -845,7 +860,10 @@ function renderLesson() {
   }, 50);
 
   // Render content vs quiz
+  console.log("🎨 Rendering lesson type:", lesson.type);
+  
   if (lesson.type === "content") {
+    console.log("📄 Rendering content lesson");
     quizBlock.innerHTML = "";
     contentEl.innerHTML = "";
 
@@ -879,6 +897,7 @@ function renderLesson() {
       }, 150 + index * 150);
     });
   } else if (lesson.type === "quiz") {
+    console.log("❓ Rendering quiz lesson");
     // Simple intro content
     contentEl.innerHTML = "";
     const intro = document.createElement("div");
@@ -939,6 +958,10 @@ function renderLesson() {
 
     quizBlock.appendChild(optionsWrapper);
   } else if (lesson.type === "scenario") {
+    console.log("🎯 Rendering scenario lesson");
+    console.log("Scenario question:", lesson.question);
+    console.log("Number of options:", lesson.options?.length);
+    
     // Scenario-based decision making
     contentEl.innerHTML = "";
     
@@ -1372,6 +1395,13 @@ function updateMetaForSubject(subject) {
 function handleSubjectClick(node) {
   console.log("🎓 handleSubjectClick called for:", node.dataset.subject);
   const subject = node.dataset.subject;
+  
+  console.log("📚 Available lessons:", Object.keys(subjectLessons));
+  console.log("🔍 Looking for subject:", subject);
+  console.log("✅ Has lessons?", !!subjectLessons[subject]);
+  if (subjectLessons[subject]) {
+    console.log("📖 Number of lessons:", subjectLessons[subject].length);
+  }
 
   document
     .querySelectorAll(".world-node")
@@ -1387,11 +1417,15 @@ function handleSubjectClick(node) {
   // Check if subject has lesson content
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "blackholes"];
   if (liveSubjects.includes(subject)) {
+    console.log("✅ Subject is live! Switching to:", subject);
     activeSubject = subject;
     currentIndex = 0;
     updateMetaForSubject(subject);
+    console.log("📝 About to render lesson...");
     renderLesson();
+    console.log("✅ Lesson rendered!");
   } else {
+    console.warn("⚠️ Subject not in live list:", subject);
     activeSubject = "economics"; // keep a safe base for data
     updateMetaForSubject(subject);
     const contentEl = $("#lessonContent");
