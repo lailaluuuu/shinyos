@@ -1,19 +1,4 @@
 // Subject → lessons mapping
-console.log("🔥 JavaScript file is loading!");
-console.log("Document readyState:", document.readyState);
-
-// Create a visible indicator that JS is running
-const indicator = document.createElement("div");
-indicator.textContent = "✅ JAVASCRIPT IS LOADED";
-indicator.style.cssText = "position: fixed; top: 0; left: 0; right: 0; background: lime; color: black; text-align: center; padding: 10px; font-weight: bold; z-index: 99999;";
-document.documentElement.appendChild(indicator);
-
-setTimeout(() => {
-  console.log("⏰ 2 seconds passed, checking DOM state...");
-  console.log("Document readyState:", document.readyState);
-  console.log("Body exists?", !!document.body);
-  console.log("App div exists?", !!document.querySelector(".app"));
-}, 2000);
 
 const subjectLessons = {
   economics: [
@@ -437,6 +422,21 @@ function $(selector) {
   return document.querySelector(selector);
 }
 
+// Format lesson text with emphasis and visual highlights
+function formatLessonText(text) {
+  // Bold text between ** markers
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffdd9a; font-weight: 700;">$1</strong>');
+  
+  // Highlight key terms in quotes
+  text = text.replace(/"([^"]+)"/g, '<span style="color: #4ea2ff; font-weight: 600;">"$1"</span>');
+  
+  // Emphasize numbers and dates
+  text = text.replace(/\b(\d{4})\b/g, '<span style="color: #f4b65e; font-weight: 700;">$1</span>');
+  text = text.replace(/\b(\d+%)\b/g, '<span style="color: #35c27e; font-weight: 700;">$1</span>');
+  
+  return text;
+}
+
 // ===== CONFETTI SYSTEM =====
 function createConfetti() {
   const canvas = $("#confettiCanvas");
@@ -591,16 +591,9 @@ function getCurrentLessons() {
 }
 
 function renderLesson() {
-  console.log("📝 renderLesson called, index:", currentIndex);
   const lessons = getCurrentLessons();
   const lesson = lessons[currentIndex] || lessons[0];
-  
-  if (!lesson) {
-    console.error("❌ No lesson found at index", currentIndex);
-    return;
-  }
-  
-  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question);
+  if (!lesson) return;
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -609,10 +602,7 @@ function renderLesson() {
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
   
-  if (!contentEl || !quizBlock) {
-    console.error("❌ Missing lesson elements", { contentEl: !!contentEl, quizBlock: !!quizBlock });
-    return;
-  }
+  if (!contentEl || !quizBlock) return;
 
   // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
@@ -641,35 +631,42 @@ function renderLesson() {
     contentEl.innerHTML = "";
 
     if (lesson.title) {
-      const titleP = document.createElement("p");
-      titleP.style.fontWeight = "700";
-      titleP.style.fontSize = "15px";
-      titleP.style.marginBottom = "10px";
-      titleP.style.color = "var(--text)";
+      const titleP = document.createElement("div");
+      titleP.style.fontSize = "20px";
+      titleP.style.fontWeight = "800";
+      titleP.style.marginBottom = "16px";
+      titleP.style.color = "#fff";
+      titleP.style.background = "linear-gradient(120deg, #fff, #d4c5ff)";
+      titleP.style.webkitBackgroundClip = "text";
+      titleP.style.webkitTextFillColor = "transparent";
+      titleP.style.backgroundClip = "text";
+      titleP.style.letterSpacing = "-0.01em";
       titleP.textContent = lesson.title;
       contentEl.appendChild(titleP);
     }
 
     lesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
-      p.textContent = text;
+      p.innerHTML = formatLessonText(text);
       p.style.opacity = '0';
       p.style.transform = 'translateY(10px)';
       contentEl.appendChild(p);
       
       // Staggered entrance animation
       setTimeout(() => {
-        p.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+        p.style.transition = 'opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
         p.style.opacity = '1';
         p.style.transform = 'translateY(0)';
-      }, 100 + index * 100);
+      }, 150 + index * 150);
     });
   } else if (lesson.type === "quiz") {
     // Simple intro content
     contentEl.innerHTML = "";
-    const intro = document.createElement("p");
-    intro.textContent = "Quick check-in before we move on:";
-    intro.style.fontWeight = "600";
+    const intro = document.createElement("div");
+    intro.innerHTML = '<span style="font-size: 24px; margin-right: 8px;">💡</span><span style="font-weight: 700; font-size: 17px; color: #ffdd9a;">Time to test your knowledge!</span>';
+    intro.style.display = "flex";
+    intro.style.alignItems = "center";
+    intro.style.marginBottom = "4px";
     contentEl.appendChild(intro);
 
     // Render quiz
@@ -708,7 +705,6 @@ function renderLesson() {
       btn.appendChild(indicator);
 
       btn.addEventListener("click", () => {
-        console.log("✅ Quiz option clicked:", opt.text);
         handleQuizClick(btn, opt, lesson);
       });
 
@@ -727,11 +723,8 @@ function renderLesson() {
 }
 
 function handleQuizClick(button, option, lesson) {
-  console.log("🎯 handleQuizClick called", { option: option.text, correct: option.correct });
-  
   // Lock all options
   const allOptions = document.querySelectorAll(".quiz-option");
-  console.log(`Found ${allOptions.length} quiz options to lock`);
   allOptions.forEach((btn) => {
     btn.disabled = true;
     btn.classList.remove("correct", "incorrect");
@@ -742,10 +735,7 @@ function handleQuizClick(button, option, lesson) {
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
   
-  if (!hintText || !pendingXpEl) {
-    console.error("❌ Missing UI elements", { hintText: !!hintText, pendingXpEl: !!pendingXpEl });
-    return;
-  }
+  if (!hintText || !pendingXpEl) return;
 
   if (option.correct) {
     button.classList.add("correct");
@@ -817,24 +807,14 @@ function animateCounter(element, start, end, duration) {
 }
 
 function goNext() {
-  console.log("➡️ goNext called, current index:", currentIndex);
   const lessons = getCurrentLessons();
-  console.log(`Found ${lessons.length} lessons for ${activeSubject}`);
-  
-  if (!lessons.length) {
-    console.warn("⚠️ No lessons found");
-    return;
-  }
-
-  const wasQuiz = lessons[currentIndex]?.type === "quiz";
+  if (!lessons.length) return;
 
   currentIndex++;
-  console.log("Moving to index:", currentIndex);
   
   if (currentIndex >= lessons.length) {
     currentIndex = 0; // Loop back to start
     todayLessons++;
-    console.log("🎉 Completed subject! Today's lessons:", todayLessons);
     updateGameUI();
     
     // Check daily goal achievement
@@ -994,7 +974,6 @@ function updateMetaForSubject(subject) {
 
 function handleSubjectClick(node) {
   const subject = node.dataset.subject;
-  console.log("🎓 Subject clicked:", subject);
 
   document
     .querySelectorAll(".world-node")
@@ -1010,13 +989,11 @@ function handleSubjectClick(node) {
   // Check if subject has lesson content
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing"];
   if (liveSubjects.includes(subject)) {
-    console.log("✅ Loading lessons for:", subject);
     activeSubject = subject;
     currentIndex = 0;
     updateMetaForSubject(subject);
     renderLesson();
   } else {
-    console.log("⚠️ Subject not yet implemented:", subject);
     activeSubject = "economics"; // keep a safe base for data
     updateMetaForSubject(subject);
     const contentEl = $("#lessonContent");
@@ -1038,78 +1015,32 @@ function handleSubjectClick(node) {
   }
 }
 
-console.log("⚡ BEFORE DOMContentLoaded - Script is running!");
-
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 App initializing... DOMContentLoaded fired!");
-  
-  try {
-    // Initialize game UI
-    updateGameUI();
-  } catch (error) {
-    console.error("❌ Error in updateGameUI:", error);
-  }
+  // Initialize game UI
+  updateGameUI();
   
   // Start with economics wired
-  try {
-    updateMetaForSubject("economics");
-  } catch (error) {
-    console.error("❌ Error in updateMetaForSubject:", error);
-  }
-  
-  try {
-    renderLesson();
-  } catch (error) {
-    console.error("❌ Error in renderLesson:", error);
-  }
+  updateMetaForSubject("economics");
+  renderLesson();
 
   // Next button
   const nextBtn = $("#nextBtn");
-  console.log("🔍 Looking for next button...", nextBtn);
   if (nextBtn) {
-    // Test if button is visible
-    const styles = window.getComputedStyle(nextBtn);
-    console.log("Button visibility:", {
-      display: styles.display,
-      visibility: styles.visibility,
-      pointerEvents: styles.pointerEvents,
-      disabled: nextBtn.disabled
-    });
-    
-    nextBtn.addEventListener("click", (e) => {
-      console.log("✅ Continue button clicked!", e);
-      e.preventDefault();
-      e.stopPropagation();
+    nextBtn.addEventListener("click", () => {
       goNext();
     });
-    
-    // Also add inline onclick as backup
-    nextBtn.onclick = (e) => {
-      console.log("🔘 Inline onclick fired!");
-      goNext();
-    };
-    
-    console.log("✓ Continue button listener attached");
-  } else {
-    console.error("❌ Next button not found!");
   }
 
   // Tabs
-  const tabs = document.querySelectorAll(".tab");
-  console.log(`✓ Found ${tabs.length} tabs`);
-  tabs.forEach((tab) => {
+  document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => {
-      console.log("✅ Tab clicked:", tab.dataset.tab);
       switchTab(tab.dataset.tab);
     });
   });
 
   // Subject nodes
-  const nodes = document.querySelectorAll(".world-node");
-  console.log(`✓ Found ${nodes.length} subject nodes`);
-  nodes.forEach((node) => {
+  document.querySelectorAll(".world-node").forEach((node) => {
     node.addEventListener("click", () => {
-      console.log("✅ Subject clicked:", node.dataset.subject);
       handleSubjectClick(node);
     });
   });
@@ -1118,17 +1049,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const levelUpBtn = document.querySelector(".level-up-continue");
   if (levelUpBtn) {
     levelUpBtn.addEventListener("click", () => {
-      console.log("✅ Level up continue clicked");
       closeLevelUp();
     });
-    console.log("✓ Level up button listener attached");
   }
   
   // Close celebration overlay when clicked
   const celebrationOverlay = $("#celebrationOverlay");
   if (celebrationOverlay) {
     celebrationOverlay.addEventListener("click", () => {
-      console.log("✅ Celebration overlay clicked");
       celebrationOverlay.classList.remove("active");
     });
   }
@@ -1141,46 +1069,4 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = window.innerHeight;
     }
   });
-  
-  // Add a test button to verify clicking works at all
-  const testBtn = document.createElement("button");
-  testBtn.textContent = "🧪 TEST BUTTON - CLICK ME";
-  testBtn.style.cssText = "position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 10px 20px; background: red; color: white; border: 2px solid white; font-size: 16px; font-weight: bold; cursor: pointer;";
-  testBtn.onclick = () => {
-    alert("✅ TEST BUTTON WORKS! Buttons CAN be clicked. Issue is with specific buttons.");
-    console.log("✅ Test button clicked successfully!");
-  };
-  document.body.appendChild(testBtn);
-  
-  // Listen to ALL clicks on the page
-  document.addEventListener("click", (e) => {
-    console.log("👆 CLICK DETECTED on:", e.target, {
-      tagName: e.target.tagName,
-      className: e.target.className,
-      id: e.target.id
-    });
-  }, true); // Use capture phase to catch everything
-  
-  // Check for elements that might be blocking clicks
-  const possibleBlockers = [
-    "#celebrationOverlay",
-    "#levelUpOverlay",
-    "#confettiCanvas",
-    ".achievement-popup"
-  ];
-  
-  possibleBlockers.forEach(selector => {
-    const el = document.querySelector(selector);
-    if (el) {
-      const styles = window.getComputedStyle(el);
-      console.log(`🔍 Checking ${selector}:`, {
-        display: styles.display,
-        pointerEvents: styles.pointerEvents,
-        zIndex: styles.zIndex,
-        opacity: styles.opacity
-      });
-    }
-  });
-  
-  console.log("✅ App initialization complete!");
 });
