@@ -285,6 +285,7 @@ body::after {
   box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   position: relative;
   overflow: hidden;
+  z-index: 10;
 }
 
 .world-panel::before {
@@ -364,7 +365,7 @@ body::after {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(12, 13, 30, 0.97));
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  cursor: pointer;
+  cursor: pointer !important;
   outline: none;
   color: var(--text);
   transition: all var(--transition-smooth);
@@ -373,6 +374,8 @@ body::after {
   align-items: flex-start;
   gap: 12px;
   min-height: 90px;
+  z-index: 10;
+  pointer-events: auto !important;
 }
 
 .world-node::before {

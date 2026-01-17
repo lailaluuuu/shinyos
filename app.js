@@ -1202,6 +1202,7 @@ function goNext() {
 
 // Expose globally for inline onclick
 window.goNextDirect = goNext;
+window.handleSubjectClickDirect = handleSubjectClick;
 
 function showLevelUp() {
   const overlay = $("#levelUpOverlay");
@@ -1369,6 +1370,7 @@ function updateMetaForSubject(subject) {
 }
 
 function handleSubjectClick(node) {
+  console.log("🎓 handleSubjectClick called for:", node.dataset.subject);
   const subject = node.dataset.subject;
 
   document
@@ -1442,12 +1444,33 @@ function initApp() {
     });
   });
 
-  // Subject nodes
-  document.querySelectorAll(".world-node").forEach((node) => {
-    node.addEventListener("click", () => {
+  // Subject nodes - with debugging
+  const subjectNodes = document.querySelectorAll(".world-node");
+  console.log("🎓 Found subject nodes:", subjectNodes.length);
+  
+  subjectNodes.forEach((node, index) => {
+    console.log(`Attaching listener ${index + 1}:`, node.dataset.subject);
+    
+    // Test if node is visible and clickable
+    const styles = window.getComputedStyle(node);
+    console.log(`  → Display: ${styles.display}, Pointer-events: ${styles.pointerEvents}, Z-index: ${styles.zIndex}`);
+    
+    // Method 1: addEventListener
+    node.addEventListener("click", (e) => {
+      console.log("✅ Subject card CLICKED (addEventListener):", node.dataset.subject);
+      e.preventDefault();
+      e.stopPropagation();
       handleSubjectClick(node);
-    });
+    }, false);
+    
+    // Method 2: Direct onclick backup
+    node.onclick = (e) => {
+      console.log("🔘 Subject onclick fired:", node.dataset.subject);
+      handleSubjectClick(node);
+    };
   });
+  
+  console.log("✅ All subject card listeners attached!");
   
   // Level up continue button
   const levelUpBtn = document.querySelector(".level-up-continue");
