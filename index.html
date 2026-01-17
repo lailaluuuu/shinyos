@@ -18,17 +18,24 @@
         </div>
       </div>
       <div class="top-bar-metrics">
-        <div class="metric">
+        <div class="metric metric--level">
+          <span class="metric-label">Level</span>
+          <span class="metric-value" id="levelValue">3</span>
+        </div>
+        <div class="metric metric--xp">
           <span class="metric-label">XP</span>
           <span class="metric-value" id="xpValue">120</span>
+          <div class="xp-progress-mini">
+            <div class="xp-progress-fill-mini" id="xpProgressMini"></div>
+          </div>
         </div>
-        <div class="metric">
+        <div class="metric metric--streak">
           <span class="metric-label">streak</span>
-          <span class="metric-value">🦔 3</span>
+          <span class="metric-value">🔥 <span id="streakValue">3</span></span>
         </div>
-        <div class="metric">
-          <span class="metric-label">era</span>
-          <span class="metric-value" id="eraLabel">Foundations</span>
+        <div class="metric metric--today">
+          <span class="metric-label">today</span>
+          <span class="metric-value" id="todayGoal">2/5</span>
         </div>
       </div>
     </header>
@@ -38,9 +45,9 @@
       <!-- Left: world / subjects -->
       <section class="world-panel">
         <div class="world-header">
-          <h2>Atlas Map</h2>
+          <h2>🗺️ Learning Atlas</h2>
           <p class="world-subtitle">
-            Tap a city to jump into a subject. Your world evolves as you learn.
+            Pick any topic and start learning. Every lesson brings you closer to mastery.
           </p>
         </div>
 
@@ -54,48 +61,66 @@
           <!-- Subject “cities” -->
           <div class="world-grid">
             <button class="world-node world-node--economics is-active" data-subject="economics">
-              <span class="node-title">Economics City</span>
-              <span class="node-subtitle">Markets · Trade · Systems</span>
+              <div class="node-icon">💰</div>
+              <div class="node-content">
+                <span class="node-title">Economics City</span>
+                <span class="node-subtitle">Planned Economies</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 45%;"></div>
               </div>
             </button>
 
             <button class="world-node world-node--investing" data-subject="investing">
-              <span class="node-title">Investing District</span>
-              <span class="node-subtitle">Why Prices Feel Unfair</span>
+              <div class="node-icon">📈</div>
+              <div class="node-content">
+                <span class="node-title">Investing District</span>
+                <span class="node-subtitle">Price Perception</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 38%;"></div>
               </div>
             </button>
 
             <button class="world-node world-node--history" data-subject="history">
-              <span class="node-title">History Port</span>
-              <span class="node-subtitle">Why Empires Collapse</span>
+              <div class="node-icon">🏛️</div>
+              <div class="node-content">
+                <span class="node-title">History Port</span>
+                <span class="node-subtitle">Empire Collapse</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 35%;"></div>
               </div>
             </button>
 
             <button class="world-node world-node--psych" data-subject="psych">
-              <span class="node-title">Psychology Quarter</span>
-              <span class="node-subtitle">Cognitive Biases Daily</span>
+              <div class="node-icon">🧠</div>
+              <div class="node-content">
+                <span class="node-title">Psychology Quarter</span>
+                <span class="node-subtitle">Cognitive Biases</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 42%;"></div>
               </div>
             </button>
 
             <button class="world-node world-node--maths" data-subject="maths">
-              <span class="node-title">Tech Grid</span>
-              <span class="node-subtitle">Why QWERTY Won</span>
+              <div class="node-icon">⌨️</div>
+              <div class="node-content">
+                <span class="node-title">Tech Grid</span>
+                <span class="node-subtitle">Path Dependence</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 28%;"></div>
               </div>
             </button>
 
             <button class="world-node world-node--science" data-subject="science">
-              <span class="node-title">Science Lab</span>
-              <span class="node-subtitle">The Placebo Effect</span>
+              <div class="node-icon">🔬</div>
+              <div class="node-content">
+                <span class="node-title">Science Lab</span>
+                <span class="node-subtitle">Placebo Effect</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 31%;"></div>
               </div>
@@ -103,8 +128,11 @@
 
             <!-- NEW: Space + History subject -->
             <button class="world-node world-node--space" data-subject="space">
-              <span class="node-title">Cosmic History</span>
-              <span class="node-subtitle">Space Race · Orbits · Cold War</span>
+              <div class="node-icon">🚀</div>
+              <div class="node-content">
+                <span class="node-title">Cosmic History</span>
+                <span class="node-subtitle">The Space Race</span>
+              </div>
               <div class="node-progress">
                 <div class="node-progress-bar" style="width: 12%;"></div>
               </div>
@@ -160,7 +188,7 @@
               <span class="xp-pill">⭐ +<span id="pendingXp">0</span> XP</span>
               <span class="hint-text" id="hintText">Tap an answer to check your understanding.</span>
             </div>
-            <button class="next-btn" id="nextBtn">Next ▸</button>
+            <button class="next-btn" id="nextBtn">Continue</button>
           </div>
         </div>
 
@@ -182,6 +210,36 @@
       </section>
     </main>
   </div>
+
+  <!-- Celebration overlay -->
+  <div class="celebration-overlay" id="celebrationOverlay">
+    <div class="celebration-content">
+      <div class="celebration-icon" id="celebrationIcon">🎉</div>
+      <div class="celebration-text" id="celebrationText">Awesome!</div>
+      <div class="celebration-xp" id="celebrationXpText">+8 XP</div>
+    </div>
+  </div>
+
+  <!-- Achievement notification -->
+  <div class="achievement-popup" id="achievementPopup">
+    <div class="achievement-icon">🏆</div>
+    <div class="achievement-content">
+      <div class="achievement-title" id="achievementTitle">Achievement Unlocked!</div>
+      <div class="achievement-desc" id="achievementDesc">Knowledge Seeker</div>
+    </div>
+  </div>
+
+  <!-- Level up overlay -->
+  <div class="level-up-overlay" id="levelUpOverlay">
+    <div class="level-up-content">
+      <div class="level-up-number" id="levelUpNumber">4</div>
+      <div class="level-up-text">Level Up!</div>
+      <button class="level-up-continue" onclick="closeLevelUp()">Continue</button>
+    </div>
+  </div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
 
   <script src="app.js"></script>
 </body>

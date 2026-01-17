@@ -398,9 +398,161 @@ let currentIndex = 0;
 let xp = 120;
 let pendingXp = 0;
 let era = "Foundations";
+let level = 3;
+let streak = 3;
+let todayLessons = 2;
+let todayGoal = 5;
+let combo = 0;
+let totalCorrect = 0;
+
+// Level thresholds
+const LEVEL_XP = [0, 50, 150, 300, 500, 750, 1050, 1400, 1800, 2250];
+
+// Achievements
+const achievements = {
+  firstLesson: { unlocked: true, name: "First Steps", desc: "Complete your first lesson" },
+  streak3: { unlocked: true, name: "On Fire", desc: "Maintain a 3-day streak" },
+  streak7: { unlocked: false, name: "Week Warrior", desc: "Maintain a 7-day streak" },
+  combo5: { unlocked: false, name: "Perfect Five", desc: "Get 5 correct in a row" },
+  scholar: { unlocked: false, name: "Scholar", desc: "Reach Level 5" },
+  polymath: { unlocked: false, name: "Polymath", desc: "Complete lessons in 5 subjects" }
+};
 
 function $(selector) {
   return document.querySelector(selector);
+}
+
+// ===== CONFETTI SYSTEM =====
+function createConfetti() {
+  const canvas = $("#confettiCanvas");
+  const ctx = canvas.getContext("2d");
+  
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const confettiPieces = [];
+  const colors = ["#ffdd9a", "#b86bff", "#4ea2ff", "#35c27e", "#f4b65e", "#d881ff"];
+  
+  // Create confetti pieces
+  for (let i = 0; i < 100; i++) {
+    confettiPieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 10 + 5,
+      h: Math.random() * 6 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speed: Math.random() * 3 + 2,
+      angle: Math.random() * 360,
+      wobble: Math.random() * 2 - 1
+    });
+  }
+  
+  let animationId;
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let stillVisible = false;
+    
+    confettiPieces.forEach((piece) => {
+      piece.y += piece.speed;
+      piece.x += piece.wobble;
+      piece.angle += 5;
+      
+      if (piece.y < canvas.height + 20) {
+        stillVisible = true;
+      }
+      
+      ctx.save();
+      ctx.translate(piece.x, piece.y);
+      ctx.rotate((piece.angle * Math.PI) / 180);
+      ctx.fillStyle = piece.color;
+      ctx.fillRect(-piece.w / 2, -piece.h / 2, piece.w, piece.h);
+      ctx.restore();
+    });
+    
+    if (stillVisible) {
+      animationId = requestAnimationFrame(animate);
+    }
+  }
+  
+  animate();
+  
+  // Clear after 4 seconds
+  setTimeout(() => {
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }, 4000);
+}
+
+// ===== CELEBRATION SYSTEM =====
+function showCelebration(type = "correct", xpGained = 8) {
+  const overlay = $("#celebrationOverlay");
+  const icon = $("#celebrationIcon");
+  const text = $("#celebrationText");
+  const xpText = $("#celebrationXpText");
+  
+  if (type === "correct") {
+    icon.textContent = ["🎉", "✨", "🌟", "💫", "⭐"][Math.floor(Math.random() * 5)];
+    text.textContent = ["Awesome!", "Perfect!", "Brilliant!", "Amazing!", "Nailed it!"][Math.floor(Math.random() * 5)];
+    xpText.textContent = `+${xpGained} XP`;
+    createConfetti();
+  } else if (type === "levelup") {
+    icon.textContent = "🚀";
+    text.textContent = `Level ${level}!`;
+    xpText.textContent = "Keep going!";
+    createConfetti();
+  }
+  
+  overlay.classList.add("active");
+  
+  setTimeout(() => {
+    overlay.classList.remove("active");
+  }, 1500);
+}
+
+// ===== ACHIEVEMENT SYSTEM =====
+function checkAndShowAchievement(achievementKey) {
+  if (achievements[achievementKey] && !achievements[achievementKey].unlocked) {
+    achievements[achievementKey].unlocked = true;
+    
+    const popup = $("#achievementPopup");
+    const title = $("#achievementTitle");
+    const desc = $("#achievementDesc");
+    
+    title.textContent = "Achievement Unlocked!";
+    desc.textContent = achievements[achievementKey].name;
+    
+    popup.classList.add("active");
+    
+    setTimeout(() => {
+      popup.classList.remove("active");
+    }, 3000);
+  }
+}
+
+// ===== UPDATE UI =====
+function updateGameUI() {
+  $("#xpValue").textContent = xp;
+  $("#levelValue").textContent = level;
+  $("#streakValue").textContent = streak;
+  $("#todayGoal").textContent = `${todayLessons}/${todayGoal}`;
+  
+  // Update XP progress bar
+  const currentLevelXP = LEVEL_XP[level - 1] || 0;
+  const nextLevelXP = LEVEL_XP[level] || currentLevelXP + 500;
+  const progress = ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+  $("#xpProgressMini").style.width = `${Math.min(progress, 100)}%`;
+  
+  // Check for level up
+  if (xp >= nextLevelXP && level < LEVEL_XP.length) {
+    level++;
+    showLevelUp();
+    
+    if (level >= 5 && !achievements.scholar.unlocked) {
+      setTimeout(() => checkAndShowAchievement("scholar"), 2000);
+    }
+  }
 }
 
 function getCurrentLessons() {
@@ -540,7 +692,6 @@ function handleQuizClick(button, option, lesson) {
 
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
-  const xpValue = $("#xpValue");
 
   if (option.correct) {
     button.classList.add("correct");
@@ -548,26 +699,36 @@ function handleQuizClick(button, option, lesson) {
     if (indicator) indicator.textContent = "✓";
 
     pendingXp = 8;
+    combo++;
+    totalCorrect++;
     hintText.textContent = lesson.explanation;
     
-    // Add celebration effect
-    button.style.animation = 'none';
+    // Check combo achievement
+    if (combo >= 5 && !achievements.combo5.unlocked) {
+      setTimeout(() => checkAndShowAchievement("combo5"), 1000);
+    }
+    
+    // Show celebration
     setTimeout(() => {
-      button.style.animation = 'subtle-float 0.5s ease-out';
-    }, 10);
+      showCelebration("correct", pendingXp);
+    }, 300);
+    
   } else {
     button.classList.add("incorrect");
     const indicator = button.querySelector(".option-indicator");
     if (indicator) indicator.textContent = "✗";
 
     pendingXp = 2;
+    combo = 0; // Reset combo on wrong answer
     hintText.textContent = lesson.explanation || "Not quite. Review the content and try to think through the key concepts.";
   }
 
   // Animate XP gain
   const oldXp = xp;
   xp += pendingXp;
-  animateCounter(xpValue, oldXp, xp, 600);
+  
+  // Update all UI
+  updateGameUI();
   
   // Animate pending XP display
   pendingXpEl.style.transform = 'scale(1.3)';
@@ -605,12 +766,37 @@ function goNext() {
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
 
+  const wasQuiz = lessons[currentIndex]?.type === "quiz";
+
   currentIndex++;
   if (currentIndex >= lessons.length) {
-    currentIndex = lessons.length - 1;
-    // later: show “unit complete” state
+    currentIndex = 0; // Loop back to start
+    todayLessons++;
+    updateGameUI();
+    
+    // Check daily goal achievement
+    if (todayLessons >= todayGoal) {
+      setTimeout(() => {
+        showCelebration("correct", 20);
+      }, 500);
+    }
   }
   renderLesson();
+}
+
+function showLevelUp() {
+  const overlay = $("#levelUpOverlay");
+  const number = $("#levelUpNumber");
+  
+  number.textContent = level;
+  overlay.classList.add("active");
+  
+  createConfetti();
+}
+
+function closeLevelUp() {
+  const overlay = $("#levelUpOverlay");
+  overlay.classList.remove("active");
 }
 
 function switchTab(tab) {
@@ -780,6 +966,9 @@ function handleSubjectClick(node) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize game UI
+  updateGameUI();
+  
   // Start with economics wired
   updateMetaForSubject("economics");
   renderLesson();
@@ -797,5 +986,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Subject nodes
   document.querySelectorAll(".world-node").forEach((node) => {
     node.addEventListener("click", () => handleSubjectClick(node));
+  });
+  
+  // Resize confetti canvas on window resize
+  window.addEventListener("resize", () => {
+    const canvas = $("#confettiCanvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   });
 });
