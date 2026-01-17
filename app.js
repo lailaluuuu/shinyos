@@ -1,6 +1,5 @@
 // Subject → lessons mapping
 console.log("🔥 JavaScript file is loading!");
-alert("JavaScript is working! Check console (F12) for more details.");
 
 const subjectLessons = {
   economics: [
@@ -1037,11 +1036,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Next button
   const nextBtn = $("#nextBtn");
+  console.log("🔍 Looking for next button...", nextBtn);
   if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      console.log("✅ Continue button clicked");
+    // Test if button is visible
+    const styles = window.getComputedStyle(nextBtn);
+    console.log("Button visibility:", {
+      display: styles.display,
+      visibility: styles.visibility,
+      pointerEvents: styles.pointerEvents,
+      disabled: nextBtn.disabled
+    });
+    
+    nextBtn.addEventListener("click", (e) => {
+      console.log("✅ Continue button clicked!", e);
+      e.preventDefault();
+      e.stopPropagation();
       goNext();
     });
+    
+    // Also add inline onclick as backup
+    nextBtn.onclick = (e) => {
+      console.log("🔘 Inline onclick fired!");
+      goNext();
+    };
+    
     console.log("✓ Continue button listener attached");
   } else {
     console.error("❌ Next button not found!");
@@ -1092,6 +1110,46 @@ document.addEventListener("DOMContentLoaded", () => {
     if (canvas) {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+    }
+  });
+  
+  // Add a test button to verify clicking works at all
+  const testBtn = document.createElement("button");
+  testBtn.textContent = "🧪 TEST BUTTON - CLICK ME";
+  testBtn.style.cssText = "position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 10px 20px; background: red; color: white; border: 2px solid white; font-size: 16px; font-weight: bold; cursor: pointer;";
+  testBtn.onclick = () => {
+    alert("✅ TEST BUTTON WORKS! Buttons CAN be clicked. Issue is with specific buttons.");
+    console.log("✅ Test button clicked successfully!");
+  };
+  document.body.appendChild(testBtn);
+  
+  // Listen to ALL clicks on the page
+  document.addEventListener("click", (e) => {
+    console.log("👆 CLICK DETECTED on:", e.target, {
+      tagName: e.target.tagName,
+      className: e.target.className,
+      id: e.target.id
+    });
+  }, true); // Use capture phase to catch everything
+  
+  // Check for elements that might be blocking clicks
+  const possibleBlockers = [
+    "#celebrationOverlay",
+    "#levelUpOverlay",
+    "#confettiCanvas",
+    ".achievement-popup"
+  ];
+  
+  possibleBlockers.forEach(selector => {
+    const el = document.querySelector(selector);
+    if (el) {
+      const styles = window.getComputedStyle(el);
+      console.log(`🔍 Checking ${selector}:`, {
+        display: styles.display,
+        pointerEvents: styles.pointerEvents,
+        zIndex: styles.zIndex,
+        opacity: styles.opacity
+      });
     }
   });
   
