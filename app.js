@@ -576,9 +576,16 @@ function getCurrentLessons() {
 }
 
 function renderLesson() {
+  console.log("📝 renderLesson called, index:", currentIndex);
   const lessons = getCurrentLessons();
   const lesson = lessons[currentIndex] || lessons[0];
-  if (!lesson) return;
+  
+  if (!lesson) {
+    console.error("❌ No lesson found at index", currentIndex);
+    return;
+  }
+  
+  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question);
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -586,6 +593,11 @@ function renderLesson() {
   const progressFill = $("#lessonProgressFill");
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
+  
+  if (!contentEl || !quizBlock) {
+    console.error("❌ Missing lesson elements", { contentEl: !!contentEl, quizBlock: !!quizBlock });
+    return;
+  }
 
   // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
@@ -680,7 +692,10 @@ function renderLesson() {
       btn.appendChild(textSpan);
       btn.appendChild(indicator);
 
-      btn.addEventListener("click", () => handleQuizClick(btn, opt, lesson));
+      btn.addEventListener("click", () => {
+        console.log("✅ Quiz option clicked:", opt.text);
+        handleQuizClick(btn, opt, lesson);
+      });
 
       optionsWrapper.appendChild(btn);
       
@@ -697,8 +712,11 @@ function renderLesson() {
 }
 
 function handleQuizClick(button, option, lesson) {
+  console.log("🎯 handleQuizClick called", { option: option.text, correct: option.correct });
+  
   // Lock all options
   const allOptions = document.querySelectorAll(".quiz-option");
+  console.log(`Found ${allOptions.length} quiz options to lock`);
   allOptions.forEach((btn) => {
     btn.disabled = true;
     btn.classList.remove("correct", "incorrect");
@@ -708,6 +726,11 @@ function handleQuizClick(button, option, lesson) {
 
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
+  
+  if (!hintText || !pendingXpEl) {
+    console.error("❌ Missing UI elements", { hintText: !!hintText, pendingXpEl: !!pendingXpEl });
+    return;
+  }
 
   if (option.correct) {
     button.classList.add("correct");
@@ -779,15 +802,24 @@ function animateCounter(element, start, end, duration) {
 }
 
 function goNext() {
+  console.log("➡️ goNext called, current index:", currentIndex);
   const lessons = getCurrentLessons();
-  if (!lessons.length) return;
+  console.log(`Found ${lessons.length} lessons for ${activeSubject}`);
+  
+  if (!lessons.length) {
+    console.warn("⚠️ No lessons found");
+    return;
+  }
 
   const wasQuiz = lessons[currentIndex]?.type === "quiz";
 
   currentIndex++;
+  console.log("Moving to index:", currentIndex);
+  
   if (currentIndex >= lessons.length) {
     currentIndex = 0; // Loop back to start
     todayLessons++;
+    console.log("🎉 Completed subject! Today's lessons:", todayLessons);
     updateGameUI();
     
     // Check daily goal achievement
@@ -947,6 +979,7 @@ function updateMetaForSubject(subject) {
 
 function handleSubjectClick(node) {
   const subject = node.dataset.subject;
+  console.log("🎓 Subject clicked:", subject);
 
   document
     .querySelectorAll(".world-node")
@@ -962,11 +995,13 @@ function handleSubjectClick(node) {
   // Check if subject has lesson content
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing"];
   if (liveSubjects.includes(subject)) {
+    console.log("✅ Loading lessons for:", subject);
     activeSubject = subject;
     currentIndex = 0;
     updateMetaForSubject(subject);
     renderLesson();
   } else {
+    console.log("⚠️ Subject not yet implemented:", subject);
     activeSubject = "economics"; // keep a safe base for data
     updateMetaForSubject(subject);
     const contentEl = $("#lessonContent");
@@ -989,6 +1024,8 @@ function handleSubjectClick(node) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 App initializing...");
+  
   // Initialize game UI
   updateGameUI();
   
@@ -997,30 +1034,52 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLesson();
 
   // Next button
-  $("#nextBtn").addEventListener("click", goNext);
+  const nextBtn = $("#nextBtn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      console.log("✅ Continue button clicked");
+      goNext();
+    });
+    console.log("✓ Continue button listener attached");
+  } else {
+    console.error("❌ Next button not found!");
+  }
 
   // Tabs
-  document.querySelectorAll(".tab").forEach((tab) => {
+  const tabs = document.querySelectorAll(".tab");
+  console.log(`✓ Found ${tabs.length} tabs`);
+  tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
+      console.log("✅ Tab clicked:", tab.dataset.tab);
       switchTab(tab.dataset.tab);
     });
   });
 
   // Subject nodes
-  document.querySelectorAll(".world-node").forEach((node) => {
-    node.addEventListener("click", () => handleSubjectClick(node));
+  const nodes = document.querySelectorAll(".world-node");
+  console.log(`✓ Found ${nodes.length} subject nodes`);
+  nodes.forEach((node) => {
+    node.addEventListener("click", () => {
+      console.log("✅ Subject clicked:", node.dataset.subject);
+      handleSubjectClick(node);
+    });
   });
   
   // Level up continue button
   const levelUpBtn = document.querySelector(".level-up-continue");
   if (levelUpBtn) {
-    levelUpBtn.addEventListener("click", closeLevelUp);
+    levelUpBtn.addEventListener("click", () => {
+      console.log("✅ Level up continue clicked");
+      closeLevelUp();
+    });
+    console.log("✓ Level up button listener attached");
   }
   
   // Close celebration overlay when clicked
   const celebrationOverlay = $("#celebrationOverlay");
   if (celebrationOverlay) {
     celebrationOverlay.addEventListener("click", () => {
+      console.log("✅ Celebration overlay clicked");
       celebrationOverlay.classList.remove("active");
     });
   }
@@ -1028,7 +1087,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Resize confetti canvas on window resize
   window.addEventListener("resize", () => {
     const canvas = $("#confettiCanvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (canvas) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
   });
+  
+  console.log("✅ App initialization complete!");
 });
