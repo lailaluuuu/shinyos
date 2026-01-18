@@ -1809,31 +1809,37 @@ function updateMetaForSubject(subject) {
   const journalText = $("#journalText");
   const missionsText = $("#missionsText");
   
+  // Safe setter helper
+  const safeSet = (element, value) => {
+    if (element) element.textContent = value;
+  };
+  
   // Check if elements exist
   if (!subjectChip || !unitChip || !lessonTitle || !lessonSubtitle) {
     console.error("❌ Missing required DOM elements in updateMetaForSubject");
     return;
   }
 
+  let journalContent = "";
+  let missionsContent = "";
+  
   if (subject === "economics") {
     subjectChip.textContent = "Economics · Markets";
     unitChip.textContent = "Unit: Planned Economies";
     lessonTitle.textContent = "Planned Economies";
     lessonSubtitle.textContent = "When the state takes the steering wheel of the market.";
     era = "Foundations";
-    journalText.textContent =
-      "Economics City · Markets. Stamps for planned vs market systems, tiny city diagrams, and your one-line notes on who sets prices.";
-    missionsText.textContent =
-      "Soon: run a tiny model of a planned economy vs a market economy and watch queues, surpluses, and growth change your city.";
+    journalContent = "Economics City · Markets. Stamps for planned vs market systems, tiny city diagrams, and your one-line notes on who sets prices.";
+    missionsContent = "Soon: run a tiny model of a planned economy vs a market economy and watch queues, surpluses, and growth change your city.";
   } else if (subject === "space") {
     subjectChip.textContent = "Cosmic History · Space Race";
     unitChip.textContent = "Unit: The Space Race";
     lessonTitle.textContent = "The Space Race";
     lessonSubtitle.textContent = "When rockets, politics, and prestige left the atmosphere.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Cosmic History · Space Race. Stamps for Sputnik, Gagarin, Apollo 11, and your notes on why space mattered in the Cold War.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: choose which missions to fund as a Cold War leader and see how your space strategy shifts global prestige.";
   } else if (subject === "psych") {
     subjectChip.textContent = "Psychology · Mind";
@@ -1841,9 +1847,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Cognitive Biases";
     lessonSubtitle.textContent = "Mental shortcuts that quietly run your life.";
     era = "Foundations";
-    journalText.textContent =
+    journalContent =
       "Psychology Quarter · Mind. Stamps for confirmation bias, availability heuristic, and notes on how your brain takes shortcuts.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: test your own biases in simulated scenarios and see how they shape your decisions in real time.";
   } else if (subject === "maths") {
     subjectChip.textContent = "Technology · Systems";
@@ -1851,9 +1857,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Why QWERTY Exists";
     lessonSubtitle.textContent = "When 'good enough first' beats 'better later.'";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Technology Grid · Systems. Stamps for QWERTY, lock-in effects, and your notes on why inferior standards persist.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: run a market simulation where you choose between competing standards and watch path dependence unfold.";
   } else if (subject === "history") {
     subjectChip.textContent = "History · Empires";
@@ -1861,9 +1867,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Empire Collapse";
     lessonSubtitle.textContent = "Patterns that repeat from Rome to modern states.";
     era = "Ancient";
-    journalText.textContent =
+    journalContent =
       "History Port · Empires. Stamps for Rome, Ottoman decline, and notes on overstretch and internal decay.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: manage an empire's resources and borders, then watch the consequences of your expansion choices.";
   } else if (subject === "science") {
     subjectChip.textContent = "Science · Mind-Body";
@@ -1871,9 +1877,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "The Placebo Effect";
     lessonSubtitle.textContent = "When expectation becomes biology.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Science Lab · Mind-Body. Stamps for placebo mechanisms, pain studies, and notes on how belief shapes reality.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: design a drug trial and see how placebo effects complicate the search for real medical effects.";
   } else if (subject === "investing") {
     subjectChip.textContent = "Investing · Real Humans";
@@ -1881,9 +1887,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Investing for Real Humans";
     lessonSubtitle.textContent = "Build wealth without the jargon.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Investing District · Markets. Stamps for ETFs, risk profiles, and portfolio archetypes. Build your strategy.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: build your portfolio, backtest strategies, and simulate market crashes to see how you'd react.";
   } else if (subject === "crypto") {
     subjectChip.textContent = "Crypto · Digital Wild West";
@@ -1891,9 +1897,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Crypto: Digital Wild West";
     lessonSubtitle.textContent = "Decentralized chaos and digital gold.";
     era = "Future";
-    journalText.textContent =
+    journalContent =
       "Crypto Wild West. Stamps for Bitcoin, Ethereum, security rules, and notes on how to not get rekt.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: sim trading with fake money, spot ponzi schemes, and build your crypto strategy (bull vs bear markets).";
   } else if (subject === "blackholes") {
     subjectChip.textContent = "Astrophysics · Violence";
@@ -1901,9 +1907,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Black Holes & Cosmic Violence";
     lessonSubtitle.textContent = "Where gravity wins and physics breaks.";
     era = "Cosmic";
-    journalText.textContent =
+    journalContent =
       "Black Hole Zone. Stamps for event horizons, spaghettification, Hawking radiation, and time dilation weirdness.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: simulate falling into black holes, calculate escape velocities, and visualize spacetime warping.";
   } else if (subject === "glaciers") {
     subjectChip.textContent = "Climate · Ice Ages";
@@ -1911,9 +1917,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Glaciers & Ice Ages";
     lessonSubtitle.textContent = "Frozen rivers that reshape continents.";
     era = "Earth";
-    journalText.textContent =
+    journalContent =
       "Glacier Lab. Stamps for ice cores, climate timelines, sea level rise, and notes on planetary machinery.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: drill ice cores, analyze ancient atmospheres, and predict sea level changes based on melt rates.";
   } else if (subject === "nuclear") {
     subjectChip.textContent = "Physics · Atomic";
@@ -1921,9 +1927,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Nuclear Everything";
     lessonSubtitle.textContent = "Fusion, fission, and catastrophic failures.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Nuclear Core. Stamps for fusion vs fission, Chernobyl, waste timelines, and reactor mechanics.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: manage a nuclear reactor, prevent meltdowns, and design waste storage for 10,000 years.";
   } else if (subject === "money") {
     subjectChip.textContent = "Economics · Macro";
@@ -1931,9 +1937,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "How Money Works";
     lessonSubtitle.textContent = "Inflation, interest rates, and housing bubbles.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Economics Hub. Stamps for inflation cycles, central bank decisions, housing markets, and interest rate mechanics.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: run a central bank, set interest rates, and manage inflation vs recession trade-offs.";
   } else if (subject === "minerals") {
     subjectChip.textContent = "Resources · Materials";
@@ -1941,9 +1947,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Minerals & Metals";
     lessonSubtitle.textContent = "Lithium, copper, and the supply chains that power civilization.";
     era = "Modern";
-    journalText.textContent =
+    journalContent =
       "Resource Mines. Stamps for lithium extraction, copper demand, supply chain fragility, and geopolitical control.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: manage a lithium mine, negotiate with superpowers, and navigate resource geopolitics.";
   } else if (subject === "humans") {
     subjectChip.textContent = "Psychology · Strategy";
@@ -1951,9 +1957,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Human Weirdness";
     lessonSubtitle.textContent = "Game theory, cognitive biases, and why we're predictably irrational.";
     era = "Foundations";
-    journalText.textContent =
+    journalContent =
       "Game Theory Lab. Stamps for prisoner's dilemma, Nash equilibrium, anchoring bias, and sunk cost fallacy.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: play strategic games, test your biases, and see how rational you really are.";
   } else if (subject === "biology") {
     subjectChip.textContent = "Biology · Future";
@@ -1961,9 +1967,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "Biology That Feels Like Sci-Fi";
     lessonSubtitle.textContent = "CRISPR, tardigrades, and the quest for immortality.";
     era = "Future";
-    journalText.textContent =
+    journalContent =
       "Bio Lab. Stamps for CRISPR mechanics, tardigrade survival, senescence, and gene editing ethics.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: design genetic modifications, balance ethics vs progress, and explore biological immortality.";
   } else if (subject === "apocalypse") {
     subjectChip.textContent = "Existential · Risks";
@@ -1971,9 +1977,9 @@ function updateMetaForSubject(subject) {
     lessonTitle.textContent = "If the World Ends";
     lessonSubtitle.textContent = "Supervolcanoes, pandemics, nuclear winter, and other fun scenarios.";
     era = "Crisis";
-    journalText.textContent =
+    journalContent =
       "Apocalypse Zone. Stamps for supervolcano mechanics, pandemic math, nuclear winter models, and survival strategies.";
-    missionsText.textContent =
+    missionsContent =
       "Soon: simulate pandemic responses, calculate nuclear winter outcomes, and manage existential crises.";
   } else {
     // Placeholder for other subjects
@@ -1983,14 +1989,17 @@ function updateMetaForSubject(subject) {
     lessonSubtitle.textContent =
       "More districts coming online soon.";
     era = "Foundations";
-    journalText.textContent =
+    journalContent =
       "Prototype subject. This journal page will hold diagrams and notes once this district is wired.";
-    missionsText.textContent =
+    missionsContent =
       "Prototype subject. Soon: a small simulation mission for this area.";
   }
 
-  if (eraLabel) eraLabel.textContent = era;
-  if (eraPillLabel) eraPillLabel.textContent = `${era} Era`;
+  // Safely set all text content at the end
+  safeSet(eraLabel, era);
+  safeSet(eraPillLabel, `${era} Era`);
+  safeSet(journalText, journalContent);
+  safeSet(missionsText, missionsContent);
 }
 
 function handleSubjectClick(node) {
