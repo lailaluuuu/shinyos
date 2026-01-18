@@ -177,6 +177,83 @@
   <!-- Confetti canvas -->
   <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
 
+  <!-- Blu Bot Character (SVG) -->
+  <svg id="bluBotSVG" style="display: none;">
+    <defs>
+      <!-- Blu Bot celebrating -->
+      <g id="blubot-celebrate">
+        <!-- Body -->
+        <rect x="40" y="60" width="40" height="50" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <!-- Head -->
+        <path d="M 35 30 L 85 30 L 85 60 L 35 60 Z" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Antenna -->
+        <line x1="60" y1="30" x2="60" y2="20" stroke="#2a5a8f" stroke-width="2"/>
+        <circle cx="60" cy="18" r="4" fill="#ffdd9a"/>
+        <!-- Eyes (happy) -->
+        <circle cx="50" cy="45" r="3" fill="#1a1a1a"/>
+        <circle cx="70" cy="45" r="3" fill="#1a1a1a"/>
+        <!-- Arms (raised) -->
+        <rect x="25" y="65" width="12" height="30" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2" transform="rotate(-30 31 65)"/>
+        <rect x="83" y="65" width="12" height="30" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2" transform="rotate(30 89 65)"/>
+        <!-- Legs -->
+        <rect x="45" y="110" width="10" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <rect x="65" y="110" width="10" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Feet -->
+        <ellipse cx="50" cy="138" rx="8" ry="4" fill="#2a5a8f"/>
+        <ellipse cx="70" cy="138" rx="8" ry="4" fill="#2a5a8f"/>
+      </g>
+      
+      <!-- Blu Bot studying -->
+      <g id="blubot-study">
+        <!-- Body -->
+        <rect x="40" y="60" width="40" height="50" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <!-- Head -->
+        <path d="M 35 30 L 85 30 L 85 60 L 35 60 Z" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Antenna -->
+        <line x1="60" y1="30" x2="60" y2="20" stroke="#2a5a8f" stroke-width="2"/>
+        <circle cx="60" cy="18" r="4" fill="#35c27e"/>
+        <!-- Eyes (focused) -->
+        <circle cx="50" cy="45" r="3" fill="#1a1a1a"/>
+        <circle cx="70" cy="45" r="3" fill="#1a1a1a"/>
+        <!-- Arms (holding book) -->
+        <rect x="30" y="70" width="12" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <rect x="78" y="70" width="12" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <!-- Book -->
+        <rect x="35" y="85" width="50" height="30" fill="#ff9a56" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <line x1="60" y1="85" x2="60" y2="115" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Legs -->
+        <rect x="45" y="110" width="10" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <rect x="65" y="110" width="10" height="25" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Feet -->
+        <ellipse cx="50" cy="138" rx="8" ry="4" fill="#2a5a8f"/>
+        <ellipse cx="70" cy="138" rx="8" ry="4" fill="#2a5a8f"/>
+      </g>
+
+      <!-- Blu Bot tired -->
+      <g id="blubot-tired">
+        <!-- Body (slouched) -->
+        <rect x="40" y="70" width="40" height="50" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <!-- Head (tilted) -->
+        <path d="M 35 40 L 85 40 L 85 70 L 35 70 Z" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" transform="rotate(-5 60 55)"/>
+        <!-- Antenna -->
+        <line x1="58" y1="38" x2="56" y2="28" stroke="#2a5a8f" stroke-width="2"/>
+        <circle cx="55" cy="26" r="4" fill="#ff7b7b" opacity="0.5"/>
+        <!-- Eyes (closed) -->
+        <line x1="45" y1="55" x2="55" y2="55" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="65" y1="55" x2="75" y2="55" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- Arms (down) -->
+        <rect x="30" y="75" width="10" height="28" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <rect x="80" y="75" width="10" height="28" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2" rx="2"/>
+        <!-- Legs -->
+        <rect x="45" y="120" width="10" height="18" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <rect x="65" y="120" width="10" height="18" fill="#4ea2ff" stroke="#2a5a8f" stroke-width="2"/>
+        <!-- Feet -->
+        <ellipse cx="50" cy="140" rx="8" ry="4" fill="#2a5a8f"/>
+        <ellipse cx="70" cy="140" rx="8" ry="4" fill="#2a5a8f"/>
+      </g>
+    </defs>
+  </svg>
+
   <script src="app.js"></script>
 </body>
 </html>

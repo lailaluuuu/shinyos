@@ -1858,12 +1858,60 @@ function showCelebration(type = "correct", xpGained = 8) {
   
   if (!overlay || !icon || !text || !xpText) return;
   
+  // Clear previous content
+  const content = overlay.querySelector('.celebration-content');
+  if (!content) return;
+  
+  // Remove old Blu Bot if exists
+  const oldBluBot = content.querySelector('.blubot-container');
+  if (oldBluBot) oldBluBot.remove();
+  
   if (type === "correct") {
-    icon.textContent = ["🎉", "✨", "🌟", "💫", "⭐"][Math.floor(Math.random() * 5)];
+    // Create Blu Bot container
+    const blubotContainer = document.createElement('div');
+    blubotContainer.className = 'blubot-container';
+    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+    
+    // Add Blu Bot SVG
+    const blubot = createBluBot('celebrate');
+    blubotContainer.appendChild(blubot);
+    
+    // Add speech bubble
+    const speech = document.createElement('div');
+    speech.className = 'blubot-speech';
+    const messages = [
+      "Amazing work! 🎉",
+      "You're crushing it! ⭐",
+      "Brilliant answer! 💡",
+      "That's the way! 🚀",
+      "Perfect! Keep going! 💪"
+    ];
+    speech.textContent = messages[Math.floor(Math.random() * messages.length)];
+    blubotContainer.appendChild(speech);
+    
+    // Insert before other content
+    content.insertBefore(blubotContainer, content.firstChild);
+    
+    icon.textContent = "";
     text.textContent = ["Awesome!", "Perfect!", "Brilliant!", "Amazing!", "Nailed it!"][Math.floor(Math.random() * 5)];
     xpText.textContent = `+${xpGained} XP`;
     createConfetti();
   } else if (type === "levelup") {
+    // Create Blu Bot container for level up
+    const blubotContainer = document.createElement('div');
+    blubotContainer.className = 'blubot-container';
+    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+    
+    const blubot = createBluBot('celebrate');
+    blubotContainer.appendChild(blubot);
+    
+    const speech = document.createElement('div');
+    speech.className = 'blubot-speech';
+    speech.textContent = `Level ${level}! You're unstoppable! 🎉`;
+    blubotContainer.appendChild(speech);
+    
+    content.insertBefore(blubotContainer, content.firstChild);
+    
     icon.textContent = "🚀";
     text.textContent = `Level ${level}!`;
     xpText.textContent = "Keep going!";
@@ -1874,7 +1922,137 @@ function showCelebration(type = "correct", xpGained = 8) {
   
   setTimeout(() => {
     overlay.classList.remove("active");
-  }, 1500);
+  }, 2500);
+}
+
+// Create Blu Bot SVG
+function createBluBot(mood = 'celebrate') {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 120 150");
+  svg.setAttribute("width", "120");
+  svg.setAttribute("height", "150");
+  svg.style.cssText = "display: block; margin: 0 auto;";
+  
+  if (mood === 'celebrate') {
+    // Body
+    const body = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    body.setAttribute("x", "40");
+    body.setAttribute("y", "60");
+    body.setAttribute("width", "40");
+    body.setAttribute("height", "50");
+    body.setAttribute("fill", "#4ea2ff");
+    body.setAttribute("stroke", "#2a5a8f");
+    body.setAttribute("stroke-width", "2");
+    body.setAttribute("rx", "2");
+    svg.appendChild(body);
+    
+    // Head
+    const head = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    head.setAttribute("x", "35");
+    head.setAttribute("y", "30");
+    head.setAttribute("width", "50");
+    head.setAttribute("height", "30");
+    head.setAttribute("fill", "#4ea2ff");
+    head.setAttribute("stroke", "#2a5a8f");
+    head.setAttribute("stroke-width", "2");
+    head.setAttribute("rx", "2");
+    svg.appendChild(head);
+    
+    // Antenna
+    const antenna = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    antenna.setAttribute("x1", "60");
+    antenna.setAttribute("y1", "30");
+    antenna.setAttribute("x2", "60");
+    antenna.setAttribute("y2", "20");
+    antenna.setAttribute("stroke", "#2a5a8f");
+    antenna.setAttribute("stroke-width", "2");
+    svg.appendChild(antenna);
+    
+    const antennaTip = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    antennaTip.setAttribute("cx", "60");
+    antennaTip.setAttribute("cy", "18");
+    antennaTip.setAttribute("r", "4");
+    antennaTip.setAttribute("fill", "#ffdd9a");
+    svg.appendChild(antennaTip);
+    
+    // Eyes (happy)
+    const eye1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    eye1.setAttribute("cx", "50");
+    eye1.setAttribute("cy", "45");
+    eye1.setAttribute("r", "3");
+    eye1.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye1);
+    
+    const eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    eye2.setAttribute("cx", "70");
+    eye2.setAttribute("cy", "45");
+    eye2.setAttribute("r", "3");
+    eye2.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye2);
+    
+    // Arms (raised)
+    const arm1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm1.setAttribute("x", "20");
+    arm1.setAttribute("y", "55");
+    arm1.setAttribute("width", "18");
+    arm1.setAttribute("height", "8");
+    arm1.setAttribute("fill", "#4ea2ff");
+    arm1.setAttribute("stroke", "#2a5a8f");
+    arm1.setAttribute("stroke-width", "2");
+    arm1.setAttribute("rx", "2");
+    svg.appendChild(arm1);
+    
+    const arm2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm2.setAttribute("x", "82");
+    arm2.setAttribute("y", "55");
+    arm2.setAttribute("width", "18");
+    arm2.setAttribute("height", "8");
+    arm2.setAttribute("fill", "#4ea2ff");
+    arm2.setAttribute("stroke", "#2a5a8f");
+    arm2.setAttribute("stroke-width", "2");
+    arm2.setAttribute("rx", "2");
+    svg.appendChild(arm2);
+    
+    // Legs
+    const leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg1.setAttribute("x", "45");
+    leg1.setAttribute("y", "110");
+    leg1.setAttribute("width", "10");
+    leg1.setAttribute("height", "25");
+    leg1.setAttribute("fill", "#4ea2ff");
+    leg1.setAttribute("stroke", "#2a5a8f");
+    leg1.setAttribute("stroke-width", "2");
+    svg.appendChild(leg1);
+    
+    const leg2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg2.setAttribute("x", "65");
+    leg2.setAttribute("y", "110");
+    leg2.setAttribute("width", "10");
+    leg2.setAttribute("height", "25");
+    leg2.setAttribute("fill", "#4ea2ff");
+    leg2.setAttribute("stroke", "#2a5a8f");
+    leg2.setAttribute("stroke-width", "2");
+    svg.appendChild(leg2);
+    
+    // Feet
+    const foot1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot1.setAttribute("cx", "50");
+    foot1.setAttribute("cy", "138");
+    foot1.setAttribute("rx", "8");
+    foot1.setAttribute("ry", "4");
+    foot1.setAttribute("fill", "#2a5a8f");
+    svg.appendChild(foot1);
+    
+    const foot2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot2.setAttribute("cx", "70");
+    foot2.setAttribute("cy", "138");
+    foot2.setAttribute("rx", "8");
+    foot2.setAttribute("ry", "4");
+    foot2.setAttribute("fill", "#2a5a8f");
+    svg.appendChild(foot2);
+  }
+  
+  return svg;
 }
 
 // ===== ACHIEVEMENT SYSTEM =====
@@ -2225,10 +2403,42 @@ function renderLesson() {
       const resultDiv = document.createElement("div");
       resultDiv.style.cssText = `text-align: center; padding: 40px 20px; background: ${passed ? 'linear-gradient(135deg, rgba(100, 232, 146, 0.15), rgba(53, 194, 126, 0.1))' : 'linear-gradient(135deg, rgba(255, 123, 123, 0.15), rgba(255, 107, 53, 0.1))'}; border-radius: 16px; border: 2px solid ${passed ? '#64e892' : '#ff7b7b'};`;
       
-      const emoji = document.createElement("div");
-      emoji.style.cssText = "font-size: 80px; margin-bottom: 20px;";
-      emoji.textContent = passed ? "🎉" : "📚";
-      resultDiv.appendChild(emoji);
+      // Add Blu Bot
+      const blubotContainer = document.createElement('div');
+      blubotContainer.style.cssText = 'margin-bottom: 20px; position: relative;';
+      
+      const blubot = createBluBot(passed ? 'celebrate' : 'study');
+      blubotContainer.appendChild(blubot);
+      
+      // Speech bubble
+      const speech = document.createElement('div');
+      speech.className = 'blubot-speech';
+      if (passed) {
+        const passMessages = [
+          "You're a genius! 🎓",
+          "Incredible work! 🌟",
+          "You mastered it! 🏆",
+          "Brilliant performance! ⭐",
+          "You're unstoppable! 🚀"
+        ];
+        speech.textContent = passMessages[Math.floor(Math.random() * passMessages.length)];
+      } else {
+        const retryMessages = [
+          "Keep learning! You'll get it! 💪",
+          "Try again! You're close! 📚",
+          "Review and retry! You got this! 🎯",
+          "Learning takes practice! 💙",
+          "One more try! I believe in you! ⭐"
+        ];
+        speech.textContent = retryMessages[Math.floor(Math.random() * retryMessages.length)];
+      }
+      speech.style.position = 'absolute';
+      speech.style.top = '-50px';
+      speech.style.left = '50%';
+      speech.style.transform = 'translateX(-50%)';
+      blubotContainer.appendChild(speech);
+      
+      resultDiv.appendChild(blubotContainer);
       
       const titleDiv = document.createElement("div");
       titleDiv.style.cssText = "font-size: 32px; font-weight: 800; margin-bottom: 12px; color: " + (passed ? "#64e892" : "#ff7b7b");

@@ -1348,6 +1348,54 @@ body::after {
 
 /* ---- Celebration & Gamification ---- */
 
+/* Blu Bot Character */
+.blubot-character {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 30px;
+  position: relative;
+  animation: blubot-bounce 2s ease-in-out infinite;
+}
+
+@keyframes blubot-bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+.blubot-speech {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #1a1a1a;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: speech-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes speech-pop {
+  0% { transform: translateX(-50%) scale(0); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+.blubot-speech::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid white;
+}
+
 /* Celebration overlay */
 .celebration-overlay {
   position: fixed;
