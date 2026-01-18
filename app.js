@@ -3302,8 +3302,7 @@ function showCategorySubjects(categoryId) {
   subjectGrid.innerHTML = "";
   category.subjects.forEach(subjectId => {
     const meta = subjectMeta[subjectId];
-    if (!meta) return;
-    
+    if (!meta) return; // Skip undefined subjects
     const node = document.createElement("button");
     node.className = `world-node world-node--${subjectId}`;
     node.dataset.subject = subjectId;
@@ -3324,6 +3323,7 @@ function showCategorySubjects(categoryId) {
   });
 }
 
+
 // Make functions globally accessible
 window.showCategories = showCategories;
 window.showCategorySubjects = showCategorySubjects;
@@ -3331,10 +3331,10 @@ window.showCategorySubjects = showCategorySubjects;
 function initApp() {
   // Initialize game UI
   updateGameUI();
-  
+
   // Show categories on startup
   showCategories();
-  
+
   // Start with economics wired (but don't navigate to it yet)
   updateMetaForSubject("economics");
   renderLesson();
@@ -3355,34 +3355,6 @@ function initApp() {
     });
   });
 
-  // Subject nodes - with debugging
-  const subjectNodes = document.querySelectorAll(".world-node");
-  console.log("🎓 Found subject nodes:", subjectNodes.length);
-  
-  subjectNodes.forEach((node, index) => {
-    console.log(`Attaching listener ${index + 1}:`, node.dataset.subject);
-    
-    // Test if node is visible and clickable
-    const styles = window.getComputedStyle(node);
-    console.log(`  → Display: ${styles.display}, Pointer-events: ${styles.pointerEvents}, Z-index: ${styles.zIndex}`);
-    
-    // Method 1: addEventListener
-    node.addEventListener("click", (e) => {
-      console.log("✅ Subject card CLICKED (addEventListener):", node.dataset.subject);
-      e.preventDefault();
-      e.stopPropagation();
-      handleSubjectClick(node);
-    }, false);
-    
-    // Method 2: Direct onclick backup
-    node.onclick = (e) => {
-      console.log("🔘 Subject onclick fired:", node.dataset.subject);
-      handleSubjectClick(node);
-    };
-  });
-  
-  console.log("✅ All subject card listeners attached!");
-  
   // Level up continue button
   const levelUpBtn = document.querySelector(".level-up-continue");
   if (levelUpBtn) {
@@ -3390,7 +3362,7 @@ function initApp() {
       closeLevelUp();
     });
   }
-  
+
   // Close celebration overlay when clicked
   const celebrationOverlay = $("#celebrationOverlay");
   if (celebrationOverlay) {
@@ -3398,7 +3370,7 @@ function initApp() {
       celebrationOverlay.classList.remove("active");
     });
   }
-  
+
   // Resize confetti canvas on window resize
   window.addEventListener("resize", () => {
     const canvas = $("#confettiCanvas");
@@ -3407,5 +3379,11 @@ function initApp() {
       canvas.height = window.innerHeight;
     }
   });
-  
+}
+
+// Ensure initApp runs after DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
 }
