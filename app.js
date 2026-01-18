@@ -1916,6 +1916,30 @@ function showCelebration(type = "correct", xpGained = 8) {
     text.textContent = `Level ${level}!`;
     xpText.textContent = "Keep going!";
     createConfetti();
+  } else if (type === "incorrect") {
+    // Create Blu Bot container for incorrect answer
+    const blubotContainer = document.createElement('div');
+    blubotContainer.className = 'blubot-container';
+    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+    // Add Blu Bot SVG (study mood)
+    const blubot = createBluBot('study');
+    blubotContainer.appendChild(blubot);
+    // Add speech bubble
+    const speech = document.createElement('div');
+    speech.className = 'blubot-speech';
+    const messages = [
+      "Keep going! You'll get it! 💪",
+      "Try again! You're close! 📚",
+      "Don't give up! Practice makes perfect! ⭐",
+      "Review and retry! You got this! 🎯"
+    ];
+    speech.textContent = messages[Math.floor(Math.random() * messages.length)];
+    blubotContainer.appendChild(speech);
+    // Insert before other content
+    content.insertBefore(blubotContainer, content.firstChild);
+    icon.textContent = "";
+    text.textContent = "Keep trying!";
+    xpText.textContent = `+0 XP`;
   }
   
   overlay.classList.add("active");
@@ -2049,6 +2073,123 @@ function createBluBot(mood = 'celebrate') {
     foot2.setAttribute("rx", "8");
     foot2.setAttribute("ry", "4");
     foot2.setAttribute("fill", "#2a5a8f");
+    svg.appendChild(foot2);
+  } else if (mood === 'study') {
+    // Body
+    const body = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    body.setAttribute("x", "40");
+    body.setAttribute("y", "60");
+    body.setAttribute("width", "40");
+    body.setAttribute("height", "50");
+    body.setAttribute("fill", "#f4b65e");
+    body.setAttribute("stroke", "#9b7e3a");
+    body.setAttribute("stroke-width", "2");
+    body.setAttribute("rx", "2");
+    svg.appendChild(body);
+    
+    // Head
+    const head = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    head.setAttribute("x", "35");
+    head.setAttribute("y", "30");
+    head.setAttribute("width", "50");
+    head.setAttribute("height", "30");
+    head.setAttribute("fill", "#f4b65e");
+    head.setAttribute("stroke", "#9b7e3a");
+    head.setAttribute("stroke-width", "2");
+    head.setAttribute("rx", "2");
+    svg.appendChild(head);
+    
+    // Antenna
+    const antenna = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    antenna.setAttribute("x1", "60");
+    antenna.setAttribute("y1", "30");
+    antenna.setAttribute("x2", "60");
+    antenna.setAttribute("y2", "20");
+    antenna.setAttribute("stroke", "#9b7e3a");
+    antenna.setAttribute("stroke-width", "2");
+    svg.appendChild(antenna);
+    
+    const antennaTip = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    antennaTip.setAttribute("cx", "60");
+    antennaTip.setAttribute("cy", "18");
+    antennaTip.setAttribute("r", "4");
+    antennaTip.setAttribute("fill", "#ffdd9a");
+    svg.appendChild(antennaTip);
+    
+    // Eyes (sad)
+    const eye1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    eye1.setAttribute("cx", "50");
+    eye1.setAttribute("cy", "45");
+    eye1.setAttribute("r", "3");
+    eye1.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye1);
+    
+    const eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    eye2.setAttribute("cx", "70");
+    eye2.setAttribute("cy", "45");
+    eye2.setAttribute("r", "3");
+    eye2.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye2);
+    
+    // Arms (down)
+    const arm1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm1.setAttribute("x", "20");
+    arm1.setAttribute("y", "55");
+    arm1.setAttribute("width", "18");
+    arm1.setAttribute("height", "8");
+    arm1.setAttribute("fill", "#f4b65e");
+    arm1.setAttribute("stroke", "#9b7e3a");
+    arm1.setAttribute("stroke-width", "2");
+    arm1.setAttribute("rx", "2");
+    svg.appendChild(arm1);
+    
+    const arm2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm2.setAttribute("x", "82");
+    arm2.setAttribute("y", "55");
+    arm2.setAttribute("width", "18");
+    arm2.setAttribute("height", "8");
+    arm2.setAttribute("fill", "#f4b65e");
+    arm2.setAttribute("stroke", "#9b7e3a");
+    arm2.setAttribute("stroke-width", "2");
+    arm2.setAttribute("rx", "2");
+    svg.appendChild(arm2);
+    
+    // Legs
+    const leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg1.setAttribute("x", "45");
+    leg1.setAttribute("y", "110");
+    leg1.setAttribute("width", "10");
+    leg1.setAttribute("height", "25");
+    leg1.setAttribute("fill", "#f4b65e");
+    leg1.setAttribute("stroke", "#9b7e3a");
+    leg1.setAttribute("stroke-width", "2");
+    svg.appendChild(leg1);
+    
+    const leg2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg2.setAttribute("x", "65");
+    leg2.setAttribute("y", "110");
+    leg2.setAttribute("width", "10");
+    leg2.setAttribute("height", "25");
+    leg2.setAttribute("fill", "#f4b65e");
+    leg2.setAttribute("stroke", "#9b7e3a");
+    leg2.setAttribute("stroke-width", "2");
+    svg.appendChild(leg2);
+    
+    // Feet
+    const foot1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot1.setAttribute("cx", "50");
+    foot1.setAttribute("cy", "138");
+    foot1.setAttribute("rx", "8");
+    foot1.setAttribute("ry", "4");
+    foot1.setAttribute("fill", "#9b7e3a");
+    svg.appendChild(foot1);
+    
+    const foot2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot2.setAttribute("cx", "70");
+    foot2.setAttribute("cy", "138");
+    foot2.setAttribute("rx", "8");
+    foot2.setAttribute("ry", "4");
+    foot2.setAttribute("fill", "#9b7e3a");
     svg.appendChild(foot2);
   }
   
@@ -2830,6 +2971,10 @@ function handleQuizClick(button, option, lesson) {
     pendingXp = 2;
     combo = 0; // Reset combo on wrong answer
     hintText.textContent = lesson.explanation || "Not quite. Review the content and try to think through the key concepts.";
+
+    setTimeout(() => {
+      showCelebration("incorrect", 0);
+    }, 300);
   }
 
   // Animate XP gain
@@ -3104,7 +3249,7 @@ function updateMetaForSubject(subject) {
     subjectChip.textContent = "Psychology · Strategy";
     unitChip.textContent = "Unit: Game Theory";
     lessonTitle.textContent = "Human Weirdness";
-    lessonSubtitle.textContent = "Game theory, cognitive biases, and why we're predictably irrational.";
+    lessonSubtitle textContent = "Game theory, cognitive biases, and why we're predictably irrational.";
     era = "Foundations";
     journalContent =
       "Game Theory Lab. Stamps for prisoner's dilemma, Nash equilibrium, anchoring bias, and sunk cost fallacy.";
@@ -3187,148 +3332,7 @@ function handleSubjectClick(node) {
   currentIndex = 0;
   activeSubject = subject;
   
-  console.log("🔄 NEW currentIndex:", currentIndex);
-  console.log("🔄 NEW activeSubject:", activeSubject);
-  
-  // Make sure we're on the Lesson tab
-  switchTab("lesson");
-  
-  // Check if subject has lesson content
-  const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "glaciers", "nuclear", "minerals", "humans", "biology", "apocalypse", "money", "blackholes"];
-  if (liveSubjects.includes(subject)) {
-    console.log("✅ Subject is live! Switching to:", subject);
-    
-    try {
-      updateMetaForSubject(subject);
-    } catch (error) {
-      console.error("❌ Error in updateMetaForSubject:", error);
-    }
-    
-    console.log("📝 About to render lesson at index:", currentIndex);
-    console.log("📚 Lessons for subject:", subjectLessons[subject]?.length);
-    console.log("🎯 First lesson:", subjectLessons[subject]?.[0]);
-    
-    // Render immediately, no need for requestAnimationFrame
-    renderLesson();
-    console.log("✅ Lesson rendered!");
-  } else {
-    console.warn("⚠️ Subject not in live list:", subject);
-    activeSubject = "economics"; // keep a safe base for data
-    updateMetaForSubject(subject);
-    const contentEl = $("#lessonContent");
-    contentEl.innerHTML =
-      "<p style='font-weight: 600; opacity: 0.9;'>Prototype mode: this subject will get its own lesson flow. For now, Economics City and Cosmic History are the ones that are alive.</p>";
-    $("#quizBlock").innerHTML = "";
-    const lessons = getCurrentLessons();
-    const progressLabel = $("#lessonProgressLabel");
-    const progressFill = $("#lessonProgressFill");
-    progressLabel.textContent = `0 / ${lessons.length}`;
-    progressFill.style.width = "0%";
-    
-    // Fade in the message
-    contentEl.style.opacity = '0';
-    setTimeout(() => {
-      contentEl.style.transition = 'opacity 0.4s ease-out';
-      contentEl.style.opacity = '1';
-    }, 50);
-  }
-}
-
-// Wait for DOM to be fully ready
-if (document.readyState === 'loading') {
-  document.addEventListener("DOMContentLoaded", initApp);
-} else {
-  initApp();
-}
-
-// === CATEGORY NAVIGATION ===
-let currentCategory = null;
-
-function showCategories() {
-  console.log("📁 Showing categories");
-  currentCategory = null;
-  
-  const categoryGrid = $("#categoryGrid");
-  const subjectGrid = $("#subjectGrid");
-  const breadcrumbSeparator = $("#breadcrumbSeparator");
-  const breadcrumbCurrent = $("#breadcrumbCurrent");
-  
-  // Show category grid, hide subject grid
-  categoryGrid.classList.remove("is-hidden");
-  subjectGrid.classList.add("is-hidden");
-  
-  // Update breadcrumb
-  breadcrumbSeparator.style.display = "none";
-  breadcrumbCurrent.textContent = "";
-  
-  // Clear and populate categories
-  categoryGrid.innerHTML = "";
-  Object.values(categories).forEach(cat => {
-    const node = document.createElement("button");
-    node.className = "world-node category-folder";
-    node.dataset.category = cat.id;
-    node.innerHTML = `
-      <div class="node-icon">${cat.icon}</div>
-      <div class="node-content">
-        <span class="node-title">${cat.title}</span>
-        <span class="node-subtitle">${cat.subtitle}</span>
-      </div>
-      <div class="folder-badge">${cat.subjects.length} topics</div>
-    `;
-    node.onclick = () => showCategorySubjects(cat.id);
-    categoryGrid.appendChild(node);
-  });
-}
-
-function showCategorySubjects(categoryId) {
-  console.log("📂 Opening category:", categoryId);
-  currentCategory = categoryId;
-  
-  const category = categories[categoryId];
-  const categoryGrid = $("#categoryGrid");
-  const subjectGrid = $("#subjectGrid");
-  const breadcrumbSeparator = $("#breadcrumbSeparator");
-  const breadcrumbCurrent = $("#breadcrumbCurrent");
-  
-  // Show subject grid, hide category grid
-  categoryGrid.classList.add("is-hidden");
-  subjectGrid.classList.remove("is-hidden");
-  
-  // Update breadcrumb
-  breadcrumbSeparator.style.display = "inline";
-  breadcrumbCurrent.textContent = category.title;
-  
-  // Clear and populate subjects
-  subjectGrid.innerHTML = "";
-  category.subjects.forEach(subjectId => {
-    const meta = subjectMeta[subjectId];
-    if (!meta) return; // Skip undefined subjects
-    const node = document.createElement("button");
-    node.className = `world-node world-node--${subjectId}`;
-    node.dataset.subject = subjectId;
-    node.innerHTML = `
-      <div class="node-icon">${meta.icon}</div>
-      <div class="node-content">
-        <span class="node-title">${meta.title}</span>
-        <span class="node-subtitle">${meta.subtitle}</span>
-      </div>
-      <div class="node-progress">
-        <div class="node-progress-bar" style="width: ${Math.floor(Math.random() * 50)}%;"></div>
-      </div>
-    `;
-    node.onclick = () => {
-      window.handleSubjectClickDirect && window.handleSubjectClickDirect(node);
-    };
-    subjectGrid.appendChild(node);
-  });
-}
-
-
-// Make functions globally accessible
-window.showCategories = showCategories;
-window.showCategorySubjects = showCategorySubjects;
-
-function initApp() {
+  console
   // Initialize game UI
   updateGameUI();
 
