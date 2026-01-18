@@ -3339,13 +3339,13 @@ window.showCategorySubjects = showCategorySubjects;
 function initApp() {
   // Initialize game UI
   updateGameUI();
-  
-  // Show categories on startup
+
+  // Show categories on startup (restores subject folders)
   showCategories();
-  
-  // Start with economics wired (but don't navigate to it yet)
-  updateMetaForSubject("economics");
-  renderLesson();
+
+  // Optionally, do not auto-render a lesson here unless a subject is selected
+  // updateMetaForSubject("economics");
+  // renderLesson();
 
   // Next button
   const nextBtn = document.getElementById("nextBtn");
