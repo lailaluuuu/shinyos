@@ -3501,16 +3501,8 @@ function initApp() {
   // Initialize game UI
   updateGameUI();
 
-  // Show all subjects for all categories on startup
-  showAllSubjects();
-
-  // Ensure subject grid is visible on overlay close (Blu Bot/celebration)
-  document.body.addEventListener("click", function (e) {
-    const overlay = document.getElementById("celebrationOverlay");
-    if (!overlay && document.getElementById("subjectGrid")) {
-      document.getElementById("subjectGrid").classList.remove("is-hidden");
-    }
-  });
+  // Show categories on startup
+  showCategories();
 
   // Optionally, clear the lesson panel until a subject is selected
   document.getElementById("lessonTitle").textContent = "";
