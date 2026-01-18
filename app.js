@@ -3317,8 +3317,16 @@ function showCategorySubjects(categoryId) {
         <div class="node-progress-bar" style="width: ${Math.floor(Math.random() * 50)}%;"></div>
       </div>
     `;
-    node.onclick = () => {
-      window.handleSubjectClickDirect && window.handleSubjectClickDirect(node);
+    // Attach both event listeners as in initApp
+    node.addEventListener("click", (e) => {
+      console.log("✅ Subject card CLICKED (addEventListener):", node.dataset.subject);
+      e.preventDefault();
+      e.stopPropagation();
+      handleSubjectClick(node);
+    }, false);
+    node.onclick = (e) => {
+      console.log("🔘 Subject onclick fired:", node.dataset.subject);
+      handleSubjectClick(node);
     };
     subjectGrid.appendChild(node);
   });
