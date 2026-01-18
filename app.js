@@ -2124,7 +2124,7 @@ function createBluBot(mood = 'celebrate') {
     svg.appendChild(arm2);
 
     // Legs
-    const leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    var leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     leg1.setAttribute("x", "45");
     leg1.setAttribute("y", "110");
     leg1.setAttribute("width", "10");
@@ -2134,7 +2134,7 @@ function createBluBot(mood = 'celebrate') {
     leg1.setAttribute("stroke-width", "2");
     svg.appendChild(leg1);
 
-    const leg2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    var leg2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     leg2.setAttribute("x", "65");
     leg2.setAttribute("y", "110");
     leg2.setAttribute("width", "10");
@@ -2145,7 +2145,7 @@ function createBluBot(mood = 'celebrate') {
     svg.appendChild(leg2);
 
     // Feet
-    const foot1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    var foot1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
     foot1.setAttribute("cx", "50");
     foot1.setAttribute("cy", "138");
     foot1.setAttribute("rx", "8");
@@ -2153,7 +2153,7 @@ function createBluBot(mood = 'celebrate') {
     foot1.setAttribute("fill", "#2a5a8f");
     svg.appendChild(foot1);
 
-    const foot2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    var foot2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
     foot2.setAttribute("cx", "70");
     foot2.setAttribute("cy", "138");
     foot2.setAttribute("rx", "8");
