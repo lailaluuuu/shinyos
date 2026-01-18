@@ -1384,10 +1384,6 @@ function renderLesson() {
     return;
   }
   
-  // Force clear everything first
-  contentEl.innerHTML = "";
-  quizBlock.innerHTML = "";
-
   // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
   const pct = ((currentIndex + 1) / lessons.length) * 100;
@@ -1398,16 +1394,11 @@ function renderLesson() {
   pendingXpEl.textContent = "0";
   hintText.textContent = "Tap an answer to check your understanding.";
 
-  // Add fade-in effect
-  contentEl.style.opacity = '0';
-  quizBlock.style.opacity = '0';
-  
-  setTimeout(() => {
-    contentEl.style.transition = 'opacity 0.4s ease-out';
-    quizBlock.style.transition = 'opacity 0.4s ease-out';
-    contentEl.style.opacity = '1';
-    quizBlock.style.opacity = '1';
-  }, 50);
+  // Force clear and reset opacity
+  contentEl.innerHTML = "";
+  quizBlock.innerHTML = "";
+  contentEl.style.opacity = '1';
+  quizBlock.style.opacity = '1';
 
   // Render content vs quiz
   console.log("🎨 Rendering lesson type:", actualLesson.type);
@@ -1433,16 +1424,7 @@ function renderLesson() {
     actualLesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
       p.innerHTML = formatLessonText(text);
-      p.style.opacity = '0';
-      p.style.transform = 'translateY(10px)';
       contentEl.appendChild(p);
-      
-      // Staggered entrance animation
-      setTimeout(() => {
-        p.style.transition = 'opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        p.style.opacity = '1';
-        p.style.transform = 'translateY(0)';
-      }, 150 + index * 150);
     });
   } else if (actualLesson.type === "quiz") {
     console.log("❓ Rendering quiz lesson");
@@ -1472,10 +1454,6 @@ function renderLesson() {
       const btn = document.createElement("button");
       btn.className = "quiz-option";
       btn.dataset.optionId = opt.id;
-      
-      // Staggered entrance for quiz options
-      btn.style.opacity = '0';
-      btn.style.transform = 'translateX(-10px)';
 
       const textSpan = document.createElement("span");
       textSpan.textContent = opt.text;
@@ -1492,13 +1470,6 @@ function renderLesson() {
       });
 
       optionsWrapper.appendChild(btn);
-      
-      // Animate in
-      setTimeout(() => {
-        btn.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        btn.style.opacity = '1';
-        btn.style.transform = 'translateX(0)';
-      }, 200 + index * 80);
     });
 
     quizBlock.appendChild(optionsWrapper);
@@ -1531,8 +1502,6 @@ function renderLesson() {
       const btn = document.createElement("button");
       btn.className = "quiz-option";
       btn.dataset.optionId = opt.id;
-      btn.style.opacity = '0';
-      btn.style.transform = 'translateX(-10px)';
 
       const textSpan = document.createElement("span");
       textSpan.textContent = opt.text;
@@ -1549,12 +1518,6 @@ function renderLesson() {
       });
 
       optionsWrapper.appendChild(btn);
-
-      setTimeout(() => {
-        btn.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        btn.style.opacity = '1';
-        btn.style.transform = 'translateX(0)';
-      }, 200 + index * 80);
     });
 
     quizBlock.appendChild(optionsWrapper);
