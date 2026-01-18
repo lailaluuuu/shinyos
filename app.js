@@ -2977,54 +2977,53 @@ function updateMetaForSubject(subject) {
     unitChip.textContent = "Unit: Planned Economies";
     lessonTitle.textContent = "Planned Economies";
     lessonSubtitle.textContent = "When the state takes the steering wheel of the market.";
-    era = "Foundations";
-    journalContent = "Economics City · Markets. Stamps for planned vs market systems, tiny city diagrams, and your one-line notes on who sets prices.";
-    missionsContent = "Soon: run a tiny model of a planned economy vs a market economy and watch queues, surpluses, and growth change your city.";
-  } else if (subject === "space") {
-    subjectChip.textContent = "Cosmic History · Space Race";
-    unitChip.textContent = "Unit: The Space Race";
-    lessonTitle.textContent = "The Space Race";
-    lessonSubtitle.textContent = "When rockets, politics, and prestige left the atmosphere.";
-    era = "Modern";
-    journalContent =
-      "Cosmic History · Space Race. Stamps for Sputnik, Gagarin, Apollo 11, and your notes on why space mattered in the Cold War.";
-    missionsContent =
-      "Soon: choose which missions to fund as a Cold War leader and see how your space strategy shifts global prestige.";
-  } else if (subject === "psych") {
-    subjectChip.textContent = "Psychology · Mind";
-    unitChip.textContent = "Unit: Cognitive Biases";
-    lessonTitle.textContent = "Cognitive Biases";
-    lessonSubtitle.textContent = "Mental shortcuts that quietly run your life.";
-    era = "Foundations";
-    journalContent =
-      "Psychology Quarter · Mind. Stamps for confirmation bias, availability heuristic, and notes on how your brain takes shortcuts.";
-    missionsContent =
-      "Soon: test your own biases in simulated scenarios and see how they shape your decisions in real time.";
-  } else if (subject === "maths") {
-    subjectChip.textContent = "Technology · Systems";
-    unitChip.textContent = "Unit: Path Dependence";
-    lessonTitle.textContent = "Why QWERTY Exists";
-    lessonSubtitle.textContent = "When 'good enough first' beats 'better later.'";
-    era = "Modern";
-    journalContent =
-      "Technology Grid · Systems. Stamps for QWERTY, lock-in effects, and your notes on why inferior standards persist.";
-    missionsContent =
-      "Soon: run a market simulation where you choose between competing standards and watch path dependence unfold.";
-  } else if (subject === "history") {
-    subjectChip.textContent = "History · Empires";
-    unitChip.textContent = "Unit: Why Empires Collapse";
-    lessonTitle.textContent = "Empire Collapse";
-    lessonSubtitle.textContent = "Patterns that repeat from Rome to modern states.";
-    era = "Ancient";
-    journalContent =
-      "History Port · Empires. Stamps for Rome, Ottoman decline, and notes on overstretch and internal decay.";
-    missionsContent =
-      "Soon: manage an empire's resources and borders, then watch the consequences of your expansion choices.";
-  } else if (subject === "science") {
-    subjectChip.textContent = "Science · Mind-Body";
-    unitChip.textContent = "Unit: The Placebo Effect";
-    lessonTitle.textContent = "The Placebo Effect";
-    lessonSubtitle.textContent = "When expectation becomes biology.";
+    // Lock all options
+    const allOptions = document.querySelectorAll(".quiz-option");
+    allOptions.forEach((btn) => {
+      btn.disabled = true;
+      btn.classList.remove("correct", "incorrect");
+      const indicator = btn.querySelector(".option-indicator");
+      if (indicator) indicator.textContent = "○";
+    });
+
+    const hintText = $("#hintText");
+    const pendingXpEl = $("#pendingXp");
+  
+    if (!hintText || !pendingXpEl) return;
+
+    if (option.correct) {
+      button.classList.add("correct");
+      const indicator = button.querySelector(".option-indicator");
+      if (indicator) indicator.textContent = "✓";
+
+      pendingXp = 8;
+      combo++;
+      totalCorrect++;
+    
+      hintText.innerHTML = `<strong style="color: #35c27e;">✓ Correct!</strong><br/><em style="color: var(--text-muted);">${lesson.explanation}</em>`;
+
+      // Always show Blu Bot celebration immediately
+      showCelebration("correct", pendingXp);
+    } else {
+      button.classList.add("incorrect");
+      const indicator = button.querySelector(".option-indicator");
+      if (indicator) indicator.textContent = "✗";
+
+      pendingXp = 2;
+      combo = 0;
+    
+      hintText.innerHTML = `<strong style="color: #ff7b7b;">✗ Incorrect</strong><br/><em style="color: var(--text-muted);">${lesson.explanation}</em>`;
+    }
+
+    xp += pendingXp;
+    updateGameUI();
+  
+    pendingXpEl.style.transform = 'scale(1.3)';
+    pendingXpEl.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    setTimeout(() => {
+      pendingXpEl.textContent = `+${pendingXp}`;
+      pendingXpEl.style.transform = 'scale(1)';
+    }, 50);
     era = "Modern";
     journalContent =
       "Science Lab · Mind-Body. Stamps for placebo mechanisms, pain studies, and notes on how belief shapes reality.";
