@@ -3343,9 +3343,15 @@ function initApp() {
   // Show categories on startup (restores subject folders)
   showCategories();
 
-  // Optionally, do not auto-render a lesson here unless a subject is selected
-  // updateMetaForSubject("economics");
-  // renderLesson();
+  // Clear lesson panel until a subject is selected
+  document.getElementById("lessonTitle").textContent = "";
+  document.getElementById("lessonSubtitle").textContent = "";
+  document.getElementById("lessonProgressLabel").textContent = "";
+  document.getElementById("lessonProgressFill").style.width = "0%";
+  document.getElementById("lessonContent").innerHTML = "";
+  document.getElementById("quizBlock").innerHTML = "";
+  document.getElementById("subjectChip").textContent = "";
+  document.getElementById("unitChip").textContent = "";
 
   // Next button
   const nextBtn = document.getElementById("nextBtn");
