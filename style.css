@@ -950,6 +950,27 @@ body::after {
   color: #fff;
 }
 
+/* Text highlighting classes */
+.highlight-text {
+  color: #ffdd9a;
+  font-weight: 700;
+}
+
+.highlight-quote {
+  color: #4ea2ff;
+  font-weight: 600;
+}
+
+.highlight-year {
+  color: #f4b65e;
+  font-weight: 700;
+}
+
+.highlight-percent {
+  color: #35c27e;
+  font-weight: 700;
+}
+
 /* Quiz */
 .quiz-block {
   margin-top: 10px;

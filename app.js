@@ -1340,14 +1340,14 @@ function $(selector) {
 // Format lesson text with emphasis and visual highlights
 function formatLessonText(text) {
   // Bold text between ** markers
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffdd9a; font-weight: 700;">$1</strong>');
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="highlight-text">$1</strong>');
   
   // Highlight key terms in quotes
-  text = text.replace(/"([^"]+)"/g, '<span style="color: #4ea2ff; font-weight: 600;">"$1"</span>');
+  text = text.replace(/"([^"]+)"/g, '<span class="highlight-quote">"$1"</span>');
   
   // Emphasize numbers and dates
-  text = text.replace(/\b(\d{4})\b/g, '<span style="color: #f4b65e; font-weight: 700;">$1</span>');
-  text = text.replace(/\b(\d+%)\b/g, '<span style="color: #35c27e; font-weight: 700;">$1</span>');
+  text = text.replace(/\b(\d{4})\b/g, '<span class="highlight-year">$1</span>');
+  text = text.replace(/\b(\d+%)\b/g, '<span class="highlight-percent">$1</span>');
   
   return text;
 }
@@ -1592,6 +1592,7 @@ function renderLesson() {
 
     actualLesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
+      p.style.cssText = "margin-bottom: 18px; line-height: 1.8;";
       p.innerHTML = formatLessonText(text);
       contentEl.appendChild(p);
       console.log(`✅ Paragraph ${index + 1} appended`);
