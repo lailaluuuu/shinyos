@@ -1355,14 +1355,22 @@ function renderLesson() {
   const lessons = getCurrentLessons();
   console.log("Got lessons:", lessons.length);
   
-  const lesson = lessons[currentIndex] || lessons[0];
+  const lesson = lessons[currentIndex];
   if (!lesson) {
-    console.error("❌ No lesson found!");
-    return;
+    console.error("❌ No lesson found at index", currentIndex);
+    console.error("Available lessons:", lessons.length);
+    console.error("Trying to fallback to index 0");
+    currentIndex = 0; // Force reset to first lesson
+    const fallbackLesson = lessons[0];
+    if (!fallbackLesson) {
+      console.error("❌ No lesson at index 0 either!");
+      return;
+    }
   }
   
-  console.log("Rendering lesson type:", lesson.type);
-  console.log("Lesson title/question:", lesson.title || lesson.question);
+  const actualLesson = lessons[currentIndex];
+  console.log("Rendering lesson type:", actualLesson.type);
+  console.log("Lesson title/question:", actualLesson.title || actualLesson.question);
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -1375,6 +1383,10 @@ function renderLesson() {
     console.error("❌ Missing UI elements!");
     return;
   }
+  
+  // Force clear everything first
+  contentEl.innerHTML = "";
+  quizBlock.innerHTML = "";
 
   // Update progress with animation
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
@@ -1398,14 +1410,12 @@ function renderLesson() {
   }, 50);
 
   // Render content vs quiz
-  console.log("🎨 Rendering lesson type:", lesson.type);
+  console.log("🎨 Rendering lesson type:", actualLesson.type);
   
-  if (lesson.type === "content") {
+  if (actualLesson.type === "content") {
     console.log("📄 Rendering content lesson");
-    quizBlock.innerHTML = "";
-    contentEl.innerHTML = "";
 
-    if (lesson.title) {
+    if (actualLesson.title) {
       const titleP = document.createElement("div");
       titleP.style.fontSize = "20px";
       titleP.style.fontWeight = "800";
@@ -1416,11 +1426,11 @@ function renderLesson() {
       titleP.style.webkitTextFillColor = "transparent";
       titleP.style.backgroundClip = "text";
       titleP.style.letterSpacing = "-0.01em";
-      titleP.textContent = lesson.title;
+      titleP.textContent = actualLesson.title;
       contentEl.appendChild(titleP);
     }
 
-    lesson.paragraphs.forEach((text, index) => {
+    actualLesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
       p.innerHTML = formatLessonText(text);
       p.style.opacity = '0';
@@ -1434,10 +1444,9 @@ function renderLesson() {
         p.style.transform = 'translateY(0)';
       }, 150 + index * 150);
     });
-  } else if (lesson.type === "quiz") {
+  } else if (actualLesson.type === "quiz") {
     console.log("❓ Rendering quiz lesson");
     // Simple intro content
-    contentEl.innerHTML = "";
     const intro = document.createElement("div");
     intro.innerHTML = '<span style="font-size: 24px; margin-right: 8px;">💡</span><span style="font-weight: 700; font-size: 17px; color: #ffdd9a;">Time to test your knowledge!</span>';
     intro.style.display = "flex";
@@ -1446,8 +1455,6 @@ function renderLesson() {
     contentEl.appendChild(intro);
 
     // Render quiz
-    quizBlock.innerHTML = "";
-
     const label = document.createElement("div");
     label.className = "quiz-label";
     label.textContent = "Quiz";
@@ -1455,13 +1462,13 @@ function renderLesson() {
 
     const q = document.createElement("div");
     q.className = "quiz-question";
-    q.textContent = lesson.question;
+    q.textContent = actualLesson.question;
     quizBlock.appendChild(q);
 
     const optionsWrapper = document.createElement("div");
     optionsWrapper.className = "quiz-options";
 
-    lesson.options.forEach((opt, index) => {
+    actualLesson.options.forEach((opt, index) => {
       const btn = document.createElement("button");
       btn.className = "quiz-option";
       btn.dataset.optionId = opt.id;
@@ -1481,7 +1488,7 @@ function renderLesson() {
       btn.appendChild(indicator);
 
       btn.addEventListener("click", () => {
-        handleQuizClick(btn, opt, lesson);
+        handleQuizClick(btn, opt, actualLesson);
       });
 
       optionsWrapper.appendChild(btn);
@@ -1495,21 +1502,18 @@ function renderLesson() {
     });
 
     quizBlock.appendChild(optionsWrapper);
-  } else if (lesson.type === "scenario") {
+  } else if (actualLesson.type === "scenario") {
     console.log("🎯 Rendering scenario lesson");
-    console.log("Scenario question:", lesson.question);
-    console.log("Number of options:", lesson.options?.length);
+    console.log("Scenario question:", actualLesson.question);
+    console.log("Number of options:", actualLesson.options?.length);
     
     // Scenario-based decision making
-    contentEl.innerHTML = "";
-    
     const scenarioBox = document.createElement("div");
     scenarioBox.style.cssText = "background: linear-gradient(135deg, rgba(244, 182, 94, 0.15), rgba(0, 0, 0, 0.5)); padding: 20px; border-radius: 14px; border: 2px solid rgba(244, 182, 94, 0.4); margin-bottom: 16px;";
-    scenarioBox.innerHTML = `<div style="font-size: 16px; line-height: 1.6; color: #fff;">${lesson.scenario}</div>`;
+    scenarioBox.innerHTML = `<div style="font-size: 16px; line-height: 1.6; color: #fff;">${actualLesson.scenario}</div>`;
     contentEl.appendChild(scenarioBox);
 
     // Render quiz-style options
-    quizBlock.innerHTML = "";
     const label = document.createElement("div");
     label.className = "quiz-label";
     label.textContent = "Your Decision";
@@ -1517,13 +1521,13 @@ function renderLesson() {
 
     const q = document.createElement("div");
     q.className = "quiz-question";
-    q.textContent = lesson.question;
+    q.textContent = actualLesson.question;
     quizBlock.appendChild(q);
 
     const optionsWrapper = document.createElement("div");
     optionsWrapper.className = "quiz-options";
 
-    lesson.options.forEach((opt, index) => {
+    actualLesson.options.forEach((opt, index) => {
       const btn = document.createElement("button");
       btn.className = "quiz-option";
       btn.dataset.optionId = opt.id;
@@ -1541,7 +1545,7 @@ function renderLesson() {
       btn.appendChild(indicator);
 
       btn.addEventListener("click", () => {
-        handleScenarioClick(btn, opt, lesson);
+        handleScenarioClick(btn, opt, actualLesson);
       });
 
       optionsWrapper.appendChild(btn);
@@ -1554,19 +1558,16 @@ function renderLesson() {
     });
 
     quizBlock.appendChild(optionsWrapper);
-  } else if (lesson.type === "interactive-slider") {
+  } else if (actualLesson.type === "interactive-slider") {
     // Interactive slider lesson
-    contentEl.innerHTML = "";
-    quizBlock.innerHTML = "";
-
     const titleDiv = document.createElement("div");
     titleDiv.style.cssText = "font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #fff;";
-    titleDiv.textContent = lesson.title;
+    titleDiv.textContent = actualLesson.title;
     contentEl.appendChild(titleDiv);
 
     const questionDiv = document.createElement("div");
     questionDiv.style.cssText = "font-size: 16px; margin-bottom: 20px; color: var(--text-soft);";
-    questionDiv.textContent = lesson.question;
+    questionDiv.textContent = actualLesson.question;
     contentEl.appendChild(questionDiv);
 
     // Slider container
@@ -1575,27 +1576,27 @@ function renderLesson() {
 
     const slider = document.createElement("input");
     slider.type = "range";
-    slider.min = lesson.min;
-    slider.max = lesson.max;
-    slider.value = lesson.defaultValue;
+    slider.min = actualLesson.min;
+    slider.max = actualLesson.max;
+    slider.value = actualLesson.defaultValue;
     slider.style.cssText = "width: 100%; height: 8px; margin: 20px 0;";
 
     const labelDiv = document.createElement("div");
     labelDiv.style.cssText = "display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 600;";
-    labelDiv.innerHTML = `<span>${lesson.labels[lesson.min]}</span><span>${lesson.labels[50]}</span><span>${lesson.labels[lesson.max]}</span>`;
+    labelDiv.innerHTML = `<span>${actualLesson.labels[actualLesson.min]}</span><span>${actualLesson.labels[50]}</span><span>${actualLesson.labels[actualLesson.max]}</span>`;
 
     const resultDiv = document.createElement("div");
     resultDiv.style.cssText = "margin-top: 24px; padding: 20px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border-left: 4px solid #4ea2ff; font-size: 16px; line-height: 1.6;";
-    resultDiv.textContent = lesson.outcomes[lesson.defaultValue].text;
-    resultDiv.style.borderLeftColor = lesson.outcomes[lesson.defaultValue].color;
+    resultDiv.textContent = actualLesson.outcomes[actualLesson.defaultValue].text;
+    resultDiv.style.borderLeftColor = actualLesson.outcomes[actualLesson.defaultValue].color;
 
     slider.addEventListener("input", (e) => {
       const val = parseInt(e.target.value);
-      const closest = Object.keys(lesson.outcomes).reduce((prev, curr) =>
+      const closest = Object.keys(actualLesson.outcomes).reduce((prev, curr) =>
         Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
       );
-      resultDiv.textContent = lesson.outcomes[closest].text;
-      resultDiv.style.borderLeftColor = lesson.outcomes[closest].color;
+      resultDiv.textContent = actualLesson.outcomes[closest].text;
+      resultDiv.style.borderLeftColor = actualLesson.outcomes[closest].color;
     });
 
     sliderContainer.appendChild(labelDiv);
@@ -2022,20 +2023,21 @@ function handleSubjectClick(node) {
     node.style.animation = 'subtle-float 0.6s ease-out';
   }, 10);
 
+  // ALWAYS reset to first lesson when switching subjects
+  activeSubject = subject;
+  currentIndex = 0;
+  
   // Check if subject has lesson content
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "glaciers", "nuclear", "minerals", "humans", "biology", "apocalypse", "money", "blackholes"];
   if (liveSubjects.includes(subject)) {
     console.log("✅ Subject is live! Switching to:", subject);
-    activeSubject = subject;
-    currentIndex = 0;
     updateMetaForSubject(subject);
-    console.log("📝 About to render lesson...");
+    console.log("📝 About to render lesson at index:", currentIndex);
     renderLesson();
     console.log("✅ Lesson rendered!");
   } else {
     console.warn("⚠️ Subject not in live list:", subject);
     activeSubject = "economics"; // keep a safe base for data
-    currentIndex = 0; // Reset to first page even for placeholder subjects
     updateMetaForSubject(subject);
     const contentEl = $("#lessonContent");
     contentEl.innerHTML =
