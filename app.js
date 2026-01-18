@@ -1952,7 +1952,7 @@ function createBluBot(mood = 'celebrate') {
   svg.setAttribute("viewBox", "0 0 120 150");
   svg.setAttribute("width", "120");
   svg.setAttribute("height", "150");
-  svg.setAttribute("class", "blubot-character");
+  svg.style.cssText = "display: block; margin: 0 auto;";
   
   console.log("✅ SVG element created");
   
@@ -2392,14 +2392,6 @@ function renderLesson() {
           
           // Disable all buttons
           optionsWrapper.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
-          
-          // Show celebration for correct answers
-          if (opt.correct) {
-            console.log("🎉 Final quiz correct answer - showing Blu Bot celebration");
-            setTimeout(() => {
-              showCelebration("correct", 10);
-            }, 300);
-          }
           
           // Show explanation
           const explanationDiv = document.createElement("div");
