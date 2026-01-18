@@ -1867,15 +1867,15 @@ function showCelebration(type = "correct", xpGained = 8) {
   if (oldBluBot) oldBluBot.remove();
   
   if (type === "correct") {
-    // Create Blu Bot container
+    // Create Blu Bot container (happy)
     const blubotContainer = document.createElement('div');
     blubotContainer.className = 'blubot-container';
     blubotContainer.style.cssText = 'margin-bottom: 20px;';
-    
-    // Add Blu Bot SVG
+
+    // Add Blu Bot SVG (happy)
     const blubot = createBluBot('celebrate');
     blubotContainer.appendChild(blubot);
-    
+
     // Add speech bubble
     const speech = document.createElement('div');
     speech.className = 'blubot-speech';
@@ -1888,14 +1888,43 @@ function showCelebration(type = "correct", xpGained = 8) {
     ];
     speech.textContent = messages[Math.floor(Math.random() * messages.length)];
     blubotContainer.appendChild(speech);
-    
+
     // Insert before other content
     content.insertBefore(blubotContainer, content.firstChild);
-    
+
     icon.textContent = "";
     text.textContent = ["Awesome!", "Perfect!", "Brilliant!", "Amazing!", "Nailed it!"][Math.floor(Math.random() * 5)];
     xpText.textContent = `+${xpGained} XP`;
     createConfetti();
+  } else if (type === "sad") {
+    // Create Blu Bot container (sad)
+    const blubotContainer = document.createElement('div');
+    blubotContainer.className = 'blubot-container';
+    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+
+    // Add Blu Bot SVG (sad)
+    const blubot = createBluBot('sad');
+    blubotContainer.appendChild(blubot);
+
+    // Add speech bubble
+    const speech = document.createElement('div');
+    speech.className = 'blubot-speech';
+    const messages = [
+      "Oops! Not quite. 😢",
+      "Don't give up! Try again!",
+      "Almost! You'll get it next time.",
+      "Keep going, you can do it!",
+      "Blu Bot believes in you! 💙"
+    ];
+    speech.textContent = messages[Math.floor(Math.random() * messages.length)];
+    blubotContainer.appendChild(speech);
+
+    // Insert before other content
+    content.insertBefore(blubotContainer, content.firstChild);
+
+    icon.textContent = "";
+    text.textContent = ["Try again!", "Almost!", "Keep going!", "Don't give up!", "You got this!"][Math.floor(Math.random() * 5)];
+    xpText.textContent = ``;
   } else if (type === "levelup") {
     // Create Blu Bot container for level up
     const blubotContainer = document.createElement('div');
@@ -1982,14 +2011,14 @@ function createBluBot(mood = 'celebrate') {
     eye1.setAttribute("r", "3");
     eye1.setAttribute("fill", "#1a1a1a");
     svg.appendChild(eye1);
-    
+
     const eye2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     eye2.setAttribute("cx", "70");
     eye2.setAttribute("cy", "45");
     eye2.setAttribute("r", "3");
     eye2.setAttribute("fill", "#1a1a1a");
     svg.appendChild(eye2);
-    
+
     // Arms (raised)
     const arm1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     arm1.setAttribute("x", "20");
@@ -2001,7 +2030,7 @@ function createBluBot(mood = 'celebrate') {
     arm1.setAttribute("stroke-width", "2");
     arm1.setAttribute("rx", "2");
     svg.appendChild(arm1);
-    
+
     const arm2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     arm2.setAttribute("x", "82");
     arm2.setAttribute("y", "55");
@@ -2012,6 +2041,133 @@ function createBluBot(mood = 'celebrate') {
     arm2.setAttribute("stroke-width", "2");
     arm2.setAttribute("rx", "2");
     svg.appendChild(arm2);
+  } else if (mood === 'sad') {
+    // Body
+    const body = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    body.setAttribute("x", "40");
+    body.setAttribute("y", "60");
+    body.setAttribute("width", "40");
+    body.setAttribute("height", "50");
+    body.setAttribute("fill", "#4ea2ff");
+    body.setAttribute("stroke", "#2a5a8f");
+    body.setAttribute("stroke-width", "2");
+    body.setAttribute("rx", "2");
+    svg.appendChild(body);
+
+    // Head
+    const head = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    head.setAttribute("x", "35");
+    head.setAttribute("y", "30");
+    head.setAttribute("width", "50");
+    head.setAttribute("height", "30");
+    head.setAttribute("fill", "#4ea2ff");
+    head.setAttribute("stroke", "#2a5a8f");
+    head.setAttribute("stroke-width", "2");
+    head.setAttribute("rx", "2");
+    svg.appendChild(head);
+
+    // Antenna
+    const antenna = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    antenna.setAttribute("x1", "60");
+    antenna.setAttribute("y1", "30");
+    antenna.setAttribute("x2", "60");
+    antenna.setAttribute("y2", "20");
+    antenna.setAttribute("stroke", "#2a5a8f");
+    antenna.setAttribute("stroke-width", "2");
+    svg.appendChild(antenna);
+
+    const antennaTip = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    antennaTip.setAttribute("cx", "60");
+    antennaTip.setAttribute("cy", "18");
+    antennaTip.setAttribute("r", "4");
+    antennaTip.setAttribute("fill", "#ffdd9a");
+    svg.appendChild(antennaTip);
+
+    // Eyes (sad)
+    const eye1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    eye1.setAttribute("cx", "50");
+    eye1.setAttribute("cy", "48");
+    eye1.setAttribute("rx", "3");
+    eye1.setAttribute("ry", "2");
+    eye1.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye1);
+
+    const eye2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    eye2.setAttribute("cx", "70");
+    eye2.setAttribute("cy", "48");
+    eye2.setAttribute("rx", "3");
+    eye2.setAttribute("ry", "2");
+    eye2.setAttribute("fill", "#1a1a1a");
+    svg.appendChild(eye2);
+
+    // Arms (down)
+    const arm1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm1.setAttribute("x", "20");
+    arm1.setAttribute("y", "90");
+    arm1.setAttribute("width", "18");
+    arm1.setAttribute("height", "8");
+    arm1.setAttribute("fill", "#4ea2ff");
+    arm1.setAttribute("stroke", "#2a5a8f");
+    arm1.setAttribute("stroke-width", "2");
+    arm1.setAttribute("rx", "2");
+    svg.appendChild(arm1);
+
+    const arm2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    arm2.setAttribute("x", "82");
+    arm2.setAttribute("y", "90");
+    arm2.setAttribute("width", "18");
+    arm2.setAttribute("height", "8");
+    arm2.setAttribute("fill", "#4ea2ff");
+    arm2.setAttribute("stroke", "#2a5a8f");
+    arm2.setAttribute("stroke-width", "2");
+    arm2.setAttribute("rx", "2");
+    svg.appendChild(arm2);
+
+    // Legs
+    const leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg1.setAttribute("x", "45");
+    leg1.setAttribute("y", "110");
+    leg1.setAttribute("width", "10");
+    leg1.setAttribute("height", "25");
+    leg1.setAttribute("fill", "#4ea2ff");
+    leg1.setAttribute("stroke", "#2a5a8f");
+    leg1.setAttribute("stroke-width", "2");
+    svg.appendChild(leg1);
+
+    const leg2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    leg2.setAttribute("x", "65");
+    leg2.setAttribute("y", "110");
+    leg2.setAttribute("width", "10");
+    leg2.setAttribute("height", "25");
+    leg2.setAttribute("fill", "#4ea2ff");
+    leg2.setAttribute("stroke", "#2a5a8f");
+    leg2.setAttribute("stroke-width", "2");
+    svg.appendChild(leg2);
+
+    // Feet
+    const foot1 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot1.setAttribute("cx", "50");
+    foot1.setAttribute("cy", "138");
+    foot1.setAttribute("rx", "8");
+    foot1.setAttribute("ry", "4");
+    foot1.setAttribute("fill", "#2a5a8f");
+    svg.appendChild(foot1);
+
+    const foot2 = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    foot2.setAttribute("cx", "70");
+    foot2.setAttribute("cy", "138");
+    foot2.setAttribute("rx", "8");
+    foot2.setAttribute("ry", "4");
+    foot2.setAttribute("fill", "#2a5a8f");
+    svg.appendChild(foot2);
+
+    // Sad mouth
+    const mouth = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    mouth.setAttribute("d", "M52 60 Q60 55 68 60");
+    mouth.setAttribute("stroke", "#1a1a1a");
+    mouth.setAttribute("stroke-width", "2");
+    mouth.setAttribute("fill", "none");
+    svg.appendChild(mouth);
     
     // Legs
     const leg1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -2360,20 +2516,27 @@ function renderLesson() {
         btn.addEventListener("click", () => {
           // Record answer
           userAnswers[qIndex] = opt.correct;
-          
+
           // Visual feedback
           btn.classList.add(opt.correct ? "correct" : "incorrect");
           indicator.textContent = opt.correct ? "✓" : "✗";
-          
+
           // Disable all buttons
           optionsWrapper.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
-          
+
           // Show explanation
           const explanationDiv = document.createElement("div");
           explanationDiv.style.cssText = "margin-top: 16px; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 12px; border-left: 4px solid " + (opt.correct ? "#64e892" : "#ff7b7b");
           explanationDiv.innerHTML = formatLessonText(question.explanation);
           quizBlock.appendChild(explanationDiv);
-          
+
+          // Show Blu Bot after every answer: happy for correct, sad for incorrect
+          if (opt.correct) {
+            showCelebration("correct", 8);
+          } else {
+            showCelebration("sad", 0);
+          }
+
           // Next question button
           const nextBtn = document.createElement("button");
           nextBtn.textContent = qIndex < actualLesson.questions.length - 1 ? "Next Question →" : "See Results";
