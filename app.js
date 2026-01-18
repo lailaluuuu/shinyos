@@ -1355,22 +1355,27 @@ function renderLesson() {
   const lessons = getCurrentLessons();
   console.log("Got lessons:", lessons.length);
   
-  const lesson = lessons[currentIndex];
-  if (!lesson) {
-    console.error("❌ No lesson found at index", currentIndex);
-    console.error("Available lessons:", lessons.length);
-    console.error("Trying to fallback to index 0");
-    currentIndex = 0; // Force reset to first lesson
-    const fallbackLesson = lessons[0];
-    if (!fallbackLesson) {
-      console.error("❌ No lesson at index 0 either!");
-      return;
-    }
+  if (!lessons || lessons.length === 0) {
+    console.error("❌ No lessons available for subject:", activeSubject);
+    return;
+  }
+  
+  // Ensure currentIndex is valid
+  if (currentIndex < 0 || currentIndex >= lessons.length) {
+    console.warn("⚠️ Invalid currentIndex:", currentIndex, "Resetting to 0");
+    currentIndex = 0;
   }
   
   const actualLesson = lessons[currentIndex];
+  
+  if (!actualLesson) {
+    console.error("❌ No lesson found at index", currentIndex);
+    return;
+  }
+  
   console.log("Rendering lesson type:", actualLesson.type);
   console.log("Lesson title/question:", actualLesson.title || actualLesson.question);
+  console.log("Lesson data:", actualLesson);
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -1405,6 +1410,8 @@ function renderLesson() {
   
   if (actualLesson.type === "content") {
     console.log("📄 Rendering content lesson");
+    console.log("Title:", actualLesson.title);
+    console.log("Paragraphs:", actualLesson.paragraphs?.length);
 
     if (actualLesson.title) {
       const titleP = document.createElement("div");
@@ -1419,13 +1426,18 @@ function renderLesson() {
       titleP.style.letterSpacing = "-0.01em";
       titleP.textContent = actualLesson.title;
       contentEl.appendChild(titleP);
+      console.log("✅ Title appended to contentEl");
     }
 
     actualLesson.paragraphs.forEach((text, index) => {
       const p = document.createElement("p");
       p.innerHTML = formatLessonText(text);
       contentEl.appendChild(p);
+      console.log(`✅ Paragraph ${index + 1} appended`);
     });
+    
+    console.log("📊 Final contentEl.children.length:", contentEl.children.length);
+    console.log("📊 Final contentEl.innerHTML length:", contentEl.innerHTML.length);
   } else if (actualLesson.type === "quiz") {
     console.log("❓ Rendering quiz lesson");
     // Simple intro content
@@ -1990,14 +2002,23 @@ function handleSubjectClick(node) {
   activeSubject = subject;
   currentIndex = 0;
   
+  // Make sure we're on the Lesson tab
+  switchTab("lesson");
+  
   // Check if subject has lesson content
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "glaciers", "nuclear", "minerals", "humans", "biology", "apocalypse", "money", "blackholes"];
   if (liveSubjects.includes(subject)) {
     console.log("✅ Subject is live! Switching to:", subject);
     updateMetaForSubject(subject);
     console.log("📝 About to render lesson at index:", currentIndex);
-    renderLesson();
-    console.log("✅ Lesson rendered!");
+    console.log("📚 Lessons for subject:", subjectLessons[subject]?.length);
+    console.log("🎯 First lesson:", subjectLessons[subject]?.[0]);
+    
+    // Force DOM update with requestAnimationFrame
+    requestAnimationFrame(() => {
+      renderLesson();
+      console.log("✅ Lesson rendered!");
+    });
   } else {
     console.warn("⚠️ Subject not in live list:", subject);
     activeSubject = "economics"; // keep a safe base for data
