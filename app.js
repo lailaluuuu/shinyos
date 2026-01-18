@@ -3340,10 +3340,10 @@ function initApp() {
   // Initialize game UI
   updateGameUI();
 
-  // Show categories on startup (restores subject folders)
-  showCategories();
+  // Show all subjects for all categories on startup
+  showAllSubjects();
 
-  // Clear lesson panel until a subject is selected
+  // Optionally, clear the lesson panel until a subject is selected
   document.getElementById("lessonTitle").textContent = "";
   document.getElementById("lessonSubtitle").textContent = "";
   document.getElementById("lessonProgressLabel").textContent = "";
@@ -3352,6 +3352,55 @@ function initApp() {
   document.getElementById("quizBlock").innerHTML = "";
   document.getElementById("subjectChip").textContent = "";
   document.getElementById("unitChip").textContent = "";
+// Show all subjects from all categories in the subject grid
+function showAllSubjects() {
+  const categoryGrid = $("#categoryGrid");
+  const subjectGrid = $("#subjectGrid");
+  const breadcrumbSeparator = $("#breadcrumbSeparator");
+  const breadcrumbCurrent = $("#breadcrumbCurrent");
+
+  // Hide category grid, show subject grid
+  categoryGrid.classList.add("is-hidden");
+  subjectGrid.classList.remove("is-hidden");
+
+  // Update breadcrumb
+  breadcrumbSeparator.style.display = "none";
+  breadcrumbCurrent.textContent = "All Lessons";
+
+  // Clear and populate all subjects
+  subjectGrid.innerHTML = "";
+  Object.values(categories).forEach(category => {
+    category.subjects.forEach(subjectId => {
+      const meta = subjectMeta[subjectId];
+      if (!meta) return;
+      const node = document.createElement("button");
+      node.className = `world-node world-node--${subjectId}`;
+      node.dataset.subject = subjectId;
+      node.innerHTML = `
+        <div class="node-icon">${meta.icon}</div>
+        <div class="node-content">
+          <span class="node-title">${meta.title}</span>
+          <span class="node-subtitle">${meta.subtitle}</span>
+        </div>
+        <div class="node-progress">
+          <div class="node-progress-bar" style="width: ${Math.floor(Math.random() * 50)}%;"></div>
+        </div>
+      `;
+      // Attach both event listeners as in initApp
+      node.addEventListener("click", (e) => {
+        console.log("✅ Subject card CLICKED (addEventListener):", node.dataset.subject);
+        e.preventDefault();
+        e.stopPropagation();
+        handleSubjectClick(node);
+      }, false);
+      node.onclick = (e) => {
+        console.log("🔘 Subject onclick fired:", node.dataset.subject);
+        handleSubjectClick(node);
+      };
+      subjectGrid.appendChild(node);
+    });
+  });
+}
 
   // Next button
   const nextBtn = document.getElementById("nextBtn");
