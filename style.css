@@ -1418,6 +1418,7 @@ body::after {
 .celebration-overlay.active {
   display: flex !important;
   pointer-events: auto !important;
+  opacity: 1 !important;
 }
 
 
