@@ -2759,11 +2759,10 @@ function handleScenarioClick(button, option, lesson) {
     totalCorrect++;
     
     // Show consequence
-    hintText.innerHTML = `<strong style="color: #35c27e;">✓ Good call!</strong><br/>${option.consequence}<br/><br/><em style="color: var(--text-muted);">${lesson.explanation}</em>`;
-    
-    setTimeout(() => {
-      showCelebration("correct", pendingXp);
-    }, 300);
+    hintText.innerHTML = `<strong style=\"color: #35c27e;\">✓ Good call!</strong><br/>${option.consequence}<br/><br/><em style=\"color: var(--text-muted);\">${lesson.explanation}</em>`;
+
+    // Always show Blu Bot celebration immediately
+    showCelebration("correct", pendingXp);
   } else {
     button.classList.add("incorrect");
     const indicator = button.querySelector(".option-indicator");
