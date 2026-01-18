@@ -238,6 +238,63 @@ const subjectLessons = {
       ],
       explanation:
         "The availability heuristic tricks you — memorable events feel more common than they are."
+    },
+    {
+      id: 7,
+      type: "quiz",
+      question: "What's the best defense against cognitive biases?",
+      options: [
+        { id: "a", text: "Actively seek evidence that challenges your beliefs", correct: true },
+        { id: "b", text: "Trust your gut instincts more", correct: false },
+        { id: "c", text: "Avoid making any decisions", correct: false }
+      ],
+      explanation: "You can't eliminate biases, but you can **notice them**. Ask: 'What would prove me wrong? Am I looking for it?'"
+    },
+    {
+      id: 8,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Psychology Mastery",
+      instruction: "Test your understanding of cognitive biases. You need 3/4 correct to pass.",
+      passingScore: 3,
+      totalQuestions: 4,
+      questions: [
+        {
+          q: "Why does your brain use cognitive biases?",
+          options: [
+            { id: "a", text: "To save energy and make quick decisions", correct: true },
+            { id: "b", text: "To make you smarter", correct: false },
+            { id: "c", text: "Because logic is too slow", correct: false }
+          ],
+          explanation: "Biases are **efficiency tools**. Your brain can't analyze everything, so it takes shortcuts."
+        },
+        {
+          q: "What is confirmation bias?",
+          options: [
+            { id: "a", text: "Looking for information that confirms your existing beliefs", correct: true },
+            { id: "b", text: "Confirming facts before accepting them", correct: false },
+            { id: "c", text: "Being too confident in your abilities", correct: false }
+          ],
+          explanation: "Confirmation bias = cherry-picking evidence that supports your worldview while ignoring contradictions."
+        },
+        {
+          q: "Why do plane crashes feel more dangerous than car crashes?",
+          options: [
+            { id: "a", text: "Availability heuristic: they're dramatic and memorable", correct: true },
+            { id: "b", text: "They actually are more dangerous", correct: false },
+            { id: "c", text: "Media doesn't cover car crashes", correct: false }
+          ],
+          explanation: "Your brain judges risk by **how easily examples come to mind**, not by actual statistics. Planes are **2,200x safer** than cars."
+        },
+        {
+          q: "After 9/11, Americans avoided planes and drove more. What happened?",
+          options: [
+            { id: "a", text: "Extra road deaths exceeded 9/11 deaths", correct: true },
+            { id: "b", text: "Fewer people died overall", correct: false },
+            { id: "c", text: "Plane safety improved", correct: false }
+          ],
+          explanation: "Fear of flying killed more people than the terrorists did. **Irrationality has consequences.**"
+        }
+      ]
     }
   ],
 
@@ -367,6 +424,52 @@ const subjectLessons = {
         { text: "6. Loss of legitimacy and divided loyalties", order: 6 },
         { text: "7. External pressure from rising powers", order: 7 },
         { text: "8. Collapse or fragmentation", order: 8 }
+      ]
+    },
+    {
+      id: 7,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: History Mastery",
+      instruction: "Test your understanding of empire collapse. You need 3/4 correct to pass.",
+      passingScore: 3,
+      totalQuestions: 4,
+      questions: [
+        {
+          q: "What's the most common cause of empire collapse?",
+          options: [
+            { id: "a", text: "Overextension beyond sustainable borders", correct: true },
+            { id: "b", text: "A single catastrophic invasion", correct: false },
+            { id: "c", text: "Running out of gold", correct: false }
+          ],
+          explanation: "Empires collapse from **internal strain**, not external shocks. Overreach → corruption → decay → collapse."
+        },
+        {
+          q: "How long did the Roman Empire last?",
+          options: [
+            { id: "a", text: "About 1,000 years (500 BC - 476 AD)", correct: true },
+            { id: "b", text: "200 years", correct: false },
+            { id: "c", text: "5,000 years", correct: false }
+          ],
+          explanation: "Rome lasted **500 years** as a republic, then **500 years** as an empire. Its fall took centuries."
+        },
+        {
+          q: "What warning signs predict empire collapse?",
+          options: [
+            { id: "a", text: "Currency debasement, corruption, divided loyalties", correct: true },
+            { id: "b", text: "Too many poets and artists", correct: false },
+            { id: "c", text: "Becoming too democratic", correct: false }
+          ],
+          explanation: "The pattern repeats: **military overstretch**, **economic strain**, **institutional decay**, **loss of legitimacy**."
+        },
+        {
+          q: "How did the British Empire end?",
+          options: [
+            { id: "a", text: "Cost of maintaining it exceeded the benefits", correct: true },
+            { id: "b", text: "Conquered by another empire", correct: false },
+            { id: "c", text: "Voluntary decision to be more ethical", correct: false }
+          ],
+          explanation: "Empires end when the **math stops working**. British Empire couldn't afford to police the world after WWII."
+        }
       ]
     }
   ],
@@ -508,6 +611,105 @@ const subjectLessons = {
         "Warren Buffett's advice? **'Buy the S&P 500 and chill.'** He bet **$1 million** that index funds would beat hedge funds over 10 years. He won easily.",
         "Math: A **2% annual fee** costs you **50% of your returns** over 30 years due to compounding. Index funds charge **0.03%**. That's **67x cheaper**.",
         "Real results: £10,000 invested in an S&P 500 index fund in 1990 = **£300,000 today**. Same money in average active fund after fees = **£180,000**. Boring beats clever."
+      ]
+    },
+    {
+      id: 9,
+      type: "quiz",
+      question: "Why do index funds beat most professional fund managers?",
+      options: [
+        { id: "a", text: "Lower fees + market average beats 80% of stock pickers", correct: true },
+        { id: "b", text: "They have secret insider information", correct: false },
+        { id: "c", text: "They time the market perfectly", correct: false }
+      ],
+      explanation: "You can't reliably beat the market. But you can **own the market** cheaply. Low fees + compounding = wealth. It's math, not magic."
+    },
+    {
+      id: 10,
+      type: "quiz",
+      question: "What was the biggest lesson from the 2008 financial crisis?",
+      options: [
+        { id: "a", text: "Markets always recover if you stay invested", correct: true },
+        { id: "b", text: "Cash is always the safest investment", correct: false },
+        { id: "c", text: "Active trading beats buy-and-hold", correct: false }
+      ],
+      explanation: "The S&P 500 crashed **-55%** in 2008. By 2013, it fully recovered. By 2020, it had **tripled** from the bottom. Patience wins."
+    },
+    {
+      id: 11,
+      type: "content",
+      title: "Emotional Investing: Your Worst Enemy",
+      paragraphs: [
+        "The biggest risk isn't market crashes. It's **your emotions**. Fear makes you sell at the bottom. Greed makes you buy at the top. This is why the average investor **underperforms** the market by **3-5% per year**.",
+        "Study: During the 2008 crisis, investors who panicked and sold lost **50%**. Investors who held recovered to **+150%** by 2020. Same market, different behavior, different outcomes.",
+        "The 'buy high, sell low' trap: When stocks are up **20%**, everyone feels like a genius and pours money in. When stocks are down **20%**, everyone panics and sells. This is backwards.",
+        "Rule: **Ignore the noise.** Turn off financial news. Check your portfolio once per quarter, not once per day. Boredom is a feature, not a bug."
+      ]
+    },
+    {
+      id: 12,
+      type: "quiz",
+      question: "Why do average investors underperform the market?",
+      options: [
+        { id: "a", text: "Emotional decisions: buying high and selling low", correct: true },
+        { id: "b", text: "The market is rigged against them", correct: false },
+        { id: "c", text: "They don't have access to good information", correct: false }
+      ],
+      explanation: "Behavior gap: The market returns **10%** per year, but the average investor gets **6%** because they panic sell during crashes and buy during bubbles."
+    },
+    {
+      id: 13,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Investing Mastery",
+      instruction: "Answer all questions correctly to pass this subject. You need 4/5 correct to pass.",
+      passingScore: 4,
+      totalQuestions: 5,
+      questions: [
+        {
+          q: "What drives stock prices?",
+          options: [
+            { id: "a", text: "Reality (earnings) + Sentiment (feelings)", correct: true },
+            { id: "b", text: "Only company earnings", correct: false },
+            { id: "c", text: "Government manipulation", correct: false }
+          ],
+          explanation: "Stock prices = fundamentals × psychology. Both matter."
+        },
+        {
+          q: "How should you react to a 20% market crash?",
+          options: [
+            { id: "a", text: "Hold steady or buy more", correct: true },
+            { id: "b", text: "Panic sell everything immediately", correct: false },
+            { id: "c", text: "Switch to cash and wait", correct: false }
+          ],
+          explanation: "Every crash in history has recovered. Patience wins."
+        },
+        {
+          q: "What's the main advantage of index funds?",
+          options: [
+            { id: "a", text: "Low fees + diversification + market returns", correct: true },
+            { id: "b", text: "They guarantee profits", correct: false },
+            { id: "c", text: "They never lose money", correct: false }
+          ],
+          explanation: "Index funds give you market returns at minimal cost. That beats 80% of active managers."
+        },
+        {
+          q: "What's a bubble?",
+          options: [
+            { id: "a", text: "Euphoria → FOMO → Crash when reality hits", correct: true },
+            { id: "b", text: "Any time prices go up quickly", correct: false },
+            { id: "c", text: "Government-caused market manipulation", correct: false }
+          ],
+          explanation: "Bubbles are human psychology at scale. Greed → denial → panic. History repeats."
+        },
+        {
+          q: "Why is time in the market better than timing the market?",
+          options: [
+            { id: "a", text: "Compounding + avoiding emotional mistakes", correct: true },
+            { id: "b", text: "You can predict future prices", correct: false },
+            { id: "c", text: "Markets always go up short-term", correct: false }
+          ],
+          explanation: "Missing the 10 best days costs you 50% of returns. Stay invested."
+        }
       ]
     }
   ],
@@ -705,6 +907,63 @@ const subjectLessons = {
       ],
       explanation:
         "If it sounds too good to be true, **it's a scam**. No one gives free money. Ever. Crypto is full of grifters."
+    },
+    {
+      id: 7,
+      type: "quiz",
+      question: "What's the main advantage of blockchain over traditional banking?",
+      options: [
+        { id: "a", text: "No single point of control or failure", correct: true },
+        { id: "b", text: "It's always faster", correct: false },
+        { id: "c", text: "It's completely anonymous", correct: false }
+      ],
+      explanation: "Blockchain is **decentralized**. No CEO can freeze your account. No government can shut it down. It runs on math and consensus."
+    },
+    {
+      id: 8,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Crypto Mastery",
+      instruction: "Prove you understand digital currencies. You need 3/4 correct to pass.",
+      passingScore: 3,
+      totalQuestions: 4,
+      questions: [
+        {
+          q: "What is blockchain?",
+          options: [
+            { id: "a", text: "A public ledger copied across thousands of computers", correct: true },
+            { id: "b", text: "A type of cryptocurrency", correct: false },
+            { id: "c", text: "A centralized database", correct: false }
+          ],
+          explanation: "Blockchain = distributed ledger. Every transaction is recorded on thousands of computers. No one can cheat."
+        },
+        {
+          q: "Why is Bitcoin limited to 21 million coins?",
+          options: [
+            { id: "a", text: "Artificial scarcity creates value like gold", correct: true },
+            { id: "b", text: "Technical limitation of the code", correct: false },
+            { id: "c", text: "Government regulation", correct: false }
+          ],
+          explanation: "Unlike dollars (infinite supply), Bitcoin's **21 million cap is hardcoded**. Scarcity = value."
+        },
+        {
+          q: "What's the difference between Bitcoin and Ethereum?",
+          options: [
+            { id: "a", text: "Bitcoin is digital gold, Ethereum is programmable money", correct: true },
+            { id: "b", text: "Ethereum is faster but less secure", correct: false },
+            { id: "c", text: "They're essentially the same", correct: false }
+          ],
+          explanation: "Bitcoin = store of value. Ethereum = smart contracts and apps. Different purposes."
+        },
+        {
+          q: "How should you store crypto safely?",
+          options: [
+            { id: "a", text: "Hardware wallet with your own keys", correct: true },
+            { id: "b", text: "Leave it on the exchange forever", correct: false },
+            { id: "c", text: "Write your password on a sticky note", correct: false }
+          ],
+          explanation: "**Not your keys, not your crypto.** Exchanges can be hacked or go bankrupt. Hardware wallets give you full control."
+        }
+      ]
     }
   ],
 
@@ -860,6 +1119,63 @@ const subjectLessons = {
         { id: 3, answer: "reactors" },
         { id: 4, answer: "sun" },
         { id: 5, answer: "100" }
+      ]
+    },
+    {
+      id: 8,
+      type: "quiz",
+      question: "What's the biggest challenge with nuclear fusion?",
+      options: [
+        { id: "a", text: "Containing plasma at 100+ million degrees", correct: true },
+        { id: "b", text: "Finding enough hydrogen fuel", correct: false },
+        { id: "c", text: "It's too dangerous to attempt", correct: false }
+      ],
+      explanation: "We can achieve fusion for seconds. Sustaining it long enough to be useful? That's the **$50 billion question**."
+    },
+    {
+      id: 9,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Nuclear Physics Mastery",
+      instruction: "Test your understanding of nuclear energy. You need 3/4 correct to pass.",
+      passingScore: 3,
+      totalQuestions: 4,
+      questions: [
+        {
+          q: "What's the difference between fusion and fission?",
+          options: [
+            { id: "a", text: "Fission splits atoms, fusion combines them", correct: true },
+            { id: "b", text: "Fusion is what bombs use", correct: false },
+            { id: "c", text: "They're the same process", correct: false }
+          ],
+          explanation: "**Fission** = split heavy atoms (uranium). **Fusion** = smash light atoms (hydrogen). Fusion is cleaner but harder."
+        },
+        {
+          q: "Why is nuclear waste dangerous?",
+          options: [
+            { id: "a", text: "It stays radioactive for thousands of years", correct: true },
+            { id: "b", text: "It explodes on contact", correct: false },
+            { id: "c", text: "It glows in the dark", correct: false }
+          ],
+          explanation: "**Half-life** of some isotopes is **10,000+ years**. We need storage that outlasts civilizations."
+        },
+        {
+          q: "What caused the Chernobyl disaster?",
+          options: [
+            { id: "a", text: "Flawed reactor design + disabled safety systems", correct: true },
+            { id: "b", text: "A terrorist attack", correct: false },
+            { id: "c", text: "Natural earthquake", correct: false }
+          ],
+          explanation: "Soviet RBMK reactors became **unstable at low power**. Operators disabled safety systems during a test. Reactor went **supercritical**."
+        },
+        {
+          q: "How much energy does 1 gram of uranium release?",
+          options: [
+            { id: "a", text: "Equal to 3 tons of coal", correct: true },
+            { id: "b", text: "Equal to 1 barrel of oil", correct: false },
+            { id: "c", text: "About the same as gasoline", correct: false }
+          ],
+          explanation: "**E = mc²**. Tiny amounts of matter contain enormous energy. That's why nuclear power is so concentrated."
+        }
       ]
     }
   ],
@@ -1075,6 +1391,63 @@ const subjectLessons = {
       ],
       explanation:
         "**Senescence** = aging at the cellular and organismal level. Damage accumulates, repair fails, death follows. Some organisms escape this. We're trying to figure out how."
+    },
+    {
+      id: 7,
+      type: "quiz",
+      question: "Why are tardigrades considered nearly indestructible?",
+      options: [
+        { id: "a", text: "They enter cryptobiosis: metabolism stops completely", correct: true },
+        { id: "b", text: "They have super strong armor", correct: false },
+        { id: "c", text: "They can heal any injury instantly", correct: false }
+      ],
+      explanation: "Tardigrades dry out, replace water with protective sugars, and **pause life**. Add water years later? They wake up. Biological suspended animation."
+    },
+    {
+      id: 8,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Biology Mastery",
+      instruction: "Test your genetic engineering knowledge. You need 3/4 correct to pass.",
+      passingScore: 3,
+      totalQuestions: 4,
+      questions: [
+        {
+          q: "What is CRISPR?",
+          options: [
+            { id: "a", text: "Molecular scissors that edit DNA precisely", correct: true },
+            { id: "b", text: "A new microscope technology", correct: false },
+            { id: "c", text: "A disease-causing protein", correct: false }
+          ],
+          explanation: "**CRISPR-Cas9** = gene editing tool. Cut DNA at exact locations, then modify genes. Revolutionary and terrifying."
+        },
+        {
+          q: "How much did CRISPR reduce the cost of gene editing?",
+          options: [
+            { id: "a", text: "From $1 million to $30", correct: true },
+            { id: "b", text: "From $100,000 to $10,000", correct: false },
+            { id: "c", text: "No cost reduction, just faster", correct: false }
+          ],
+          explanation: "Before CRISPR: **$1M, years of work**. After CRISPR: **$30, days**. That's why it's revolutionary."
+        },
+        {
+          q: "What ethical dilemma does CRISPR create?",
+          options: [
+            { id: "a", text: "Where's the line between therapy and enhancement?", correct: true },
+            { id: "b", text: "It's too expensive for most people", correct: false },
+            { id: "c", text: "It doesn't work on humans", correct: false }
+          ],
+          explanation: "Fixing diseases = good. Editing for intelligence, height, eye color? **We can now engineer humans like software.** Should we?"
+        },
+        {
+          q: "What can tardigrades survive?",
+          options: [
+            { id: "a", text: "-272°C to +150°C, radiation 1000x lethal to humans, vacuum of space", correct: true },
+            { id: "b", text: "Only extreme cold", correct: false },
+            { id: "c", text: "Anything except water deprivation", correct: false }
+          ],
+          explanation: "Tardigrades are **basically immortal**. They've survived every extinction event. They'll outlive us all."
+        }
+      ]
     }
   ],
 
@@ -1147,6 +1520,61 @@ const subjectLessons = {
       ],
       explanation:
         "**Nuclear winter**: soot and smoke from burning cities rise into the stratosphere, block sunlight, and cause global cooling for years. Crops fail. Mass starvation. Existential threat."
+    },
+    {
+      id: 7,
+      type: "final-quiz",
+      title: "🎓 FINAL EXAM: Existential Risks Mastery",
+      instruction: "Test your apocalypse preparedness knowledge. You need 4/5 correct to pass.",
+      passingScore: 4,
+      totalQuestions: 5,
+      questions: [
+        {
+          q: "What makes supervolcanoes so dangerous?",
+          options: [
+            { id: "a", text: "Volcanic winter: ash blocks sunlight for years", correct: true },
+            { id: "b", text: "Lava covers entire continents", correct: false },
+            { id: "c", text: "They cause permanent earthquakes", correct: false }
+          ],
+          explanation: "Yellowstone erupting = **volcanic winter**. Ash blocks sun, temps drop **10°C**, crops fail globally. Billions starve."
+        },
+        {
+          q: "What does R₀ (R-naught) measure in pandemics?",
+          options: [
+            { id: "a", text: "How many people each infected person infects", correct: true },
+            { id: "b", text: "The fatality rate", correct: false },
+            { id: "c", text: "How long symptoms last", correct: false }
+          ],
+          explanation: "**R₀ > 1** = exponential spread. **R₀ < 1** = disease dies out. COVID's R₀ ≈ 3 = explosive growth."
+        },
+        {
+          q: "What happened during the Toba supervolcano eruption 74,000 years ago?",
+          options: [
+            { id: "a", text: "Human population bottlenecked to 3,000-10,000 individuals", correct: true },
+            { id: "b", text: "All humans died", correct: false },
+            { id: "c", text: "It had no effect on humans", correct: false }
+          ],
+          explanation: "Toba nearly wiped us out. Temps dropped **10-15°C** for a decade. We almost went extinct."
+        },
+        {
+          q: "How would nuclear winter kill most people?",
+          options: [
+            { id: "a", text: "Starvation from crop failure", correct: true },
+            { id: "b", text: "Radiation poisoning", correct: false },
+            { id: "c", text: "Explosions", correct: false }
+          ],
+          explanation: "Only **10-20%** die from bombs/radiation. The other **80-90%** starve when crops fail from blocked sunlight."
+        },
+        {
+          q: "Why is exponential spread during pandemics so dangerous?",
+          options: [
+            { id: "a", text: "It explodes faster than governments can react", correct: true },
+            { id: "b", text: "It makes the disease more deadly", correct: false },
+            { id: "c", text: "It only affects certain populations", correct: false }
+          ],
+          explanation: "**Exponential spread** = **1 → 3 → 9 → 27 → 81** in just 5 generations. By the time you notice, it's everywhere."
+        }
+      ]
     }
   ],
 
@@ -1699,6 +2127,139 @@ function renderLesson() {
     });
 
     quizBlock.appendChild(optionsWrapper);
+  } else if (actualLesson.type === "final-quiz") {
+    // Final comprehensive quiz
+    console.log("📝 Rendering final quiz");
+    
+    const intro = document.createElement("div");
+    intro.innerHTML = '<span style="font-size: 32px; margin-right: 12px;">🎓</span><span style="font-weight: 800; font-size: 20px; color: #ffdd9a;">Final Exam</span>';
+    intro.style.display = "flex";
+    intro.style.alignItems = "center";
+    intro.style.marginBottom = "12px";
+    contentEl.appendChild(intro);
+    
+    const instructionDiv = document.createElement("div");
+    instructionDiv.style.cssText = "font-size: 15px; color: var(--text-soft); margin-bottom: 20px; line-height: 1.6;";
+    instructionDiv.textContent = actualLesson.instruction;
+    contentEl.appendChild(instructionDiv);
+    
+    // Track answers
+    let userAnswers = [];
+    let currentQuestionIndex = 0;
+    
+    function renderQuestion(qIndex) {
+      quizBlock.innerHTML = "";
+      
+      const question = actualLesson.questions[qIndex];
+      const progressDiv = document.createElement("div");
+      progressDiv.style.cssText = "font-size: 13px; color: var(--text-muted); margin-bottom: 16px; font-weight: 600;";
+      progressDiv.textContent = `Question ${qIndex + 1} of ${actualLesson.questions.length}`;
+      quizBlock.appendChild(progressDiv);
+      
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "quiz-question";
+      questionDiv.textContent = question.q;
+      quizBlock.appendChild(questionDiv);
+      
+      const optionsWrapper = document.createElement("div");
+      optionsWrapper.className = "quiz-options";
+      
+      question.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.className = "quiz-option";
+        btn.dataset.optionId = opt.id;
+        
+        const textSpan = document.createElement("span");
+        textSpan.textContent = opt.text;
+        
+        const indicator = document.createElement("span");
+        indicator.className = "option-indicator";
+        indicator.textContent = "○";
+        
+        btn.appendChild(textSpan);
+        btn.appendChild(indicator);
+        
+        btn.addEventListener("click", () => {
+          // Record answer
+          userAnswers[qIndex] = opt.correct;
+          
+          // Visual feedback
+          btn.classList.add(opt.correct ? "correct" : "incorrect");
+          indicator.textContent = opt.correct ? "✓" : "✗";
+          
+          // Disable all buttons
+          optionsWrapper.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
+          
+          // Show explanation
+          const explanationDiv = document.createElement("div");
+          explanationDiv.style.cssText = "margin-top: 16px; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 12px; border-left: 4px solid " + (opt.correct ? "#64e892" : "#ff7b7b");
+          explanationDiv.innerHTML = formatLessonText(question.explanation);
+          quizBlock.appendChild(explanationDiv);
+          
+          // Next question button
+          const nextBtn = document.createElement("button");
+          nextBtn.textContent = qIndex < actualLesson.questions.length - 1 ? "Next Question →" : "See Results";
+          nextBtn.style.cssText = "margin-top: 20px; padding: 12px 28px; background: linear-gradient(120deg, #35c27e, #2ed4c4); color: #0a1f14; border: none; border-radius: 999px; font-weight: 700; cursor: pointer; transition: all 0.3s;";
+          nextBtn.onclick = () => {
+            if (qIndex < actualLesson.questions.length - 1) {
+              renderQuestion(qIndex + 1);
+            } else {
+              showResults();
+            }
+          };
+          quizBlock.appendChild(nextBtn);
+        });
+        
+        optionsWrapper.appendChild(btn);
+      });
+      
+      quizBlock.appendChild(optionsWrapper);
+    }
+    
+    function showResults() {
+      quizBlock.innerHTML = "";
+      
+      const correctCount = userAnswers.filter(a => a === true).length;
+      const passed = correctCount >= actualLesson.passingScore;
+      
+      const resultDiv = document.createElement("div");
+      resultDiv.style.cssText = `text-align: center; padding: 40px 20px; background: ${passed ? 'linear-gradient(135deg, rgba(100, 232, 146, 0.15), rgba(53, 194, 126, 0.1))' : 'linear-gradient(135deg, rgba(255, 123, 123, 0.15), rgba(255, 107, 53, 0.1))'}; border-radius: 16px; border: 2px solid ${passed ? '#64e892' : '#ff7b7b'};`;
+      
+      const emoji = document.createElement("div");
+      emoji.style.cssText = "font-size: 80px; margin-bottom: 20px;";
+      emoji.textContent = passed ? "🎉" : "📚";
+      resultDiv.appendChild(emoji);
+      
+      const titleDiv = document.createElement("div");
+      titleDiv.style.cssText = "font-size: 32px; font-weight: 800; margin-bottom: 12px; color: " + (passed ? "#64e892" : "#ff7b7b");
+      titleDiv.textContent = passed ? "You Passed!" : "Keep Learning";
+      resultDiv.appendChild(titleDiv);
+      
+      const scoreDiv = document.createElement("div");
+      scoreDiv.style.cssText = "font-size: 24px; font-weight: 600; margin-bottom: 20px;";
+      scoreDiv.textContent = `Score: ${correctCount}/${actualLesson.questions.length}`;
+      resultDiv.appendChild(scoreDiv);
+      
+      const messageDiv = document.createElement("div");
+      messageDiv.style.cssText = "font-size: 16px; color: var(--text-soft); line-height: 1.6; max-width: 400px; margin: 0 auto;";
+      messageDiv.textContent = passed 
+        ? `Excellent work! You've mastered this subject. You got ${correctCount} out of ${actualLesson.questions.length} correct.`
+        : `You got ${correctCount} out of ${actualLesson.questions.length}. You need ${actualLesson.passingScore} to pass. Review the lessons and try again!`;
+      resultDiv.appendChild(messageDiv);
+      
+      if (passed) {
+        xp += 50;
+        updateGameUI();
+        setTimeout(() => {
+          showCelebration("correct", 50);
+        }, 500);
+      }
+      
+      quizBlock.appendChild(resultDiv);
+    }
+    
+    // Start with first question
+    renderQuestion(0);
   } else if (actualLesson.type === "interactive-chart") {
     // Interactive chart visualization
     const titleDiv = document.createElement("div");
