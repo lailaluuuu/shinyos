@@ -1350,12 +1350,13 @@ function getCurrentLessons() {
 }
 
 function renderLesson() {
-  console.log("📝 renderLesson() called");
-  console.log("Current subject:", activeSubject);
-  console.log("Current index:", currentIndex);
+  console.log("📝 ========== renderLesson() START ==========");
+  console.log("📝 Current subject:", activeSubject);
+  console.log("📝 Current index:", currentIndex);
+  console.log("📝 Will display progress as:", (currentIndex + 1), "/ X");
   
   const lessons = getCurrentLessons();
-  console.log("Got lessons:", lessons.length);
+  console.log("📝 Got lessons:", lessons.length);
   
   if (!lessons || lessons.length === 0) {
     console.error("❌ No lessons available for subject:", activeSubject);
@@ -1582,6 +1583,9 @@ function renderLesson() {
 
     quizBlock.appendChild(sliderContainer);
   }
+  
+  console.log("📝 ========== renderLesson() END ==========");
+  console.log("📝 Final currentIndex:", currentIndex);
 }
 
 function handleScenarioClick(button, option, lesson) {
@@ -1719,12 +1723,17 @@ function animateCounter(element, start, end, duration) {
 }
 
 function goNext() {
+  console.log("➡️ goNext() called");
+  console.log("➡️ Current index BEFORE increment:", currentIndex);
+  
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
 
   currentIndex++;
+  console.log("➡️ Current index AFTER increment:", currentIndex);
   
   if (currentIndex >= lessons.length) {
+    console.log("➡️ Reached end, looping back to 0");
     currentIndex = 0; // Loop back to start
     todayLessons++;
     updateGameUI();
@@ -2002,6 +2011,7 @@ function handleSubjectClick(node) {
 
   // ALWAYS reset to first lesson when switching subjects
   console.log("🔄 Switching from", activeSubject, "to", subject);
+  console.log("🔄 OLD currentIndex:", currentIndex);
   
   // Clear the content immediately to prevent old content from showing
   const contentEl = $("#lessonContent");
@@ -2009,8 +2019,12 @@ function handleSubjectClick(node) {
   if (contentEl) contentEl.innerHTML = "";
   if (quizBlock) quizBlock.innerHTML = "";
   
-  activeSubject = subject;
+  // Force reset to 0 - this MUST happen before anything else
   currentIndex = 0;
+  activeSubject = subject;
+  
+  console.log("🔄 NEW currentIndex:", currentIndex);
+  console.log("🔄 NEW activeSubject:", activeSubject);
   
   // Make sure we're on the Lesson tab
   switchTab("lesson");
