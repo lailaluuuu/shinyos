@@ -3504,6 +3504,10 @@ function initApp() {
   // Show categories on startup
   showCategories();
 
+  // Failsafe: ensure global access for category navigation
+  window.showCategories = showCategories;
+  window.showCategorySubjects = showCategorySubjects;
+
   // Optionally, clear the lesson panel until a subject is selected
   document.getElementById("lessonTitle").textContent = "";
   document.getElementById("lessonSubtitle").textContent = "";
