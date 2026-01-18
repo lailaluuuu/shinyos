@@ -2023,7 +2023,7 @@ function handleSubjectClick(node) {
   }, 10);
 
   // Check if subject has lesson content
-  const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "blackholes"];
+  const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "glaciers", "nuclear", "minerals", "humans", "biology", "apocalypse", "money", "blackholes"];
   if (liveSubjects.includes(subject)) {
     console.log("✅ Subject is live! Switching to:", subject);
     activeSubject = subject;
@@ -2035,6 +2035,7 @@ function handleSubjectClick(node) {
   } else {
     console.warn("⚠️ Subject not in live list:", subject);
     activeSubject = "economics"; // keep a safe base for data
+    currentIndex = 0; // Reset to first page even for placeholder subjects
     updateMetaForSubject(subject);
     const contentEl = $("#lessonContent");
     contentEl.innerHTML =
