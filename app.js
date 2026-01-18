@@ -172,7 +172,10 @@ const subjectLessons = {
       title: "Mental shortcuts that run your life",
       paragraphs: [
         "Your brain uses cognitive biases — mental shortcuts that help you make quick decisions without burning too much energy.",
-        "The problem? These shortcuts evolved for a different world. They're fast, but not always accurate. And they run quietly in the background, shaping your choices without you noticing."
+        "The problem? These shortcuts evolved for a different world. They're fast, but not always accurate. And they run quietly in the background, shaping your choices without you noticing.",
+        "Your brain processes **11 million bits of information per second**. But your conscious mind can only handle **40 bits**. To cope, your brain takes shortcuts—heuristics—that worked for our ancestors but backfire in modern life.",
+        "Example: See a rustling bush? Your ancestors assumed **predator** and ran. False alarm 99% of the time, but the 1% who hesitated got eaten. Today, that same wiring makes you catastrophize and see threats everywhere.",
+        "These biases aren't bugs. They're **features** from evolution. They kept us alive. But now they make us bad at statistics, terrible at investing, and easily manipulated by marketing."
       ]
     },
     {
@@ -193,7 +196,10 @@ const subjectLessons = {
       title: "Confirmation bias in action",
       paragraphs: [
         "Confirmation bias makes you search for, interpret, and remember information that confirms what you already believe.",
-        "Example: You think a politician is corrupt. Every news story gets filtered through that lens — you notice evidence that supports it and ignore evidence that doesn't. Both sides of every argument do this."
+        "Example: You think a politician is corrupt. Every news story gets filtered through that lens — you notice evidence that supports it and ignore evidence that doesn't. Both sides of every argument do this.",
+        "Real study: Researchers showed identical evidence to Democrats and Republicans about a policy. **Democrats rated it 8/10 when told it was from Obama. Republicans rated the same evidence 3/10.** Switch the name, switch the rating. The evidence didn't change. The bias did.",
+        "This is why arguments online go nowhere. You're not debating facts. You're defending your identity. Facts that threaten your worldview **feel like physical attacks**. Your brain literally processes them the same way.",
+        "The fix? **Actively seek disconfirming evidence.** Ask yourself: 'What would prove me wrong? Am I looking for it?' Most people never ask. They win arguments in their heads and call it wisdom."
       ]
     },
     {
@@ -214,7 +220,11 @@ const subjectLessons = {
       title: "The availability heuristic",
       paragraphs: [
         "You judge how likely something is based on how easily examples come to mind — not based on actual statistics.",
-        "Plane crashes feel scarier than car accidents because they're dramatic and reported everywhere. But statistically? You're far safer in a plane. Your brain doesn't run the numbers — it remembers the vivid story."
+        "Plane crashes feel scarier than car accidents because they're dramatic and reported everywhere. But statistically? You're far safer in a plane. Your brain doesn't run the numbers — it remembers the vivid story.",
+        "The numbers: You have a **1 in 11 million chance** of dying in a plane crash. You have a **1 in 5,000 chance** of dying in a car crash. That's **2,200x more dangerous**. But plane crashes make headlines for weeks. Car crashes? Page 7, if that.",
+        "Why this matters: After 9/11, Americans avoided planes and drove instead. The **extra road deaths** from this shift exceeded the deaths on 9/11 itself. Fear of flying killed more people than the terrorists did. Irrationality has consequences.",
+        "Media amplifies this bias. Shark attacks? **6 deaths per year globally**. Vending machines falling on people? **13 deaths per year**. Guess which one gets wall-to-wall coverage? Your brain remembers drama, not data.",
+        "Fix: When you feel fear, **check the numbers**. Is this actually dangerous, or just vivid? Most things that terrify you are statistically harmless. Most things that kill you are boring (heart disease, car crashes, smoking)."
       ]
     },
     {
@@ -294,7 +304,11 @@ const subjectLessons = {
       title: "Why empires collapse",
       paragraphs: [
         "Empires don't usually fall because of a single catastrophic event. They decline slowly — through overstretch, internal decay, and failure to adapt.",
-        "Rome, the Ottomans, the British Empire: the pattern repeats. They grow powerful, expand beyond what they can manage, lose the systems that made them strong, and crumble when challenged."
+        "Rome, the Ottomans, the British Empire: the pattern repeats. They grow powerful, expand beyond what they can manage, lose the systems that made them strong, and crumble when challenged.",
+        "The lifecycle: **Birth** (military conquest, new technology). **Growth** (expansion, wealth, stability). **Peak** (power, prestige, overconfidence). **Decline** (overextension, corruption, internal divisions). **Collapse** (invasion, bankruptcy, or fragmentation).",
+        "Rome lasted **500 years** as a republic, then **500 years** as an empire. The Ottoman Empire lasted **600 years**. The British Empire peaked for **200 years**. The Soviet Union? **69 years**. Speed of collapse is accelerating.",
+        "Key warning signs: **Military overstretch** (Rome couldn't defend borders). **Currency debasement** (Roman coins went from silver to bronze). **Elite corruption** (Byzantine court intrigues). **Loss of innovation** (China abandoned naval exploration in 1433). **Divided loyalty** (Roman generals fought each other, not enemies).",
+        "Modern echoes: Does this sound familiar? Overextended military, currency printing, political dysfunction, crumbling infrastructure, declining education, rising inequality. Empires don't announce their collapse. They just fade, slowly, until suddenly."
       ]
     },
     {
@@ -338,6 +352,22 @@ const subjectLessons = {
         "The pattern still holds. States that overextend militarily, neglect infrastructure, lose institutional trust, or fail to adapt to new realities face similar pressures.",
         "The British Empire shrank when the cost of holding it exceeded the benefit. The Soviet Union collapsed when its economic model couldn't keep up. Empires end when the math stops working."
       ]
+    },
+    {
+      id: 6,
+      type: "drag-sort",
+      title: "🏛️ Order the Stages of Empire Collapse",
+      instruction: "Drag and drop these stages into the correct order, from earliest to latest:",
+      items: [
+        { text: "1. Rapid expansion and military conquest", order: 1 },
+        { text: "2. Peak power, wealth, and cultural influence", order: 2 },
+        { text: "3. Overextension beyond sustainable borders", order: 3 },
+        { text: "4. Internal corruption and institutional decay", order: 4 },
+        { text: "5. Economic strain and currency debasement", order: 5 },
+        { text: "6. Loss of legitimacy and divided loyalties", order: 6 },
+        { text: "7. External pressure from rising powers", order: 7 },
+        { text: "8. Collapse or fragmentation", order: 8 }
+      ]
     }
   ],
 
@@ -349,8 +379,48 @@ const subjectLessons = {
       title: "How Stock Markets Actually Work",
       paragraphs: [
         "A stock market is like a **giant auction house** where people trade tiny slices of companies. When you buy a stock, you own a microscopic piece of that business.",
+        "Imagine Apple decides to split itself into **16 billion tiny pieces** (shares). You buy 10 of them. Congratulations: you now own 0.00000006% of Apple. Sounds small? If Apple makes **$100 billion in profit**, your slice is worth more.",
         "Why do prices move? Two forces: **1)** How well the company is doing (earnings, products, growth). **2)** How everyone *feels* about it (hype, fear, news).",
-        "The weird part: **feeling matters more** than you think. A company can have amazing earnings and still drop **20%** if investors get spooked."
+        "The weird part: **feeling matters more** than you think. A company can have amazing earnings and still drop **20%** if investors get spooked. Example: Netflix earnings beat expectations in 2022, but the stock fell **35%** because subscriber growth slowed.",
+        "Stock prices = **Reality × Sentiment**. Reality is slow-moving (revenue, profit). Sentiment swings wildly (fear, greed, news cycles). That's why markets are volatile.",
+        "Every day, **billions of trades** happen. Algorithms, day traders, pension funds, and grandmas all clicking buttons. The price you see is where supply meets demand—right now, this second."
+      ]
+    },
+    {
+      id: 1.5,
+      type: "quiz",
+      question: "Why did Netflix stock fall 35% despite beating earnings?",
+      options: [
+        { id: "a", text: "The company was secretly bankrupt", correct: false },
+        { id: "b", text: "Sentiment shifted due to slower subscriber growth", correct: true },
+        { id: "c", text: "The CEO sold all their shares", correct: false }
+      ],
+      explanation: "Markets price in **expectations**, not just results. Netflix's earnings were good, but sentiment soured when growth slowed. That's the power of market psychology."
+    },
+    {
+      id: 1.7,
+      type: "interactive-chart",
+      title: "📈 Visualizing Market Crashes & Recoveries",
+      description: "Every major crash in history looked like the end. Every single one recovered. This chart shows the S&P 500 from 1929 to today.",
+      dataPoints: [
+        { year: 1929, value: 100, label: "1929: Great Depression starts" },
+        { year: 1942, value: 28, label: "Bottom of WWII" },
+        { year: 1954, value: 100, label: "Recovery complete" },
+        { year: 1973, value: 180, label: "Oil crisis begins" },
+        { year: 1974, value: 90, label: "50% crash" },
+        { year: 1987, value: 400, label: "Black Monday -23% in one day" },
+        { year: 2000, value: 1400, label: "Dot-com bubble peak" },
+        { year: 2002, value: 800, label: "50% crash" },
+        { year: 2007, value: 1500, label: "Pre-financial crisis" },
+        { year: 2009, value: 800, label: "55% crash" },
+        { year: 2020, value: 3500, label: "COVID crash 34%" },
+        { year: 2024, value: 5000, label: "Today all-time high" }
+      ],
+      insights: [
+        "The market crashed **-86%** in 1929. It took **25 years** to recover. But if you held, you'd be up **5000%** by today.",
+        "**2008 Financial Crisis**: -55% drop. Felt like the end of capitalism. Recovery took 5 years. Then it doubled.",
+        "**COVID-19 (2020)**: -34% in 3 weeks. Fastest crash ever. Also the fastest recovery ever (4 months).",
+        "Pattern: Crashes are violent and terrifying. Recoveries are slow and boring. Media covers crashes 10x more than recoveries."
       ]
     },
     {
@@ -409,10 +479,35 @@ const subjectLessons = {
       type: "content",
       title: "Bubbles & Manias: Humans Gone Wild",
       paragraphs: [
-        "**1637:** Tulip Mania. Dutch people paid a year's salary for a single tulip bulb. It crashed. Tulips became worthless.",
-        "**2000:** Dotcom Bubble. Any company with \".com\" in its name went **10x**. Most had no profits. **80%** collapsed.",
-        "**2021:** Crypto mania, NFT madness, meme stocks. GME went from £4 to £400 then back to £20. Classic bubble behavior.",
-        "Pattern: **Euphoria → FOMO → Crash**. Every generation thinks \"this time is different.\" It never is."
+        "**1637: Tulip Mania.** Dutch people paid **a year's salary** for a single tulip bulb. Speculation went insane. Then reality hit. Prices collapsed **99%** overnight. Tulips became worthless.",
+        "**1720: South Sea Bubble.** British investors poured money into the South Sea Company, which promised infinite riches from trade. Stock price went **10x in 6 months**. Isaac Newton lost a fortune. The crash wiped out **£500 million** (£80 billion today).",
+        "**2000: Dot-com Bubble.** Any company with \".com\" in its name went **10x**. Pets.com spent **$300 million on ads** and had **zero profit**. **80% of dot-com companies** went bankrupt. Amazon survived and 100x'd. Most didn't.",
+        "**2008: Housing Bubble.** Banks gave mortgages to people with no income. Wall Street packaged bad loans into 'AAA-rated' securities. When it collapsed, **$8 trillion** in wealth vanished. Lehman Brothers went bankrupt.",
+        "**2021: Crypto mania, NFT madness, meme stocks.** GME went from **£4 to £400** then back to **£20**. People sold life savings for JPEGs of monkeys. Classic bubble behavior.",
+        "Pattern: **Euphoria → FOMO → Crash → Blame**. Every generation thinks 'this time is different.' **It never is.** The psychology repeats: greed, denial, panic, despair."
+      ]
+    },
+    {
+      id: 7,
+      type: "quiz",
+      question: "What do all bubbles have in common?",
+      options: [
+        { id: "a", text: "Euphoria, FOMO, then collapse when reality hits", correct: true },
+        { id: "b", text: "They're caused by government regulation", correct: false },
+        { id: "c", text: "They only happen in modern times", correct: false }
+      ],
+      explanation: "Bubbles are **human psychology** at scale. Greed drives prices beyond reality. Fear causes collapse. This pattern has repeated for **400 years**. Technology changes. Human nature doesn't."
+    },
+    {
+      id: 8,
+      type: "content",
+      title: "Index Funds: The Boring Way to Win",
+      paragraphs: [
+        "An **index fund** is a basket of stocks that copies an entire market. Buy one fund, own **500 companies**. Example: S&P 500 index fund = Apple, Microsoft, Amazon, Tesla, and 496 others.",
+        "Why index funds win: **80% of active fund managers** underperform the market over 20 years. They try to pick winners, charge **2% fees**, and lose to a dumb algorithm that just buys everything.",
+        "Warren Buffett's advice? **'Buy the S&P 500 and chill.'** He bet **$1 million** that index funds would beat hedge funds over 10 years. He won easily.",
+        "Math: A **2% annual fee** costs you **50% of your returns** over 30 years due to compounding. Index funds charge **0.03%**. That's **67x cheaper**.",
+        "Real results: £10,000 invested in an S&P 500 index fund in 1990 = **£300,000 today**. Same money in average active fund after fees = **£180,000**. Boring beats clever."
       ]
     }
   ],
@@ -547,7 +642,10 @@ const subjectLessons = {
       title: "What is Blockchain?",
       paragraphs: [
         "Imagine a spreadsheet that **no one controls**, everyone can see, and no one can cheat. That's blockchain. It's a **public ledger** of transactions, copied across thousands of computers.",
-        "Why does this matter? **Banks can freeze your account. Governments can print money. Blockchain can't be stopped.** It runs on math, not trust."
+        "Why does this matter? **Banks can freeze your account. Governments can print money. Blockchain can't be stopped.** It runs on math, not trust.",
+        "Here's how it works: Every transaction is grouped into a **block**. Each block is cryptographically linked to the previous one, forming a **chain**. Change one transaction? You'd have to rewrite the entire chain on **51% of computers globally**. Nearly impossible.",
+        "Example: You send 1 Bitcoin to Alice. That transaction is broadcast to **10,000+ computers** (nodes). They all verify it using math (cryptography). Once verified, it's added to the blockchain forever. No bank, no middleman, no government can reverse it.",
+        "This is **decentralization**. No CEO, no headquarters, no servers to shut down. Bitcoin has run **24/7 for 15 years** with 99.99% uptime. No downtime, no maintenance windows, no customer service. Just code and consensus."
       ]
     },
     {
@@ -567,8 +665,11 @@ const subjectLessons = {
       type: "content",
       title: "Bitcoin vs Ethereum: The Big Two",
       paragraphs: [
-        "**Bitcoin** is digital gold. It's simple: send money, store value, don't trust banks. **21 million coins max**. That's it. That's the feature.",
-        "**Ethereum** is a **programmable blockchain**. You can build apps on it (DeFi, NFTs, smart contracts). It's not just money — it's a **computer that no one owns**."
+        "**Bitcoin** is digital gold. It's simple: send money, store value, don't trust banks. **21 million coins max**. That's it. That's the feature. Scarcity = value.",
+        "Why 21 million? **Artificial scarcity**. Unlike dollars (which governments print infinitely), Bitcoin's supply is **hardcoded**. No one can change it. Not governments, not Elon Musk, not even Bitcoin's creator (who disappeared in 2011).",
+        "**Ethereum** is a **programmable blockchain**. You can build apps on it (DeFi, NFTs, smart contracts). It's not just money — it's a **computer that no one owns**.",
+        "Smart contracts = code that runs automatically when conditions are met. Example: 'If Alice sends 1 ETH, automatically transfer the NFT to her wallet.' No middleman, no escrow, no trust needed. Code is law.",
+        "Bitcoin is **store of value**. Ethereum is **programmable money**. Bitcoin is gold bars in a vault. Ethereum is a global computer running apps. Different purposes, different use cases."
       ]
     },
     {
@@ -615,7 +716,10 @@ const subjectLessons = {
       title: "What is a Glacier?",
       paragraphs: [
         "A **glacier** is a river of ice that flows like a very slow liquid. It's snow compressed over thousands of years into solid ice that's so heavy it moves under its own weight.",
-        "They move at **centimeters per day**. But that 'slow' motion can carve valleys, grind mountains to dust, and reshape entire continents. They're planetary machinery."
+        "They move at **centimeters per day**. But that 'slow' motion can carve valleys, grind mountains to dust, and reshape entire continents. They're planetary machinery.",
+        "How do they form? **Snow falls. Year after year. Layer after layer.** Eventually, the weight crushes lower layers into ice. At **50 meters deep**, the pressure is so intense that ice starts to **deform and flow** like thick honey.",
+        "Glaciers cover **10% of Earth's land**. During the last ice age (**20,000 years ago**), they covered **32%**. Ice sheets were **3 kilometers thick** over Canada and Scandinavia. They carved the Great Lakes, flattened mountains, and moved boulders the size of houses hundreds of kilometers.",
+        "The Grand Canyon? Carved by water over **6 million years**. Yosemite Valley? Carved by glaciers in **3 million years**. Ice is a sculptor that makes water look weak."
       ]
     },
     {
@@ -683,7 +787,11 @@ const subjectLessons = {
       title: "Fusion vs Fission",
       paragraphs: [
         "**Fission**: Split a big atom (uranium) → releases energy + radiation + waste. That's what nuclear power plants do. **Fusion**: Smash small atoms (hydrogen) together → releases MASSIVE energy, no long-lived waste. That's what the sun does.",
-        "Fission works but creates radioactive waste that lasts thousands of years. Fusion is clean and limitless... but we can't sustain it yet. We've been '30 years away' for 70 years."
+        "Fission works but creates radioactive waste that lasts thousands of years. Fusion is clean and limitless... but we can't sustain it yet. We've been '30 years away' for 70 years.",
+        "The physics: **E = mc²**. Matter converts to energy. A **1 gram uranium pellet** releases as much energy as **3 tons of coal**. That's the power of nuclear reactions.",
+        "Fission reactors work by **slowing down neutrons**. Split one uranium atom → releases 2-3 neutrons → they split more atoms → chain reaction. Control rods absorb neutrons to prevent runaway reactions.",
+        "Fusion is **10x more powerful** than fission. The sun fuses **600 million tons of hydrogen per second**. The energy from fusion keeps us alive from **150 million kilometers away**. If we can replicate that on Earth, energy becomes infinite.",
+        "Problem: Fusion requires **100 million degrees Celsius** to smash atoms together. That's **6x hotter than the sun's core**. How do you contain that? Magnetic fields. But keeping it stable for more than seconds? That's the challenge we haven't solved."
       ]
     },
     {
@@ -740,6 +848,19 @@ const subjectLessons = {
       ],
       explanation:
         "**Half-life** of some isotopes is tens of thousands of years. That means it takes that long for radioactivity to drop to 'safe' levels."
+    },
+    {
+      id: 7,
+      type: "fill-blanks",
+      title: "☢️ Nuclear Reaction Summary",
+      text: "Nuclear ___1___ splits heavy atoms like uranium, releasing energy and radioactive waste. Nuclear ___2___ combines light atoms like hydrogen, releasing even more energy with minimal waste. Fission powers today's nuclear ___3___, while fusion powers the ___4___. To achieve fusion on Earth, we need temperatures exceeding ___5___ million degrees Celsius.",
+      blanks: [
+        { id: 1, answer: "fission" },
+        { id: 2, answer: "fusion" },
+        { id: 3, answer: "reactors" },
+        { id: 4, answer: "sun" },
+        { id: 5, answer: "100" }
+      ]
     }
   ],
 
@@ -751,7 +872,11 @@ const subjectLessons = {
       title: "Why Lithium Matters",
       paragraphs: [
         "**Lithium** is the new oil. It powers every electric vehicle battery, every smartphone, every laptop. Demand is exploding. Supply? Concentrated in a few countries: **Australia**, **Chile**, and **China**.",
-        "EVs need **10kg of lithium per battery**. As the world electrifies, lithium demand could increase **40x by 2040**. That's a supply crunch waiting to happen."
+        "EVs need **10kg of lithium per battery**. As the world electrifies, lithium demand could increase **40x by 2040**. That's a supply crunch waiting to happen.",
+        "Where does lithium come from? **Brine pools** in South America (Chile, Argentina). Pump salty water into giant evaporation ponds. Wait 12-18 months for sun to evaporate water. Extract lithium carbonate. Or **hard rock mining** in Australia—dig up rock, crush it, extract lithium.",
+        "The problem: Lithium extraction is **water-intensive**. Chile's Atacama Desert (driest place on Earth) uses **500,000 liters of water per ton of lithium**. Local communities lose water. Ecosystems collapse. Environmental cost is massive.",
+        "Geopolitics: **China processes 80%** of global lithium. Even if you mine in Australia, you ship it to China for refining. Western countries trying to build domestic supply chains but it takes **10+ years** to open new mines and refineries.",
+        "Recycling could help. **95%** of lithium in batteries is recyclable. But current recycling rates? **5%**. Economics don't work yet. Mining new lithium is cheaper than recycling old batteries. That needs to change."
       ]
     },
     {
@@ -819,7 +944,11 @@ const subjectLessons = {
       title: "Game Theory: The Math of Strategy",
       paragraphs: [
         "**Game theory** studies strategic decision-making when your outcome depends on others' choices. It's not about games—it's about **nuclear war**, **business**, **evolution**, and **everyday life**.",
-        "Key insight: **rational individual choices often lead to terrible collective outcomes**. That's why cooperation is hard and conflict is easy."
+        "Key insight: **rational individual choices often lead to terrible collective outcomes**. That's why cooperation is hard and conflict is easy.",
+        "Invented during WWII to model **nuclear strategy**. If both the US and USSR launch nukes, everyone dies. If one side launches first, they win. If neither launches, both survive. What do you do?",
+        "This is called **Mutually Assured Destruction (MAD)**. The Cold War was a 40-year game of chicken. One miscalculation = nuclear winter. We survived by making deterrence credible: 'If you launch, we launch. We both die. So don't launch.'",
+        "Game theory explains: **why companies collude on prices**, **why traffic jams happen**, **why antibiotics stop working** (bacteria evolve resistance), **why democracies go to war**, and **why trust is valuable but rare**.",
+        "The math proves something unsettling: **being too rational makes you predictable**. Sometimes you need randomness (mixed strategies) to win. Poker players bluff. Generals feint. Evolution uses mutations. Pure logic loses to strategic chaos."
       ]
     },
     {
@@ -885,7 +1014,11 @@ const subjectLessons = {
       title: "CRISPR: Editing the Code of Life",
       paragraphs: [
         "**CRISPR** is molecular scissors that can cut and edit DNA with precision. Scientists can now delete genes, insert new ones, or fix genetic diseases. It's genetic engineering made easy.",
-        "**2018**: Chinese scientist He Jiankui edited human embryos to make them HIV-resistant. The babies were born. The world freaked out. He was jailed. We now have the power to design humans."
+        "**2018**: Chinese scientist He Jiankui edited human embryos to make them HIV-resistant. The babies were born. The world freaked out. He was jailed. We now have the power to design humans.",
+        "How it works: CRISPR is a **guided missile** for DNA. Step 1: Design a guide RNA that matches the target gene. Step 2: CRISPR protein (Cas9) uses that guide to find the exact DNA sequence. Step 3: Cas9 cuts the DNA. Step 4: The cell repairs it—you control how.",
+        "Before CRISPR, gene editing cost **$1 million and took years**. Now it costs **$30 and takes days**. This is why it's revolutionary. It democratized genetic engineering.",
+        "Applications: **Curing sickle cell disease** (edit bone marrow cells, patient's blood is fixed). **Eliminating malaria** (edit mosquitoes to be immune to the parasite). **Creating drought-resistant crops** (edit plants to survive climate change). **Resurrecting extinct species** (edit elephant DNA to recreate woolly mammoths).",
+        "The danger: What if you edit for **intelligence**? **Height**? **Eye color**? Where's the line between therapy and enhancement? We can now engineer humans like we engineer software. Should we?"
       ]
     },
     {
@@ -953,7 +1086,11 @@ const subjectLessons = {
       title: "Supervolcanoes: Civilization Killers",
       paragraphs: [
         "A **supervolcano** eruption would dwarf any historical volcano. **Yellowstone** has a magma chamber 80km across. If it erupts, it would eject **1,000 cubic kilometers** of rock and ash.",
-        "Result: **volcanic winter**. Ash blocks sunlight for years. Global temperatures drop 10°C. Crops fail worldwide. Mass starvation. Civilization collapses. Last time Yellowstone erupted? **640,000 years ago**. It's overdue."
+        "Result: **volcanic winter**. Ash blocks sunlight for years. Global temperatures drop 10°C. Crops fail worldwide. Mass starvation. Civilization collapses. Last time Yellowstone erupted? **640,000 years ago**. It's overdue.",
+        "Scale comparison: **Mount St. Helens (1980)** ejected **1 cubic kilometer** of material. **Krakatoa (1883)** ejected **25 cubic kilometers** and killed **36,000 people**. Yellowstone would eject **1,000 cubic kilometers**—40x bigger than Krakatoa.",
+        "Historical precedent: **Toba supervolcano (74,000 years ago)** in Indonesia. It ejected **2,800 cubic kilometers**. Global temperatures dropped **10-15°C** for a decade. Human population bottlenecked to **3,000-10,000 individuals**. We almost went extinct.",
+        "Yellowstone's caldera is **55km by 72km**. It's not a mountain—it's a hole left by the last eruption. The entire park sits on a bubble of magma. It rises **7cm per year**. Scientists monitor it constantly.",
+        "Can we stop it? **No.** Can we predict it? **Maybe, with weeks or months of warning.** Can we survive it? Depends on preparation. Yellowstone erupting = immediate death for **100,000+ people** in Wyoming. Then volcanic winter kills **billions** from starvation."
       ]
     },
     {
@@ -1021,7 +1158,11 @@ const subjectLessons = {
       title: "What is Inflation?",
       paragraphs: [
         "**Inflation** = your money loses buying power over time. That £100 in your pocket? Next year it buys you £97 worth of stuff. The money didn't disappear — prices just went up.",
-        "Why does it happen? Too much money chasing too few goods. Governments print money, people spend more, demand rises, prices rise. It's a feedback loop."
+        "Why does it happen? Too much money chasing too few goods. Governments print money, people spend more, demand rises, prices rise. It's a feedback loop.",
+        "Example: During COVID, governments printed **$10 trillion globally** to keep economies alive. Money supply exploded. Supply chains broke. Inflation hit **9%** (highest in 40 years). Your savings lost **9%** in one year.",
+        "Moderate inflation (2-3%) is healthy. It encourages spending (why save if money loses value?) and investment. But high inflation (>5%) is destructive. It punishes savers, rewards debtors, and destabilizes economies.",
+        "Hyperinflation is the nightmare scenario. **Zimbabwe 2008**: inflation hit **79 billion percent per month**. Prices doubled every 24 hours. A loaf of bread cost **$100 billion**. The currency became worthless. People used wheelbarrows of cash to buy groceries.",
+        "Deflation (prices falling) sounds good but it's worse. Japan's 'Lost Decades' (1990s-2010s): prices fell, people stopped spending (why buy today if it's cheaper tomorrow?), economy stagnated for **30 years**. Mild inflation beats deflation."
       ]
     },
     {
@@ -1078,6 +1219,19 @@ const subjectLessons = {
       ],
       explanation:
         "When borrowing is cheap, **more people can afford to buy**. More buyers competing for the same houses = prices go up. It's supply and demand."
+    },
+    {
+      id: 7,
+      type: "fill-blanks",
+      title: "💰 Complete the Economics Summary",
+      text: "Central banks control inflation by adjusting ___1___ rates. When inflation is too high, they ___2___ rates to slow borrowing and spending. When the economy is in recession, they ___3___ rates to encourage growth. This balancing act is called ___4___ policy. The goal is to maintain around ___5___% inflation—high enough to encourage spending, low enough to preserve purchasing power.",
+      blanks: [
+        { id: 1, answer: "interest" },
+        { id: 2, answer: "raise" },
+        { id: 3, answer: "lower" },
+        { id: 4, answer: "monetary" },
+        { id: 5, answer: "2" }
+      ]
     }
   ],
 
@@ -1089,7 +1243,11 @@ const subjectLessons = {
       title: "What is a Black Hole?",
       paragraphs: [
         "A black hole is what happens when **gravity wins**. A star dies, collapses, and crushes so much mass into such a tiny space that **nothing can escape**. Not even light.",
-        "How small? A black hole with the mass of Earth would fit in your pocket. The actual **event horizon** (point of no return) would be **9mm wide**. Terrifying."
+        "How small? A black hole with the mass of Earth would fit in your pocket. The actual **event horizon** (point of no return) would be **9mm wide**. Terrifying.",
+        "Black holes form when massive stars (>20 solar masses) run out of fuel. The core **collapses in 0.1 seconds**. The outer layers explode as a **supernova**. What's left? A singularity—a point of **infinite density**.",
+        "There are **100 million black holes** in our galaxy alone. Most are stellar-mass (3-20 solar masses). Some are **supermassive** (millions to billions of solar masses) at galaxy centers. Sagittarius A*, at the center of our galaxy, is **4 million solar masses**.",
+        "You can't see black holes directly. But you can see what they do: stars orbiting nothing, matter spiraling into oblivion, X-rays from superheated gas. We 'photographed' a black hole in 2019 by imaging the **shadow** it casts on surrounding light.",
+        "Einstein predicted black holes in 1915. Everyone thought they were mathematical curiosities—too weird to exist. In 1964, we found the first one (Cygnus X-1). Turns out the universe is weirder than we imagined."
       ]
     },
     {
@@ -1536,6 +1694,62 @@ function renderLesson() {
     });
 
     quizBlock.appendChild(optionsWrapper);
+  } else if (actualLesson.type === "interactive-chart") {
+    // Interactive chart visualization
+    const titleDiv = document.createElement("div");
+    titleDiv.style.cssText = "font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #fff; background: linear-gradient(120deg, #fff, #d4c5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;";
+    titleDiv.textContent = actualLesson.title;
+    contentEl.appendChild(titleDiv);
+
+    const descDiv = document.createElement("div");
+    descDiv.style.cssText = "font-size: 16px; margin-bottom: 24px; color: var(--text-soft); line-height: 1.6;";
+    descDiv.textContent = actualLesson.description;
+    contentEl.appendChild(descDiv);
+
+    // Create simple chart container
+    const chartContainer = document.createElement("div");
+    chartContainer.style.cssText = "background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.6)); padding: 24px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 20px;";
+    
+    // Create simple line chart using divs
+    const chartArea = document.createElement("div");
+    chartArea.style.cssText = "height: 250px; display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 12px; position: relative;";
+    
+    if (actualLesson.dataPoints) {
+      const maxValue = Math.max(...actualLesson.dataPoints.map(p => p.value));
+      actualLesson.dataPoints.forEach((point, idx) => {
+        const bar = document.createElement("div");
+        const heightPercent = (point.value / maxValue) * 100;
+        bar.style.cssText = `flex: 1; background: linear-gradient(180deg, #ffdd9a, #b86bff); height: ${heightPercent}%; border-radius: 4px 4px 0 0; position: relative; cursor: pointer; transition: all 0.3s;`;
+        bar.title = `${point.year}: ${point.label}`;
+        
+        bar.onmouseenter = () => {
+          bar.style.transform = 'translateY(-4px)';
+          bar.style.filter = 'brightness(1.3)';
+        };
+        bar.onmouseleave = () => {
+          bar.style.transform = 'translateY(0)';
+          bar.style.filter = 'brightness(1)';
+        };
+        
+        chartArea.appendChild(bar);
+      });
+    }
+    
+    chartContainer.appendChild(chartArea);
+    quizBlock.appendChild(chartContainer);
+
+    // Add insights
+    if (actualLesson.insights) {
+      const insightsDiv = document.createElement("div");
+      insightsDiv.style.cssText = "margin-top: 20px;";
+      actualLesson.insights.forEach(insight => {
+        const p = document.createElement("p");
+        p.innerHTML = formatLessonText(insight);
+        p.style.cssText = "margin-bottom: 14px; line-height: 1.6;";
+        insightsDiv.appendChild(p);
+      });
+      quizBlock.appendChild(insightsDiv);
+    }
   } else if (actualLesson.type === "interactive-slider") {
     // Interactive slider lesson
     const titleDiv = document.createElement("div");
@@ -1582,6 +1796,165 @@ function renderLesson() {
     sliderContainer.appendChild(resultDiv);
 
     quizBlock.appendChild(sliderContainer);
+  } else if (actualLesson.type === "drag-sort") {
+    // Drag and sort exercise
+    const titleDiv = document.createElement("div");
+    titleDiv.style.cssText = "font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #fff; background: linear-gradient(120deg, #fff, #d4c5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;";
+    titleDiv.textContent = actualLesson.title;
+    contentEl.appendChild(titleDiv);
+
+    const instructionDiv = document.createElement("div");
+    instructionDiv.style.cssText = "font-size: 16px; margin-bottom: 20px; color: var(--text-soft);";
+    instructionDiv.textContent = actualLesson.instruction;
+    contentEl.appendChild(instructionDiv);
+
+    // Shuffled items
+    const items = [...actualLesson.items].sort(() => Math.random() - 0.5);
+    const itemsContainer = document.createElement("div");
+    itemsContainer.style.cssText = "display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;";
+    
+    items.forEach((item, idx) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.style.cssText = "padding: 16px 20px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(14, 14, 30, 0.95)); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 12px; cursor: move; user-select: none; transition: all 0.3s;";
+      itemDiv.textContent = item.text;
+      itemDiv.draggable = true;
+      
+      itemDiv.addEventListener('dragstart', (e) => {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', itemDiv.innerHTML);
+        itemDiv.style.opacity = '0.4';
+      });
+      
+      itemDiv.addEventListener('dragend', (e) => {
+        itemDiv.style.opacity = '1';
+      });
+      
+      itemDiv.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        itemDiv.style.borderColor = 'rgba(255, 221, 154, 0.6)';
+      });
+      
+      itemDiv.addEventListener('dragleave', (e) => {
+        itemDiv.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      });
+      
+      itemDiv.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggedItem = document.querySelector('[draggable="true"][style*="opacity: 0.4"]');
+        if (draggedItem && draggedItem !== itemDiv) {
+          const parent = itemDiv.parentNode;
+          const draggedIndex = Array.from(parent.children).indexOf(draggedItem);
+          const targetIndex = Array.from(parent.children).indexOf(itemDiv);
+          
+          if (draggedIndex < targetIndex) {
+            parent.insertBefore(draggedItem, itemDiv.nextSibling);
+          } else {
+            parent.insertBefore(draggedItem, itemDiv);
+          }
+        }
+        itemDiv.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      });
+      
+      itemsContainer.appendChild(itemDiv);
+    });
+    
+    quizBlock.appendChild(itemsContainer);
+    
+    // Check button
+    const checkBtn = document.createElement("button");
+    checkBtn.textContent = "Check Order";
+    checkBtn.style.cssText = "padding: 12px 24px; background: linear-gradient(120deg, #35c27e, #2ed4c4); color: #0a1f14; border: none; border-radius: 999px; font-weight: 700; cursor: pointer; transition: all 0.3s;";
+    checkBtn.onclick = () => {
+      const currentOrder = Array.from(itemsContainer.children).map(el => el.textContent);
+      const correctOrder = actualLesson.items.map(item => item.text);
+      const isCorrect = currentOrder.every((text, idx) => text === correctOrder[idx]);
+      
+      if (isCorrect) {
+        checkBtn.textContent = "✓ Perfect!";
+        checkBtn.style.background = "linear-gradient(120deg, #64e892, #35c27e)";
+        showCelebration("correct", 10);
+        xp += 10;
+        updateGameUI();
+      } else {
+        checkBtn.textContent = "Try again";
+        checkBtn.style.background = "linear-gradient(120deg, #ff7b7b, #ff6b35)";
+        setTimeout(() => {
+          checkBtn.textContent = "Check Order";
+          checkBtn.style.background = "linear-gradient(120deg, #35c27e, #2ed4c4)";
+        }, 2000);
+      }
+    };
+    
+    quizBlock.appendChild(checkBtn);
+  } else if (actualLesson.type === "fill-blanks") {
+    // Fill in the blanks exercise
+    const titleDiv = document.createElement("div");
+    titleDiv.style.cssText = "font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #fff; background: linear-gradient(120deg, #fff, #d4c5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;";
+    titleDiv.textContent = actualLesson.title;
+    contentEl.appendChild(titleDiv);
+
+    const textDiv = document.createElement("div");
+    textDiv.style.cssText = "font-size: 17px; line-height: 1.8; margin-bottom: 20px;";
+    
+    // Replace blanks with input fields
+    let textWithInputs = actualLesson.text;
+    actualLesson.blanks.forEach((blank, idx) => {
+      textWithInputs = textWithInputs.replace(`___${idx + 1}___`, `<input type="text" data-answer="${blank.answer}" style="
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        min-width: 150px;
+        text-align: center;
+      " />`);
+    });
+    
+    textDiv.innerHTML = textWithInputs;
+    quizBlock.appendChild(textDiv);
+    
+    // Check button
+    const checkBtn = document.createElement("button");
+    checkBtn.textContent = "Check Answers";
+    checkBtn.style.cssText = "padding: 12px 24px; background: linear-gradient(120deg, #35c27e, #2ed4c4); color: #0a1f14; border: none; border-radius: 999px; font-weight: 700; cursor: pointer; transition: all 0.3s;";
+    checkBtn.onclick = () => {
+      const inputs = quizBlock.querySelectorAll('input[data-answer]');
+      let allCorrect = true;
+      
+      inputs.forEach(input => {
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = input.dataset.answer.toLowerCase();
+        
+        if (userAnswer === correctAnswer) {
+          input.style.borderColor = '#64e892';
+          input.style.background = 'rgba(100, 232, 146, 0.2)';
+        } else {
+          input.style.borderColor = '#ff7b7b';
+          input.style.background = 'rgba(255, 123, 123, 0.2)';
+          allCorrect = false;
+        }
+      });
+      
+      if (allCorrect) {
+        checkBtn.textContent = "✓ All Correct!";
+        checkBtn.style.background = "linear-gradient(120deg, #64e892, #35c27e)";
+        showCelebration("correct", 12);
+        xp += 12;
+        updateGameUI();
+      } else {
+        checkBtn.textContent = "Some incorrect - try again";
+        checkBtn.style.background = "linear-gradient(120deg, #ff7b7b, #ff6b35)";
+        setTimeout(() => {
+          checkBtn.textContent = "Check Answers";
+          checkBtn.style.background = "linear-gradient(120deg, #35c27e, #2ed4c4)";
+        }, 2000);
+      }
+    };
+    
+    quizBlock.appendChild(checkBtn);
   }
   
   console.log("📝 ========== renderLesson() END ==========");
