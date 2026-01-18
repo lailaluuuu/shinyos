@@ -787,9 +787,9 @@ const subjectLessons = {
       title: "Fusion vs Fission",
       paragraphs: [
         "**Fission**: Split a big atom (uranium) → releases energy + radiation + waste. That's what nuclear power plants do. **Fusion**: Smash small atoms (hydrogen) together → releases MASSIVE energy, no long-lived waste. That's what the sun does.",
-        "Fission works but creates radioactive waste that lasts thousands of years. Fusion is clean and limitless... but we can't sustain it yet. We've been '30 years away' for 70 years.",
+        "Fission works but creates radioactive waste that lasts thousands of years. Fusion is clean and limitless... but we can't sustain it yet. We've been **'30 years away'** for **70 years**.",
         "The physics: **E = mc²**. Matter converts to energy. A **1 gram uranium pellet** releases as much energy as **3 tons of coal**. That's the power of nuclear reactions.",
-        "Fission reactors work by **slowing down neutrons**. Split one uranium atom → releases 2-3 neutrons → they split more atoms → chain reaction. Control rods absorb neutrons to prevent runaway reactions.",
+        "Fission reactors work by **slowing down neutrons**. Split one uranium atom → releases **2-3 neutrons** → they split more atoms → chain reaction. Control rods absorb neutrons to prevent runaway reactions.",
         "Fusion is **10x more powerful** than fission. The sun fuses **600 million tons of hydrogen per second**. The energy from fusion keeps us alive from **150 million kilometers away**. If we can replicate that on Earth, energy becomes infinite.",
         "Problem: Fusion requires **100 million degrees Celsius** to smash atoms together. That's **6x hotter than the sun's core**. How do you contain that? Magnetic fields. But keeping it stable for more than seconds? That's the challenge we haven't solved."
       ]
@@ -1339,15 +1339,19 @@ function $(selector) {
 
 // Format lesson text with emphasis and visual highlights
 function formatLessonText(text) {
-  // Bold text between ** markers
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="highlight-text">$1</strong>');
+  if (!text) return '';
   
-  // Highlight key terms in quotes
-  text = text.replace(/"([^"]+)"/g, '<span class="highlight-quote">"$1"</span>');
+  // Convert to string if not already
+  text = String(text);
   
-  // Emphasize numbers and dates
-  text = text.replace(/\b(\d{4})\b/g, '<span class="highlight-year">$1</span>');
-  text = text.replace(/\b(\d+%)\b/g, '<span class="highlight-percent">$1</span>');
+  // Bold text between ** markers - using inline styles for now
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong style="color: #ffdd9a; font-weight: 700;">$1</strong>');
+  
+  // Emphasize years
+  text = text.replace(/\b(\d{4})\b/g, '<span style="color: #f4b65e; font-weight: 700;">$1</span>');
+  
+  // Emphasize percentages
+  text = text.replace(/\b(\d+%)\b/g, '<span style="color: #35c27e; font-weight: 700;">$1</span>');
   
   return text;
 }
