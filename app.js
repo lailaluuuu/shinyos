@@ -1808,6 +1808,12 @@ function updateMetaForSubject(subject) {
   const eraPillLabel = $("#eraPillLabel");
   const journalText = $("#journalText");
   const missionsText = $("#missionsText");
+  
+  // Check if elements exist
+  if (!subjectChip || !unitChip || !lessonTitle || !lessonSubtitle) {
+    console.error("❌ Missing required DOM elements in updateMetaForSubject");
+    return;
+  }
 
   if (subject === "economics") {
     subjectChip.textContent = "Economics · Markets";
@@ -1983,8 +1989,8 @@ function updateMetaForSubject(subject) {
       "Prototype subject. Soon: a small simulation mission for this area.";
   }
 
-  eraLabel.textContent = era;
-  eraPillLabel.textContent = `${era} Era`;
+  if (eraLabel) eraLabel.textContent = era;
+  if (eraPillLabel) eraPillLabel.textContent = `${era} Era`;
 }
 
 function handleSubjectClick(node) {
@@ -2033,7 +2039,13 @@ function handleSubjectClick(node) {
   const liveSubjects = ["economics", "space", "psych", "maths", "history", "science", "investing", "crypto", "glaciers", "nuclear", "minerals", "humans", "biology", "apocalypse", "money", "blackholes"];
   if (liveSubjects.includes(subject)) {
     console.log("✅ Subject is live! Switching to:", subject);
-    updateMetaForSubject(subject);
+    
+    try {
+      updateMetaForSubject(subject);
+    } catch (error) {
+      console.error("❌ Error in updateMetaForSubject:", error);
+    }
+    
     console.log("📝 About to render lesson at index:", currentIndex);
     console.log("📚 Lessons for subject:", subjectLessons[subject]?.length);
     console.log("🎯 First lesson:", subjectLessons[subject]?.[0]);
