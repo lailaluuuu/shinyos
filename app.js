@@ -1344,7 +1344,9 @@ function updateGameUI() {
 }
 
 function getCurrentLessons() {
-  return subjectLessons[activeSubject] || [];
+  const lessons = subjectLessons[activeSubject] || [];
+  console.log(`📚 getCurrentLessons() for "${activeSubject}":`, lessons.length, "lessons");
+  return lessons;
 }
 
 function renderLesson() {
@@ -1999,6 +2001,14 @@ function handleSubjectClick(node) {
   }, 10);
 
   // ALWAYS reset to first lesson when switching subjects
+  console.log("🔄 Switching from", activeSubject, "to", subject);
+  
+  // Clear the content immediately to prevent old content from showing
+  const contentEl = $("#lessonContent");
+  const quizBlock = $("#quizBlock");
+  if (contentEl) contentEl.innerHTML = "";
+  if (quizBlock) quizBlock.innerHTML = "";
+  
   activeSubject = subject;
   currentIndex = 0;
   
@@ -2014,11 +2024,9 @@ function handleSubjectClick(node) {
     console.log("📚 Lessons for subject:", subjectLessons[subject]?.length);
     console.log("🎯 First lesson:", subjectLessons[subject]?.[0]);
     
-    // Force DOM update with requestAnimationFrame
-    requestAnimationFrame(() => {
-      renderLesson();
-      console.log("✅ Lesson rendered!");
-    });
+    // Render immediately, no need for requestAnimationFrame
+    renderLesson();
+    console.log("✅ Lesson rendered!");
   } else {
     console.warn("⚠️ Subject not in live list:", subject);
     activeSubject = "economics"; // keep a safe base for data
