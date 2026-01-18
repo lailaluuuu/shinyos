@@ -1851,29 +1851,45 @@ function createConfetti() {
 
 // ===== CELEBRATION SYSTEM =====
 function showCelebration(type = "correct", xpGained = 8) {
+  console.log("🎉 showCelebration called, type:", type);
+  
   const overlay = $("#celebrationOverlay");
   const icon = $("#celebrationIcon");
   const text = $("#celebrationText");
   const xpText = $("#celebrationXpText");
   
-  if (!overlay || !icon || !text || !xpText) return;
+  if (!overlay || !icon || !text || !xpText) {
+    console.error("❌ Missing celebration elements");
+    return;
+  }
   
   // Clear previous content
   const content = overlay.querySelector('.celebration-content');
-  if (!content) return;
+  if (!content) {
+    console.error("❌ No celebration-content found");
+    return;
+  }
+  
+  console.log("✅ Found content element");
   
   // Remove old Blu Bot if exists
   const oldBluBot = content.querySelector('.blubot-container');
-  if (oldBluBot) oldBluBot.remove();
+  if (oldBluBot) {
+    console.log("🗑️ Removing old Blu Bot");
+    oldBluBot.remove();
+  }
   
   if (type === "correct") {
+    console.log("🤖 Creating Blu Bot celebrate");
+    
     // Create Blu Bot container
     const blubotContainer = document.createElement('div');
     blubotContainer.className = 'blubot-container';
-    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+    blubotContainer.style.cssText = 'margin-bottom: 20px; position: relative;';
     
     // Add Blu Bot SVG
     const blubot = createBluBot('celebrate');
+    console.log("🤖 Blu Bot created:", blubot);
     blubotContainer.appendChild(blubot);
     
     // Add speech bubble
@@ -1889,6 +1905,7 @@ function showCelebration(type = "correct", xpGained = 8) {
     speech.textContent = messages[Math.floor(Math.random() * messages.length)];
     blubotContainer.appendChild(speech);
     
+    console.log("✅ Appending Blu Bot to content");
     // Insert before other content
     content.insertBefore(blubotContainer, content.firstChild);
     
@@ -1897,10 +1914,12 @@ function showCelebration(type = "correct", xpGained = 8) {
     xpText.textContent = `+${xpGained} XP`;
     createConfetti();
   } else if (type === "levelup") {
+    console.log("🤖 Creating Blu Bot level up");
+    
     // Create Blu Bot container for level up
     const blubotContainer = document.createElement('div');
     blubotContainer.className = 'blubot-container';
-    blubotContainer.style.cssText = 'margin-bottom: 20px;';
+    blubotContainer.style.cssText = 'margin-bottom: 20px; position: relative;';
     
     const blubot = createBluBot('celebrate');
     blubotContainer.appendChild(blubot);
@@ -1927,11 +1946,15 @@ function showCelebration(type = "correct", xpGained = 8) {
 
 // Create Blu Bot SVG
 function createBluBot(mood = 'celebrate') {
+  console.log("🤖 createBluBot called with mood:", mood);
+  
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 120 150");
   svg.setAttribute("width", "120");
   svg.setAttribute("height", "150");
   svg.style.cssText = "display: block; margin: 0 auto;";
+  
+  console.log("✅ SVG element created");
   
   if (mood === 'celebrate') {
     // Body
@@ -2050,6 +2073,8 @@ function createBluBot(mood = 'celebrate') {
     foot2.setAttribute("ry", "4");
     foot2.setAttribute("fill", "#2a5a8f");
     svg.appendChild(foot2);
+    
+    console.log("✅ All SVG parts added");
   }
   
   return svg;
