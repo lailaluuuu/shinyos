@@ -3501,8 +3501,8 @@ function initApp() {
   // Initialize game UI
   updateGameUI();
 
-  // Show all subjects on startup (like the screenshot)
-  showAllSubjects();
+  // Show categories on startup (original working state)
+  showCategories();
 
   // Failsafe: ensure global access for category navigation
   window.showCategories = showCategories;
