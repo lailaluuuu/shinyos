@@ -2971,10 +2971,6 @@ function handleQuizClick(button, option, lesson) {
     pendingXp = 2;
     combo = 0; // Reset combo on wrong answer
     hintText.textContent = lesson.explanation || "Not quite. Review the content and try to think through the key concepts.";
-
-    setTimeout(() => {
-      showCelebration("incorrect", 0);
-    }, 300);
   }
 
   // Animate XP gain
@@ -3259,7 +3255,7 @@ function updateMetaForSubject(subject) {
     subjectChip.textContent = "Biology · Future";
     unitChip.textContent = "Unit: Genetic Engineering";
     lessonTitle.textContent = "Biology That Feels Like Sci-Fi";
-    lessonSubtitle.textContent = "CRISPR, tardigrades, and the quest for immortality.";
+    lessonSubtitle textContent = "CRISPR, tardigrades, and the quest for immortality.";
     era = "Future";
     journalContent =
       "Bio Lab. Stamps for CRISPR mechanics, tardigrade survival, senescence, and gene editing ethics.";
@@ -3269,7 +3265,7 @@ function updateMetaForSubject(subject) {
     subjectChip.textContent = "Existential · Risks";
     unitChip.textContent = "Unit: Catastrophic Scenarios";
     lessonTitle.textContent = "If the World Ends";
-    lessonSubtitle.textContent = "Supervolcanoes, pandemics, nuclear winter, and other fun scenarios.";
+    lessonSubtitle textContent = "Supervolcanoes, pandemics, nuclear winter, and other fun scenarios.";
     era = "Crisis";
     journalContent =
       "Apocalypse Zone. Stamps for supervolcano mechanics, pandemic math, nuclear winter models, and survival strategies.";
