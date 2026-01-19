@@ -19,49 +19,6 @@ const subjectLessons = {
         { id: "a", text: "The government", correct: true },
         { id: "b", text: "Individual buyers and sellers", correct: false },
         { id: "c", text: "Private companies negotiating freely", correct: false }
-        ],
-        finance: [
-          {
-            id: 1,
-            type: "content",
-            title: "What is a market?",
-            paragraphs: [
-              "A market is any place where buyers and sellers meet to exchange goods, services, or assets.",
-              "Markets can be physical (like a farmers' market) or virtual (like the stock market)."
-            ]
-          },
-          {
-            id: 2,
-            type: "quiz",
-            question: "Which of these is a market?",
-            options: [
-              { id: "a", text: "A stock exchange", correct: true },
-              { id: "b", text: "A football stadium", correct: false },
-              { id: "c", text: "A library", correct: false }
-            ],
-            explanation: "A market is where buying and selling happens. Stock exchanges are classic examples."
-          },
-          {
-            id: 3,
-            type: "content",
-            title: "How do markets work?",
-            paragraphs: [
-              "Markets work by matching buyers who want to purchase with sellers who want to sell.",
-              "Prices are set by supply and demand—when more people want to buy, prices go up; when more want to sell, prices go down."
-            ]
-          },
-          {
-            id: 4,
-            type: "quiz",
-            question: "What happens if demand rises but supply stays the same?",
-            options: [
-              { id: "a", text: "Prices rise", correct: true },
-              { id: "b", text: "Prices fall", correct: false },
-              { id: "c", text: "Nothing changes", correct: false }
-            ],
-            explanation: "If demand rises and supply doesn't, prices usually go up."
-          }
-  
       ],
       explanation:
         "In a planned economy, key prices are typically set by the state as part of the overall plan, not left to market forces."
@@ -86,6 +43,49 @@ const subjectLessons = {
       ],
       explanation:
         "Planned systems have a history of queues and shortages, because central planners can't perfectly predict changing preferences."
+    }
+  ],
+
+  finance: [
+    {
+      id: 1,
+      type: "content",
+      title: "What is a market?",
+      paragraphs: [
+        "A market is any place where buyers and sellers meet to exchange goods, services, or assets.",
+        "Markets can be physical (like a farmers' market) or virtual (like the stock market)."
+      ]
+    },
+    {
+      id: 2,
+      type: "quiz",
+      question: "Which of these is a market?",
+      options: [
+        { id: "a", text: "A stock exchange", correct: true },
+        { id: "b", text: "A football stadium", correct: false },
+        { id: "c", text: "A library", correct: false }
+      ],
+      explanation: "A market is where buying and selling happens. Stock exchanges are classic examples."
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "How do markets work?",
+      paragraphs: [
+        "Markets work by matching buyers who want to purchase with sellers who want to sell.",
+        "Prices are set by supply and demand—when more people want to buy, prices go up; when more want to sell, prices go down."
+      ]
+    },
+    {
+      id: 4,
+      type: "quiz",
+      question: "What happens if demand rises but supply stays the same?",
+      options: [
+        { id: "a", text: "Prices rise", correct: true },
+        { id: "b", text: "Prices fall", correct: false },
+        { id: "c", text: "Nothing changes", correct: false }
+      ],
+      explanation: "If demand rises and supply doesn't, prices usually go up."
     }
   ],
 
@@ -571,6 +571,11 @@ function showCategories() {
   breadcrumbSeparator.style.display = "none";
   breadcrumbCurrent.textContent = "";
   
+  // Clear active state from all category nodes
+  document.querySelectorAll("#categoryGrid .world-node").forEach(n => {
+    n.classList.remove("is-active");
+  });
+  
   // Clear and populate categories
   categoryGrid.innerHTML = "";
   
@@ -615,14 +620,20 @@ function handleCategoryClick(node, category) {
   const breadcrumbSeparator = $("#breadcrumbSeparator");
   const breadcrumbCurrent = $("#breadcrumbCurrent");
   
-  // Hide category grid, show subject grid
-  categoryGrid.classList.add("is-hidden");
+  // Keep category grid visible, show subject grid below
+  // categoryGrid stays visible - don't hide it
   subjectGrid.classList.remove("is-hidden");
   
   // Update breadcrumb
   breadcrumb.querySelector(".breadcrumb-item").classList.remove("is-active");
   breadcrumbSeparator.style.display = "inline";
   breadcrumbCurrent.textContent = category.name;
+  
+  // Mark active category visually
+  document.querySelectorAll("#categoryGrid .world-node").forEach(n => {
+    n.classList.remove("is-active");
+  });
+  node.classList.add("is-active");
   
   // Clear and populate subjects for this category
   subjectGrid.innerHTML = "";
