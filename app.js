@@ -5,8 +5,8 @@ const subjectLessons = {
     {
       id: 0,
       type: "intro",
-      imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
-      imageAlt: "Economics and markets",
+      imageUrl: "images/economics-intro.png",
+      imageAlt: "Economics — Markets and planned economies",
       title: "Welcome to Economics",
       subtitle: "Markets and planned economies"
     },
@@ -58,8 +58,8 @@ const subjectLessons = {
     {
       id: 0,
       type: "intro",
-      imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
-      imageAlt: "Investing and financial growth",
+      imageUrl: "images/investing-intro.png",
+      imageAlt: "Investing — The Real-World Skill School Forgot to Mention",
       title: "Welcome to Investing",
       subtitle: "The real-world skill school forgot to mention"
     },
@@ -1626,8 +1626,8 @@ const subjectLessons = {
     {
       id: 0,
       type: "intro",
-      imageUrl: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800&h=600&fit=crop",
-      imageAlt: "Space exploration",
+      imageUrl: "images/space-intro.png",
+      imageAlt: "Space Race — The Cold War in space",
       title: "Welcome to the Space Race",
       subtitle: "The Cold War in space"
     },
@@ -1857,23 +1857,64 @@ function renderLesson() {
     contentEl.classList.remove("is-hidden");
     contentEl.style.textAlign = "center";
     contentEl.style.padding = "40px 20px";
+    contentEl.style.background = "transparent"; // Override dark background
     
-    // Create image container
+    // Also update parent lesson body background for intro pages
+    if (lessonBody) {
+      lessonBody.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(20, 18, 35, 0.95))";
+    }
+    
+    // Create image container with better visibility
     const imageContainer = document.createElement("div");
     imageContainer.style.marginBottom = "30px";
     imageContainer.style.borderRadius = "16px";
     imageContainer.style.overflow = "hidden";
-    imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.4)";
+    imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
+    imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)"; // Light background for contrast
+    imageContainer.style.position = "relative";
     
     const img = document.createElement("img");
-    img.src = lesson.imageUrl || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop";
+    img.src = lesson.imageUrl || "images/investing-intro.png";
     img.alt = lesson.imageAlt || "Subject image";
     img.style.width = "100%";
     img.style.height = "auto";
-    img.style.maxHeight = "400px";
+    img.style.minHeight = "300px";
+    img.style.maxHeight = "450px";
     img.style.objectFit = "cover";
     img.style.display = "block";
+    img.style.opacity = "1";
+    img.style.filter = "brightness(1.1) contrast(1.05)"; // Make image brighter
     img.className = "slide-in-up";
+    
+    // Add error handling for image load
+    img.onerror = function() {
+      console.error("Image failed to load:", img.src);
+      console.log("Make sure the image file exists at:", img.src);
+      // Fallback: show a colored placeholder with subject icon
+      this.style.display = "none";
+      const subjectIcon = activeSubject === "finance" ? "💰" : activeSubject === "economics" ? "💼" : "🚀";
+      imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.15)";
+      imageContainer.style.minHeight = "300px";
+      imageContainer.style.display = "flex";
+      imageContainer.style.alignItems = "center";
+      imageContainer.style.justifyContent = "center";
+      imageContainer.style.flexDirection = "column";
+      const placeholder = document.createElement("div");
+      placeholder.textContent = subjectIcon;
+      placeholder.style.fontSize = "100px";
+      placeholder.style.opacity = "0.5";
+      placeholder.style.marginBottom = "10px";
+      imageContainer.appendChild(placeholder);
+      const errorText = document.createElement("div");
+      errorText.textContent = "Image loading...";
+      errorText.style.color = "rgba(255, 255, 255, 0.5)";
+      errorText.style.fontSize = "14px";
+      imageContainer.appendChild(errorText);
+    };
+    
+    img.onload = function() {
+      console.log("Intro image loaded successfully");
+    };
     
     imageContainer.appendChild(img);
     contentEl.appendChild(imageContainer);
@@ -1882,10 +1923,11 @@ function renderLesson() {
     if (lesson.title) {
       const titleP = document.createElement("h2");
       titleP.style.fontWeight = "700";
-      titleP.style.fontSize = "28px";
+      titleP.style.fontSize = "32px";
       titleP.style.color = "#fff";
       titleP.style.marginBottom = "12px";
-      titleP.style.marginTop = "0";
+      titleP.style.marginTop = "20px";
+      titleP.style.textShadow = "0 2px 8px rgba(0, 0, 0, 0.5)";
       titleP.className = "slide-in-up";
       titleP.style.animationDelay = "0.2s";
       titleP.textContent = lesson.title;
@@ -1895,20 +1937,27 @@ function renderLesson() {
     // Add subtitle if provided
     if (lesson.subtitle) {
       const subtitleP = document.createElement("p");
-      subtitleP.style.fontSize = "18px";
-      subtitleP.style.color = "var(--text-soft)";
+      subtitleP.style.fontSize = "20px";
+      subtitleP.style.color = "rgba(255, 255, 255, 0.8)";
       subtitleP.style.marginTop = "0";
       subtitleP.style.marginBottom = "0";
+      subtitleP.style.textShadow = "0 1px 4px rgba(0, 0, 0, 0.5)";
       subtitleP.className = "slide-in-up";
       subtitleP.style.animationDelay = "0.3s";
       subtitleP.textContent = lesson.subtitle;
       contentEl.appendChild(subtitleP);
     }
     
+    // Add a visible indicator that this is the intro page (for debugging)
+    console.log("Intro page rendered. Content element children:", contentEl.children.length);
+    console.log("Image container:", imageContainer);
+    console.log("Image src:", img.src);
+    
     // Force immediate visibility
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
     contentEl.style.opacity = "1";
+    contentEl.style.minHeight = "400px"; // Ensure space is visible
     
   } else if (lesson.type === "content") {
     // Clear quiz block for content lessons
