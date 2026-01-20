@@ -2490,39 +2490,93 @@ function handleSubjectClick(node) {
     // Update metadata first
     updateMetaForSubject(subject);
     
-    // Render lesson content immediately - this will show the first lesson
-    // renderLesson() will handle clearing and populating content
+    // Ensure we have the lesson data before rendering
+    const lessons = getCurrentLessons();
+    if (!lessons || lessons.length === 0) {
+      console.error("No lessons found for subject:", subject);
+      return;
+    }
+    
+    const firstLesson = lessons[0];
+    if (!firstLesson) {
+      console.error("First lesson not found for subject:", subject);
+      return;
+    }
+    
+    // Render lesson content immediately
     renderLesson();
     
-    // Force content to be visible after rendering
-    // Get fresh references after renderLesson() may have modified DOM
+    // Get fresh references after renderLesson()
     const contentElAfter = document.getElementById("lessonContent");
     const bodyElAfter = contentElAfter ? contentElAfter.parentElement : null;
     
+    // Force content to be visible
     if (contentElAfter) {
       contentElAfter.style.display = "block";
       contentElAfter.style.visibility = "visible";
       contentElAfter.style.opacity = "1";
       contentElAfter.classList.remove("is-hidden");
       
-      // Verify content was actually added
+      // Critical: If content is empty after renderLesson(), manually populate it
+      // This is a fallback to ensure content always shows on first click
       if (contentElAfter.innerHTML.trim() === "" || contentElAfter.children.length === 0) {
-        console.warn("Content was empty after render, checking lesson data...");
-        const lessons = getCurrentLessons();
-        const lesson = lessons[currentIndex] || lessons[0];
-        console.log("Current lesson:", lesson);
-        console.log("activeSubject:", activeSubject, "currentIndex:", currentIndex);
+        console.warn("Content was empty after renderLesson(), manually populating...");
         
-        // Force re-render if content is missing
-        if (lesson && (lesson.title || (lesson.paragraphs && lesson.paragraphs.length > 0))) {
-          console.warn("Lesson has content but wasn't rendered, forcing re-render...");
-          renderLesson();
+        // Hide quiz block if it's showing
+        const quizBlock = document.getElementById("quizBlock");
+        if (quizBlock) {
+          quizBlock.style.display = "none";
+          quizBlock.style.opacity = "0";
+          quizBlock.style.visibility = "hidden";
+        }
+        
+        // Clear and manually build content
+        contentElAfter.innerHTML = "";
+        
+        if (firstLesson.title) {
+          const titleP = document.createElement("p");
+          titleP.style.fontWeight = "600";
+          titleP.style.fontSize = "18px";
+          titleP.style.color = "#fff";
+          titleP.className = "slide-in-up";
+          titleP.textContent = firstLesson.title;
+          contentElAfter.appendChild(titleP);
+        }
+        
+        if (firstLesson.paragraphs && firstLesson.paragraphs.length > 0) {
+          firstLesson.paragraphs.forEach((text, idx) => {
+            const p = document.createElement("p");
+            p.className = "slide-in-up";
+            p.style.animationDelay = `${idx * 0.1}s`;
+            p.style.color = "var(--text)";
+            p.style.marginBottom = "18px";
+            p.textContent = text;
+            contentElAfter.appendChild(p);
+          });
+        }
+        
+        // Ensure visibility
+        contentElAfter.style.display = "block";
+        contentElAfter.style.visibility = "visible";
+        contentElAfter.style.opacity = "1";
+        contentElAfter.classList.remove("is-hidden");
+        
+        // Update progress to match
+        const progressLabel = document.getElementById("lessonProgressLabel");
+        const progressFill = document.getElementById("lessonProgressFill");
+        if (progressLabel) {
+          progressLabel.textContent = `1 / ${lessons.length}`;
+        }
+        if (progressFill) {
+          const pct = (1 / lessons.length) * 100;
+          progressFill.style.width = `${pct}%`;
         }
       }
       
       // Force a reflow to ensure rendering
       void contentElAfter.offsetHeight;
     }
+    
     if (bodyElAfter) {
       bodyElAfter.style.display = "block";
       bodyElAfter.style.visibility = "visible";
