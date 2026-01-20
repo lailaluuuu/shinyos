@@ -1976,6 +1976,32 @@ body::after {
   }
 }
 
+/* Falling confetti - continuous stream from top */
+.confetti-falling {
+  position: fixed;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 9996;
+  box-shadow: 0 0 6px currentColor;
+  animation: confetti-fall-down var(--fall-duration, 4s) linear forwards;
+  opacity: 0.9;
+}
+
+@keyframes confetti-fall-down {
+  0% {
+    transform: translate(0, 0) translateX(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(calc(var(--drift, 0) * 0.5), 50vh) translateX(calc(var(--drift, 0) * 0.3)) rotate(calc(var(--rotation, 0deg) * 0.5));
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--drift, 0), 100vh) translateX(calc(var(--drift, 0) * 0.6)) rotate(var(--rotation, 360deg));
+    opacity: 0;
+  }
+}
+
 /* Combo counter */
 .combo-indicator {
   position: absolute;

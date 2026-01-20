@@ -284,9 +284,12 @@ function getNextCreature() {
   return creature;
 }
 
+// Cyberpunk confetti colors
+const cyberpunkColors = ['#00ffff', '#ff00ff', '#b86bff', '#4ea2ff', '#2ed4c4', '#ff6b9d', '#ffdd9a', '#35c27e', '#9ae6ff', '#ff00aa'];
+
 // Full-screen confetti burst
 function triggerFullScreenConfetti() {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#fb7185', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+  const colors = cyberpunkColors;
   const confettiCount = 50; // More confetti for full screen
   
   // Create confetti from multiple points across the screen
@@ -328,6 +331,88 @@ function triggerFullScreenConfetti() {
   });
 }
 
+// Continuous falling confetti from top of screen
+let confettiInterval = null;
+let activeConfettiParticles = [];
+
+function startFallingConfetti() {
+  // Clear any existing interval
+  if (confettiInterval) {
+    clearInterval(confettiInterval);
+  }
+  
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  
+  // Create confetti continuously from top of screen
+  confettiInterval = setInterval(() => {
+    // Create 3-5 confetti pieces per interval
+    const count = 3 + Math.floor(Math.random() * 3);
+    
+    for (let i = 0; i < count; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti-falling';
+      
+      // Random position across top of screen
+      const startX = Math.random() * screenWidth;
+      const startY = -20; // Start above viewport
+      
+      // Random size
+      const size = 8 + Math.random() * 8;
+      confetti.style.width = size + 'px';
+      confetti.style.height = size + 'px';
+      
+      // Random color from cyberpunk palette
+      confetti.style.backgroundColor = cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+      
+      // Random horizontal drift
+      const drift = (Math.random() - 0.5) * 100; // -50 to 50px
+      confetti.style.setProperty('--drift', drift + 'px');
+      
+      // Random fall duration (3-6 seconds)
+      const duration = 3 + Math.random() * 3;
+      confetti.style.setProperty('--fall-duration', duration + 's');
+      
+      // Random rotation
+      const rotation = Math.random() * 720 - 360;
+      confetti.style.setProperty('--rotation', rotation + 'deg');
+      
+      // Random delay for staggered effect
+      const delay = Math.random() * 0.5;
+      confetti.style.animationDelay = delay + 's';
+      
+      confetti.style.left = startX + 'px';
+      confetti.style.top = startY + 'px';
+      
+      document.body.appendChild(confetti);
+      activeConfettiParticles.push(confetti);
+      
+      // Remove after animation completes
+      setTimeout(() => {
+        if (confetti.parentNode) {
+          confetti.remove();
+        }
+        activeConfettiParticles = activeConfettiParticles.filter(p => p !== confetti);
+      }, (duration + delay) * 1000);
+    }
+  }, 150); // Create new confetti every 150ms
+}
+
+function stopFallingConfetti() {
+  if (confettiInterval) {
+    clearInterval(confettiInterval);
+    confettiInterval = null;
+  }
+  
+  // Clean up any remaining particles
+  activeConfettiParticles.forEach(particle => {
+    if (particle.parentNode) {
+      particle.remove();
+    }
+  });
+  activeConfettiParticles = [];
+}
+
 // Core function: show one creature reaction card
 function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
   const root = document.getElementById("creature-reaction-root");
@@ -348,6 +433,9 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
     // Less confetti for wrong answers, but still some
     triggerFullScreenConfetti();
   }
+  
+  // Start continuous falling confetti
+  startFallingConfetti();
 
   // Clear previous
   root.innerHTML = "";
@@ -401,6 +489,8 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
       if (root) {
         root.style.animation = "";
       }
+      // Stop falling confetti when creature disappears
+      stopFallingConfetti();
     }, 220);
   }, visibleMs);
 }
@@ -423,3 +513,5 @@ function showNextCreatureReaction(outcome = "correct") {
 window.showCreatureReaction = showCreatureReaction;
 window.showSubjectReaction = showSubjectReaction;
 window.showNextCreatureReaction = showNextCreatureReaction;
+window.startFallingConfetti = startFallingConfetti;
+window.stopFallingConfetti = stopFallingConfetti;
