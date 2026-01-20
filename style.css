@@ -1526,7 +1526,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10000; /* Creates stacking context */
+  z-index: 10000; /* Base layer for backdrop and creature */
   pointer-events: none; /* don't block clicks */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: none; /* Hidden by default */
@@ -1589,7 +1589,8 @@ body::after {
     creature-card-float 3s ease-in-out infinite 0.6s;
   overflow: hidden;
   transform-style: preserve-3d;
-  z-index: 10002; /* Above confetti */
+  z-index: 10002; /* Above confetti (10001) and backdrop (10000) */
+  position: relative;
 }
 
 @keyframes creature-card-float {
