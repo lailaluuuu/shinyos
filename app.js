@@ -3,6 +3,14 @@
 const subjectLessons = {
   economics: [
     {
+      id: 0,
+      type: "intro",
+      imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
+      imageAlt: "Economics and markets",
+      title: "Welcome to Economics",
+      subtitle: "Markets and planned economies"
+    },
+    {
       id: 1,
       type: "content",
       title: "What is a planned economy?",
@@ -1822,8 +1830,87 @@ function renderLesson() {
   pendingXpEl.textContent = pendingXp.toString();
   hintText.textContent = "Tap an answer to check your understanding.";
 
-  // Render content vs quiz
-  if (lesson.type === "content") {
+  // Render content vs quiz vs intro
+  if (lesson.type === "intro") {
+    // Clear quiz block for intro lessons
+    if (quizBlock) {
+      quizBlock.innerHTML = "";
+      quizBlock.style.display = "none";
+      quizBlock.style.opacity = "0";
+      quizBlock.style.visibility = "hidden";
+    }
+    
+    // Force visibility of lesson body parent first
+    const lessonBody = contentEl.parentElement;
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
+    }
+    
+    // Clear and populate intro content
+    contentEl.innerHTML = "";
+    contentEl.style.display = "block";
+    contentEl.style.visibility = "visible";
+    contentEl.style.opacity = "1";
+    contentEl.classList.remove("is-hidden");
+    contentEl.style.textAlign = "center";
+    contentEl.style.padding = "40px 20px";
+    
+    // Create image container
+    const imageContainer = document.createElement("div");
+    imageContainer.style.marginBottom = "30px";
+    imageContainer.style.borderRadius = "16px";
+    imageContainer.style.overflow = "hidden";
+    imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.4)";
+    
+    const img = document.createElement("img");
+    img.src = lesson.imageUrl || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop";
+    img.alt = lesson.imageAlt || "Subject image";
+    img.style.width = "100%";
+    img.style.height = "auto";
+    img.style.maxHeight = "400px";
+    img.style.objectFit = "cover";
+    img.style.display = "block";
+    img.className = "slide-in-up";
+    
+    imageContainer.appendChild(img);
+    contentEl.appendChild(imageContainer);
+    
+    // Add title if provided
+    if (lesson.title) {
+      const titleP = document.createElement("h2");
+      titleP.style.fontWeight = "700";
+      titleP.style.fontSize = "28px";
+      titleP.style.color = "#fff";
+      titleP.style.marginBottom = "12px";
+      titleP.style.marginTop = "0";
+      titleP.className = "slide-in-up";
+      titleP.style.animationDelay = "0.2s";
+      titleP.textContent = lesson.title;
+      contentEl.appendChild(titleP);
+    }
+    
+    // Add subtitle if provided
+    if (lesson.subtitle) {
+      const subtitleP = document.createElement("p");
+      subtitleP.style.fontSize = "18px";
+      subtitleP.style.color = "var(--text-soft)";
+      subtitleP.style.marginTop = "0";
+      subtitleP.style.marginBottom = "0";
+      subtitleP.className = "slide-in-up";
+      subtitleP.style.animationDelay = "0.3s";
+      subtitleP.textContent = lesson.subtitle;
+      contentEl.appendChild(subtitleP);
+    }
+    
+    // Force immediate visibility
+    contentEl.style.display = "block";
+    contentEl.style.visibility = "visible";
+    contentEl.style.opacity = "1";
+    
+  } else if (lesson.type === "content") {
     // Clear quiz block for content lessons
     if (quizBlock) {
       quizBlock.innerHTML = "";
