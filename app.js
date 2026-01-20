@@ -2124,10 +2124,13 @@ function handleQuizClick(button, option, lesson, event) {
   const pendingXpEl = $("#pendingXp");
   const xpValue = $("#xpValue");
 
-  const celebrationOverlay = document.getElementById("celebrationOverlay");
-  const celebrationIcon = document.getElementById("celebrationIcon");
-  const celebrationText = document.getElementById("celebrationText");
-  const celebrationXpText = document.getElementById("celebrationXpText");
+  // Map activeSubject to creature subject key
+  const subjectMap = {
+    finance: "investing",
+    economics: "economics",
+    // Add more mappings as needed
+  };
+  const creatureSubject = subjectMap[activeSubject] || "default";
 
   if (option.correct) {
     // Success animation
@@ -2147,35 +2150,11 @@ function handleQuizClick(button, option, lesson, event) {
     hintText.classList.add('hint-success');
     setTimeout(() => hintText.classList.remove('hint-success'), 400);
 
-    // Show Blu Bot celebration overlay
-    if (celebrationOverlay) {
-      celebrationIcon.textContent = "🎉";
-      
-      // Clear previous content and add Blu Bot celebrating image
-      celebrationText.innerHTML = '';
-      const bluBotSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      bluBotSvg.setAttribute("viewBox", "0 0 120 160");
-      bluBotSvg.setAttribute("width", "150");
-      bluBotSvg.setAttribute("height", "200");
-      bluBotSvg.style.display = "block";
-      bluBotSvg.style.margin = "0 auto";
-      bluBotSvg.style.maxWidth = "100%";
-      bluBotSvg.style.height = "auto";
-      
-      const useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-      useElement.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#blubot-celebrate");
-      bluBotSvg.appendChild(useElement);
-      celebrationText.appendChild(bluBotSvg);
-      
-      celebrationXpText.textContent = `+${pendingXp} XP`;
-      celebrationOverlay.style.display = "flex";
-      celebrationOverlay.classList.add("active");
-      setTimeout(() => {
-        celebrationOverlay.classList.remove("active");
-        setTimeout(() => {
-          celebrationOverlay.style.display = "none";
-        }, 300);
-      }, 1200);
+    // Show creature reaction (rotates through all creatures)
+    if (window.showNextCreatureReaction) {
+      window.showNextCreatureReaction("correct");
+    } else if (window.showSubjectReaction) {
+      window.showSubjectReaction(creatureSubject, "correct");
     }
   } else {
     // Shake animation for incorrect
@@ -2203,13 +2182,11 @@ function handleQuizClick(button, option, lesson, event) {
     pendingXp = 2;
     hintText.textContent = lesson.explanation || "Not quite. Think about the key concepts we just covered.";
 
-    // Show Blu Bot feedback overlay
-    if (celebrationOverlay) {
-      celebrationIcon.textContent = "🤖";
-      celebrationText.textContent = "Blu Bot says: Try again!";
-      celebrationXpText.textContent = `+${pendingXp} XP`;
-      celebrationOverlay.classList.add("active");
-      setTimeout(() => celebrationOverlay.classList.remove("active"), 1200);
+    // Show creature reaction for wrong answer (rotates through all creatures)
+    if (window.showNextCreatureReaction) {
+      window.showNextCreatureReaction("wrong");
+    } else if (window.showSubjectReaction) {
+      window.showSubjectReaction(creatureSubject, "wrong");
     }
   }
 
