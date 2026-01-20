@@ -1,59 +1,6 @@
 // Subject → lessons mapping
 
 const subjectLessons = {
-  economics: [
-    {
-      id: 0,
-      type: "intro",
-      imageUrl: "images/economics-intro.png",
-      imageAlt: "Economics — Markets and planned economies",
-      title: "Welcome to Economics",
-      subtitle: "Markets and planned economies"
-    },
-    {
-      id: 1,
-      type: "content",
-      title: "What is a planned economy?",
-      paragraphs: [
-        "In a planned economy, the government takes control of the big economic decisions: what gets produced, how much is made, and how it is allocated.",
-        "Instead of buyers and sellers shaping the market, the state plays conductor — setting targets for factories, farms, and services."
-      ]
-    },
-    {
-      id: 2,
-      type: "quiz",
-      question: "Who usually sets prices in a planned economy?",
-      options: [
-        { id: "a", text: "The government", correct: true },
-        { id: "b", text: "Individual buyers and sellers", correct: false },
-        { id: "c", text: "Private companies negotiating freely", correct: false }
-      ],
-      explanation:
-        "In a planned economy, key prices are typically set by the state as part of the overall plan, not left to market forces."
-    },
-    {
-      id: 3,
-      type: "content",
-      title: "Strengths and weaknesses",
-      paragraphs: [
-        "Advantage: a planned economy can move resources quickly towards national goals — for example, rapid industrialisation or wartime production.",
-        "Weakness: because it doesn't rely on real-time customer choices, it often misjudges what people actually want, leading to shortages of some goods and surpluses of others."
-      ]
-    },
-    {
-      id: 4,
-      type: "quiz",
-      question: "Which outcome fits a planned economy?",
-      options: [
-        { id: "a", text: "Long queues and shortages for some goods", correct: true },
-        { id: "b", text: "Instant price spikes whenever demand rises", correct: false },
-        { id: "c", text: "Unlimited product choice on every shelf", correct: false }
-      ],
-      explanation:
-        "Planned systems have a history of queues and shortages, because central planners can't perfectly predict changing preferences."
-    }
-  ],
-
   finance: [
     {
       id: 0,
@@ -1620,60 +1567,6 @@ const subjectLessons = {
         "Ready for bonus tracks? Coming soon: Money Personalities, FIRE, Housing vs Renting, Debt, Macroeconomics, and more!"
       ]
     }
-  ],
-
-  space: [
-    {
-      id: 0,
-      type: "intro",
-      imageUrl: "images/space-intro.png",
-      imageAlt: "Space Race — The Cold War in space",
-      title: "Welcome to the Space Race",
-      subtitle: "The Cold War in space"
-    },
-    {
-      id: 1,
-      type: "content",
-      title: "What was the Space Race?",
-      paragraphs: [
-        "The Space Race was a Cold War competition between the United States and the Soviet Union to achieve major milestones in space exploration.",
-        "It wasn't just about rockets — it was about proving technological power, national prestige, and which system looked stronger to the rest of the world."
-      ]
-    },
-    {
-      id: 2,
-      type: "quiz",
-      question: "Which two countries were the main rivals in the Space Race?",
-      options: [
-        { id: "a", text: "United States and Soviet Union", correct: true },
-        { id: "b", text: "United Kingdom and France", correct: false },
-        { id: "c", text: "China and Japan", correct: false }
-      ],
-      explanation:
-        "The Space Race was mainly between the USA and the USSR, as part of the wider Cold War rivalry."
-    },
-    {
-      id: 3,
-      type: "content",
-      title: "Key milestones",
-      paragraphs: [
-        "1957: Sputnik 1 becomes the first artificial satellite in orbit, launched by the Soviet Union — a huge shock to the world.",
-        "1961: Yuri Gagarin becomes the first human in space.",
-        "1969: Apollo 11 lands the first humans on the Moon, with Neil Armstrong and Buzz Aldrin walking on the surface."
-      ]
-    },
-    {
-      id: 4,
-      type: "quiz",
-      question: "Which of these was the first artificial satellite in space?",
-      options: [
-        { id: "a", text: "Sputnik 1", correct: true },
-        { id: "b", text: "Apollo 11", correct: false },
-        { id: "c", text: "Hubble Space Telescope", correct: false }
-      ],
-      explanation:
-        "Sputnik 1, launched by the Soviet Union in 1957, was the first artificial satellite in Earth orbit."
-    }
   ]
 };
 
@@ -1684,40 +1577,21 @@ const categories = [
     name: "Foundations",
     icon: "🏛️",
     subtitle: "Core concepts and fundamentals",
-    subjects: ["economics", "finance"]
-  },
-  {
-    id: "history",
-    name: "History",
-    icon: "📜",
-    subtitle: "Explore the past",
-    subjects: ["space"]
+    subjects: ["finance"]
   }
 ];
 
 // Subject metadata
 const subjectMetadata = {
-  economics: {
-    name: "Economics",
-    icon: "💼",
-    subtitle: "Markets and planned economies",
-    category: "foundations"
-  },
   finance: {
     name: "Investing",
     icon: "💰",
     subtitle: "The real-world skill school forgot to mention",
     category: "foundations"
-  },
-  space: {
-    name: "Space Race",
-    icon: "🚀",
-    subtitle: "The Cold War in space",
-    category: "history"
   }
 };
 
-let activeSubject = "economics";
+let activeSubject = "finance";
 let currentIndex = 0;
 let xp = 120;
 let pendingXp = 0;
@@ -1935,7 +1809,7 @@ function renderLesson() {
       
       // Fallback: show a colored placeholder with subject icon
       this.style.display = "none";
-      const subjectIcon = activeSubject === "finance" ? "💰" : activeSubject === "economics" ? "💼" : "🚀";
+      const subjectIcon = activeSubject === "finance" ? "💰" : "📚";
       imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
       imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
       imageContainer.style.minHeight = "300px";
@@ -2443,17 +2317,7 @@ function updateMetaForSubject(subject) {
     setTimeout(() => el.classList.remove('text-fade-in'), 400);
   });
 
-  if (subject === "economics") {
-    subjectChip.textContent = "Economics · Markets";
-    unitChip.textContent = "Unit: Planned Economies";
-    lessonTitle.textContent = "Planned Economies";
-    lessonSubtitle.textContent = "When the state takes the steering wheel of the market.";
-    era = "Foundations";
-    journalText.textContent =
-      "Economics City · Markets. Stamps for planned vs market systems, tiny city diagrams, and your one-line notes on who sets prices.";
-    missionsText.textContent =
-      "Soon: run a tiny model of a planned economy vs a market economy and watch queues, surpluses, and growth change your city.";
-  } else if (subject === "finance") {
+  if (subject === "finance") {
     subjectChip.textContent = "Investing · Finance";
     unitChip.textContent = "Unit: The Real-World Skill School Forgot";
     lessonTitle.textContent = "Investing — The Real-World Skill School Forgot to Mention";
@@ -2461,22 +2325,12 @@ function updateMetaForSubject(subject) {
     era = "Foundations";
     journalText.textContent = "Investing District · Finance. Stamps for compound growth, asset types, risk management, and your notes on building wealth.";
     missionsText.textContent = "Soon: build a portfolio simulation and watch your investments grow over time.";
-  } else if (subject === "space") {
-    subjectChip.textContent = "Cosmic History · Space Race";
-    unitChip.textContent = "Unit: The Space Race";
-    lessonTitle.textContent = "The Space Race";
-    lessonSubtitle.textContent = "When rockets, politics, and prestige left the atmosphere.";
-    era = "Modern";
-    journalText.textContent =
-      "Cosmic History · Space Race. Stamps for Sputnik, Gagarin, Apollo 11, and your notes on why space mattered in the Cold War.";
-    missionsText.textContent =
-      "Soon: choose which missions to fund as a Cold War leader and see how your space strategy shifts global prestige.";
   } else {
     subjectChip.textContent = "Prototype · Subject";
     unitChip.textContent = "Unit: Coming soon";
     lessonTitle.textContent = "Prototype subject";
     lessonSubtitle.textContent =
-      "Economics and Cosmic History are alive. This district will wake up next.";
+      "This subject will be available soon.";
     era = "Foundations";
     journalText.textContent =
       "Prototype subject. This journal page will hold diagrams and notes once this district is wired.";
@@ -2632,7 +2486,7 @@ function handleSubjectClick(node) {
   node.classList.add('node-activate');
   setTimeout(() => node.classList.remove('node-activate'), 400);
 
-  if (["economics", "space", "finance"].includes(subject) || subjectLessons[subject]) {
+  if (subjectLessons[subject]) {
     activeSubject = subject;
     currentIndex = 0; // Always reset to first lesson
     
@@ -2816,10 +2670,10 @@ function handleSubjectClick(node) {
       bodyElAfter.classList.remove("is-hidden");
     }
   } else {
-    activeSubject = "economics";
+    activeSubject = "finance";
     updateMetaForSubject(subject);
     $("#lessonContent").innerHTML =
-      "<p class='slide-in-up'>Prototype mode: this subject will get its own lesson flow. For now, Economics City and Cosmic History are the ones that are alive.</p>";
+      "<p class='slide-in-up'>This subject is not available yet. Please select a valid subject.</p>";
     $("#quizBlock").innerHTML = "";
     const lessons = getCurrentLessons();
     const progressLabel = $("#lessonProgressLabel");
@@ -2847,7 +2701,7 @@ document.addEventListener("DOMContentLoaded", () => {
     celebrationOverlay.style.display = "none";
   }
   
-  updateMetaForSubject("economics");
+  updateMetaForSubject("finance");
   
   // Show categories by default
   showCategories();
