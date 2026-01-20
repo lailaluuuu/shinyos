@@ -1910,16 +1910,20 @@ function renderLesson() {
     imageContainer.appendChild(img);
     
     // Set src after appending to ensure proper loading
+    // Add cache-busting query parameter to force browser to reload if image was updated
+    const cacheBuster = `?v=${Date.now()}`;
+    const finalPathWithCache = finalPath + cacheBuster;
+    
     // Also set as background image as fallback
-    imageContainer.style.backgroundImage = `url("${finalPath}")`;
+    imageContainer.style.backgroundImage = `url("${finalPathWithCache}")`;
     imageContainer.style.backgroundSize = "cover";
     imageContainer.style.backgroundPosition = "center";
     imageContainer.style.backgroundRepeat = "no-repeat";
     
-    img.src = finalPath;
+    img.src = finalPathWithCache;
     
-    console.log("🔍 Attempting to load intro image from:", finalPath);
-    console.log("📁 Full URL would be:", window.location.origin + "/" + finalPath);
+    console.log("🔍 Attempting to load intro image from:", finalPathWithCache);
+    console.log("📁 Full URL would be:", window.location.origin + "/" + finalPathWithCache);
     console.log("🌐 Current page:", window.location.href);
     
     // Add error handling for image load
