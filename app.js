@@ -1866,14 +1866,19 @@ function renderLesson() {
     
     // Create image container with better visibility
     const imageContainer = document.createElement("div");
+    imageContainer.id = "intro-image-container"; // Add ID for debugging
     imageContainer.style.marginBottom = "30px";
+    imageContainer.style.marginTop = "0";
     imageContainer.style.borderRadius = "16px";
     imageContainer.style.overflow = "hidden";
     imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
     imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)"; // Light background for contrast
     imageContainer.style.position = "relative";
     imageContainer.style.minHeight = "300px"; // Ensure container has height even before image loads
+    imageContainer.style.width = "100%"; // Ensure full width
     imageContainer.style.display = "block"; // Ensure container is visible
+    imageContainer.style.visibility = "visible"; // Explicit visibility
+    imageContainer.style.opacity = "1"; // Explicit opacity
     
     const img = document.createElement("img");
     // Use the image URL from lesson data
@@ -1905,6 +1910,12 @@ function renderLesson() {
     imageContainer.appendChild(img);
     
     // Set src after appending to ensure proper loading
+    // Also set as background image as fallback
+    imageContainer.style.backgroundImage = `url("${finalPath}")`;
+    imageContainer.style.backgroundSize = "cover";
+    imageContainer.style.backgroundPosition = "center";
+    imageContainer.style.backgroundRepeat = "no-repeat";
+    
     img.src = finalPath;
     
     console.log("🔍 Attempting to load intro image from:", finalPath);
@@ -1960,36 +1971,8 @@ function renderLesson() {
     };
     
     // Image is already appended to container above, now append container to content
+    // Since we cleared innerHTML above, this will be the first (and main) element in the content area
     contentEl.appendChild(imageContainer);
-    
-    // Add title if provided
-    if (lesson.title) {
-      const titleP = document.createElement("h2");
-      titleP.style.fontWeight = "700";
-      titleP.style.fontSize = "32px";
-      titleP.style.color = "#fff";
-      titleP.style.marginBottom = "12px";
-      titleP.style.marginTop = "20px";
-      titleP.style.textShadow = "0 2px 8px rgba(0, 0, 0, 0.5)";
-      titleP.className = "slide-in-up";
-      titleP.style.animationDelay = "0.2s";
-      titleP.textContent = lesson.title;
-      contentEl.appendChild(titleP);
-    }
-    
-    // Add subtitle if provided
-    if (lesson.subtitle) {
-      const subtitleP = document.createElement("p");
-      subtitleP.style.fontSize = "20px";
-      subtitleP.style.color = "rgba(255, 255, 255, 0.8)";
-      subtitleP.style.marginTop = "0";
-      subtitleP.style.marginBottom = "0";
-      subtitleP.style.textShadow = "0 1px 4px rgba(0, 0, 0, 0.5)";
-      subtitleP.className = "slide-in-up";
-      subtitleP.style.animationDelay = "0.3s";
-      subtitleP.textContent = lesson.subtitle;
-      contentEl.appendChild(subtitleP);
-    }
     
     // Add a visible indicator that this is the intro page (for debugging)
     console.log("Intro page rendered. Content element children:", contentEl.children.length);
@@ -2497,8 +2480,8 @@ function updateMetaForSubject(subject) {
       "Prototype subject. Soon: a small simulation mission for this area.";
   }
 
-  eraLabel.textContent = era;
-  eraPillLabel.textContent = `${era} Era`;
+  if (eraLabel) eraLabel.textContent = era;
+  if (eraPillLabel) eraPillLabel.textContent = `${era} Era`;
   
   // Pulse the era pill
   const eraPill = $("#eraLabel").parentElement;
