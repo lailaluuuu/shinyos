@@ -245,11 +245,15 @@ function getCurrentLessons() {
 
 function renderLesson() {
   const lessons = getCurrentLessons();
+  console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons:", lessons);
+  
   const lesson = lessons[currentIndex] || lessons[0];
   if (!lesson) {
-    console.warn("No lesson found at index", currentIndex);
+    console.warn("No lesson found at index", currentIndex, "for subject", activeSubject);
     return;
   }
+  
+  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question);
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -262,6 +266,8 @@ function renderLesson() {
     console.error("lessonContent element not found!");
     return;
   }
+  
+  console.log("Content element found:", contentEl);
 
   // Update progress immediately
   progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
@@ -288,36 +294,50 @@ function renderLesson() {
     contentEl.innerHTML = "";
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
+    contentEl.style.opacity = "1";
+    contentEl.style.minHeight = "auto";
 
-      if (lesson.title) {
-        const titleP = document.createElement("p");
-        titleP.style.fontWeight = "600";
-        titleP.className = "slide-in-up";
-        titleP.textContent = lesson.title;
-        contentEl.appendChild(titleP);
-      }
+    if (lesson.title) {
+      const titleP = document.createElement("p");
+      titleP.style.fontWeight = "600";
+      titleP.style.fontSize = "18px";
+      titleP.style.color = "#fff";
+      titleP.className = "slide-in-up";
+      titleP.textContent = lesson.title;
+      contentEl.appendChild(titleP);
+      console.log("Added title:", lesson.title);
+    }
 
-      if (lesson.paragraphs && lesson.paragraphs.length > 0) {
-        lesson.paragraphs.forEach((text, idx) => {
-          const p = document.createElement("p");
-          p.className = "slide-in-up";
-          p.style.animationDelay = `${idx * 0.1}s`;
-          p.textContent = text;
-          contentEl.appendChild(p);
-        });
-      } else {
-        // Fallback if no paragraphs
-        const fallback = document.createElement("p");
-        fallback.className = "slide-in-up";
-        fallback.textContent = "Lesson content loading...";
-        contentEl.appendChild(fallback);
-      }
-      
-      // Make content visible immediately
-      contentEl.style.opacity = "1";
-      setTimeout(() => {
-        contentEl.style.opacity = "1";
-      }, 10);
+    if (lesson.paragraphs && lesson.paragraphs.length > 0) {
+      lesson.paragraphs.forEach((text, idx) => {
+        const p = document.createElement("p");
+        p.className = "slide-in-up";
+        p.style.animationDelay = `${idx * 0.1}s`;
+        p.style.color = "var(--text)";
+        p.style.marginBottom = "18px";
+        p.textContent = text;
+        contentEl.appendChild(p);
+        console.log("Added paragraph", idx, ":", text.substring(0, 50) + "...");
+      });
+    } else {
+      // Fallback if no paragraphs
+      const fallback = document.createElement("p");
+      fallback.className = "slide-in-up";
+      fallback.textContent = "Lesson content loading...";
+      contentEl.appendChild(fallback);
+      console.warn("No paragraphs found for lesson:", lesson);
+    }
+    
+    // Force visibility
+    const lessonBody = contentEl.parentElement;
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+    }
+    
+    console.log("Content element innerHTML length:", contentEl.innerHTML.length);
+    console.log("Content element children:", contentEl.children.length);
     } else if (lesson.type === "quiz") {
       // Fade out for quiz transition
       contentEl.style.opacity = '0';
