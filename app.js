@@ -1808,6 +1808,15 @@ function renderLesson() {
       quizBlock.innerHTML = "";
       quizBlock.style.display = "none";
       quizBlock.style.opacity = "0";
+      quizBlock.style.visibility = "hidden";
+    }
+    
+    // Force visibility of lesson body parent first
+    const lessonBody = contentEl.parentElement;
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
     }
     
     // Clear and populate content immediately - NO DELAY
@@ -1848,28 +1857,31 @@ function renderLesson() {
       console.warn("No paragraphs found for lesson:", lesson);
     }
     
-    // Force visibility
-    const lessonBody = contentEl.parentElement;
-    if (lessonBody) {
-      lessonBody.style.display = "block";
-      lessonBody.style.visibility = "visible";
-      lessonBody.style.opacity = "1";
-    }
-    
-    // Ensure content is visible immediately
-    setTimeout(() => {
-      contentEl.style.opacity = "1";
+    // Double-check visibility is set (especially important for first lesson)
+    requestAnimationFrame(() => {
       contentEl.style.display = "block";
-    }, 0);
+      contentEl.style.visibility = "visible";
+      contentEl.style.opacity = "1";
+      if (lessonBody) {
+        lessonBody.style.display = "block";
+        lessonBody.style.visibility = "visible";
+        lessonBody.style.opacity = "1";
+      }
+    });
     
     console.log("Content element innerHTML length:", contentEl.innerHTML.length);
     console.log("Content element children:", contentEl.children.length);
     } else if (lesson.type === "quiz") {
-      // Fade out for quiz transition
-      contentEl.style.opacity = '0';
-      if (quizBlock) quizBlock.style.opacity = '0';
+      // For first lesson (index 0), render immediately without fade transition
+      const isFirstLesson = currentIndex === 0;
       
-      setTimeout(() => {
+      if (!isFirstLesson) {
+        // Fade out for quiz transition (only when not first lesson)
+        contentEl.style.opacity = '0';
+        if (quizBlock) quizBlock.style.opacity = '0';
+      }
+      
+      const renderQuiz = () => {
         // Show both content area (for intro) and quiz block
         contentEl.innerHTML = "";
         contentEl.style.display = "block";
@@ -1883,6 +1895,7 @@ function renderLesson() {
         if (quizBlock) {
           quizBlock.innerHTML = "";
           quizBlock.style.display = "block";
+          quizBlock.style.visibility = "visible";
 
           const label = document.createElement("div");
           label.className = "quiz-label slide-in-up";
@@ -1925,13 +1938,24 @@ function renderLesson() {
           quizBlock.appendChild(optionsWrapper);
         }
 
-        // Fade in quiz
+        // Fade in quiz (or show immediately for first lesson)
         contentEl.style.opacity = '1';
-        if (quizBlock) quizBlock.style.opacity = '1';
+        if (quizBlock) {
+          quizBlock.style.opacity = '1';
+          quizBlock.style.display = "block";
+        }
         
         // Debug log
         console.log("Rendered quiz lesson:", lesson.type, "Content length:", contentEl.innerHTML.length);
-      }, 200);
+      };
+      
+      if (isFirstLesson) {
+        // Render immediately for first lesson
+        renderQuiz();
+      } else {
+        // Use setTimeout for transitions between lessons
+        setTimeout(renderQuiz, 200);
+      }
     }
     
     // Debug log for content lessons
@@ -2336,6 +2360,37 @@ function handleSubjectClick(node) {
     activeSubject = subject;
     currentIndex = 0; // Always reset to first lesson
     updateMetaForSubject(subject);
+    
+    // Ensure lesson tab is active
+    const tabs = document.querySelectorAll(".tab");
+    tabs.forEach((t) => t.classList.remove("is-active"));
+    const lessonTab = document.querySelector('[data-tab="lesson"]');
+    if (lessonTab) {
+      lessonTab.classList.add("is-active");
+    }
+    
+    // Show lesson panel, hide journal and missions
+    const lessonCard = document.getElementById("lessonCard");
+    const journalPanel = document.getElementById("journalPanel");
+    const missionsPanel = document.getElementById("missionsPanel");
+    if (lessonCard) lessonCard.classList.remove("is-hidden");
+    if (journalPanel) journalPanel.classList.add("is-hidden");
+    if (missionsPanel) missionsPanel.classList.add("is-hidden");
+    
+    // Ensure lesson content area is visible
+    const lessonContent = document.getElementById("lessonContent");
+    const lessonBody = lessonContent ? lessonContent.parentElement : null;
+    if (lessonContent) {
+      lessonContent.style.display = "block";
+      lessonContent.style.visibility = "visible";
+      lessonContent.style.opacity = "1";
+    }
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+    }
+    
     // Render immediately - no delay
     renderLesson();
   } else {
