@@ -1826,15 +1826,20 @@ function renderLesson() {
     
     // For first lesson, ensure everything is visible BEFORE clearing
     const isFirstLesson = currentIndex === 0;
+    
+    // Always ensure lesson body is visible (especially important for first render)
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
+    }
+    
     if (isFirstLesson) {
       contentEl.style.display = "block";
       contentEl.style.visibility = "visible";
       contentEl.style.opacity = "1";
-      if (lessonBody) {
-        lessonBody.style.display = "block";
-        lessonBody.style.visibility = "visible";
-        lessonBody.style.opacity = "1";
-      }
+      contentEl.classList.remove("is-hidden");
     }
     
     // Clear and populate content immediately - NO DELAY
@@ -1843,6 +1848,7 @@ function renderLesson() {
     contentEl.style.visibility = "visible";
     contentEl.style.opacity = "1";
     contentEl.style.minHeight = "auto";
+    contentEl.classList.remove("is-hidden");
 
     // Build content synchronously
     if (lesson.title) {
@@ -2448,9 +2454,11 @@ function handleSubjectClick(node) {
     if (journalPanel) journalPanel.classList.add("is-hidden");
     if (missionsPanel) missionsPanel.classList.add("is-hidden");
     
-    // Ensure lesson content area is visible BEFORE rendering
+    // Get references to content elements
     const lessonContent = document.getElementById("lessonContent");
     const lessonBody = lessonContent ? lessonContent.parentElement : null;
+    
+    // Ensure lesson content area is visible BEFORE rendering
     if (lessonContent) {
       lessonContent.style.display = "block";
       lessonContent.style.visibility = "visible";
@@ -2464,13 +2472,18 @@ function handleSubjectClick(node) {
       lessonBody.classList.remove("is-hidden");
     }
     
-    // Update metadata and render lesson immediately
+    // Update metadata first
     updateMetaForSubject(subject);
+    
+    // Explicitly clear any old content before rendering
+    if (lessonContent) {
+      lessonContent.innerHTML = "";
+    }
     
     // Render lesson content immediately - this will show the first lesson
     renderLesson();
     
-    // Double-check content is visible after rendering (synchronous check)
+    // Force content to be visible after rendering
     if (lessonContent) {
       lessonContent.style.display = "block";
       lessonContent.style.visibility = "visible";
@@ -2485,6 +2498,20 @@ function handleSubjectClick(node) {
       lessonBody.style.opacity = "1";
       lessonBody.classList.remove("is-hidden");
     }
+    
+    // Use requestAnimationFrame as a safeguard to ensure content is visible
+    requestAnimationFrame(() => {
+      if (lessonContent && lessonContent.innerHTML.trim() === "") {
+        console.warn("Content was empty after render, forcing re-render...");
+        renderLesson();
+        if (lessonContent) {
+          lessonContent.style.display = "block";
+          lessonContent.style.visibility = "visible";
+          lessonContent.style.opacity = "1";
+          lessonContent.classList.remove("is-hidden");
+        }
+      }
+    });
   } else {
     activeSubject = "economics";
     updateMetaForSubject(subject);
