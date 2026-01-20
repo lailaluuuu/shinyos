@@ -1977,7 +1977,23 @@ function handleQuizClick(button, option, lesson, event) {
     // Show Blu Bot celebration overlay
     if (celebrationOverlay) {
       celebrationIcon.textContent = "🎉";
-      celebrationText.textContent = "Correct! Blu Bot celebrates!";
+      
+      // Clear previous content and add Blu Bot celebrating image
+      celebrationText.innerHTML = '';
+      const bluBotSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      bluBotSvg.setAttribute("viewBox", "0 0 120 160");
+      bluBotSvg.setAttribute("width", "150");
+      bluBotSvg.setAttribute("height", "200");
+      bluBotSvg.style.display = "block";
+      bluBotSvg.style.margin = "0 auto";
+      bluBotSvg.style.maxWidth = "100%";
+      bluBotSvg.style.height = "auto";
+      
+      const useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      useElement.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#blubot-celebrate");
+      bluBotSvg.appendChild(useElement);
+      celebrationText.appendChild(bluBotSvg);
+      
       celebrationXpText.textContent = `+${pendingXp} XP`;
       celebrationOverlay.style.display = "flex";
       celebrationOverlay.classList.add("active");
