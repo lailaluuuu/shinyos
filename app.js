@@ -2431,9 +2431,8 @@ function handleSubjectClick(node) {
   if (["economics", "space", "finance"].includes(subject) || subjectLessons[subject]) {
     activeSubject = subject;
     currentIndex = 0; // Always reset to first lesson
-    updateMetaForSubject(subject);
     
-    // Ensure lesson tab is active
+    // Ensure lesson tab is active first
     const tabs = document.querySelectorAll(".tab");
     tabs.forEach((t) => t.classList.remove("is-active"));
     const lessonTab = document.querySelector('[data-tab="lesson"]');
@@ -2449,22 +2448,43 @@ function handleSubjectClick(node) {
     if (journalPanel) journalPanel.classList.add("is-hidden");
     if (missionsPanel) missionsPanel.classList.add("is-hidden");
     
-    // Ensure lesson content area is visible
+    // Ensure lesson content area is visible BEFORE rendering
     const lessonContent = document.getElementById("lessonContent");
     const lessonBody = lessonContent ? lessonContent.parentElement : null;
     if (lessonContent) {
       lessonContent.style.display = "block";
       lessonContent.style.visibility = "visible";
       lessonContent.style.opacity = "1";
+      lessonContent.classList.remove("is-hidden");
     }
     if (lessonBody) {
       lessonBody.style.display = "block";
       lessonBody.style.visibility = "visible";
       lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
     }
     
-    // Render immediately - no delay
+    // Update metadata and render lesson immediately
+    updateMetaForSubject(subject);
+    
+    // Render lesson content immediately - this will show the first lesson
     renderLesson();
+    
+    // Double-check content is visible after rendering (synchronous check)
+    if (lessonContent) {
+      lessonContent.style.display = "block";
+      lessonContent.style.visibility = "visible";
+      lessonContent.style.opacity = "1";
+      lessonContent.classList.remove("is-hidden");
+      // Force a reflow to ensure rendering
+      void lessonContent.offsetHeight;
+    }
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
+    }
   } else {
     activeSubject = "economics";
     updateMetaForSubject(subject);
