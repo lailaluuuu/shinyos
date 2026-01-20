@@ -473,7 +473,7 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
 
   root.appendChild(card);
 
-  const visibleMs = outcome === "streak" ? 5000 : 4000; // Increased: streak 5s, others 4s
+  const visibleMs = outcome === "streak" ? 3500 : 2800; // Streak 3.5s, others 2.8s
 
   setTimeout(() => {
     card.style.animation = "creature-pop-out 200ms ease-in forwards";
