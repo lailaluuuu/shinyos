@@ -124,7 +124,10 @@
               <span class="xp-pill">⭐ +<span id="pendingXp">0</span> XP</span>
               <span class="hint-text" id="hintText">Tap an answer to check your understanding.</span>
             </div>
-            <button class="next-btn" id="nextBtn" onclick="window.goNextDirect && window.goNextDirect(); console.log('INLINE ONCLICK FIRED!');">Continue</button>
+            <div class="footer-buttons">
+              <button class="back-btn" id="backBtn" onclick="window.goBackDirect && window.goBackDirect();" style="display: none;">← Back</button>
+              <button class="next-btn" id="nextBtn" onclick="window.goNextDirect && window.goNextDirect(); console.log('INLINE ONCLICK FIRED!');">Continue</button>
+            </div>
           </div>
         </div>
 

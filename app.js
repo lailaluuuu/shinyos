@@ -1793,6 +1793,9 @@ function renderLesson() {
   progressFill.classList.add('progress-pulse');
   setTimeout(() => progressFill.classList.remove('progress-pulse'), 400);
 
+  // Update back button visibility
+  updateBackButton();
+
   // Reset hint + pending XP display
   pendingXp = 0;
   pendingXpEl.textContent = pendingXp.toString();
@@ -1807,7 +1810,7 @@ function renderLesson() {
       quizBlock.style.opacity = "0";
     }
     
-    // Clear and populate content immediately
+    // Clear and populate content immediately - NO DELAY
     contentEl.innerHTML = "";
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
@@ -1852,6 +1855,12 @@ function renderLesson() {
       lessonBody.style.visibility = "visible";
       lessonBody.style.opacity = "1";
     }
+    
+    // Ensure content is visible immediately
+    setTimeout(() => {
+      contentEl.style.opacity = "1";
+      contentEl.style.display = "block";
+    }, 0);
     
     console.log("Content element innerHTML length:", contentEl.innerHTML.length);
     console.log("Content element children:", contentEl.children.length);
@@ -2041,6 +2050,35 @@ function goNext() {
     return;
   }
   renderLesson();
+  updateBackButton();
+}
+
+function goBack() {
+  const lessons = getCurrentLessons();
+  if (!lessons.length) return;
+
+  const backBtn = $("#backBtn");
+  if (backBtn) {
+    backBtn.classList.add('button-press');
+    setTimeout(() => backBtn.classList.remove('button-press'), 200);
+  }
+
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderLesson();
+    updateBackButton();
+  }
+}
+
+function updateBackButton() {
+  const backBtn = $("#backBtn");
+  if (backBtn) {
+    if (currentIndex > 0) {
+      backBtn.style.display = "inline-flex";
+    } else {
+      backBtn.style.display = "none";
+    }
+  }
 }
 
 function switchTab(tab) {
@@ -2280,12 +2318,10 @@ function handleSubjectClick(node) {
 
   if (["economics", "space", "finance"].includes(subject) || subjectLessons[subject]) {
     activeSubject = subject;
-    currentIndex = 0;
+    currentIndex = 0; // Always reset to first lesson
     updateMetaForSubject(subject);
-    // Force immediate render
-    setTimeout(() => {
-      renderLesson();
-    }, 100);
+    // Render immediately - no delay
+    renderLesson();
   } else {
     activeSubject = "economics";
     updateMetaForSubject(subject);
@@ -2303,6 +2339,7 @@ function handleSubjectClick(node) {
 // Make showCategories available globally
 window.showCategories = showCategories;
 window.goNextDirect = goNext;
+window.goBackDirect = goBack;
 
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize quiz block as hidden
@@ -2322,12 +2359,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Show categories by default
   showCategories();
   
-  // Render initial lesson after a short delay to ensure DOM is ready
-  setTimeout(() => {
-    renderLesson();
-  }, 200);
+  // Render initial lesson immediately
+  renderLesson();
 
   $("#nextBtn").addEventListener("click", goNext);
+  
+  const backBtn = $("#backBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", goBack);
+    // Initialize back button visibility
+    updateBackButton();
+  }
 
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => {
