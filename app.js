@@ -2483,9 +2483,10 @@ function updateMetaForSubject(subject) {
   if (eraLabel) eraLabel.textContent = era;
   if (eraPillLabel) eraPillLabel.textContent = `${era} Era`;
   
-  // Pulse the era pill
-  const eraPill = $("#eraLabel").parentElement;
-  if (eraPill) {
+  // Pulse the era pill (only if eraLabel exists)
+  const eraLabelEl = $("#eraLabel");
+  if (eraLabelEl && eraLabelEl.parentElement) {
+    const eraPill = eraLabelEl.parentElement;
     eraPill.classList.add('pill-pulse');
     setTimeout(() => eraPill.classList.remove('pill-pulse'), 500);
   }
