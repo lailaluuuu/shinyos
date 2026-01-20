@@ -1872,6 +1872,8 @@ function renderLesson() {
     imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
     imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)"; // Light background for contrast
     imageContainer.style.position = "relative";
+    imageContainer.style.minHeight = "300px"; // Ensure container has height even before image loads
+    imageContainer.style.display = "block"; // Ensure container is visible
     
     const img = document.createElement("img");
     // Use the image URL from lesson data
@@ -1886,7 +1888,6 @@ function renderLesson() {
       finalPath = "images/" + finalPath;
     }
     
-    img.src = finalPath;
     img.alt = lesson.imageAlt || "Subject image";
     img.style.width = "100%";
     img.style.height = "auto";
@@ -1895,9 +1896,16 @@ function renderLesson() {
     img.style.objectFit = "cover";
     img.style.display = "block";
     img.style.opacity = "1";
+    img.style.visibility = "visible"; // Ensure image is visible
     img.style.filter = "brightness(1.1) contrast(1.05)"; // Make image brighter
     img.className = "slide-in-up";
     img.loading = "eager"; // Load immediately
+    
+    // Append image to container BEFORE setting src to ensure it's in the DOM
+    imageContainer.appendChild(img);
+    
+    // Set src after appending to ensure proper loading
+    img.src = finalPath;
     
     console.log("🔍 Attempting to load intro image from:", finalPath);
     console.log("📁 Full URL would be:", window.location.origin + "/" + finalPath);
@@ -1947,10 +1955,11 @@ function renderLesson() {
       // Ensure image is visible
       this.style.display = "block";
       this.style.opacity = "1";
+      this.style.visibility = "visible";
       imageContainer.style.display = "block";
     };
     
-    imageContainer.appendChild(img);
+    // Image is already appended to container above, now append container to content
     contentEl.appendChild(imageContainer);
     
     // Add title if provided
