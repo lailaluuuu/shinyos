@@ -1439,14 +1439,13 @@ body::after {
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   opacity: 0;
   pointer-events: none !important;
   transition: opacity 0.3s ease-out;
-  display: none;
 }
 
 /* Ensure Blu Bot container and SVG are visible in celebration overlay */
@@ -1472,6 +1471,7 @@ body::after {
 
 .celebration-overlay.active {
   display: flex !important;
+  opacity: 1 !important;
   pointer-events: auto !important;
 }
 

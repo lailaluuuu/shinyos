@@ -1970,8 +1970,14 @@ function handleQuizClick(button, option, lesson, event) {
       celebrationIcon.textContent = "🎉";
       celebrationText.textContent = "Correct! Blu Bot celebrates!";
       celebrationXpText.textContent = `+${pendingXp} XP`;
+      celebrationOverlay.style.display = "flex";
       celebrationOverlay.classList.add("active");
-      setTimeout(() => celebrationOverlay.classList.remove("active"), 1200);
+      setTimeout(() => {
+        celebrationOverlay.classList.remove("active");
+        setTimeout(() => {
+          celebrationOverlay.style.display = "none";
+        }, 300);
+      }, 1200);
     }
   } else {
     // Shake animation for incorrect
@@ -2276,7 +2282,10 @@ function handleSubjectClick(node) {
     activeSubject = subject;
     currentIndex = 0;
     updateMetaForSubject(subject);
-    renderLesson();
+    // Force immediate render
+    setTimeout(() => {
+      renderLesson();
+    }, 100);
   } else {
     activeSubject = "economics";
     updateMetaForSubject(subject);
@@ -2302,11 +2311,21 @@ document.addEventListener("DOMContentLoaded", () => {
     quizBlock.style.display = "none";
   }
   
+  // Initialize celebration overlay as hidden
+  const celebrationOverlay = document.getElementById("celebrationOverlay");
+  if (celebrationOverlay) {
+    celebrationOverlay.style.display = "none";
+  }
+  
   updateMetaForSubject("economics");
-  renderLesson();
   
   // Show categories by default
   showCategories();
+  
+  // Render initial lesson after a short delay to ensure DOM is ready
+  setTimeout(() => {
+    renderLesson();
+  }, 200);
 
   $("#nextBtn").addEventListener("click", goNext);
 
