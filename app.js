@@ -1850,7 +1850,17 @@ function renderLesson() {
     contentEl.style.minHeight = "auto";
     contentEl.classList.remove("is-hidden");
 
-    // Build content synchronously
+    // Build content synchronously - ensure we have the content element reference
+    if (!contentEl) {
+      console.error("contentEl is null when trying to build content!");
+      return;
+    }
+    
+    // Verify lesson has content before rendering
+    if (!lesson.title && (!lesson.paragraphs || lesson.paragraphs.length === 0)) {
+      console.warn("Lesson has no title or paragraphs:", lesson);
+    }
+    
     if (lesson.title) {
       const titleP = document.createElement("p");
       titleP.style.fontWeight = "600";
@@ -1883,6 +1893,11 @@ function renderLesson() {
       fallback.className = "slide-in-up";
       fallback.textContent = "Lesson content loading...";
       contentEl.appendChild(fallback);
+    }
+    
+    // Immediate verification that content was added
+    if (contentEl.children.length === 0) {
+      console.error("ERROR: No children were added to contentEl! Lesson:", lesson);
     }
     
     // Force immediate visibility (especially for first lesson)
@@ -2475,43 +2490,45 @@ function handleSubjectClick(node) {
     // Update metadata first
     updateMetaForSubject(subject);
     
-    // Explicitly clear any old content before rendering
-    if (lessonContent) {
-      lessonContent.innerHTML = "";
-    }
-    
     // Render lesson content immediately - this will show the first lesson
+    // renderLesson() will handle clearing and populating content
     renderLesson();
     
     // Force content to be visible after rendering
-    if (lessonContent) {
-      lessonContent.style.display = "block";
-      lessonContent.style.visibility = "visible";
-      lessonContent.style.opacity = "1";
-      lessonContent.classList.remove("is-hidden");
-      // Force a reflow to ensure rendering
-      void lessonContent.offsetHeight;
-    }
-    if (lessonBody) {
-      lessonBody.style.display = "block";
-      lessonBody.style.visibility = "visible";
-      lessonBody.style.opacity = "1";
-      lessonBody.classList.remove("is-hidden");
-    }
+    // Get fresh references after renderLesson() may have modified DOM
+    const contentElAfter = document.getElementById("lessonContent");
+    const bodyElAfter = contentElAfter ? contentElAfter.parentElement : null;
     
-    // Use requestAnimationFrame as a safeguard to ensure content is visible
-    requestAnimationFrame(() => {
-      if (lessonContent && lessonContent.innerHTML.trim() === "") {
-        console.warn("Content was empty after render, forcing re-render...");
-        renderLesson();
-        if (lessonContent) {
-          lessonContent.style.display = "block";
-          lessonContent.style.visibility = "visible";
-          lessonContent.style.opacity = "1";
-          lessonContent.classList.remove("is-hidden");
+    if (contentElAfter) {
+      contentElAfter.style.display = "block";
+      contentElAfter.style.visibility = "visible";
+      contentElAfter.style.opacity = "1";
+      contentElAfter.classList.remove("is-hidden");
+      
+      // Verify content was actually added
+      if (contentElAfter.innerHTML.trim() === "" || contentElAfter.children.length === 0) {
+        console.warn("Content was empty after render, checking lesson data...");
+        const lessons = getCurrentLessons();
+        const lesson = lessons[currentIndex] || lessons[0];
+        console.log("Current lesson:", lesson);
+        console.log("activeSubject:", activeSubject, "currentIndex:", currentIndex);
+        
+        // Force re-render if content is missing
+        if (lesson && (lesson.title || (lesson.paragraphs && lesson.paragraphs.length > 0))) {
+          console.warn("Lesson has content but wasn't rendered, forcing re-render...");
+          renderLesson();
         }
       }
-    });
+      
+      // Force a reflow to ensure rendering
+      void contentElAfter.offsetHeight;
+    }
+    if (bodyElAfter) {
+      bodyElAfter.style.display = "block";
+      bodyElAfter.style.visibility = "visible";
+      bodyElAfter.style.opacity = "1";
+      bodyElAfter.classList.remove("is-hidden");
+    }
   } else {
     activeSubject = "economics";
     updateMetaForSubject(subject);
