@@ -284,6 +284,50 @@ function getNextCreature() {
   return creature;
 }
 
+// Full-screen confetti burst
+function triggerFullScreenConfetti() {
+  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#fb7185', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+  const confettiCount = 50; // More confetti for full screen
+  
+  // Create confetti from multiple points across the screen
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  
+  // Trigger from center and multiple edge points
+  const triggerPoints = [
+    { x: screenWidth / 2, y: screenHeight / 2 }, // Center
+    { x: screenWidth * 0.2, y: screenHeight * 0.3 }, // Top left area
+    { x: screenWidth * 0.8, y: screenHeight * 0.3 }, // Top right area
+    { x: screenWidth * 0.2, y: screenHeight * 0.7 }, // Bottom left area
+    { x: screenWidth * 0.8, y: screenHeight * 0.7 }, // Bottom right area
+  ];
+  
+  triggerPoints.forEach((point, index) => {
+    setTimeout(() => {
+      for (let i = 0; i < confettiCount / triggerPoints.length; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti-particle';
+        confetti.style.left = point.x + 'px';
+        confetti.style.top = point.y + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        const angle = (Math.random() * Math.PI * 2);
+        const velocity = 150 + Math.random() * 150;
+        const xVel = Math.cos(angle) * velocity;
+        const yVel = Math.sin(angle) * velocity - 200;
+        
+        confetti.style.setProperty('--x-vel', xVel + 'px');
+        confetti.style.setProperty('--y-vel', yVel + 'px');
+        confetti.style.setProperty('--rotation', Math.random() * 720 - 360 + 'deg');
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }, index * 50); // Stagger the bursts slightly
+  });
+}
+
 // Core function: show one creature reaction card
 function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
   const root = document.getElementById("creature-reaction-root");
@@ -297,11 +341,21 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
     creature.lines?.correct ||
     "Well done.";
 
+  // Trigger confetti for all outcomes (more for correct/streak)
+  if (outcome === "correct" || outcome === "streak") {
+    triggerFullScreenConfetti();
+  } else {
+    // Less confetti for wrong answers, but still some
+    triggerFullScreenConfetti();
+  }
+
   // Clear previous
   root.innerHTML = "";
 
   const card = document.createElement("div");
   card.classList.add("creature-reaction");
+  card.style.position = "relative";
+  card.style.zIndex = "10000";
 
   if (outcome === "correct") {
     card.classList.add("creature-reaction--correct");
@@ -335,9 +389,17 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
 
   setTimeout(() => {
     card.style.animation = "creature-pop-out 200ms ease-in forwards";
+    // Fade out backdrop
+    if (root) {
+      root.style.animation = "creature-backdrop-fade-out 200ms ease-in forwards";
+    }
     setTimeout(() => {
       if (card.parentNode === root) {
         root.removeChild(card);
+      }
+      // Reset backdrop
+      if (root) {
+        root.style.animation = "";
       }
     }, 220);
   }, visibleMs);

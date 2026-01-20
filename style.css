@@ -1522,26 +1522,57 @@ body::after {
 
 #creature-reaction-root {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 9999;
   pointer-events: none; /* don't block clicks */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#creature-reaction-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  animation: creature-backdrop-fade-in 200ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes creature-backdrop-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes creature-backdrop-fade-out {
+  to {
+    opacity: 0;
+  }
 }
 
 .creature-reaction {
   position: relative;
-  min-width: 230px;
-  max-width: 290px;
-  padding: 1rem 1.1rem;
-  border-radius: 18px;
-  background: rgba(6, 7, 18, 0.92); /* dark glass */
+  min-width: 400px;
+  max-width: 500px;
+  padding: 2.5rem 2.5rem;
+  border-radius: 24px;
+  background: rgba(6, 7, 18, 0.95); /* dark glass */
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.02),
     0 22px 40px rgba(0, 0, 0, 0.8);
   display: flex;
-  gap: 0.9rem;
+  gap: 1.5rem;
   align-items: flex-start;
   color: #f8f7ff;
   opacity: 0;
@@ -1595,9 +1626,15 @@ body::after {
 /* Left emoji/avatar */
 
 .creature-reaction__emoji-wrap {
-  font-size: 1.9rem;
+  font-size: 4rem;
   line-height: 1;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+  animation: creature-emoji-bounce 2s ease-in-out infinite;
+}
+
+@keyframes creature-emoji-bounce {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
 }
 
 /* Text area */
@@ -1605,31 +1642,36 @@ body::after {
 .creature-reaction__content {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.5rem;
+  flex: 1;
 }
 
 .creature-reaction__name {
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  opacity: 0.75;
+  opacity: 0.85;
+  font-weight: 600;
 }
 
 .creature-reaction__line {
-  font-size: 0.98rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .creature-reaction__tag {
-  margin-top: 0.2rem;
-  font-size: 0.75rem;
-  padding: 0.1rem 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
   opacity: 0.9;
+  width: fit-content;
 }
 
 .creature-reaction__tag-dot {
@@ -1661,13 +1703,6 @@ body::after {
     opacity: 0;
     transform: translateY(10px) scale(0.96);
   }
-}
-  transform: scale(0.8);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.celebration-overlay.active .celebration-content {
-  transform: scale(1);
 }
 
 .celebration-icon {
@@ -1771,6 +1806,28 @@ body::after {
   height: 100%;
   pointer-events: none !important;
   z-index: 998;
+}
+
+/* Confetti particles */
+.confetti-particle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 9997;
+  animation: confetti-fall 1s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x-vel, 0), var(--y-vel, 500px)) rotate(var(--rotation, 0deg));
+    opacity: 0;
+  }
 }
 
 /* Combo counter */
