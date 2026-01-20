@@ -1529,12 +1529,16 @@ body::after {
   z-index: 9999;
   pointer-events: none; /* don't block clicks */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  display: flex;
+  display: none; /* Hidden by default */
   align-items: center;
   justify-content: center;
 }
 
-#creature-reaction-root::before {
+#creature-reaction-root:not(:empty) {
+  display: flex; /* Only show when there's content */
+}
+
+#creature-reaction-root:not(:empty)::before {
   content: '';
   position: absolute;
   top: 0;
