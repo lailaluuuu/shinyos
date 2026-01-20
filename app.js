@@ -1874,7 +1874,19 @@ function renderLesson() {
     imageContainer.style.position = "relative";
     
     const img = document.createElement("img");
-    img.src = lesson.imageUrl || "images/investing-intro.png";
+    // Use the image URL from lesson data
+    const imagePath = lesson.imageUrl || "images/investing-intro.png";
+    
+    // Ensure path is correct (remove leading slash if present, add if needed)
+    let finalPath = imagePath;
+    if (finalPath.startsWith("/")) {
+      finalPath = finalPath.substring(1);
+    }
+    if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
+      finalPath = "images/" + finalPath;
+    }
+    
+    img.src = finalPath;
     img.alt = lesson.imageAlt || "Subject image";
     img.style.width = "100%";
     img.style.height = "auto";
@@ -1885,15 +1897,24 @@ function renderLesson() {
     img.style.opacity = "1";
     img.style.filter = "brightness(1.1) contrast(1.05)"; // Make image brighter
     img.className = "slide-in-up";
+    img.loading = "eager"; // Load immediately
+    
+    console.log("🔍 Attempting to load intro image from:", finalPath);
+    console.log("📁 Full URL would be:", window.location.origin + "/" + finalPath);
+    console.log("🌐 Current page:", window.location.href);
     
     // Add error handling for image load
     img.onerror = function() {
-      console.error("Image failed to load:", img.src);
-      console.log("Make sure the image file exists at:", img.src);
+      console.error("❌ Image failed to load:", this.src);
+      console.error("Tried to load from:", imagePath);
+      console.error("Current page URL:", window.location.href);
+      console.error("Make sure the image file exists at:", imagePath, "relative to your HTML file");
+      
       // Fallback: show a colored placeholder with subject icon
       this.style.display = "none";
       const subjectIcon = activeSubject === "finance" ? "💰" : activeSubject === "economics" ? "💼" : "🚀";
-      imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.15)";
+      imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
+      imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
       imageContainer.style.minHeight = "300px";
       imageContainer.style.display = "flex";
       imageContainer.style.alignItems = "center";
@@ -1902,18 +1923,31 @@ function renderLesson() {
       const placeholder = document.createElement("div");
       placeholder.textContent = subjectIcon;
       placeholder.style.fontSize = "100px";
-      placeholder.style.opacity = "0.5";
-      placeholder.style.marginBottom = "10px";
+      placeholder.style.opacity = "0.6";
+      placeholder.style.marginBottom = "15px";
       imageContainer.appendChild(placeholder);
       const errorText = document.createElement("div");
-      errorText.textContent = "Image loading...";
-      errorText.style.color = "rgba(255, 255, 255, 0.5)";
+      errorText.textContent = "Image not found: " + imagePath;
+      errorText.style.color = "rgba(255, 255, 255, 0.7)";
       errorText.style.fontSize = "14px";
+      errorText.style.textAlign = "center";
+      errorText.style.padding = "0 20px";
       imageContainer.appendChild(errorText);
+      const helpText = document.createElement("div");
+      helpText.textContent = "Save your image as: " + imagePath;
+      helpText.style.color = "rgba(255, 255, 255, 0.5)";
+      helpText.style.fontSize = "12px";
+      helpText.style.marginTop = "10px";
+      imageContainer.appendChild(helpText);
     };
     
     img.onload = function() {
-      console.log("Intro image loaded successfully");
+      console.log("✅ Intro image loaded successfully from:", this.src);
+      console.log("📏 Image dimensions:", this.naturalWidth, "x", this.naturalHeight);
+      // Ensure image is visible
+      this.style.display = "block";
+      this.style.opacity = "1";
+      imageContainer.style.display = "block";
     };
     
     imageContainer.appendChild(img);
