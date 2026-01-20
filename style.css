@@ -1526,7 +1526,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 10001; /* Above confetti */
   pointer-events: none; /* don't block clicks */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: none; /* Hidden by default */
@@ -2041,23 +2041,24 @@ body::after {
   position: fixed;
   border-radius: 2px;
   pointer-events: none;
-  z-index: 9996;
-  box-shadow: 0 0 6px currentColor;
+  z-index: 10000; /* Above backdrop, below creature card */
+  box-shadow: 0 0 8px currentColor, 0 0 12px currentColor;
   animation: confetti-fall-down var(--fall-duration, 4s) linear forwards;
-  opacity: 0.9;
+  opacity: 1;
+  will-change: transform, opacity;
 }
 
 @keyframes confetti-fall-down {
   0% {
-    transform: translate(0, 0) translateX(0) rotate(0deg);
-    opacity: 0.9;
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
   }
   50% {
-    transform: translate(calc(var(--drift, 0) * 0.5), 50vh) translateX(calc(var(--drift, 0) * 0.3)) rotate(calc(var(--rotation, 0deg) * 0.5));
-    opacity: 0.8;
+    transform: translateY(50vh) translateX(calc(var(--drift, 0) * 0.5)) rotate(calc(var(--rotation, 0deg) * 0.5));
+    opacity: 0.9;
   }
   100% {
-    transform: translate(var(--drift, 0), 100vh) translateX(calc(var(--drift, 0) * 0.6)) rotate(var(--rotation, 360deg));
+    transform: translateY(calc(100vh + 50px)) translateX(var(--drift, 0)) rotate(var(--rotation, 360deg));
     opacity: 0;
   }
 }

@@ -346,8 +346,8 @@ function startFallingConfetti() {
   
   // Create confetti continuously from top of screen
   confettiInterval = setInterval(() => {
-    // Create 3-5 confetti pieces per interval
-    const count = 3 + Math.floor(Math.random() * 3);
+    // Create 4-6 confetti pieces per interval for better visibility
+    const count = 4 + Math.floor(Math.random() * 3);
     
     for (let i = 0; i < count; i++) {
       const confetti = document.createElement('div');
@@ -355,22 +355,23 @@ function startFallingConfetti() {
       
       // Random position across top of screen
       const startX = Math.random() * screenWidth;
-      const startY = -20; // Start above viewport
+      const startY = -40; // Start above viewport
       
-      // Random size
-      const size = 8 + Math.random() * 8;
+      // Random size (make them bigger and more visible)
+      const size = 12 + Math.random() * 10;
       confetti.style.width = size + 'px';
       confetti.style.height = size + 'px';
       
       // Random color from cyberpunk palette
-      confetti.style.backgroundColor = cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+      const color = cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+      confetti.style.backgroundColor = color;
       
-      // Random horizontal drift
-      const drift = (Math.random() - 0.5) * 100; // -50 to 50px
+      // Random horizontal drift (more drift for visual interest)
+      const drift = (Math.random() - 0.5) * 200; // -100 to 100px
       confetti.style.setProperty('--drift', drift + 'px');
       
-      // Random fall duration (3-6 seconds)
-      const duration = 3 + Math.random() * 3;
+      // Random fall duration (2-4 seconds for faster falling)
+      const duration = 2 + Math.random() * 2;
       confetti.style.setProperty('--fall-duration', duration + 's');
       
       // Random rotation
@@ -378,11 +379,13 @@ function startFallingConfetti() {
       confetti.style.setProperty('--rotation', rotation + 'deg');
       
       // Random delay for staggered effect
-      const delay = Math.random() * 0.5;
+      const delay = Math.random() * 0.2;
       confetti.style.animationDelay = delay + 's';
       
       confetti.style.left = startX + 'px';
       confetti.style.top = startY + 'px';
+      confetti.style.position = 'fixed';
+      confetti.style.display = 'block';
       
       document.body.appendChild(confetti);
       activeConfettiParticles.push(confetti);
@@ -393,9 +396,9 @@ function startFallingConfetti() {
           confetti.remove();
         }
         activeConfettiParticles = activeConfettiParticles.filter(p => p !== confetti);
-      }, (duration + delay) * 1000);
+      }, (duration + delay + 0.5) * 1000);
     }
-  }, 150); // Create new confetti every 150ms
+  }, 120); // Create new confetti every 120ms for more density
 }
 
 function stopFallingConfetti() {
@@ -442,7 +445,7 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
   const card = document.createElement("div");
   card.classList.add("creature-reaction");
   card.style.position = "relative";
-  card.style.zIndex = "10000";
+  card.style.zIndex = "10002";
 
   if (outcome === "correct") {
     card.classList.add("creature-reaction--correct");
