@@ -246,7 +246,10 @@ function getCurrentLessons() {
 function renderLesson() {
   const lessons = getCurrentLessons();
   const lesson = lessons[currentIndex] || lessons[0];
-  if (!lesson) return;
+  if (!lesson) {
+    console.warn("No lesson found at index", currentIndex);
+    return;
+  }
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -255,32 +258,36 @@ function renderLesson() {
   const hintText = $("#hintText");
   const pendingXpEl = $("#pendingXp");
 
-  // Fade out animation
-  contentEl.style.opacity = '0';
-  quizBlock.style.opacity = '0';
-  
-  setTimeout(() => {
-    // Update progress with smooth animation
-    progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
-    const pct = ((currentIndex + 1) / lessons.length) * 100;
-    progressFill.style.width = `${pct}%`;
-    progressFill.classList.add('progress-pulse');
-    setTimeout(() => progressFill.classList.remove('progress-pulse'), 400);
+  if (!contentEl) {
+    console.error("lessonContent element not found!");
+    return;
+  }
 
-    // Reset hint + pending XP display
-    pendingXp = 0;
-    pendingXpEl.textContent = pendingXp.toString();
-    hintText.textContent = "Tap an answer to check your understanding.";
+  // Update progress immediately
+  progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
+  const pct = ((currentIndex + 1) / lessons.length) * 100;
+  progressFill.style.width = `${pct}%`;
+  progressFill.classList.add('progress-pulse');
+  setTimeout(() => progressFill.classList.remove('progress-pulse'), 400);
 
-    // Render content vs quiz
-    if (lesson.type === "content") {
-      // Clear quiz block for content lessons
+  // Reset hint + pending XP display
+  pendingXp = 0;
+  pendingXpEl.textContent = pendingXp.toString();
+  hintText.textContent = "Tap an answer to check your understanding.";
+
+  // Render content vs quiz
+  if (lesson.type === "content") {
+    // Clear quiz block for content lessons
+    if (quizBlock) {
       quizBlock.innerHTML = "";
       quizBlock.style.display = "none";
-      
-      // Clear and populate content
-      contentEl.innerHTML = "";
-      contentEl.style.display = "block";
+      quizBlock.style.opacity = "0";
+    }
+    
+    // Clear and populate content immediately
+    contentEl.innerHTML = "";
+    contentEl.style.display = "block";
+    contentEl.style.visibility = "visible";
 
       if (lesson.title) {
         const titleP = document.createElement("p");
@@ -298,66 +305,93 @@ function renderLesson() {
           p.textContent = text;
           contentEl.appendChild(p);
         });
+      } else {
+        // Fallback if no paragraphs
+        const fallback = document.createElement("p");
+        fallback.className = "slide-in-up";
+        fallback.textContent = "Lesson content loading...";
+        contentEl.appendChild(fallback);
       }
-    } else if (lesson.type === "quiz") {
-      // Show both content area (for intro) and quiz block
-      contentEl.innerHTML = "";
-      contentEl.style.display = "block";
       
-      const intro = document.createElement("p");
-      intro.className = "slide-in-up";
-      intro.textContent = "Quick check-in before we move on:";
-      contentEl.appendChild(intro);
+      // Make content visible immediately
+      contentEl.style.opacity = "1";
+      setTimeout(() => {
+        contentEl.style.opacity = "1";
+      }, 10);
+    } else if (lesson.type === "quiz") {
+      // Fade out for quiz transition
+      contentEl.style.opacity = '0';
+      if (quizBlock) quizBlock.style.opacity = '0';
+      
+      setTimeout(() => {
+        // Show both content area (for intro) and quiz block
+        contentEl.innerHTML = "";
+        contentEl.style.display = "block";
+        
+        const intro = document.createElement("p");
+        intro.className = "slide-in-up";
+        intro.textContent = "Quick check-in before we move on:";
+        contentEl.appendChild(intro);
 
-      // Render quiz
-      quizBlock.innerHTML = "";
-      quizBlock.style.display = "block";
+        // Render quiz
+        if (quizBlock) {
+          quizBlock.innerHTML = "";
+          quizBlock.style.display = "block";
 
-      const label = document.createElement("div");
-      label.className = "quiz-label slide-in-up";
-      label.textContent = "Quiz";
-      quizBlock.appendChild(label);
+          const label = document.createElement("div");
+          label.className = "quiz-label slide-in-up";
+          label.textContent = "Quiz";
+          quizBlock.appendChild(label);
 
-      const q = document.createElement("div");
-      q.className = "quiz-question slide-in-up";
-      q.style.animationDelay = '0.1s';
-      q.textContent = lesson.question;
-      quizBlock.appendChild(q);
+          const q = document.createElement("div");
+          q.className = "quiz-question slide-in-up";
+          q.style.animationDelay = '0.1s';
+          q.textContent = lesson.question;
+          quizBlock.appendChild(q);
 
-      const optionsWrapper = document.createElement("div");
-      optionsWrapper.className = "quiz-options";
+          const optionsWrapper = document.createElement("div");
+          optionsWrapper.className = "quiz-options";
 
-      if (lesson.options && lesson.options.length > 0) {
-        lesson.options.forEach((opt, idx) => {
-          const btn = document.createElement("button");
-          btn.className = "quiz-option slide-in-up";
-          btn.style.animationDelay = `${0.2 + idx * 0.1}s`;
-          btn.dataset.optionId = opt.id;
-          btn.disabled = false; // Reset disabled state
+          if (lesson.options && lesson.options.length > 0) {
+            lesson.options.forEach((opt, idx) => {
+              const btn = document.createElement("button");
+              btn.className = "quiz-option slide-in-up";
+              btn.style.animationDelay = `${0.2 + idx * 0.1}s`;
+              btn.dataset.optionId = opt.id;
+              btn.disabled = false; // Reset disabled state
 
-          const textSpan = document.createElement("span");
-          textSpan.textContent = opt.text;
+              const textSpan = document.createElement("span");
+              textSpan.textContent = opt.text;
 
-          const indicator = document.createElement("span");
-          indicator.className = "option-indicator";
-          indicator.textContent = "○";
+              const indicator = document.createElement("span");
+              indicator.className = "option-indicator";
+              indicator.textContent = "○";
 
-          btn.appendChild(textSpan);
-          btn.appendChild(indicator);
+              btn.appendChild(textSpan);
+              btn.appendChild(indicator);
 
-          btn.addEventListener("click", (e) => handleQuizClick(btn, opt, lesson, e));
+              btn.addEventListener("click", (e) => handleQuizClick(btn, opt, lesson, e));
 
-          optionsWrapper.appendChild(btn);
-        });
-      }
+              optionsWrapper.appendChild(btn);
+            });
+          }
 
-      quizBlock.appendChild(optionsWrapper);
+          quizBlock.appendChild(optionsWrapper);
+        }
+
+        // Fade in quiz
+        contentEl.style.opacity = '1';
+        if (quizBlock) quizBlock.style.opacity = '1';
+        
+        // Debug log
+        console.log("Rendered quiz lesson:", lesson.type, "Content length:", contentEl.innerHTML.length);
+      }, 200);
     }
-
-    // Fade in
-    contentEl.style.opacity = '1';
-    quizBlock.style.opacity = '1';
-  }, 200);
+    
+    // Debug log for content lessons
+    if (lesson.type === "content") {
+      console.log("Rendered content lesson:", lesson.type, "Content length:", contentEl.innerHTML.length, "Has title:", !!lesson.title, "Has paragraphs:", !!lesson.paragraphs);
+    }
 }
 
 function handleQuizClick(button, option, lesson, event) {
@@ -725,6 +759,12 @@ window.showCategories = showCategories;
 window.goNextDirect = goNext;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize quiz block as hidden
+  const quizBlock = $("#quizBlock");
+  if (quizBlock) {
+    quizBlock.style.display = "none";
+  }
+  
   updateMetaForSubject("economics");
   renderLesson();
   
