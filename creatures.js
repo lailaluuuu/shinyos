@@ -426,16 +426,15 @@ function showCreatureReaction(creatureKey = "hedgehog", outcome = "correct") {
     creature.lines?.correct ||
     "Well done.";
 
-  // Trigger confetti for all outcomes (more for correct/streak)
+  // Trigger confetti burst when creature appears
   if (outcome === "correct" || outcome === "streak") {
     triggerFullScreenConfetti();
+    // Also start falling confetti for correct/streak
+    startFallingConfetti();
   } else {
     // Less confetti for wrong answers, but still some
     triggerFullScreenConfetti();
   }
-  
-  // Start continuous falling confetti
-  startFallingConfetti();
 
   // Clear previous
   root.innerHTML = "";

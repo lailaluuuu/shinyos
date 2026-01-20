@@ -1582,9 +1582,21 @@ body::after {
   align-items: flex-start;
   color: #f8f7ff;
   opacity: 0;
-  transform: translateY(16px) scale(0.96);
-  animation: creature-pop-in 280ms ease-out forwards;
+  transform: translateY(30px) scale(0.8);
+  animation: 
+    creature-pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    creature-card-float 3s ease-in-out infinite 0.6s;
   overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+@keyframes creature-card-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.01);
+  }
 }
 
 .creature-reaction::after {
@@ -1737,7 +1749,13 @@ body::after {
     drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))
     drop-shadow(0 0 20px rgba(184, 107, 255, 0.6))
     drop-shadow(0 0 30px rgba(255, 0, 255, 0.4));
-  animation: creature-emoji-bounce 2s ease-in-out infinite, cyberpunk-emoji-glow 2s ease-in-out infinite;
+  animation: 
+    creature-emoji-bounce 2s ease-in-out infinite, 
+    cyberpunk-emoji-glow 2s ease-in-out infinite,
+    creature-emoji-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  position: relative;
+  z-index: 1;
+  transform-origin: center center;
 }
 
 @keyframes cyberpunk-emoji-glow {
@@ -1755,9 +1773,37 @@ body::after {
   }
 }
 
+@keyframes creature-emoji-entrance {
+  0% {
+    transform: translateY(30px) scale(0.3) rotate(-180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10px) scale(1.15) rotate(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(5px) scale(0.95) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
 @keyframes creature-emoji-bounce {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-8px) scale(1.05); }
+  0%, 100% { 
+    transform: translateY(0px) scale(1) rotate(0deg); 
+  }
+  25% {
+    transform: translateY(-8px) scale(1.05) rotate(2deg);
+  }
+  50% { 
+    transform: translateY(-12px) scale(1.08) rotate(0deg); 
+  }
+  75% {
+    transform: translateY(-8px) scale(1.05) rotate(-2deg);
+  }
 }
 
 /* Text area */
@@ -1790,6 +1836,16 @@ body::after {
   line-height: 1.4;
   color: #ffffff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  animation: creature-text-glow 2s ease-in-out infinite 0.8s;
+}
+
+@keyframes creature-text-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 25px rgba(184, 107, 255, 0.3);
+  }
 }
 
 .creature-reaction__tag {
@@ -1832,15 +1888,19 @@ body::after {
 @keyframes creature-pop-in {
   0% {
     opacity: 0;
-    transform: translateY(16px) scale(0.96);
+    transform: translateY(30px) scale(0.8) rotateX(15deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.05) rotateX(-5deg);
   }
   70% {
     opacity: 1;
-    transform: translateY(0) scale(1.02);
+    transform: translateY(2px) scale(1.02) rotateX(2deg);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotateX(0deg);
   }
 }
 
