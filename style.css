@@ -741,7 +741,9 @@ body::after {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: visible;
+  min-height: 0;
 }
 
 .lesson-panel::before {
@@ -812,7 +814,8 @@ body::after {
     0 0 80px rgba(184, 107, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 0;
 }
 
 .lesson-card::before {
@@ -1095,13 +1098,28 @@ body::after {
   pointer-events: none;
   position: relative;
   z-index: 1;
+  color: var(--text);
+  transition: all var(--transition-fast);
 }
 
 .quiz-option:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(30, 26, 60, 0.98));
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(184, 107, 255, 0.12), rgba(30, 26, 60, 0.98));
   transform: translateY(-3px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 
+    0 8px 28px rgba(0, 0, 0, 0.6), 
+    0 0 20px rgba(0, 255, 255, 0.4),
+    0 0 40px rgba(184, 107, 255, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+.quiz-option:hover span {
+  background: linear-gradient(120deg, #00ffff, #b86bff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  filter: drop-shadow(0 0 8px rgba(184, 107, 255, 0.6));
 }
 
 .quiz-option.correct {
