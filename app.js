@@ -274,8 +274,13 @@ function renderLesson() {
 
     // Render content vs quiz
     if (lesson.type === "content") {
+      // Clear quiz block for content lessons
       quizBlock.innerHTML = "";
+      quizBlock.style.display = "none";
+      
+      // Clear and populate content
       contentEl.innerHTML = "";
+      contentEl.style.display = "block";
 
       if (lesson.title) {
         const titleP = document.createElement("p");
@@ -285,16 +290,20 @@ function renderLesson() {
         contentEl.appendChild(titleP);
       }
 
-      lesson.paragraphs.forEach((text, idx) => {
-        const p = document.createElement("p");
-        p.className = "slide-in-up";
-        p.style.animationDelay = `${idx * 0.1}s`;
-        p.textContent = text;
-        contentEl.appendChild(p);
-      });
+      if (lesson.paragraphs && lesson.paragraphs.length > 0) {
+        lesson.paragraphs.forEach((text, idx) => {
+          const p = document.createElement("p");
+          p.className = "slide-in-up";
+          p.style.animationDelay = `${idx * 0.1}s`;
+          p.textContent = text;
+          contentEl.appendChild(p);
+        });
+      }
     } else if (lesson.type === "quiz") {
-      // Simple intro content
+      // Show both content area (for intro) and quiz block
       contentEl.innerHTML = "";
+      contentEl.style.display = "block";
+      
       const intro = document.createElement("p");
       intro.className = "slide-in-up";
       intro.textContent = "Quick check-in before we move on:";
@@ -302,6 +311,7 @@ function renderLesson() {
 
       // Render quiz
       quizBlock.innerHTML = "";
+      quizBlock.style.display = "block";
 
       const label = document.createElement("div");
       label.className = "quiz-label slide-in-up";
@@ -317,26 +327,29 @@ function renderLesson() {
       const optionsWrapper = document.createElement("div");
       optionsWrapper.className = "quiz-options";
 
-      lesson.options.forEach((opt, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "quiz-option slide-in-up";
-        btn.style.animationDelay = `${0.2 + idx * 0.1}s`;
-        btn.dataset.optionId = opt.id;
+      if (lesson.options && lesson.options.length > 0) {
+        lesson.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "quiz-option slide-in-up";
+          btn.style.animationDelay = `${0.2 + idx * 0.1}s`;
+          btn.dataset.optionId = opt.id;
+          btn.disabled = false; // Reset disabled state
 
-        const textSpan = document.createElement("span");
-        textSpan.textContent = opt.text;
+          const textSpan = document.createElement("span");
+          textSpan.textContent = opt.text;
 
-        const indicator = document.createElement("span");
-        indicator.className = "option-indicator";
-        indicator.textContent = "○";
+          const indicator = document.createElement("span");
+          indicator.className = "option-indicator";
+          indicator.textContent = "○";
 
-        btn.appendChild(textSpan);
-        btn.appendChild(indicator);
+          btn.appendChild(textSpan);
+          btn.appendChild(indicator);
 
-        btn.addEventListener("click", (e) => handleQuizClick(btn, opt, lesson, e));
+          btn.addEventListener("click", (e) => handleQuizClick(btn, opt, lesson, e));
 
-        optionsWrapper.appendChild(btn);
-      });
+          optionsWrapper.appendChild(btn);
+        });
+      }
 
       quizBlock.appendChild(optionsWrapper);
     }
@@ -413,10 +426,7 @@ function handleQuizClick(button, option, lesson, event) {
     });
 
     pendingXp = 2;
-    hintText.textContent =
-      activeSubject === "economics"
-        ? "Not quite. In a planned economy, the state usually sets the key prices."
-        : "Not quite. Read the question again and think about the key names.";
+    hintText.textContent = lesson.explanation || "Not quite. Think about the key concepts we just covered.";
 
     // Show Blu Bot feedback overlay
     if (celebrationOverlay) {
