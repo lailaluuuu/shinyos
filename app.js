@@ -1762,7 +1762,12 @@ function getCurrentLessons() {
 
 function renderLesson() {
   const lessons = getCurrentLessons();
-  console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons:", lessons);
+  console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons:", lessons, "lessons.length:", lessons.length);
+  
+  if (!lessons || lessons.length === 0) {
+    console.error("No lessons found for subject:", activeSubject);
+    return;
+  }
   
   const lesson = lessons[currentIndex] || lessons[0];
   if (!lesson) {
@@ -1770,7 +1775,7 @@ function renderLesson() {
     return;
   }
   
-  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question);
+  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question, "has paragraphs:", !!(lesson.paragraphs && lesson.paragraphs.length > 0));
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
@@ -1819,6 +1824,19 @@ function renderLesson() {
       lessonBody.style.opacity = "1";
     }
     
+    // For first lesson, ensure everything is visible BEFORE clearing
+    const isFirstLesson = currentIndex === 0;
+    if (isFirstLesson) {
+      contentEl.style.display = "block";
+      contentEl.style.visibility = "visible";
+      contentEl.style.opacity = "1";
+      if (lessonBody) {
+        lessonBody.style.display = "block";
+        lessonBody.style.visibility = "visible";
+        lessonBody.style.opacity = "1";
+      }
+    }
+    
     // Clear and populate content immediately - NO DELAY
     contentEl.innerHTML = "";
     contentEl.style.display = "block";
@@ -1826,6 +1844,7 @@ function renderLesson() {
     contentEl.style.opacity = "1";
     contentEl.style.minHeight = "auto";
 
+    // Build content synchronously
     if (lesson.title) {
       const titleP = document.createElement("p");
       titleP.style.fontWeight = "600";
@@ -1838,6 +1857,7 @@ function renderLesson() {
     }
 
     if (lesson.paragraphs && lesson.paragraphs.length > 0) {
+      console.log("Adding", lesson.paragraphs.length, "paragraphs to content element");
       lesson.paragraphs.forEach((text, idx) => {
         const p = document.createElement("p");
         p.className = "slide-in-up";
@@ -1848,29 +1868,81 @@ function renderLesson() {
         contentEl.appendChild(p);
         console.log("Added paragraph", idx, ":", text.substring(0, 50) + "...");
       });
+      console.log("After adding paragraphs, contentEl.children.length:", contentEl.children.length);
+      console.log("After adding paragraphs, contentEl.innerHTML.length:", contentEl.innerHTML.length);
     } else {
       // Fallback if no paragraphs
+      console.warn("No paragraphs found for lesson:", lesson);
       const fallback = document.createElement("p");
       fallback.className = "slide-in-up";
       fallback.textContent = "Lesson content loading...";
       contentEl.appendChild(fallback);
-      console.warn("No paragraphs found for lesson:", lesson);
     }
     
-    // Double-check visibility is set (especially important for first lesson)
-    requestAnimationFrame(() => {
-      contentEl.style.display = "block";
-      contentEl.style.visibility = "visible";
-      contentEl.style.opacity = "1";
-      if (lessonBody) {
-        lessonBody.style.display = "block";
-        lessonBody.style.visibility = "visible";
-        lessonBody.style.opacity = "1";
-      }
-    });
+    // Force immediate visibility (especially for first lesson)
+    contentEl.style.display = "block";
+    contentEl.style.visibility = "visible";
+    contentEl.style.opacity = "1";
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
+    }
+    contentEl.classList.remove("is-hidden");
     
-    console.log("Content element innerHTML length:", contentEl.innerHTML.length);
-    console.log("Content element children:", contentEl.children.length);
+    // Final verification - ensure content is actually there
+    const finalContentLength = contentEl.innerHTML.length;
+    const finalChildrenCount = contentEl.children.length;
+    console.log("FINAL CHECK - Content element innerHTML length:", finalContentLength);
+    console.log("FINAL CHECK - Content element children:", finalChildrenCount);
+    console.log("FINAL CHECK - Lesson has title:", !!lesson.title, "has paragraphs:", !!(lesson.paragraphs && lesson.paragraphs.length > 0));
+    
+    // If content is empty but should have content, log error
+    if (finalContentLength === 0 && lesson.paragraphs && lesson.paragraphs.length > 0) {
+      console.error("ERROR: Content element is empty but lesson has paragraphs!", lesson);
+    }
+    
+    // For first lesson, also use requestAnimationFrame as backup
+    if (isFirstLesson) {
+      requestAnimationFrame(() => {
+        // Verify content is still there
+        if (contentEl.innerHTML.length === 0 && lesson.paragraphs && lesson.paragraphs.length > 0) {
+          console.error("ERROR: Content was cleared after rendering! Re-rendering...");
+          // Re-render if content was lost
+          if (lesson.title) {
+            const titleP = document.createElement("p");
+            titleP.style.fontWeight = "600";
+            titleP.style.fontSize = "18px";
+            titleP.style.color = "#fff";
+            titleP.className = "slide-in-up";
+            titleP.textContent = lesson.title;
+            contentEl.appendChild(titleP);
+          }
+          if (lesson.paragraphs && lesson.paragraphs.length > 0) {
+            lesson.paragraphs.forEach((text, idx) => {
+              const p = document.createElement("p");
+              p.className = "slide-in-up";
+              p.style.animationDelay = `${idx * 0.1}s`;
+              p.style.color = "var(--text)";
+              p.style.marginBottom = "18px";
+              p.textContent = text;
+              contentEl.appendChild(p);
+            });
+          }
+        }
+        contentEl.style.display = "block";
+        contentEl.style.visibility = "visible";
+        contentEl.style.opacity = "1";
+        if (lessonBody) {
+          lessonBody.style.display = "block";
+          lessonBody.style.visibility = "visible";
+          lessonBody.style.opacity = "1";
+        }
+        // Force a reflow to ensure rendering
+        void contentEl.offsetHeight;
+      });
+    }
     } else if (lesson.type === "quiz") {
       // For first lesson (index 0), render immediately without fade transition
       const isFirstLesson = currentIndex === 0;
