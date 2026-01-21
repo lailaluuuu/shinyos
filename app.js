@@ -2297,8 +2297,8 @@ function updateMetaForSubject(subject) {
   if (subject === "finance") {
     subjectChip.textContent = "Investing · Finance";
     unitChip.textContent = "Unit: The Real-World Skill School Forgot";
-    lessonTitle.textContent = "Investing — The Real-World Skill School Forgot to Mention";
-    lessonSubtitle.textContent = "How money actually becomes more money.";
+    lessonTitle.textContent = "Investing — The Skill You Can Learn at Any Age";
+    lessonSubtitle.innerHTML = "Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.";
     era = "Foundations";
     journalText.textContent = "Investing District · Finance. Stamps for compound growth, asset types, risk management, and your notes on building wealth.";
     missionsText.textContent = "Soon: build a portfolio simulation and watch your investments grow over time.";
