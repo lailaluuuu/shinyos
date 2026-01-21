@@ -2036,6 +2036,15 @@ function renderLesson() {
       setTimeout(renderContent, 200);
     }
     } else if (lesson.type === "quiz") {
+      // Force visibility of lesson body parent first
+      const lessonBody = contentEl.parentElement;
+      if (lessonBody) {
+        lessonBody.style.display = "block";
+        lessonBody.style.visibility = "visible";
+        lessonBody.style.opacity = "1";
+        lessonBody.classList.remove("is-hidden");
+      }
+      
       // For first lesson (index 0), render immediately without fade transition
       const isFirstLesson = currentIndex === 0;
       
@@ -2043,12 +2052,21 @@ function renderLesson() {
         // Fade out for quiz transition (only when not first lesson)
         contentEl.style.opacity = '0';
         if (quizBlock) quizBlock.style.opacity = '0';
+      } else {
+        // Ensure visibility for first lesson
+        contentEl.style.display = "block";
+        contentEl.style.visibility = "visible";
+        contentEl.style.opacity = "1";
+        contentEl.classList.remove("is-hidden");
       }
       
       const renderQuiz = () => {
         // Show both content area (for intro) and quiz block
         contentEl.innerHTML = "";
         contentEl.style.display = "block";
+        contentEl.style.visibility = "visible";
+        contentEl.style.opacity = "1";
+        contentEl.classList.remove("is-hidden");
         
         const intro = document.createElement("p");
         intro.className = "slide-in-up";
@@ -2060,6 +2078,8 @@ function renderLesson() {
           quizBlock.innerHTML = "";
           quizBlock.style.display = "block";
           quizBlock.style.visibility = "visible";
+          quizBlock.style.opacity = "1";
+          quizBlock.classList.remove("is-hidden");
 
           const label = document.createElement("div");
           label.className = "quiz-label slide-in-up";
@@ -2103,10 +2123,15 @@ function renderLesson() {
         }
 
         // Fade in quiz (or show immediately for first lesson)
+        contentEl.style.display = "block";
+        contentEl.style.visibility = "visible";
         contentEl.style.opacity = '1';
+        contentEl.classList.remove("is-hidden");
         if (quizBlock) {
-          quizBlock.style.opacity = '1';
           quizBlock.style.display = "block";
+          quizBlock.style.visibility = "visible";
+          quizBlock.style.opacity = '1';
+          quizBlock.classList.remove("is-hidden");
         }
         
         // Debug log
