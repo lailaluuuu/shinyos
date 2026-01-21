@@ -1903,18 +1903,20 @@ function renderLesson() {
       lessonBody.classList.remove("is-hidden");
     }
     
-    if (isFirstLesson) {
+    // Fade transition for non-first lessons
+    if (!isFirstLesson) {
+      contentEl.style.opacity = '0';
+    } else {
       contentEl.style.display = "block";
       contentEl.style.visibility = "visible";
       contentEl.style.opacity = "1";
       contentEl.classList.remove("is-hidden");
     }
     
-    // Clear and populate content immediately - NO DELAY
+    // Clear and populate content
     contentEl.innerHTML = "";
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
-    contentEl.style.opacity = "1";
     contentEl.style.minHeight = "auto";
     contentEl.classList.remove("is-hidden");
 
@@ -1968,32 +1970,37 @@ function renderLesson() {
       console.error("ERROR: No children were added to contentEl! Lesson:", lesson);
     }
     
-    // Force immediate visibility (especially for first lesson)
-    contentEl.style.display = "block";
-    contentEl.style.visibility = "visible";
-    contentEl.style.opacity = "1";
-    if (lessonBody) {
-      lessonBody.style.display = "block";
-      lessonBody.style.visibility = "visible";
-      lessonBody.style.opacity = "1";
-      lessonBody.classList.remove("is-hidden");
-    }
-    contentEl.classList.remove("is-hidden");
+    // Render content with fade-in transition for non-first lessons
+    const renderContent = () => {
+      // Force immediate visibility
+      contentEl.style.display = "block";
+      contentEl.style.visibility = "visible";
+      contentEl.style.opacity = "1";
+      if (lessonBody) {
+        lessonBody.style.display = "block";
+        lessonBody.style.visibility = "visible";
+        lessonBody.style.opacity = "1";
+        lessonBody.classList.remove("is-hidden");
+      }
+      contentEl.classList.remove("is-hidden");
+      
+      // Final verification - ensure content is actually there
+      const finalContentLength = contentEl.innerHTML.length;
+      const finalChildrenCount = contentEl.children.length;
+      console.log("FINAL CHECK - Content element innerHTML length:", finalContentLength);
+      console.log("FINAL CHECK - Content element children:", finalChildrenCount);
+      console.log("FINAL CHECK - Lesson has title:", !!lesson.title, "has paragraphs:", !!(lesson.paragraphs && lesson.paragraphs.length > 0));
+      
+      // If content is empty but should have content, log error
+      if (finalContentLength === 0 && lesson.paragraphs && lesson.paragraphs.length > 0) {
+        console.error("ERROR: Content element is empty but lesson has paragraphs!", lesson);
+      }
+    };
     
-    // Final verification - ensure content is actually there
-    const finalContentLength = contentEl.innerHTML.length;
-    const finalChildrenCount = contentEl.children.length;
-    console.log("FINAL CHECK - Content element innerHTML length:", finalContentLength);
-    console.log("FINAL CHECK - Content element children:", finalChildrenCount);
-    console.log("FINAL CHECK - Lesson has title:", !!lesson.title, "has paragraphs:", !!(lesson.paragraphs && lesson.paragraphs.length > 0));
-    
-    // If content is empty but should have content, log error
-    if (finalContentLength === 0 && lesson.paragraphs && lesson.paragraphs.length > 0) {
-      console.error("ERROR: Content element is empty but lesson has paragraphs!", lesson);
-    }
-    
-    // For first lesson, also use requestAnimationFrame as backup
     if (isFirstLesson) {
+      // Render immediately for first lesson
+      renderContent();
+      // Also use requestAnimationFrame as backup
       requestAnimationFrame(() => {
         // Verify content is still there
         if (contentEl.innerHTML.length === 0 && lesson.paragraphs && lesson.paragraphs.length > 0) {
@@ -2020,17 +2027,13 @@ function renderLesson() {
             });
           }
         }
-        contentEl.style.display = "block";
-        contentEl.style.visibility = "visible";
-        contentEl.style.opacity = "1";
-        if (lessonBody) {
-          lessonBody.style.display = "block";
-          lessonBody.style.visibility = "visible";
-          lessonBody.style.opacity = "1";
-        }
+        renderContent();
         // Force a reflow to ensure rendering
         void contentEl.offsetHeight;
       });
+    } else {
+      // Use setTimeout for transitions between lessons (similar to quiz)
+      setTimeout(renderContent, 200);
     }
     } else if (lesson.type === "quiz") {
       // For first lesson (index 0), render immediately without fade transition
