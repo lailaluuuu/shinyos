@@ -32,24 +32,6 @@ const subjectLessons = {
     },
     {
       id: 3,
-      type: "content",
-      title: "🌿 Mini Lesson: Why We Didn't Learn This Earlier",
-      paragraphs: [
-        "Most people don't learn how money grows in school.",
-        "Schools are built around subjects that are easy to standardise, test, and grade.",
-        "Investing doesn't fit that mould. It involves judgement, behaviour, uncertainty, and time — none of which translate neatly into exam questions.",
-        "",
-        "So financial literacy became something schools quietly stepped around.",
-        "They focused on theory; they left the practical to families.",
-        "But families teach unevenly.",
-        "Some pass down knowledge. Some pass down silence. Some pass down survival skills instead.",
-        "",
-        "If you're learning this now, you're not late.",
-        "You just entered through a different door than the curriculum assumed."
-      ]
-    },
-    {
-      id: 4,
       type: "quiz",
       question: "Why didn't schools teach financial literacy or investing?",
       options: [
@@ -61,7 +43,7 @@ const subjectLessons = {
       explanation: "All of these factors contributed to investing not being taught in schools. Financial education lacked standardized assessment methods, schools prioritized theoretical subjects, and it was often assumed families would handle this education."
     },
     {
-      id: 5,
+      id: 4,
       type: "content",
       title: "What Investing Actually Is",
       paragraphs: [
@@ -84,7 +66,7 @@ const subjectLessons = {
       explanation: "Investing is about allocating capital into productive assets that generate growth over time, not speculation or gambling."
     },
     {
-      id: 7,
+      id: 6,
       type: "content",
       title: "Why Investing Exists",
       paragraphs: [
@@ -95,7 +77,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 8,
+      id: 7,
       type: "quiz",
       question: "Investing is essential because it finances:",
       options: [
@@ -118,7 +100,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 10,
+      id: 9,
       type: "quiz",
       question: "Inflation mainly affects:",
       options: [
@@ -141,7 +123,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 12,
+      id: 11,
       type: "quiz",
       question: "Compounding rewards:",
       options: [
@@ -169,7 +151,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 14,
+      id: 13,
       type: "quiz",
       question: "ETFs let beginners:",
       options: [
