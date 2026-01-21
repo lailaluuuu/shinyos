@@ -32,311 +32,300 @@ const subjectLessons = {
         { id: "d", text: "Mitochondria got priority", correct: true }
       ],
       explanation: "Technically all of them, but D wins for humor. The real answer is that practical financial education was never prioritized in traditional curricula."
-    }
-  ]
-};
-
-// Categories structure
-const categories = [
-  {
-    id: "foundations",
-    name: "Foundations",
-    icon: "🏛️",
-    subtitle: "Core concepts and fundamentals",
-    subjects: ["finance"]
-  }
-];
-
-// Subject metadata
-const subjectMetadata = {
-  finance: {
-    name: "Investing",
-    icon: "💰",
-    subtitle: "The real-world skill school forgot to mention",
-    category: "foundations"
-  }
-};
-
-let activeSubject = "finance";
-let currentIndex = 0;
-let xp = 120;
-let pendingXp = 0;
-let era = "Foundations";
-let activeCategory = null;
-
-function $(selector) {
-  return document.querySelector(selector);
-}
-
-// Yuno-style animations helper
-function animateElement(el, animationClass, duration = 600) {
-  return new Promise((resolve) => {
-    el.style.animation = 'none';
-    el.offsetHeight; // trigger reflow
-    el.classList.add(animationClass);
-    setTimeout(() => {
-      el.classList.remove(animationClass);
-      resolve();
-    }, duration);
-  });
-}
-
-// Confetti burst for correct answers
-function triggerConfetti(x, y) {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24'];
-  for (let i = 0; i < 15; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti-particle';
-    confetti.style.left = x + 'px';
-    confetti.style.top = y + 'px';
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    
-    const angle = (Math.random() * Math.PI * 2);
-    const velocity = 100 + Math.random() * 100;
-    const xVel = Math.cos(angle) * velocity;
-    const yVel = Math.sin(angle) * velocity - 150;
-    
-    confetti.style.setProperty('--x-vel', xVel + 'px');
-    confetti.style.setProperty('--y-vel', yVel + 'px');
-    confetti.style.setProperty('--rotation', Math.random() * 720 - 360 + 'deg');
-    
-    document.body.appendChild(confetti);
-    
-    setTimeout(() => confetti.remove(), 1000);
-  }
-}
-
-// XP counter animation
-function animateXpGain(amount) {
-  const xpValue = $("#xpValue");
-  const pendingXpEl = $("#pendingXp");
-  
-  pendingXpEl.classList.add('xp-pulse');
-  xpValue.classList.add('xp-gain');
-  
-  setTimeout(() => {
-    pendingXpEl.classList.remove('xp-pulse');
-    xpValue.classList.remove('xp-gain');
-  }, 600);
-}
-
-function getCurrentLessons() {
-  return subjectLessons[activeSubject] || [];
-}
-
-function renderLesson() {
-  const lessons = getCurrentLessons();
-  console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons:", lessons, "lessons.length:", lessons.length);
-  
-  if (!lessons || lessons.length === 0) {
-    console.error("No lessons found for subject:", activeSubject);
-    return;
-  }
-  
-  const lesson = lessons[currentIndex] || lessons[0];
-  if (!lesson) {
-    console.warn("No lesson found at index", currentIndex, "for subject", activeSubject);
-    return;
-  }
-  
-  console.log("Rendering lesson:", lesson.type, lesson.title || lesson.question, "has paragraphs:", !!(lesson.paragraphs && lesson.paragraphs.length > 0));
-
-  const contentEl = $("#lessonContent");
-  const quizBlock = $("#quizBlock");
-  const progressLabel = $("#lessonProgressLabel");
-  const progressFill = $("#lessonProgressFill");
-  const hintText = $("#hintText");
-  const pendingXpEl = $("#pendingXp");
-
-  if (!contentEl) {
-    console.error("lessonContent element not found!");
-    return;
-  }
-  
-  console.log("Content element found:", contentEl);
-
-  // Update progress immediately
-  progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
-  const pct = ((currentIndex + 1) / lessons.length) * 100;
-  progressFill.style.width = `${pct}%`;
-  progressFill.classList.add('progress-pulse');
-  setTimeout(() => progressFill.classList.remove('progress-pulse'), 400);
-
-  // Update back button visibility
-  updateBackButton();
-
-  // Reset hint + pending XP display
-  pendingXp = 0;
-  pendingXpEl.textContent = pendingXp.toString();
-  hintText.textContent = "Tap an answer to check your understanding.";
-
-  // Render content vs quiz vs intro
-  if (lesson.type === "intro") {
-    // Clear quiz block for intro lessons
-    if (quizBlock) {
-      quizBlock.innerHTML = "";
-      quizBlock.style.display = "none";
-      quizBlock.style.opacity = "0";
-      quizBlock.style.visibility = "hidden";
-    }
-    
-    // Force visibility of lesson body parent first
-    const lessonBody = contentEl.parentElement;
-    if (lessonBody) {
-      lessonBody.style.display = "block";
-      lessonBody.style.visibility = "visible";
-      lessonBody.style.opacity = "1";
-      lessonBody.classList.remove("is-hidden");
-    }
-    
-    // Clear and populate intro content
-    contentEl.innerHTML = "";
-    contentEl.style.display = "block";
-    contentEl.style.visibility = "visible";
-    contentEl.style.opacity = "1";
-    contentEl.classList.remove("is-hidden");
-    contentEl.style.textAlign = "center";
-    contentEl.style.padding = "40px 20px";
-    contentEl.style.background = "transparent"; // Override dark background
-    
-    // Also update parent lesson body background for intro pages
-    if (lessonBody) {
-      lessonBody.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(20, 18, 35, 0.95))";
-    }
-    
-    // Create image container with better visibility
-    const imageContainer = document.createElement("div");
-    imageContainer.id = "intro-image-container"; // Add ID for debugging
-    imageContainer.style.marginBottom = "30px";
-    imageContainer.style.marginTop = "0";
-    imageContainer.style.borderRadius = "16px";
-    imageContainer.style.overflow = "hidden";
-    imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
-    imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)"; // Light background for contrast
-    imageContainer.style.position = "relative";
-    imageContainer.style.minHeight = "300px"; // Ensure container has height even before image loads
-    imageContainer.style.width = "100%"; // Ensure full width
-    imageContainer.style.display = "block"; // Ensure container is visible
-    imageContainer.style.visibility = "visible"; // Explicit visibility
-    imageContainer.style.opacity = "1"; // Explicit opacity
-    
-    const img = document.createElement("img");
-    // Use the image URL from lesson data
-    const imagePath = lesson.imageUrl || "images/investing-intro.png";
-    
-    // Ensure path is correct (remove leading slash if present, add if needed)
-    let finalPath = imagePath;
-    if (finalPath.startsWith("/")) {
-      finalPath = finalPath.substring(1);
-    }
-    if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
-      finalPath = "images/" + finalPath;
-    }
-    
-    img.alt = lesson.imageAlt || "Subject image";
-    img.style.width = "100%";
-    img.style.height = "auto";
-    img.style.minHeight = "300px";
-    img.style.maxHeight = "450px";
-    img.style.objectFit = "cover";
-    img.style.display = "block";
-    img.style.opacity = "1";
-    img.style.visibility = "visible"; // Ensure image is visible
-    img.style.filter = "brightness(1.1) contrast(1.05)"; // Make image brighter
-    img.className = "slide-in-up";
-    img.loading = "eager"; // Load immediately
-    
-    // Append image to container BEFORE setting src to ensure it's in the DOM
-    imageContainer.appendChild(img);
-    
-    // Set src after appending to ensure proper loading
-    // Add cache-busting query parameter to force browser to reload if image was updated
-    const cacheBuster = `?v=${Date.now()}`;
-    const finalPathWithCache = finalPath + cacheBuster;
-    
-    // Also set as background image as fallback
-    imageContainer.style.backgroundImage = `url("${finalPathWithCache}")`;
-    imageContainer.style.backgroundSize = "cover";
-    imageContainer.style.backgroundPosition = "center";
-    imageContainer.style.backgroundRepeat = "no-repeat";
-    
-    img.src = finalPathWithCache;
-    
-    console.log("🔍 Attempting to load intro image from:", finalPathWithCache);
-    console.log("📁 Full URL would be:", window.location.origin + "/" + finalPathWithCache);
-    console.log("🌐 Current page:", window.location.href);
-    
-    // Add error handling for image load
-    img.onerror = function() {
-      console.error("❌ Image failed to load:", this.src);
-      console.error("Tried to load from:", imagePath);
-      console.error("Current page URL:", window.location.href);
-      console.error("Make sure the image file exists at:", imagePath, "relative to your HTML file");
-      
-      // Fallback: show a colored placeholder with subject icon
-      this.style.display = "none";
-      const subjectIcon = activeSubject === "finance" ? "💰" : "📚";
-      imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
-      imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
-      imageContainer.style.minHeight = "300px";
-      imageContainer.style.display = "flex";
-      imageContainer.style.alignItems = "center";
-      imageContainer.style.justifyContent = "center";
-      imageContainer.style.flexDirection = "column";
-      const placeholder = document.createElement("div");
-      placeholder.textContent = subjectIcon;
-      placeholder.style.fontSize = "100px";
-      placeholder.style.opacity = "0.6";
-      placeholder.style.marginBottom = "15px";
-      imageContainer.appendChild(placeholder);
-      const errorText = document.createElement("div");
-      errorText.textContent = "Image not found: " + imagePath;
-      errorText.style.color = "rgba(255, 255, 255, 0.7)";
-      errorText.style.fontSize = "14px";
-      errorText.style.textAlign = "center";
-      errorText.style.padding = "0 20px";
-      imageContainer.appendChild(errorText);
-      const helpText = document.createElement("div");
-      helpText.textContent = "Save your image as: " + imagePath;
-      helpText.style.color = "rgba(255, 255, 255, 0.5)";
-      helpText.style.fontSize = "12px";
-      helpText.style.marginTop = "10px";
-      imageContainer.appendChild(helpText);
-    };
-    
-    img.onload = function() {
-      console.log("✅ Intro image loaded successfully from:", this.src);
-      console.log("📏 Image dimensions:", this.naturalWidth, "x", this.naturalHeight);
-      // Ensure image is visible
-      this.style.display = "block";
-      this.style.opacity = "1";
-      this.style.visibility = "visible";
-      imageContainer.style.display = "block";
-    };
-    
-    // Image is already appended to container above, now append container to content
-    // Since we cleared innerHTML above, this will be the first (and main) element in the content area
-    contentEl.appendChild(imageContainer);
-    
-    // Add a visible indicator that this is the intro page (for debugging)
-    console.log("Intro page rendered. Content element children:", contentEl.children.length);
-    console.log("Image container:", imageContainer);
-    console.log("Image src:", img.src);
-    
-    // Force immediate visibility
-    contentEl.style.display = "block";
-    contentEl.style.visibility = "visible";
-    contentEl.style.opacity = "1";
-    contentEl.style.minHeight = "400px"; // Ensure space is visible
-    
-  } else if (lesson.type === "content") {
-    // Clear quiz block for content lessons
-    if (quizBlock) {
-      quizBlock.innerHTML = "";
-      quizBlock.style.display = "none";
-      quizBlock.style.opacity = "0";
-      quizBlock.style.visibility = "hidden";
-    }
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "What Investing Actually Is",
+      paragraphs: [
+        "Investing = buying tiny slices of the future.",
+        "You put capital into something productive (companies, economies, ideas) and in exchange you get growth.",
+        "The grown-up term for this is: 'Capital allocation.' The non-grown-up term: 'Money learns a trade.'",
+        "Money isn't just for spending. Money is a worker. If you don't put it to work, inflation slowly fires it."
+      ]
+    },
+    {
+      id: 4,
+      type: "quiz",
+      question: "Which description is closest to investing?",
+      options: [
+        { id: "a", text: "Guessing prices", correct: false },
+        { id: "b", text: "Allocating capital into productive assets", correct: true },
+        { id: "c", text: "Gambling", correct: false },
+        { id: "d", text: "Hoping", correct: false }
+      ],
+      explanation: "Investing is about allocating capital into productive assets that generate growth over time, not speculation or gambling."
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "Why Investing Exists",
+      paragraphs: [
+        "Human economies expand because we invent, build, innovate, and demand new things.",
+        "Investing is simply how we: fund innovation, fund growth, fund risk, fund long-term progress.",
+        "Without investing → no tech, no medicine, no bridges, no chips, no rockets, no progress.",
+        "School missed that investing is how progress is financed."
+      ]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "Investing is essential because it finances:",
+      options: [
+        { id: "a", text: "Innovation", correct: false },
+        { id: "b", text: "Infrastructure", correct: false },
+        { id: "c", text: "New businesses", correct: false },
+        { id: "d", text: "All of the above", correct: true }
+      ],
+      explanation: "Investing finances innovation, infrastructure, new businesses, and all forms of economic progress."
+    },
+    {
+      id: 7,
+      type: "content",
+      title: "The Invisible Enemy: Inflation",
+      paragraphs: [
+        "School treats money as static. It never mentions the villain that slowly steals purchasing power.",
+        "£100 today ≠ £100 in 10 years.",
+        "Inflation is a silent tax on time. Investing is how you fight it.",
+        "Wish someone had said that at 15 instead of making us laminate coursework."
+      ]
+    },
+    {
+      id: 8,
+      type: "quiz",
+      question: "Inflation mainly affects:",
+      options: [
+        { id: "a", text: "Prices", correct: false },
+        { id: "b", text: "Purchasing power", correct: false },
+        { id: "c", text: "Savings", correct: false },
+        { id: "d", text: "All of the above", correct: true }
+      ],
+      explanation: "Inflation affects prices, purchasing power, and the value of savings over time. It's why investing is essential to preserve and grow wealth."
+    },
+    {
+      id: 9,
+      type: "content",
+      title: "The Cheat Code They Hid: Compound Growth",
+      paragraphs: [
+        "Compound growth deserved a 6-week school module, fireworks, and guest speakers.",
+        "It's interest on your interest. Growth on growth. Time becoming exponential.",
+        "Albert Einstein called it 'the 8th wonder of the world.' School gave it 4 lines in maths and moved on like it wasn't the formula that shapes wealth.",
+        "The earlier you start, the less money you need."
+      ]
+    },
+    {
+      id: 10,
+      type: "quiz",
+      question: "Compounding rewards:",
+      options: [
+        { id: "a", text: "Patience", correct: true },
+        { id: "b", text: "Genius", correct: false },
+        { id: "c", text: "Spreadsheets", correct: false },
+        { id: "d", text: "Panic", correct: false }
+      ],
+      explanation: "Compounding rewards patience and time. The longer your money compounds, the more powerful the effect becomes."
+    },
+    {
+      id: 11,
+      type: "content",
+      title: "Where Investing Happens (Finally Explained)",
+      paragraphs: [
+        "Real assets people grow wealth with:",
+        "Stocks → partial ownership of businesses",
+        "ETFs → many stocks at once (cheat mode)",
+        "Bonds → lending",
+        "Real Estate → physical assets",
+        "Crypto → tech + speculation + volatility",
+        "Businesses → asymmetric upside",
+        "Most adults never hear these words until they're 30+ and then panic google it at 1am.",
+        "Owning the economy is easier than beating it."
+      ]
+    },
+    {
+      id: 12,
+      type: "quiz",
+      question: "ETFs let beginners:",
+      options: [
+        { id: "a", text: "Avoid stock-picking", correct: false },
+        { id: "b", text: "Gain diversification", correct: false },
+        { id: "c", text: "Copy market growth", correct: false },
+        { id: "d", text: "All of the above", correct: true }
+      ],
+      explanation: "ETFs (Exchange-Traded Funds) allow beginners to avoid stock-picking, gain instant diversification, and track market growth all at once."
+    },
+    {
+      id: 13,
+      type: "content",
+      title: "Risk: It's Not a Monster, It's the Price",
+      paragraphs: [
+        "Risk is not danger. Risk is rent you pay to access return.",
+        "School teaches 'avoid risk.' But real life requires understanding it, pricing it, and using it wisely.",
+        "Low risk = low returns",
+        "Medium risk = compounding engine",
+        "High risk = moonshot or crater",
+        "Risk isn't bad — mispriced risk is."
+      ]
+    },
+    {
+      id: 14,
+      type: "quiz",
+      question: "Investors earn returns because they:",
+      options: [
+        { id: "a", text: "Deserve it", correct: false },
+        { id: "b", text: "Take risk", correct: true },
+        { id: "c", text: "Pray to Warren Buffett", correct: false },
+        { id: "d", text: "Have spreadsheets", correct: false }
+      ],
+      explanation: "Investors earn returns because they take calculated risks. Risk and return are fundamentally linked in investing."
+    },
+    {
+      id: 15,
+      type: "content",
+      title: "Final Reflection: The One School Never Gave",
+      paragraphs: [
+        "If money is a worker, investing is hiring workers and teaching them new skills.",
+        "If inflation is a thief, investing locks the door and fights back.",
+        "If compounding is a cheat code, time is the multiplier.",
+        "You now understand: how wealth forms, why inflation matters, why time matters, why investing exists, why productive assets grow, and why compounding is seismic.",
+        "This is the baseline for building portfolios, choosing assets, and not getting eaten by a system you're already living inside."
+      ]
+    },
+    {
+      id: 16,
+      type: "quiz",
+      question: "If money is a worker, what is investing?",
+      options: [
+        { id: "a", text: "Hiring workers", correct: false },
+        { id: "b", text: "Chaining workers to a desk", correct: false },
+        { id: "c", text: "Teaching workers new skills", correct: false },
+        { id: "d", text: "Hiring and teaching workers (A + C)", correct: true }
+      ],
+      explanation: "Investing is like hiring workers (allocating capital) and teaching them new skills (putting money into productive assets that grow)."
+    },
+    {
+      id: 17,
+      type: "quiz",
+      question: "If inflation is a thief, what does investing do?",
+      options: [
+        { id: "a", text: "Locks the door", correct: false },
+        { id: "b", text: "Fights back", correct: false },
+        { id: "c", text: "Ignores it", correct: false },
+        { id: "d", text: "Locks the door and fights back (A + B)", correct: true }
+      ],
+      explanation: "Investing both locks the door (preserves purchasing power) and fights back (grows wealth faster than inflation)."
+    },
+    {
+      id: 18,
+      type: "quiz",
+      question: "If compounding is a cheat code, what is time?",
+      options: [
+        { id: "a", text: "The multiplier", correct: true },
+        { id: "b", text: "The enemy", correct: false },
+        { id: "c", text: "The tax collector", correct: false },
+        { id: "d", text: "Irrelevant", correct: false }
+      ],
+      explanation: "Time is the multiplier that makes compounding powerful. The longer your investments compound, the more exponential the growth becomes."
+    },
+    {
+      id: 19,
+      type: "content",
+      title: "🏁 Lesson 1 Complete — Economic Agency 101",
+      paragraphs: [
+        "You've taken the class school never offered: Economic Agency 101",
+        "You now understand:",
+        "✔ How wealth forms",
+        "✔ Why inflation matters",
+        "✔ Why time matters",
+        "✔ Why investing exists",
+        "✔ Why productive assets grow",
+        "✔ Why compounding is seismic",
+        "This is the baseline for building portfolios, choosing assets, and not getting eaten by a system you're already living inside.",
+        "Ready for Lesson 2? Let's build an actual portfolio."
+      ]
+    },
+    // ========== LESSON 2: Building a Portfolio ==========
+    {
+      id: 20,
+      type: "content",
+      title: "Lesson 2: Building a Portfolio — How to Allocate Capital",
+      paragraphs: [
+        "If I had £X, how would I actually split it?",
+        "This is the question that keeps people stuck. They understand investing exists, but have no idea how to actually build a portfolio.",
+        "Portfolio building = deciding what percentage goes where. It's not about picking the perfect stock. It's about structure."
+      ]
+    },
+    {
+      id: 21,
+      type: "content",
+      title: "Asset Classes 101",
+      paragraphs: [
+        "Stocks (Equities) → Ownership in companies. Higher risk, higher potential return.",
+        "Bonds → Lending money to governments/companies. Lower risk, steady income.",
+        "Real Estate → Physical property. Can provide income and appreciation.",
+        "Cash → Emergency fund. Low risk, low return, but essential.",
+        "Crypto → Digital assets. High volatility, high risk/reward.",
+        "Each asset class behaves differently. The magic is in the mix."
+      ]
+    },
+    {
+      id: 22,
+      type: "quiz",
+      question: "Which asset class typically offers the highest long-term returns?",
+      options: [
+        { id: "a", text: "Cash", correct: false },
+        { id: "b", text: "Bonds", correct: false },
+        { id: "c", text: "Stocks (Equities)", correct: true },
+        { id: "d", text: "They're all the same", correct: false }
+      ],
+      explanation: "Historically, stocks have provided the highest long-term returns (7-10% annually), but with higher volatility. This is the risk-return tradeoff in action."
+    },
+    {
+      id: 23,
+      type: "content",
+      title: "What % Goes Where?",
+      paragraphs: [
+        "There's no one-size-fits-all answer. Your allocation depends on:",
+        "• Your age (younger = can take more risk)",
+        "• Your goals (retirement in 30 years vs buying a house in 5)",
+        "• Your personality (can you sleep at night with volatility?)",
+        "• Your timeline (when do you need the money?)",
+        "A 25-year-old saving for retirement can be 80-90% stocks. A 60-year-old might be 40-60% stocks. Context matters."
+      ]
+    },
+    {
+      id: 24,
+      type: "content",
+      title: "Diversification (But Explained Properly)",
+      paragraphs: [
+        "Diversification isn't 'don't put all eggs in one basket.' That's too simple.",
+        "Real diversification = spreading risk across:",
+        "• Different asset classes (stocks, bonds, real estate)",
+        "• Different geographies (UK, US, global markets)",
+        "• Different sectors (tech, healthcare, finance, consumer)",
+        "• Different company sizes (large cap, mid cap, small cap)",
+        "The goal: when one thing crashes, others hold steady or rise. You're not betting on one outcome."
+      ]
+    },
+    {
+      id: 25,
+      type: "quiz",
+      question: "True diversification means:",
+      options: [
+        { id: "a", text: "Owning 10 different tech stocks", correct: false },
+        { id: "b", text: "Spreading risk across asset classes, geographies, and sectors", correct: true },
+        { id: "c", text: "Only investing in one country", correct: false },
+        { id: "d", text: "Keeping everything in cash", correct: false }
+      ],
+      explanation: "True diversification spreads risk across multiple dimensions: asset classes, geographies, sectors, and company sizes. Owning 10 tech stocks is still concentrated risk."
+    },
+    {
+      id: 26,
+      type: "content",
+      title: "Risk Profiles: Conservative / Balanced / Aggressive",
+      paragraphs: [
+        "Conservative (30% stocks, 60% bonds, 10% cash): For those who can't handle volatility. Lower returns, but sleep better at night.",
+        "Balanced (60% stocks, 30% bonds, 10% cash): The middle ground. Growth with some stability.",
+        "Aggressive (80-90% stocks, 10-20% bonds): For young investors with long timelines. Higher volatility, higher potential returns.",
         "Your risk profile should match your timeline and personality, not what someone on Twitter says."
       ]
     },
