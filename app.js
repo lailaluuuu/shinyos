@@ -13,6 +13,15 @@ const subjectLessons = {
     {
       id: 1,
       type: "content",
+      title: "Investing — The Skill You Can Learn at Any Age",
+      paragraphs: [
+        "Curiosity is enough. The rest is learnable.",
+        "Welcome to the class you didn't know existed."
+      ]
+    },
+    {
+      id: 2,
+      type: "content",
       title: "The Lesson Nobody Teaches",
       paragraphs: [
         "If school was useful, there would've been a class called: 'How Money Actually Becomes More Money.'",
@@ -22,7 +31,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 2,
+      id: 3,
       type: "quiz",
       question: "Why wasn't investing taught in school?",
       options: [
@@ -34,7 +43,7 @@ const subjectLessons = {
       explanation: "Technically all of them, but D wins for humor. The real answer is that practical financial education was never prioritized in traditional curricula."
     },
     {
-      id: 3,
+      id: 4,
       type: "content",
       title: "What Investing Actually Is",
       paragraphs: [
@@ -45,7 +54,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 4,
+      id: 5,
       type: "quiz",
       question: "Which description is closest to investing?",
       options: [
@@ -57,7 +66,7 @@ const subjectLessons = {
       explanation: "Investing is about allocating capital into productive assets that generate growth over time, not speculation or gambling."
     },
     {
-      id: 5,
+      id: 6,
       type: "content",
       title: "Why Investing Exists",
       paragraphs: [
@@ -68,7 +77,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 6,
+      id: 7,
       type: "quiz",
       question: "Investing is essential because it finances:",
       options: [
@@ -80,7 +89,7 @@ const subjectLessons = {
       explanation: "Investing finances innovation, infrastructure, new businesses, and all forms of economic progress."
     },
     {
-      id: 7,
+      id: 8,
       type: "content",
       title: "The Invisible Enemy: Inflation",
       paragraphs: [
@@ -91,7 +100,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 8,
+      id: 9,
       type: "quiz",
       question: "Inflation mainly affects:",
       options: [
@@ -103,7 +112,7 @@ const subjectLessons = {
       explanation: "Inflation affects prices, purchasing power, and the value of savings over time. It's why investing is essential to preserve and grow wealth."
     },
     {
-      id: 9,
+      id: 10,
       type: "content",
       title: "The Cheat Code They Hid: Compound Growth",
       paragraphs: [
@@ -114,7 +123,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 10,
+      id: 11,
       type: "quiz",
       question: "Compounding rewards:",
       options: [
@@ -126,7 +135,7 @@ const subjectLessons = {
       explanation: "Compounding rewards patience and time. The longer your money compounds, the more powerful the effect becomes."
     },
     {
-      id: 11,
+      id: 12,
       type: "content",
       title: "Where Investing Happens (Finally Explained)",
       paragraphs: [
@@ -142,7 +151,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 12,
+      id: 13,
       type: "quiz",
       question: "ETFs let beginners:",
       options: [
@@ -154,7 +163,7 @@ const subjectLessons = {
       explanation: "ETFs (Exchange-Traded Funds) allow beginners to avoid stock-picking, gain instant diversification, and track market growth all at once."
     },
     {
-      id: 13,
+      id: 21,
       type: "content",
       title: "Risk: It's Not a Monster, It's the Price",
       paragraphs: [
@@ -167,7 +176,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 14,
+      id: 22,
       type: "quiz",
       question: "Investors earn returns because they:",
       options: [
@@ -179,7 +188,7 @@ const subjectLessons = {
       explanation: "Investors earn returns because they take calculated risks. Risk and return are fundamentally linked in investing."
     },
     {
-      id: 15,
+      id: 23,
       type: "content",
       title: "Final Reflection: The One School Never Gave",
       paragraphs: [
@@ -191,7 +200,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 16,
+      id: 24,
       type: "quiz",
       question: "If money is a worker, what is investing?",
       options: [
@@ -203,7 +212,7 @@ const subjectLessons = {
       explanation: "Investing is like hiring workers (allocating capital) and teaching them new skills (putting money into productive assets that grow)."
     },
     {
-      id: 17,
+      id: 25,
       type: "quiz",
       question: "If inflation is a thief, what does investing do?",
       options: [
@@ -215,7 +224,7 @@ const subjectLessons = {
       explanation: "Investing both locks the door (preserves purchasing power) and fights back (grows wealth faster than inflation)."
     },
     {
-      id: 18,
+      id: 19,
       type: "quiz",
       question: "If compounding is a cheat code, what is time?",
       options: [
@@ -227,7 +236,7 @@ const subjectLessons = {
       explanation: "Time is the multiplier that makes compounding powerful. The longer your investments compound, the more exponential the growth becomes."
     },
     {
-      id: 19,
+      id: 21,
       type: "content",
       title: "🏁 Lesson 1 Complete — Economic Agency 101",
       paragraphs: [
@@ -245,7 +254,7 @@ const subjectLessons = {
     },
     // ========== LESSON 2: Building a Portfolio ==========
     {
-      id: 20,
+      id: 22,
       type: "content",
       title: "Lesson 2: Building a Portfolio — How to Allocate Capital",
       paragraphs: [
@@ -255,7 +264,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 21,
+      id: 23,
       type: "content",
       title: "Asset Classes 101",
       paragraphs: [
@@ -268,7 +277,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 22,
+      id: 24,
       type: "quiz",
       question: "Which asset class typically offers the highest long-term returns?",
       options: [
@@ -280,7 +289,7 @@ const subjectLessons = {
       explanation: "Historically, stocks have provided the highest long-term returns (7-10% annually), but with higher volatility. This is the risk-return tradeoff in action."
     },
     {
-      id: 23,
+      id: 25,
       type: "content",
       title: "What % Goes Where?",
       paragraphs: [
@@ -293,7 +302,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 24,
+      id: 26,
       type: "content",
       title: "Diversification (But Explained Properly)",
       paragraphs: [
@@ -307,7 +316,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 25,
+      id: 27,
       type: "quiz",
       question: "True diversification means:",
       options: [
@@ -319,7 +328,7 @@ const subjectLessons = {
       explanation: "True diversification spreads risk across multiple dimensions: asset classes, geographies, sectors, and company sizes. Owning 10 tech stocks is still concentrated risk."
     },
     {
-      id: 26,
+      id: 28,
       type: "content",
       title: "Risk Profiles: Conservative / Balanced / Aggressive",
       paragraphs: [
@@ -330,7 +339,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 27,
+      id: 29,
       type: "content",
       title: "Global Markets vs Domestic",
       paragraphs: [
@@ -342,7 +351,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 28,
+      id: 30,
       type: "quiz",
       question: "Why should UK investors consider global markets?",
       options: [
@@ -354,7 +363,7 @@ const subjectLessons = {
       explanation: "Global investing provides access to the full world economy, reduces country-specific risk, and allows you to benefit from growth anywhere in the world."
     },
     {
-      id: 29,
+      id: 31,
       type: "content",
       title: "Why ETFs Are Cheat Mode",
       paragraphs: [
@@ -366,7 +375,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 30,
+      id: 32,
       type: "content",
       title: "Example Portfolios: Beginner → Intermediate → Spicy",
       paragraphs: [
@@ -377,7 +386,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 31,
+      id: 33,
       type: "quiz",
       question: "For a beginner with £5,000, the best portfolio is likely:",
       options: [
@@ -389,7 +398,7 @@ const subjectLessons = {
       explanation: "For beginners, a simple two-fund portfolio (global stocks + bonds) provides instant diversification, low fees, and is easy to manage. Complexity comes later."
     },
     {
-      id: 32,
+      id: 34,
       type: "content",
       title: "Final Quiz: Building a Portfolio",
       paragraphs: [
@@ -399,7 +408,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 33,
+      id: 35,
       type: "quiz",
       question: "A balanced risk profile typically allocates:",
       options: [
@@ -412,7 +421,7 @@ const subjectLessons = {
     },
     // ========== LESSON 3: Dividends & Cashflow ==========
     {
-      id: 34,
+      id: 36,
       type: "content",
       title: "Lesson 3: Dividends & Cashflow — Money That Pays You to Own It",
       paragraphs: [
@@ -422,7 +431,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 35,
+      id: 37,
       type: "content",
       title: "Dividends Explained",
       paragraphs: [
@@ -435,7 +444,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 36,
+      id: 38,
       type: "quiz",
       question: "Dividends are:",
       options: [
@@ -447,7 +456,7 @@ const subjectLessons = {
       explanation: "Dividends are your share of company profits distributed to shareholders. They're not guaranteed and can be cut if the company struggles, but many companies have long dividend-paying histories."
     },
     {
-      id: 37,
+      id: 39,
       type: "content",
       title: "Yields vs Yield Traps",
       paragraphs: [
@@ -459,7 +468,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 38,
+      id: 40,
       type: "quiz",
       question: "A yield trap is:",
       options: [
@@ -471,7 +480,7 @@ const subjectLessons = {
       explanation: "A yield trap is a stock with an unsustainably high dividend yield, usually because the stock price has crashed. The dividend is likely to be cut, and you'll lose both income and capital."
     },
     {
-      id: 39,
+      id: 41,
       type: "content",
       title: "Dividend Aristocrats",
       paragraphs: [
@@ -482,7 +491,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 40,
+      id: 42,
       type: "content",
       title: "Dividend ETFs",
       paragraphs: [
@@ -494,7 +503,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 41,
+      id: 43,
       type: "quiz",
       question: "Dividend ETFs are good for:",
       options: [
@@ -506,7 +515,7 @@ const subjectLessons = {
       explanation: "Dividend ETFs provide instant diversification, professional management, lower risk than individual stocks, and are perfect for passive income seekers."
     },
     {
-      id: 42,
+      id: 44,
       type: "content",
       title: "Reinvest vs Take Income",
       paragraphs: [
@@ -519,7 +528,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 43,
+      id: 45,
       type: "content",
       title: "Compounding via Dividends",
       paragraphs: [
@@ -530,7 +539,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 44,
+      id: 46,
       type: "quiz",
       question: "Dividend reinvestment is most powerful for:",
       options: [
@@ -542,7 +551,7 @@ const subjectLessons = {
       explanation: "Dividend reinvestment compounds wealth over time, making it most powerful for young investors with decades to let it grow. Retirees typically take income instead."
     },
     {
-      id: 45,
+      id: 47,
       type: "content",
       title: "Dividend vs Growth Stocks",
       paragraphs: [
@@ -555,7 +564,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 46,
+      id: 48,
       type: "quiz",
       question: "The main difference between dividend and growth stocks is:",
       options: [
@@ -567,7 +576,7 @@ const subjectLessons = {
       explanation: "Dividend stocks pay out profits as income, while growth stocks reinvest profits for expansion. Both have their place in a portfolio."
     },
     {
-      id: 47,
+      id: 49,
       type: "content",
       title: "Final Quiz: Dividends & Cashflow",
       paragraphs: [
@@ -577,7 +586,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 48,
+      id: 50,
       type: "quiz",
       question: "The best strategy for dividend income depends on:",
       options: [
@@ -590,7 +599,7 @@ const subjectLessons = {
     },
     // ========== LESSON 4: Behavioural Finance ==========
     {
-      id: 49,
+      id: 51,
       type: "content",
       title: "Lesson 4: Behavioural Finance — Why Humans Self-Sabotage",
       paragraphs: [
@@ -601,7 +610,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 50,
+      id: 52,
       type: "content",
       title: "Loss Aversion",
       paragraphs: [
@@ -612,7 +621,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 51,
+      id: 53,
       type: "quiz",
       question: "Loss aversion means:",
       options: [
@@ -624,7 +633,7 @@ const subjectLessons = {
       explanation: "Loss aversion is the psychological tendency to feel losses more intensely than equivalent gains. This leads to poor investment decisions like holding losers too long."
     },
     {
-      id: 52,
+      id: 54,
       type: "content",
       title: "Panic Selling",
       paragraphs: [
@@ -635,7 +644,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 53,
+      id: 55,
       type: "content",
       title: "FOMO Buying",
       paragraphs: [
@@ -646,7 +655,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 54,
+      id: 56,
       type: "quiz",
       question: "FOMO buying typically leads to:",
       options: [
@@ -658,7 +667,7 @@ const subjectLessons = {
       explanation: "FOMO buying means buying when everyone else is buying, which usually means buying at peak prices. When the hype dies, prices crash, and FOMO buyers sell at a loss."
     },
     {
-      id: 55,
+      id: 57,
       type: "content",
       title: "Recency Bias",
       paragraphs: [
@@ -670,7 +679,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 56,
+      id: 58,
       type: "content",
       title: "Herd Behaviour",
       paragraphs: [
@@ -681,7 +690,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 57,
+      id: 59,
       type: "quiz",
       question: "Herd behaviour in investing typically:",
       options: [
@@ -693,7 +702,7 @@ const subjectLessons = {
       explanation: "Herd behaviour causes everyone to buy at the same time (creating bubbles) and sell at the same time (creating crashes). Following the crowd usually leads to poor timing."
     },
     {
-      id: 58,
+      id: 60,
       type: "content",
       title: "Ego + Overconfidence",
       paragraphs: [
@@ -704,7 +713,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 59,
+      id: 61,
       type: "content",
       title: "Time Inconsistency",
       paragraphs: [
@@ -715,7 +724,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 60,
+      id: 62,
       type: "content",
       title: "Dopamine Loops + Apps + Charts",
       paragraphs: [
@@ -726,7 +735,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 61,
+      id: 63,
       type: "quiz",
       question: "Constantly checking your portfolio leads to:",
       options: [
@@ -738,7 +747,7 @@ const subjectLessons = {
       explanation: "Constantly checking your portfolio creates dopamine loops, leads to emotional decisions, overtrading, and usually worse returns. Less checking = better results."
     },
     {
-      id: 62,
+      id: 64,
       type: "content",
       title: "How to Build Anti-Panic Systems and Rules",
       paragraphs: [
@@ -753,7 +762,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 63,
+      id: 65,
       type: "content",
       title: "Final Quiz: Behavioural Finance",
       paragraphs: [
@@ -763,7 +772,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 64,
+      id: 66,
       type: "quiz",
       question: "The best way to avoid behavioural mistakes is:",
       options: [
@@ -776,7 +785,7 @@ const subjectLessons = {
     },
     // ========== LESSON 5: Crypto ==========
     {
-      id: 65,
+      id: 67,
       type: "content",
       title: "Lesson 5: Crypto — Tech vs Speculation vs Narrative",
       paragraphs: [
@@ -786,7 +795,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 66,
+      id: 68,
       type: "content",
       title: "Why Crypto Exists",
       paragraphs: [
@@ -799,7 +808,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 67,
+      id: 69,
       type: "quiz",
       question: "Bitcoin was created as a response to:",
       options: [
@@ -811,7 +820,7 @@ const subjectLessons = {
       explanation: "Bitcoin was created in 2009 as a decentralized alternative to traditional banking systems that failed during the 2008 financial crisis."
     },
     {
-      id: 68,
+      id: 70,
       type: "content",
       title: "Difference Between BTC, ETH, and Altcoins",
       paragraphs: [
@@ -823,7 +832,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 69,
+      id: 71,
       type: "content",
       title: "Smart Contracts, Blockchains, Tokenomics",
       paragraphs: [
@@ -836,7 +845,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 70,
+      id: 72,
       type: "quiz",
       question: "The main difference between Bitcoin and Ethereum is:",
       options: [
@@ -848,7 +857,7 @@ const subjectLessons = {
       explanation: "Bitcoin is designed as digital gold (store of value), while Ethereum is a programmable blockchain that runs smart contracts and decentralized applications."
     },
     {
-      id: 71,
+      id: 73,
       type: "content",
       title: "Why Crypto Moves Fast (Volatility Explained)",
       paragraphs: [
@@ -863,7 +872,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 72,
+      id: 74,
       type: "content",
       title: "Cycles + Macro + Narratives",
       paragraphs: [
@@ -876,7 +885,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 73,
+      id: 75,
       type: "quiz",
       question: "Crypto volatility is caused by:",
       options: [
@@ -888,7 +897,7 @@ const subjectLessons = {
       explanation: "Crypto volatility comes from multiple factors: 24/7 trading, high speculation, regulatory uncertainty, narrative-driven price movements, and being a new asset class."
     },
     {
-      id: 74,
+      id: 76,
       type: "content",
       title: "Speculation with Literacy vs Vibes",
       paragraphs: [
@@ -903,7 +912,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 75,
+      id: 77,
       type: "content",
       title: "Risk Management in Crypto Terms",
       paragraphs: [
@@ -918,7 +927,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 76,
+      id: 78,
       type: "quiz",
       question: "Good crypto risk management includes:",
       options: [
@@ -930,7 +939,7 @@ const subjectLessons = {
       explanation: "Good crypto risk management includes limiting allocation, using dollar-cost averaging, only investing what you can lose, and having an exit strategy."
     },
     {
-      id: 77,
+      id: 79,
       type: "content",
       title: "Final Quiz: Crypto",
       paragraphs: [
@@ -940,7 +949,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 78,
+      id: 80,
       type: "quiz",
       question: "The best approach to crypto for beginners is:",
       options: [
@@ -953,7 +962,7 @@ const subjectLessons = {
     },
     // ========== LESSON 6: Interest, Inflation & Compounding ==========
     {
-      id: 79,
+      id: 81,
       type: "content",
       title: "Lesson 6: Interest, Inflation & Compounding — The Maths That Actually Matters",
       paragraphs: [
@@ -963,7 +972,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 80,
+      id: 82,
       type: "content",
       title: "Real vs Nominal Returns",
       paragraphs: [
@@ -975,7 +984,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 81,
+      id: 83,
       type: "quiz",
       question: "If your portfolio returns 10% and inflation is 3%, your real return is:",
       options: [
@@ -987,7 +996,7 @@ const subjectLessons = {
       explanation: "Real return = Nominal return - Inflation. 10% - 3% = 7% real return. This is your actual purchasing power increase."
     },
     {
-      id: 82,
+      id: 84,
       type: "content",
       title: "Inflation as a Tax on Time",
       paragraphs: [
@@ -999,7 +1008,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 83,
+      id: 85,
       type: "content",
       title: "Compounding as a Time Multiplier",
       paragraphs: [
@@ -1012,7 +1021,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 84,
+      id: 86,
       type: "quiz",
       question: "Compounding is powerful because:",
       options: [
@@ -1024,7 +1033,7 @@ const subjectLessons = {
       explanation: "Compounding is powerful because you earn returns on both your principal and your previous returns, creating exponential growth over time."
     },
     {
-      id: 85,
+      id: 87,
       type: "content",
       title: "Opportunity Cost",
       paragraphs: [
@@ -1036,7 +1045,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 86,
+      id: 88,
       type: "content",
       title: "Growth vs Decay Curves",
       paragraphs: [
@@ -1048,7 +1057,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 87,
+      id: 89,
       type: "quiz",
       question: "Opportunity cost of keeping money in cash is:",
       options: [
@@ -1060,7 +1069,7 @@ const subjectLessons = {
       explanation: "Opportunity cost is what you give up by choosing one option. Keeping cash costs you the investment returns you could have earned."
     },
     {
-      id: 88,
+      id: 90,
       type: "content",
       title: "Final Quiz: Interest, Inflation & Compounding",
       paragraphs: [
@@ -1070,7 +1079,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 89,
+      id: 91,
       type: "quiz",
       question: "The most important return to focus on is:",
       options: [
@@ -1083,7 +1092,7 @@ const subjectLessons = {
     },
     // ========== LESSON 7: Taxes, Wrappers & Optimization ==========
     {
-      id: 90,
+      id: 92,
       type: "content",
       title: "Lesson 7: Taxes, Wrappers & Optimization — The Adult Level-Up",
       paragraphs: [
@@ -1093,7 +1102,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 91,
+      id: 93,
       type: "content",
       title: "ISA / SIPP Explained (UK)",
       paragraphs: [
@@ -1113,7 +1122,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 92,
+      id: 94,
       type: "quiz",
       question: "The main advantage of an ISA is:",
       options: [
@@ -1125,7 +1134,7 @@ const subjectLessons = {
       explanation: "ISAs provide tax-free gains and income forever, with a £20,000 annual allowance. You can withdraw anytime, making them flexible for general investing."
     },
     {
-      id: 93,
+      id: 95,
       type: "content",
       title: "Capital Gains vs Income Tax",
       paragraphs: [
@@ -1143,7 +1152,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 94,
+      id: 96,
       type: "content",
       title: "Tax Shelters",
       paragraphs: [
@@ -1162,7 +1171,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 95,
+      id: 97,
       type: "quiz",
       question: "The best strategy for UK investors is:",
       options: [
@@ -1174,7 +1183,7 @@ const subjectLessons = {
       explanation: "The optimal strategy is to max out your ISA first (tax-free, flexible), then contribute to SIPP (tax relief), and only invest outside wrappers if you've maxed both."
     },
     {
-      id: 96,
+      id: 98,
       type: "content",
       title: "Withholding Taxes (International Equities)",
       paragraphs: [
@@ -1187,7 +1196,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 97,
+      id: 99,
       type: "content",
       title: "Brokers vs Platforms",
       paragraphs: [
@@ -1205,7 +1214,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 98,
+      id: 100,
       type: "quiz",
       question: "When choosing a broker/platform, consider:",
       options: [
@@ -1217,7 +1226,7 @@ const subjectLessons = {
       explanation: "When choosing a broker/platform, consider fees, ISA/SIPP availability, investment options, user experience, and customer service. Balance all factors."
     },
     {
-      id: 99,
+      id: 101,
       type: "content",
       title: "Final Quiz: Taxes, Wrappers & Optimization",
       paragraphs: [
@@ -1227,7 +1236,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 100,
+      id: 102,
       type: "quiz",
       question: "The main benefit of using tax wrappers is:",
       options: [
@@ -1240,7 +1249,7 @@ const subjectLessons = {
     },
     // ========== LESSON 8: When to Buy & When to Sell ==========
     {
-      id: 101,
+      id: 103,
       type: "content",
       title: "Lesson 8: When to Buy & When to Sell — Timing Without Mystic Powers",
       paragraphs: [
@@ -1250,7 +1259,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 102,
+      id: 104,
       type: "content",
       title: "Owning Businesses vs Flipping Trends",
       paragraphs: [
@@ -1263,7 +1272,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 103,
+      id: 105,
       type: "quiz",
       question: "For most people, the best approach is:",
       options: [
@@ -1275,7 +1284,7 @@ const subjectLessons = {
       explanation: "For most people, the investor mindset (owning quality businesses long-term) beats trading. Time in market beats timing the market."
     },
     {
-      id: 104,
+      id: 106,
       type: "content",
       title: "Valuation vs Speculation",
       paragraphs: [
@@ -1289,7 +1298,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 105,
+      id: 107,
       type: "content",
       title: "Dollar-Cost Averaging",
       paragraphs: [
@@ -1305,7 +1314,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 106,
+      id: 108,
       type: "quiz",
       question: "Dollar-cost averaging helps by:",
       options: [
@@ -1317,7 +1326,7 @@ const subjectLessons = {
       explanation: "Dollar-cost averaging removes emotion, automates investing, naturally buys more when prices are low, and smooths out volatility over time."
     },
     {
-      id: 107,
+      id: 109,
       type: "content",
       title: "Rebalancing",
       paragraphs: [
@@ -1332,7 +1341,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 108,
+      id: 110,
       type: "content",
       title: "Taking Profits vs Conviction Holding",
       paragraphs: [
@@ -1352,7 +1361,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 109,
+      id: 111,
       type: "quiz",
       question: "Rebalancing helps by:",
       options: [
@@ -1364,7 +1373,7 @@ const subjectLessons = {
       explanation: "Rebalancing forces you to sell assets that have performed well (selling high) and buy assets that have underperformed (buying low), maintaining your target allocation."
     },
     {
-      id: 110,
+      id: 112,
       type: "content",
       title: "Time Horizons",
       paragraphs: [
@@ -1378,7 +1387,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 111,
+      id: 113,
       type: "content",
       title: "Final Quiz: When to Buy & When to Sell",
       paragraphs: [
@@ -1388,7 +1397,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 112,
+      id: 114,
       type: "quiz",
       question: "The best approach for most investors is:",
       options: [
@@ -1401,7 +1410,7 @@ const subjectLessons = {
     },
     // ========== LESSON 9: The System ==========
     {
-      id: 113,
+      id: 115,
       type: "content",
       title: "Lesson 9: The System — How Markets, Companies & Innovation Actually Create Wealth",
       paragraphs: [
@@ -1411,7 +1420,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 114,
+      id: 116,
       type: "content",
       title: "Productive Assets",
       paragraphs: [
@@ -1423,7 +1432,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 115,
+      id: 117,
       type: "quiz",
       question: "Stocks grow over time because:",
       options: [
@@ -1435,7 +1444,7 @@ const subjectLessons = {
       explanation: "Stocks grow because companies are productive assets that generate profits, reinvest, and create value over time. This productivity drives long-term returns."
     },
     {
-      id: 116,
+      id: 118,
       type: "content",
       title: "Innovation Cycles",
       paragraphs: [
@@ -1451,7 +1460,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 117,
+      id: 119,
       type: "content",
       title: "Global GDP & Why It Tends to Grow",
       paragraphs: [
@@ -1466,7 +1475,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 118,
+      id: 120,
       type: "quiz",
       question: "Global GDP tends to grow because of:",
       options: [
@@ -1478,7 +1487,7 @@ const subjectLessons = {
       explanation: "Global GDP grows due to population growth, productivity improvements, and innovation. These factors combine to create long-term economic expansion."
     },
     {
-      id: 119,
+      id: 121,
       type: "content",
       title: "Why Stocks Return 7–10% Real Long-Term",
       paragraphs: [
@@ -1493,7 +1502,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 120,
+      id: 122,
       type: "content",
       title: "Why Capitalism (Mechanically, Not Morally) Compounds",
       paragraphs: [
@@ -1508,7 +1517,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 121,
+      id: 123,
       type: "quiz",
       question: "Capitalism compounds wealth because:",
       options: [
@@ -1520,7 +1529,7 @@ const subjectLessons = {
       explanation: "Capitalism compounds wealth through reinvested profits, competition-driven efficiency, and innovation. This is the mechanical operation of the system."
     },
     {
-      id: 122,
+      id: 124,
       type: "content",
       title: "Final Quiz: The System",
       paragraphs: [
@@ -1530,7 +1539,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 123,
+      id: 125,
       type: "quiz",
       question: "The main reason stocks return 7-10% long-term is:",
       options: [
@@ -1542,7 +1551,7 @@ const subjectLessons = {
       explanation: "Stocks return 7-10% long-term because companies are productive (earnings growth), pay dividends, and the capitalist system mechanically compounds value over time."
     },
     {
-      id: 124,
+      id: 126,
       type: "content",
       title: "🎉 Complete — You've Mastered Investing Fundamentals",
       paragraphs: [
@@ -1690,7 +1699,10 @@ function renderLesson() {
   console.log("Content element found:", contentEl);
 
   // Update progress immediately
-  progressLabel.textContent = `${currentIndex + 1} / ${lessons.length}`;
+  // Intro page stays at page 1, lesson pages start at page 2
+  // currentIndex 0 (intro) = page 1, currentIndex 1+ (lessons) = page 2+
+  const pageNumber = lesson.type === "intro" ? 1 : currentIndex + 1;
+  progressLabel.textContent = `${pageNumber} / ${lessons.length}`;
   const pct = ((currentIndex + 1) / lessons.length) * 100;
   progressFill.style.width = `${pct}%`;
   progressFill.classList.add('progress-pulse');
