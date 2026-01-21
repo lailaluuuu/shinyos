@@ -32,18 +32,36 @@ const subjectLessons = {
     },
     {
       id: 3,
-      type: "quiz",
-      question: "Why wasn't investing taught in school?",
-      options: [
-        { id: "a", text: "Too practical", correct: false },
-        { id: "b", text: "Too empowering", correct: false },
-        { id: "c", text: "Would've made future adults harder to exploit", correct: false },
-        { id: "d", text: "Mitochondria got priority", correct: true }
-      ],
-      explanation: "Technically all of them, but D wins for humor. The real answer is that practical financial education was never prioritized in traditional curricula."
+      type: "content",
+      title: "🌿 Mini Lesson: Why We Didn't Learn This Earlier",
+      paragraphs: [
+        "Most people don't learn how money grows in school.",
+        "Schools are built around subjects that are easy to standardise, test, and grade.",
+        "Investing doesn't fit that mould. It involves judgement, behaviour, uncertainty, and time — none of which translate neatly into exam questions.",
+        "",
+        "So financial literacy became something schools quietly stepped around.",
+        "They focused on theory; they left the practical to families.",
+        "But families teach unevenly.",
+        "Some pass down knowledge. Some pass down silence. Some pass down survival skills instead.",
+        "",
+        "If you're learning this now, you're not late.",
+        "You just entered through a different door than the curriculum assumed."
+      ]
     },
     {
       id: 4,
+      type: "quiz",
+      question: "Why didn't schools teach financial literacy or investing?",
+      options: [
+        { id: "a", text: "It didn't fit the exam system", correct: false },
+        { id: "b", text: "Practical skills weren't prioritised", correct: false },
+        { id: "c", text: "Families were expected to bridge the gap", correct: false },
+        { id: "d", text: "All of the above", correct: true }
+      ],
+      explanation: "All of these factors contributed to investing not being taught in schools. Financial education lacked standardized assessment methods, schools prioritized theoretical subjects, and it was often assumed families would handle this education."
+    },
+    {
+      id: 5,
       type: "content",
       title: "What Investing Actually Is",
       paragraphs: [
@@ -54,7 +72,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 5,
+      id: 6,
       type: "quiz",
       question: "Which description is closest to investing?",
       options: [
@@ -66,7 +84,7 @@ const subjectLessons = {
       explanation: "Investing is about allocating capital into productive assets that generate growth over time, not speculation or gambling."
     },
     {
-      id: 6,
+      id: 7,
       type: "content",
       title: "Why Investing Exists",
       paragraphs: [
@@ -77,7 +95,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 7,
+      id: 8,
       type: "quiz",
       question: "Investing is essential because it finances:",
       options: [
@@ -100,7 +118,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 9,
+      id: 10,
       type: "quiz",
       question: "Inflation mainly affects:",
       options: [
@@ -123,7 +141,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 11,
+      id: 12,
       type: "quiz",
       question: "Compounding rewards:",
       options: [
@@ -151,7 +169,7 @@ const subjectLessons = {
       ]
     },
     {
-      id: 13,
+      id: 14,
       type: "quiz",
       question: "ETFs let beginners:",
       options: [
