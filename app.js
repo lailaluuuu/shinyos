@@ -1,6 +1,7 @@
 // Yuno learning platform - Single Lesson Version (Investing 101)
 // Subject lessons data
 // Note: Lesson order is determined by array position, not the 'id' field
+// Lessons can be added or modified in the finance array below
 const subjectLessons = {
   finance: [
     {
@@ -86,9 +87,9 @@ const subjectLessons = {
       title: "The Invisible Enemy: Inflation",
       paragraphs: [
         "School treats money as static. It never mentions the villain that slowly steals purchasing power.",
-        "£100 today ≠ £100 in 10 years.",
+        "£100 today might only have the buying power of ~£74 in 10 years (at ~3% annual inflation)",
         "Inflation is a silent tax on time. Investing is how you fight it.",
-        "Wish someone had said that at 15 instead of making us laminate coursework."
+        "That lesson at 15 would have beaten another session at the laminator."
       ]
     },
     {
