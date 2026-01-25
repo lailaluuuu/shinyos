@@ -27,12 +27,12 @@ const subjectLessons = {
       type: "quiz",
       question: "School skipped investing because:",
       options: [
-        { id: "a", text: "It's too complicated", correct: false },
-        { id: "b", text: "It's not in the curriculum priorities", correct: true },
-        { id: "c", text: "Teachers don't know about it", correct: false },
-        { id: "d", text: "It's only for rich people", correct: false }
+        { id: "a", text: "You can’t grade compounding in 45 minutes", correct: false },
+        { id: "b", text: "It wasn’t a curriculum priority", correct: true },
+        { id: "c", text: "It looked “non-academic", correct: false },
+        { id: "d", text: "It was assumed to be handled at home", correct: false }
       ],
-      explanation: "School curricula prioritize basic literacy and numeracy over practical financial skills like investing, leaving a knowledge gap that affects millions."
+      explanation: "School curricula prioritise basic literacy and numeracy over practical financial skills like investing, leaving a knowledge gap that affects millions."
     },
     {
       id: 4,
@@ -40,9 +40,9 @@ const subjectLessons = {
       title: "What Investing Actually Is",
       paragraphs: [
         "Investing = putting money into productive assets that (hopefully) grow in value or generate income over time.",
-        "Not gambling. Not luck. Not for rich people only.",
+        "It isn't gambling, and it isn't magic.",
         "It's: allocating capital into things that produce returns.",
-        "Think of it like hiring workers. Your money goes to work. Some workers (assets) are better than others."
+        "Think of it like hiring a workforce — your money goes to work. Some assets become star performers, others do less, but the goal is the same: growth over time"
       ]
     },
     {
@@ -50,7 +50,7 @@ const subjectLessons = {
       type: "quiz",
       question: "Investing is best described as:",
       options: [
-        { id: "a", text: "Gambling with extra steps", correct: false },
+        { id: "a", text: "Buying assets that create value over time", correct: false },
         { id: "b", text: "Allocating capital into productive assets", correct: true },
         { id: "c", text: "Only for people with £100k+", correct: false },
         { id: "d", text: "A get-rich-quick scheme", correct: false }
@@ -65,7 +65,7 @@ const subjectLessons = {
         "Human economies expand because we invent, build, innovate, and demand new things.",
         "Investing is simply how we: fund innovation, fund growth, fund risk, fund long-term progress.",
         "Without investing → no tech, no medicine, no bridges, no chips, no rockets, no progress.",
-        "School missed that investing is how progress is financed."
+        "Investing is how progress is financed."
       ]
     },
     {
@@ -73,9 +73,9 @@ const subjectLessons = {
       type: "quiz",
       question: "Investing is essential because it finances:",
       options: [
-        { id: "a", text: "Innovation", correct: false },
-        { id: "b", text: "Infrastructure", correct: false },
-        { id: "c", text: "New businesses", correct: false },
+        { id: "a", text: "Innovation and technology", correct: false },
+        { id: "b", text: "Businesses and entrepreneurship", correct: false },
+        { id: "c", text: "Infrastructure and long-term growth", correct: false },
         { id: "d", text: "All of the above", correct: true }
       ],
       explanation: "Investing finances innovation, infrastructure, new businesses, and all forms of economic progress."
@@ -558,6 +558,7 @@ function renderLesson() {
     console.log("Content rendered. Children count:", contentEl.children.length, "Opacity:", contentEl.style.opacity);
     
   } else if (lesson.type === "quiz") {
+    // Quiz rendering section
     // Force visibility of lesson body parent
     if (lessonBody) {
       lessonBody.style.display = "block";
