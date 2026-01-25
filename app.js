@@ -8,7 +8,7 @@ const subjectLessons = {
       imageUrl: "images/investing-intro.png",
       imageAlt: "Investing — The Real-World Skill School Forgot to Mention",
       title: "Welcome to Investing",
-      subtitle: "The real-world skill school forgot to mention"
+      
     },
     {
       id: 1,
@@ -16,7 +16,7 @@ const subjectLessons = {
       title: "Investing — The Skill You Can Learn at Any Age",
       paragraphs: [
         "Curiosity is enough. The rest is learnable.",
-        "Welcome to the class you didn't know existed."
+        "Investing = buying tiny slices of the future."
       ]
     },
     {
@@ -2035,7 +2035,7 @@ function renderLesson() {
       // Use setTimeout for transitions between lessons (similar to quiz)
       setTimeout(renderContent, 200);
     }
-    } else if (lesson.type === "quiz") {
+  } else if (lesson.type === "quiz") {
       // Force visibility of lesson body parent first
       const lessonBody = contentEl.parentElement;
       if (lessonBody) {
