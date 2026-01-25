@@ -393,16 +393,6 @@ function renderLesson() {
       quizBlock.style.visibility = "hidden";
     }
     
-    // Clear title and subtitle above the image
-    const lessonTitle = $("#lessonTitle");
-    const lessonSubtitle = $("#lessonSubtitle");
-    if (lessonTitle) {
-      lessonTitle.textContent = "";
-    }
-    if (lessonSubtitle) {
-      lessonSubtitle.textContent = "";
-    }
-    
     // Force visibility of lesson body parent
     if (lessonBody) {
       lessonBody.style.display = "block";
