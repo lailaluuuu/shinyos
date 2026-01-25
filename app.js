@@ -1,4 +1,5 @@
 // Subject → lessons mapping
+// Note: Lesson order is determined by array position, not the 'id' field
 
 const subjectLessons = {
   finance: [
