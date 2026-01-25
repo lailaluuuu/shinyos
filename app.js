@@ -1034,11 +1034,24 @@ document.addEventListener("DOMContentLoaded", () => {
     celebrationOverlay.style.display = "none";
   }
   
+  // Ensure currentIndex starts at 0 for intro lesson
+  currentIndex = 0;
+  activeSubject = "finance";
+  
   updateMetaForSubject("finance");
   showCategories();
   renderLesson();
 
-  $("#nextBtn").addEventListener("click", goNext);
+  const nextBtn = $("#nextBtn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      goNext();
+    });
+    // Prevent auto-focus that might trigger accidental clicks
+    nextBtn.blur();
+  }
   
   const backBtn = $("#backBtn");
   if (backBtn) {
