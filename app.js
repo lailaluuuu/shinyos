@@ -276,6 +276,165 @@ let pendingXp = 0;
 let era = "Foundations";
 let activeCategory = null;
 
+// Badge system
+const badges = {
+  'finance-complete': {
+    id: 'finance-complete',
+    name: 'Economic Agency Master',
+    icon: '💰', // Fallback emoji if image doesn't load
+    imageUrl: 'images/badge-finance-complete.png', // Optional: path to badge image
+    description: 'Completed Investing 101 - Economic Agency',
+    subject: 'finance'
+  }
+};
+
+// Load user data from localStorage
+function loadUserData() {
+  const savedXp = localStorage.getItem('shinyos_xp');
+  if (savedXp !== null) {
+    xp = parseInt(savedXp, 10) || 120;
+    const xpValue = $("#xpValue");
+    if (xpValue) xpValue.textContent = xp.toString();
+    updateXpProgress();
+  }
+  
+  const savedBadges = localStorage.getItem('shinyos_badges');
+  if (savedBadges) {
+    try {
+      const badgeIds = JSON.parse(savedBadges);
+      // Badges are stored as an array of badge IDs
+      window.earnedBadges = badgeIds;
+    } catch (e) {
+      window.earnedBadges = [];
+    }
+  } else {
+    window.earnedBadges = [];
+  }
+}
+
+// Save user data to localStorage
+function saveUserData() {
+  localStorage.setItem('shinyos_xp', xp.toString());
+  if (window.earnedBadges) {
+    localStorage.setItem('shinyos_badges', JSON.stringify(window.earnedBadges));
+  }
+}
+
+// Update XP progress bar
+function updateXpProgress() {
+  const xpProgressMini = $("#xpProgressMini");
+  if (xpProgressMini) {
+    // Calculate level (every 100 XP = 1 level, starting from level 1)
+    const level = Math.floor(xp / 100) + 1;
+    const xpInCurrentLevel = xp % 100;
+    const progressPercent = (xpInCurrentLevel / 100) * 100;
+    xpProgressMini.style.width = `${progressPercent}%`;
+    
+    const levelValue = $("#levelValue");
+    if (levelValue) {
+      levelValue.textContent = level.toString();
+    }
+  }
+}
+
+// Award badge
+function awardBadge(badgeId) {
+  if (!window.earnedBadges) {
+    window.earnedBadges = [];
+  }
+  
+  // Check if badge already earned
+  if (window.earnedBadges.includes(badgeId)) {
+    return false;
+  }
+  
+  const badge = badges[badgeId];
+  if (!badge) return false;
+  
+  // Add badge
+  window.earnedBadges.push(badgeId);
+  saveUserData();
+  
+  // Show achievement popup
+  showAchievementPopup(badge);
+  
+  return true;
+}
+
+// Show achievement popup
+function showAchievementPopup(badge) {
+  const popup = $("#achievementPopup");
+  const icon = popup?.querySelector(".achievement-icon");
+  const title = $("#achievementTitle");
+  const desc = $("#achievementDesc");
+  
+  if (!popup) return;
+  
+  // Update icon - use image if available, otherwise emoji
+  if (icon) {
+    icon.innerHTML = ""; // Clear existing content
+    
+    if (badge.imageUrl) {
+      const img = document.createElement("img");
+      img.src = badge.imageUrl;
+      img.alt = badge.name;
+      img.style.width = "64px";
+      img.style.height = "64px";
+      img.style.objectFit = "contain";
+      img.style.filter = "drop-shadow(0 4px 12px rgba(255, 221, 154, 0.5))";
+      
+      // Fallback to emoji if image fails to load
+      img.onerror = function() {
+        icon.textContent = badge.icon;
+        icon.style.fontSize = "48px";
+      };
+      
+      icon.appendChild(img);
+      icon.style.fontSize = "0"; // Reset font size when using image
+    } else {
+      icon.textContent = badge.icon;
+      icon.style.fontSize = "48px";
+    }
+  }
+  
+  if (title) title.textContent = "Badge Earned!";
+  if (desc) desc.textContent = badge.name;
+  
+  popup.classList.add("active");
+  
+  // Auto-hide after 4 seconds
+  setTimeout(() => {
+    popup.classList.remove("active");
+  }, 4000);
+}
+
+// Check and award lesson completion badge
+function checkLessonCompletion() {
+  const lessons = getCurrentLessons();
+  if (currentIndex >= lessons.length - 1) {
+    // Lesson is complete
+    const badgeId = `${activeSubject}-complete`;
+    if (badges[badgeId]) {
+      awardBadge(badgeId);
+    }
+    
+    // Award bonus XP for completing lesson
+    const bonusXp = 50;
+    xp += bonusXp;
+    const xpValue = $("#xpValue");
+    if (xpValue) xpValue.textContent = xp.toString();
+    updateXpProgress();
+    saveUserData();
+    
+    // Show bonus XP message
+    const hintText = $("#hintText");
+    if (hintText) {
+      hintText.textContent = `🎉 Lesson complete! +${bonusXp} bonus XP!`;
+      hintText.classList.add('hint-success');
+    }
+  }
+}
+
 function $(selector) {
   return document.querySelector(selector);
 }
@@ -725,6 +884,8 @@ function handleQuizClick(button, option, lesson, event) {
   xpValue.textContent = xp.toString();
   pendingXpEl.textContent = pendingXp.toString();
   
+  updateXpProgress();
+  saveUserData();
   animateXpGain(pendingXp);
 }
 
@@ -739,9 +900,7 @@ function goNext() {
   currentIndex++;
   if (currentIndex >= lessons.length) {
     currentIndex = lessons.length - 1;
-    const hintText = $("#hintText");
-    hintText.textContent = "🎉 Lesson complete! Great work!";
-    hintText.classList.add('hint-success');
+    checkLessonCompletion();
     return;
   }
   renderLesson();
@@ -794,6 +953,7 @@ function switchTab(tab) {
     journalPanel.classList.remove("is-hidden");
     missionsPanel.classList.add("is-hidden");
     document.querySelector('[data-tab="journal"]').classList.add("is-active");
+    renderBadges(); // Render badges when journal tab is opened
   } else if (tab === "missions") {
     lessonCard.classList.add("is-hidden");
     journalPanel.classList.add("is-hidden");
@@ -804,6 +964,126 @@ function switchTab(tab) {
   const activePanel = tab === "lesson" ? lessonCard : (tab === "journal" ? journalPanel : missionsPanel);
   activePanel.classList.add('fade-in-scale');
   setTimeout(() => activePanel.classList.remove('fade-in-scale'), 400);
+}
+
+// Render badges in journal panel
+function renderBadges() {
+  const journalPanel = $("#journalPanel");
+  if (!journalPanel) return;
+  
+  const journalText = $("#journalText");
+  if (!journalText) return;
+  
+  // Clear existing content
+  journalText.innerHTML = "";
+  
+  // Create badges section
+  const badgesSection = document.createElement("div");
+  badgesSection.className = "badges-section";
+  
+  const badgesTitle = document.createElement("h3");
+  badgesTitle.textContent = "🏆 Your Badges";
+  badgesTitle.style.marginTop = "0";
+  badgesTitle.style.marginBottom = "20px";
+  badgesTitle.style.fontSize = "20px";
+  badgesTitle.style.fontWeight = "700";
+  badgesTitle.style.background = "linear-gradient(120deg, #fff, #d4c5ff)";
+  badgesTitle.style.webkitBackgroundClip = "text";
+  badgesTitle.style.webkitTextFillColor = "transparent";
+  badgesTitle.style.backgroundClip = "text";
+  badgesSection.appendChild(badgesTitle);
+  
+  if (!window.earnedBadges || window.earnedBadges.length === 0) {
+    const noBadges = document.createElement("p");
+    noBadges.textContent = "Complete lessons to earn badges!";
+    noBadges.style.color = "var(--text-soft)";
+    noBadges.style.fontStyle = "italic";
+    badgesSection.appendChild(noBadges);
+  } else {
+    const badgesGrid = document.createElement("div");
+    badgesGrid.className = "badges-grid";
+    badgesGrid.style.display = "grid";
+    badgesGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 1fr))";
+    badgesGrid.style.gap = "16px";
+    badgesGrid.style.marginTop = "16px";
+    
+    window.earnedBadges.forEach(badgeId => {
+      const badge = badges[badgeId];
+      if (!badge) return;
+      
+      const badgeCard = document.createElement("div");
+      badgeCard.className = "badge-card";
+      badgeCard.style.padding = "20px";
+      badgeCard.style.borderRadius = "var(--radius-md)";
+      badgeCard.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(184, 107, 255, 0.1))";
+      badgeCard.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      badgeCard.style.textAlign = "center";
+      badgeCard.style.transition = "all var(--transition-fast)";
+      
+      badgeCard.addEventListener("mouseenter", () => {
+        badgeCard.style.transform = "translateY(-4px)";
+        badgeCard.style.boxShadow = "0 8px 24px rgba(184, 107, 255, 0.3)";
+      });
+      
+      badgeCard.addEventListener("mouseleave", () => {
+        badgeCard.style.transform = "translateY(0)";
+        badgeCard.style.boxShadow = "none";
+      });
+      
+      const badgeIcon = document.createElement("div");
+      badgeIcon.style.marginBottom = "12px";
+      badgeIcon.style.display = "flex";
+      badgeIcon.style.alignItems = "center";
+      badgeIcon.style.justifyContent = "center";
+      badgeIcon.style.minHeight = "64px";
+      
+      // Use image if available, otherwise use emoji
+      if (badge.imageUrl) {
+        const img = document.createElement("img");
+        img.src = badge.imageUrl;
+        img.alt = badge.name;
+        img.style.width = "64px";
+        img.style.height = "64px";
+        img.style.objectFit = "contain";
+        img.style.filter = "drop-shadow(0 4px 8px rgba(184, 107, 255, 0.3))";
+        
+        // Fallback to emoji if image fails to load
+        img.onerror = function() {
+          this.style.display = "none";
+          badgeIcon.textContent = badge.icon;
+          badgeIcon.style.fontSize = "48px";
+        };
+        
+        badgeIcon.appendChild(img);
+      } else {
+        badgeIcon.textContent = badge.icon;
+        badgeIcon.style.fontSize = "48px";
+      }
+      
+      badgeCard.appendChild(badgeIcon);
+      
+      const badgeName = document.createElement("div");
+      badgeName.textContent = badge.name;
+      badgeName.style.fontWeight = "700";
+      badgeName.style.fontSize = "16px";
+      badgeName.style.color = "var(--text)";
+      badgeName.style.marginBottom = "8px";
+      badgeCard.appendChild(badgeName);
+      
+      const badgeDesc = document.createElement("div");
+      badgeDesc.textContent = badge.description;
+      badgeDesc.style.fontSize = "13px";
+      badgeDesc.style.color = "var(--text-soft)";
+      badgeDesc.style.lineHeight = "1.4";
+      badgeCard.appendChild(badgeDesc);
+      
+      badgesGrid.appendChild(badgeCard);
+    });
+    
+    badgesSection.appendChild(badgesGrid);
+  }
+  
+  journalText.appendChild(badgesSection);
 }
 
 function updateMetaForSubject(subject) {
@@ -1028,6 +1308,9 @@ window.goNextDirect = goNext;
 window.goBackDirect = goBack;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Load user data first
+  loadUserData();
+  
   const quizBlock = $("#quizBlock");
   if (quizBlock) {
     quizBlock.style.display = "none";
@@ -1045,6 +1328,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateMetaForSubject("finance");
   showCategories();
   renderLesson();
+  updateXpProgress(); // Ensure XP progress is updated on load
 
   const nextBtn = $("#nextBtn");
   if (nextBtn) {
