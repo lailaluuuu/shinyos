@@ -482,6 +482,7 @@ function renderLesson() {
     
   } else if (lesson.type === "content") {
     // **FIXED CONTENT RENDERING SECTION**
+    console.log("Rendering CONTENT lesson at index", currentIndex, "Title:", lesson.title);
     
     // Clear quiz block for content lessons
     if (quizBlock) {
@@ -536,24 +537,25 @@ function renderLesson() {
       contentEl.appendChild(fallback);
     }
     
-    // NOW fade in (after content is built)
-    contentEl.style.opacity = "0";
-    
-    // Force reflow to ensure content is rendered
-    void contentEl.offsetHeight;
-    
-    // Use requestAnimationFrame to ensure smooth transition
-    requestAnimationFrame(() => {
-      contentEl.style.transition = "opacity 0.3s ease";
+    // Make content visible immediately (no fade for first render)
+    const isFirstContent = currentIndex === 1; // First content lesson after intro
+    if (isFirstContent) {
       contentEl.style.opacity = "1";
-      
-      // Ensure visibility is maintained
-      setTimeout(() => {
-        contentEl.style.transition = "";
-      }, 300);
-    });
+      contentEl.style.transition = "";
+    } else {
+      // Fade in for subsequent content lessons
+      contentEl.style.opacity = "0";
+      void contentEl.offsetHeight; // Force reflow
+      requestAnimationFrame(() => {
+        contentEl.style.transition = "opacity 0.3s ease";
+        contentEl.style.opacity = "1";
+        setTimeout(() => {
+          contentEl.style.transition = "";
+        }, 300);
+      });
+    }
     
-    console.log("Content rendered. Children count:", contentEl.children.length);
+    console.log("Content rendered. Children count:", contentEl.children.length, "Opacity:", contentEl.style.opacity);
     
   } else if (lesson.type === "quiz") {
     // Force visibility of lesson body parent
