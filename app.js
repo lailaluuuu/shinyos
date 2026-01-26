@@ -1354,4 +1354,91 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => tab.classList.remove('tab-press'), 150);
     });
   });
+
+  // Mobile optimizations
+  initMobileOptimizations();
 });
+
+// Mobile-specific optimizations
+function initMobileOptimizations() {
+  // Prevent double-tap zoom on buttons and interactive elements
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(event) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  // Improve touch responsiveness for quiz options
+  document.addEventListener('touchstart', function(e) {
+    if (e.target.closest('.quiz-option, .world-node, .next-btn, .back-btn, .tab')) {
+      e.target.closest('.quiz-option, .world-node, .next-btn, .back-btn, .tab')?.classList.add('touch-active');
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    const activeEl = document.querySelector('.touch-active');
+    if (activeEl) {
+      setTimeout(() => activeEl.classList.remove('touch-active'), 150);
+    }
+  }, { passive: true });
+
+  // Smooth scroll to top when navigating on mobile
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    const originalRenderLesson = window.renderLesson;
+    if (originalRenderLesson) {
+      window.renderLesson = function(...args) {
+        const result = originalRenderLesson.apply(this, args);
+        // Smooth scroll to lesson content on mobile
+        setTimeout(() => {
+          const lessonCard = document.getElementById('lessonCard');
+          if (lessonCard) {
+            lessonCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+        return result;
+      };
+    }
+  }
+
+  // Prevent pull-to-refresh on mobile (optional - can be removed if you want native behavior)
+  let touchStartY = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    const touchY = e.touches[0].clientY;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Prevent pull-to-refresh when at top of page
+    if (scrollTop === 0 && touchY > touchStartY) {
+      // Allow native pull-to-refresh, but you can prevent it here if needed
+      // e.preventDefault();
+    }
+  }, { passive: true });
+
+  // Optimize images for mobile
+  if (isMobile) {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.loading = 'lazy';
+      if (!img.hasAttribute('decoding')) {
+        img.decoding = 'async';
+      }
+    });
+  }
+
+  // Add viewport height fix for mobile browsers (addresses address bar issue)
+  function setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  
+  setViewportHeight();
+  window.addEventListener('resize', setViewportHeight);
+  window.addEventListener('orientationchange', setViewportHeight);
+}
