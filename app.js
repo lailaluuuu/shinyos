@@ -402,10 +402,25 @@ function showAchievementPopup(badge) {
   
   popup.classList.add("active");
   
-  // Auto-hide after 4 seconds
-  setTimeout(() => {
+  // Add click handler to dismiss
+  const dismissHandler = () => {
     popup.classList.remove("active");
+    popup.removeEventListener("click", dismissHandler);
+    popup.removeEventListener("touchend", dismissHandler);
+  };
+  
+  popup.addEventListener("click", dismissHandler);
+  popup.addEventListener("touchend", dismissHandler);
+  
+  // Auto-hide after 4 seconds
+  const autoHideTimeout = setTimeout(() => {
+    popup.classList.remove("active");
+    popup.removeEventListener("click", dismissHandler);
+    popup.removeEventListener("touchend", dismissHandler);
   }, 4000);
+  
+  // Store timeout so we can clear it if manually dismissed
+  popup.dataset.autoHideTimeout = autoHideTimeout;
 }
 
 // Check and award lesson completion badge
@@ -1338,6 +1353,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const celebrationOverlay = document.getElementById("celebrationOverlay");
   if (celebrationOverlay) {
     celebrationOverlay.style.display = "none";
+  }
+  
+  // Ensure achievement popup is dismissed on load (fix for stuck popups)
+  const achievementPopup = $("#achievementPopup");
+  if (achievementPopup) {
+    achievementPopup.classList.remove("active");
+    // Add click/touch handler to dismiss
+    const dismissAchievement = () => {
+      achievementPopup.classList.remove("active");
+    };
+    achievementPopup.addEventListener("click", dismissAchievement);
+    achievementPopup.addEventListener("touchend", dismissAchievement);
   }
   
   // Ensure currentIndex starts at 0 for intro lesson
