@@ -1307,7 +1307,39 @@ window.showCategories = showCategories;
 window.goNextDirect = goNext;
 window.goBackDirect = goBack;
 
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem('shinyos_theme') || 'dark';
+  const html = document.documentElement;
+  html.setAttribute('data-theme', savedTheme);
+  
+  const themeToggle = $("#themeToggle");
+  const themeIcon = themeToggle?.querySelector('.theme-icon');
+  
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('shinyos_theme', newTheme);
+      
+      // Update icon
+      if (themeIcon) {
+        themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+      }
+    });
+  }
+  
+  // Set initial icon
+  if (themeIcon) {
+    themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize theme first
+  initTheme();
+  
   // Load user data first
   loadUserData();
   
