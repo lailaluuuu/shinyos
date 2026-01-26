@@ -117,6 +117,16 @@ const subjectLessons = {
     },
     {
       id: 11,
+      type: "interactive",
+      title: "See Your Money Grow",
+      subtitle: "Drag the slider to see how time transforms your investment",
+      initialAmount: 1000,
+      annualReturn: 7,
+      minYears: 1,
+      maxYears: 40
+    },
+    {
+      id: 12,
       type: "quiz",
       question: "Compounding rewards:",
       options: [
@@ -128,7 +138,7 @@ const subjectLessons = {
       explanation: "Compounding rewards patience and time. The longer your money compounds, the more powerful the effect becomes."
     },
     {
-      id: 12,
+      id: 13,
       type: "content",
       title: "Where Investing Happens (Finally Explained)",
       paragraphs: [
@@ -589,7 +599,14 @@ function renderLesson() {
   // Reset hint + pending XP display
   pendingXp = 0;
   pendingXpEl.textContent = pendingXp.toString();
-  hintText.textContent = "Tap an answer to check your understanding.";
+  // Set hint text based on lesson type
+  if (lesson.type === "interactive") {
+    hintText.textContent = "Drag the slider to explore how time affects your investment.";
+  } else if (lesson.type === "quiz") {
+    hintText.textContent = "Tap an answer to check your understanding.";
+  } else {
+    hintText.textContent = "Continue to learn more.";
+  }
 
   // Get lesson body reference
   const lessonBody = contentEl.parentElement;
@@ -767,6 +784,269 @@ function renderLesson() {
     }
     
     console.log("Content rendered. Children count:", contentEl.children.length, "Opacity:", contentEl.style.opacity);
+    
+  } else if (lesson.type === "interactive") {
+    // Interactive money growth calculator
+    console.log("Rendering INTERACTIVE lesson at index", currentIndex, "Title:", lesson.title);
+    
+    // Clear quiz block for interactive lessons
+    if (quizBlock) {
+      quizBlock.innerHTML = "";
+      quizBlock.style.display = "none";
+      quizBlock.style.opacity = "0";
+      quizBlock.style.visibility = "hidden";
+    }
+    
+    // Force visibility of lesson body parent
+    if (lessonBody) {
+      lessonBody.style.display = "block";
+      lessonBody.style.visibility = "visible";
+      lessonBody.style.opacity = "1";
+      lessonBody.classList.remove("is-hidden");
+    }
+    
+    // Clear and build interactive content
+    contentEl.innerHTML = "";
+    contentEl.style.display = "block";
+    contentEl.style.visibility = "visible";
+    contentEl.style.opacity = "1";
+    contentEl.classList.remove("is-hidden");
+    
+    // Title
+    if (lesson.title) {
+      const titleP = document.createElement("p");
+      titleP.style.fontWeight = "600";
+      titleP.style.fontSize = "18px";
+      titleP.style.color = "#fff";
+      titleP.style.marginBottom = "8px";
+      titleP.className = "slide-in-up";
+      titleP.textContent = lesson.title;
+      contentEl.appendChild(titleP);
+    }
+    
+    // Subtitle
+    if (lesson.subtitle) {
+      const subtitleP = document.createElement("p");
+      subtitleP.style.color = "var(--text-soft)";
+      subtitleP.style.marginBottom = "32px";
+      subtitleP.style.fontSize = "14px";
+      subtitleP.className = "slide-in-up";
+      subtitleP.style.animationDelay = "0.1s";
+      subtitleP.textContent = lesson.subtitle;
+      contentEl.appendChild(subtitleP);
+    }
+    
+    // Interactive calculator container
+    const calcContainer = document.createElement("div");
+    calcContainer.className = "interactive-calculator slide-in-up";
+    calcContainer.style.animationDelay = "0.2s";
+    calcContainer.style.padding = "32px 24px";
+    calcContainer.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+    calcContainer.style.borderRadius = "var(--radius-md)";
+    calcContainer.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+    calcContainer.style.marginBottom = "24px";
+    
+    // Initial values
+    const initialAmount = lesson.initialAmount || 1000;
+    const annualReturn = lesson.annualReturn || 7;
+    const minYears = lesson.minYears || 1;
+    const maxYears = lesson.maxYears || 40;
+    let currentYears = Math.floor((minYears + maxYears) / 2);
+    
+    // Display current value
+    const valueDisplay = document.createElement("div");
+    valueDisplay.style.textAlign = "center";
+    valueDisplay.style.marginBottom = "32px";
+    
+    const valueLabel = document.createElement("div");
+    valueLabel.style.fontSize = "13px";
+    valueLabel.style.color = "var(--text-soft)";
+    valueLabel.style.marginBottom = "8px";
+    valueLabel.textContent = "After " + currentYears + " years";
+    valueDisplay.appendChild(valueLabel);
+    
+    const valueAmount = document.createElement("div");
+    valueAmount.style.fontSize = "42px";
+    valueAmount.style.fontWeight = "700";
+    valueAmount.style.background = "linear-gradient(120deg, #fff, #d4c5ff)";
+    valueAmount.style.webkitBackgroundClip = "text";
+    valueAmount.style.webkitTextFillColor = "transparent";
+    valueAmount.style.backgroundClip = "text";
+    valueAmount.id = "calcValueAmount";
+    valueDisplay.appendChild(valueAmount);
+    
+    const valueGain = document.createElement("div");
+    valueGain.style.fontSize = "14px";
+    valueGain.style.color = "#35c27e";
+    valueGain.style.marginTop = "8px";
+    valueGain.id = "calcValueGain";
+    valueDisplay.appendChild(valueGain);
+    
+    calcContainer.appendChild(valueDisplay);
+    
+    // Slider container
+    const sliderContainer = document.createElement("div");
+    sliderContainer.style.marginBottom = "24px";
+    
+    const sliderLabel = document.createElement("div");
+    sliderLabel.style.display = "flex";
+    sliderLabel.style.justifyContent = "space-between";
+    sliderLabel.style.marginBottom = "12px";
+    sliderLabel.style.fontSize = "13px";
+    sliderLabel.style.color = "var(--text-soft)";
+    
+    const sliderLabelMin = document.createElement("span");
+    sliderLabelMin.textContent = minYears + " year" + (minYears !== 1 ? "s" : "");
+    sliderLabel.appendChild(sliderLabelMin);
+    
+    const sliderLabelMax = document.createElement("span");
+    sliderLabelMax.textContent = maxYears + " years";
+    sliderLabel.appendChild(sliderLabelMax);
+    
+    sliderContainer.appendChild(sliderLabel);
+    
+    // Slider input
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = minYears;
+    slider.max = maxYears;
+    slider.value = currentYears;
+    slider.step = 1;
+    slider.style.width = "100%";
+    slider.style.height = "8px";
+    slider.style.borderRadius = "4px";
+    slider.style.background = "rgba(255, 255, 255, 0.1)";
+    slider.style.outline = "none";
+    slider.style.cursor = "pointer";
+    slider.style.appearance = "none";
+    slider.style.webkitAppearance = "none";
+    slider.id = "yearsSlider";
+    
+    // Custom slider styling
+    slider.style.background = `linear-gradient(to right, rgba(184, 107, 255, 0.6) 0%, rgba(184, 107, 255, 0.6) ${((currentYears - minYears) / (maxYears - minYears)) * 100}%, rgba(255, 255, 255, 0.1) ${((currentYears - minYears) / (maxYears - minYears)) * 100}%, rgba(255, 255, 255, 0.1) 100%)`;
+    
+    // Slider thumb styling
+    const style = document.createElement("style");
+    style.textContent = `
+      #yearsSlider::-webkit-slider-thumb {
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #b86bff, #8b5cf6);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(184, 107, 255, 0.5);
+        transition: all 0.2s ease;
+      }
+      #yearsSlider::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(184, 107, 255, 0.7);
+      }
+      #yearsSlider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #b86bff, #8b5cf6);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(184, 107, 255, 0.5);
+        transition: all 0.2s ease;
+      }
+      #yearsSlider::-moz-range-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(184, 107, 255, 0.7);
+      }
+    `;
+    document.head.appendChild(style);
+    
+    sliderContainer.appendChild(slider);
+    calcContainer.appendChild(sliderContainer);
+    
+    // Info section
+    const infoSection = document.createElement("div");
+    infoSection.style.display = "grid";
+    infoSection.style.gridTemplateColumns = "1fr 1fr";
+    infoSection.style.gap = "16px";
+    infoSection.style.marginTop = "24px";
+    
+    const infoItem1 = document.createElement("div");
+    infoItem1.style.padding = "16px";
+    infoItem1.style.background = "rgba(255, 255, 255, 0.05)";
+    infoItem1.style.borderRadius = "var(--radius-md)";
+    const infoLabel1 = document.createElement("div");
+    infoLabel1.style.fontSize = "12px";
+    infoLabel1.style.color = "var(--text-soft)";
+    infoLabel1.style.marginBottom = "4px";
+    infoLabel1.textContent = "Starting Amount";
+    infoItem1.appendChild(infoLabel1);
+    const infoValue1 = document.createElement("div");
+    infoValue1.style.fontSize = "18px";
+    infoValue1.style.fontWeight = "600";
+    infoValue1.style.color = "#fff";
+    infoValue1.textContent = "£" + initialAmount.toLocaleString();
+    infoItem1.appendChild(infoValue1);
+    infoSection.appendChild(infoItem1);
+    
+    const infoItem2 = document.createElement("div");
+    infoItem2.style.padding = "16px";
+    infoItem2.style.background = "rgba(255, 255, 255, 0.05)";
+    infoItem2.style.borderRadius = "var(--radius-md)";
+    const infoLabel2 = document.createElement("div");
+    infoLabel2.style.fontSize = "12px";
+    infoLabel2.style.color = "var(--text-soft)";
+    infoLabel2.style.marginBottom = "4px";
+    infoLabel2.textContent = "Annual Return";
+    infoItem2.appendChild(infoLabel2);
+    const infoValue2 = document.createElement("div");
+    infoValue2.style.fontSize = "18px";
+    infoValue2.style.fontWeight = "600";
+    infoValue2.style.color = "#35c27e";
+    infoValue2.textContent = annualReturn + "%";
+    infoItem2.appendChild(infoValue2);
+    infoSection.appendChild(infoItem2);
+    
+    calcContainer.appendChild(infoSection);
+    contentEl.appendChild(calcContainer);
+    
+    // Calculate compound interest: A = P(1 + r)^t
+    function calculateGrowth(principal, rate, years) {
+      return principal * Math.pow(1 + rate / 100, years);
+    }
+    
+    function updateDisplay() {
+      const finalAmount = calculateGrowth(initialAmount, annualReturn, currentYears);
+      const gain = finalAmount - initialAmount;
+      const gainPercent = ((gain / initialAmount) * 100).toFixed(1);
+      
+      valueLabel.textContent = "After " + currentYears + " year" + (currentYears !== 1 ? "s" : "");
+      valueAmount.textContent = "£" + Math.round(finalAmount).toLocaleString();
+      valueGain.textContent = "+£" + Math.round(gain).toLocaleString() + " (" + gainPercent + "% gain)";
+      
+      // Update slider background
+      const percent = ((currentYears - minYears) / (maxYears - minYears)) * 100;
+      slider.style.background = `linear-gradient(to right, rgba(184, 107, 255, 0.6) 0%, rgba(184, 107, 255, 0.6) ${percent}%, rgba(255, 255, 255, 0.1) ${percent}%, rgba(255, 255, 255, 0.1) 100%)`;
+      
+      // Animate value change
+      valueAmount.style.transform = "scale(1.05)";
+      setTimeout(() => {
+        valueAmount.style.transform = "scale(1)";
+        valueAmount.style.transition = "transform 0.2s ease";
+      }, 100);
+    }
+    
+    // Initial calculation
+    updateDisplay();
+    
+    // Slider event listener
+    slider.addEventListener("input", (e) => {
+      currentYears = parseInt(e.target.value);
+      updateDisplay();
+    });
+    
+    // Make content visible
+    contentEl.style.opacity = "1";
+    contentEl.style.transition = "opacity 0.3s ease";
     
   } else if (lesson.type === "quiz") {
     // Quiz rendering section
