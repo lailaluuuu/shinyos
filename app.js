@@ -276,6 +276,11 @@ let pendingXp = 0;
 let era = "Foundations";
 let activeCategory = null;
 
+// Time tracking
+let lessonStartTime = null;
+let totalTimeSpent = 0; // in seconds
+let timeTrackingInterval = null;
+
 // Badge system
 const badges = {
   'finance-complete': {
@@ -310,6 +315,12 @@ function loadUserData() {
   } else {
     window.earnedBadges = [];
   }
+  
+  // Load time spent
+  const savedTime = localStorage.getItem('shinyos_time_spent');
+  if (savedTime !== null) {
+    totalTimeSpent = parseInt(savedTime, 10) || 0;
+  }
 }
 
 // Save user data to localStorage
@@ -318,6 +329,7 @@ function saveUserData() {
   if (window.earnedBadges) {
     localStorage.setItem('shinyos_badges', JSON.stringify(window.earnedBadges));
   }
+  localStorage.setItem('shinyos_time_spent', totalTimeSpent.toString());
 }
 
 // Update XP progress bar
@@ -539,9 +551,13 @@ function renderLesson() {
     return;
   }
 
-  // Update progress
-  const pageNumber = lesson.type === "intro" ? 1 : currentIndex + 1;
-  progressLabel.textContent = `${pageNumber} / ${lessons.length}`;
+  // Start time tracking for this lesson
+  startTimeTracking();
+
+  // Update progress - show time spent instead of page numbers
+  updateProgressDisplay();
+  
+  // Update progress bar
   const pct = ((currentIndex + 1) / lessons.length) * 100;
   progressFill.style.width = `${pct}%`;
   progressFill.classList.add('progress-pulse');
@@ -908,6 +924,9 @@ function goNext() {
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
 
+  // Stop time tracking before moving to next lesson
+  stopTimeTracking();
+
   const nextBtn = $("#nextBtn");
   nextBtn.classList.add('button-press');
   setTimeout(() => nextBtn.classList.remove('button-press'), 200);
@@ -925,6 +944,9 @@ function goNext() {
 function goBack() {
   const lessons = getCurrentLessons();
   if (!lessons.length) return;
+
+  // Stop time tracking before going back
+  stopTimeTracking();
 
   const backBtn = $("#backBtn");
   if (backBtn) {
@@ -1251,6 +1273,9 @@ function handleCategoryClick(node, category) {
 function handleSubjectClick(node) {
   const subject = node.dataset.subject;
 
+  // Stop time tracking when switching subjects
+  stopTimeTracking();
+
   document.querySelectorAll(".world-node").forEach((n) => n.classList.remove("is-active"));
   node.classList.add("is-active");
   
@@ -1297,11 +1322,15 @@ function handleSubjectClick(node) {
     updateMetaForSubject(subject);
     $("#lessonContent").innerHTML = "<p class='slide-in-up'>This subject is not available yet. Please select a valid subject.</p>";
     $("#quizBlock").innerHTML = "";
-    const lessons = getCurrentLessons();
     const progressLabel = $("#lessonProgressLabel");
     const progressFill = $("#lessonProgressFill");
-    progressLabel.textContent = `0 / ${lessons.length}`;
-    progressFill.style.width = "0%";
+    if (progressLabel) {
+      const minutes = Math.floor(totalTimeSpent / 60);
+      progressLabel.textContent = `${minutes}m`;
+    }
+    if (progressFill) {
+      progressFill.style.width = "0%";
+    }
   }
 }
 
@@ -1338,12 +1367,30 @@ function initTheme() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   // Initialize theme first
   initTheme();
   
   // Load user data first
   loadUserData();
+  
+  // Save time when page is about to unload
+  window.addEventListener('beforeunload', () => {
+    stopTimeTracking();
+  });
+  
+  // Also save time when page becomes hidden (mobile browsers)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopTimeTracking();
+    } else {
+      // Only restart if we're on a lesson (not on category/subject selection)
+      const lessonCard = document.getElementById("lessonCard");
+      if (lessonCard && !lessonCard.classList.contains("is-hidden")) {
+        startTimeTracking();
+      }
+    }
+  });
   
   const quizBlock = $("#quizBlock");
   if (quizBlock) {
