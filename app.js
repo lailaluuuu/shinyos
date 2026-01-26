@@ -938,7 +938,6 @@ function updateBackButton() {
 function switchTab(tab) {
   const lessonCard = $("#lessonCard");
   const journalPanel = $("#journalPanel");
-  const missionsPanel = $("#missionsPanel");
   const tabs = document.querySelectorAll(".tab");
   
   tabs.forEach((t) => t.classList.remove("is-active"));
@@ -946,22 +945,15 @@ function switchTab(tab) {
   if (tab === "lesson") {
     lessonCard.classList.remove("is-hidden");
     journalPanel.classList.add("is-hidden");
-    missionsPanel.classList.add("is-hidden");
     document.querySelector('[data-tab="lesson"]').classList.add("is-active");
   } else if (tab === "journal") {
     lessonCard.classList.add("is-hidden");
     journalPanel.classList.remove("is-hidden");
-    missionsPanel.classList.add("is-hidden");
     document.querySelector('[data-tab="journal"]').classList.add("is-active");
     renderBadges(); // Render badges when journal tab is opened
-  } else if (tab === "missions") {
-    lessonCard.classList.add("is-hidden");
-    journalPanel.classList.add("is-hidden");
-    missionsPanel.classList.remove("is-hidden");
-    document.querySelector('[data-tab="missions"]').classList.add("is-active");
   }
   
-  const activePanel = tab === "lesson" ? lessonCard : (tab === "journal" ? journalPanel : missionsPanel);
+  const activePanel = tab === "lesson" ? lessonCard : journalPanel;
   activePanel.classList.add('fade-in-scale');
   setTimeout(() => activePanel.classList.remove('fade-in-scale'), 400);
 }
@@ -1094,7 +1086,6 @@ function updateMetaForSubject(subject) {
   const eraLabel = $("#eraLabel");
   const eraPillLabel = $("#eraPillLabel");
   const journalText = $("#journalText");
-  const missionsText = $("#missionsText");
 
   [lessonTitle, lessonSubtitle].forEach(el => {
     el.classList.add('text-fade-in');
@@ -1108,7 +1099,6 @@ function updateMetaForSubject(subject) {
     lessonSubtitle.innerHTML = "Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.";
     era = "Foundations";
     journalText.textContent = "Investing District · Finance. Stamps for compound growth, asset types, risk management, and your notes on building wealth.";
-    missionsText.textContent = "Soon: build a portfolio simulation and watch your investments grow over time.";
   } else {
     subjectChip.textContent = "Prototype · Subject";
     unitChip.textContent = "Unit: Coming soon";
@@ -1116,7 +1106,6 @@ function updateMetaForSubject(subject) {
     lessonSubtitle.textContent = "This subject will be available soon.";
     era = "Foundations";
     journalText.textContent = "Prototype subject. This journal page will hold diagrams and notes once this district is wired.";
-    missionsText.textContent = "Prototype subject. Soon: a small simulation mission for this area.";
   }
 
   if (eraLabel) eraLabel.textContent = era;
@@ -1266,10 +1255,8 @@ function handleSubjectClick(node) {
     
     const lessonCard = document.getElementById("lessonCard");
     const journalPanel = document.getElementById("journalPanel");
-    const missionsPanel = document.getElementById("missionsPanel");
     if (lessonCard) lessonCard.classList.remove("is-hidden");
     if (journalPanel) journalPanel.classList.add("is-hidden");
-    if (missionsPanel) missionsPanel.classList.add("is-hidden");
     
     const lessonContent = document.getElementById("lessonContent");
     const lessonBody = lessonContent ? lessonContent.parentElement : null;
