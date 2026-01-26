@@ -1560,6 +1560,135 @@ textarea {
   border-color: rgba(0, 0, 0, 0.1);
 }
 
+/* Light mode text color fixes - ensure all text is visible */
+[data-theme="light"] .logo-main {
+  background: linear-gradient(120deg, #1a1430, #4d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .metric-value {
+  background: linear-gradient(120deg, #1a1430, #3d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .metric--level .metric-value {
+  background: linear-gradient(120deg, #8b5a00, #a67c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .metric--streak .metric-value {
+  background: linear-gradient(120deg, #cc5500, #cc3300);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .world-header h2 {
+  background: linear-gradient(120deg, #1a1430, #4d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .world-node .node-title {
+  background: linear-gradient(120deg, #1a1430, #4d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .lesson-title {
+  background: linear-gradient(120deg, #1a1430 30%, #4d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .lesson-body p:first-child {
+  color: #1a1430;
+}
+
+[data-theme="light"] .journal-panel h2 {
+  background: linear-gradient(120deg, #1a1430, #4d3658);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .creature-reaction__line {
+  color: #1a1430;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .blubot-speech {
+  background: white;
+  color: #1a1430;
+}
+
+[data-theme="light"] .achievement-desc {
+  color: #1a1430;
+}
+
+[data-theme="light"] .level-up-text {
+  color: #1a1430;
+}
+
+[data-theme="light"] .quiz-label {
+  color: #8b5a00;
+}
+
+[data-theme="light"] .quiz-question {
+  background: linear-gradient(120deg, #0066cc, #6b2d8b, #cc0066);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+[data-theme="light"] .breadcrumb-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .breadcrumb-separator {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .folder-badge {
+  color: #b8860b;
+}
+
+[data-theme="light"] .creature-reaction {
+  color: #1a1430;
+}
+
+[data-theme="light"] .celebration-xp {
+  color: #b8860b;
+  text-shadow: 0 0 20px rgba(184, 134, 11, 0.4);
+}
+
+[data-theme="light"] .lesson-complete-badge {
+  color: #006400;
+}
+
+[data-theme="light"] .achievement-title {
+  color: #b8860b;
+}
+
+[data-theme="light"] .quiz-option:hover span {
+  background: linear-gradient(120deg, #0066cc, #6b2d8b, #cc0066);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: none;
+}
+
 /* ---- Responsive tweaks ---- */
 @media (max-width: 900px) {
   .world-panel {
