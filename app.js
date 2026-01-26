@@ -777,10 +777,70 @@ function renderLesson() {
       contentEl.style.opacity = "1";
       contentEl.classList.remove("is-hidden");
       
-      const intro = document.createElement("p");
-      intro.className = "slide-in-up";
-      intro.textContent = "Quick check-in before we move on:";
-      contentEl.appendChild(intro);
+      // Create image container for subject image
+      const imageContainer = document.createElement("div");
+      imageContainer.className = "slide-in-up";
+      imageContainer.style.marginBottom = "24px";
+      imageContainer.style.borderRadius = "16px";
+      imageContainer.style.overflow = "hidden";
+      imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
+      imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+      imageContainer.style.minHeight = "200px";
+      imageContainer.style.width = "100%";
+      imageContainer.style.maxHeight = "300px";
+      
+      const img = document.createElement("img");
+      // Use subject-specific image based on activeSubject
+      const imagePath = activeSubject === "finance" ? "images/investing-intro.png" : "images/investing-intro.png";
+      let finalPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
+      if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
+        finalPath = "images/" + finalPath;
+      }
+      
+      img.alt = "Subject image";
+      img.style.width = "100%";
+      img.style.height = "auto";
+      img.style.minHeight = "200px";
+      img.style.maxHeight = "300px";
+      img.style.objectFit = "cover";
+      img.style.display = "block";
+      img.style.opacity = "1";
+      img.style.visibility = "visible";
+      img.style.filter = "brightness(1.1) contrast(1.05)";
+      img.loading = "eager";
+      
+      const cacheBuster = `?v=${Date.now()}`;
+      const finalPathWithCache = finalPath + cacheBuster;
+      
+      img.src = finalPathWithCache;
+      
+      img.onerror = function() {
+        console.error("❌ Image failed to load:", this.src);
+        this.style.display = "none";
+        const subjectIcon = activeSubject === "finance" ? "💰" : "📚";
+        imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
+        imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
+        imageContainer.style.display = "flex";
+        imageContainer.style.alignItems = "center";
+        imageContainer.style.justifyContent = "center";
+        imageContainer.style.flexDirection = "column";
+        
+        const placeholder = document.createElement("div");
+        placeholder.textContent = subjectIcon;
+        placeholder.style.fontSize = "80px";
+        placeholder.style.opacity = "0.6";
+        imageContainer.appendChild(placeholder);
+      };
+      
+      img.onload = function() {
+        console.log("✅ Subject image loaded successfully");
+        this.style.display = "block";
+        this.style.opacity = "1";
+        this.style.visibility = "visible";
+      };
+      
+      imageContainer.appendChild(img);
+      contentEl.appendChild(imageContainer);
 
       if (quizBlock) {
         quizBlock.innerHTML = "";
