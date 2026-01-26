@@ -972,6 +972,54 @@ function updateBackButton() {
   }
 }
 
+// Time tracking functions
+function startTimeTracking() {
+  // Stop any existing tracking
+  stopTimeTracking();
+  
+  // Start new tracking session
+  lessonStartTime = Date.now();
+  
+  // Update display every second
+  timeTrackingInterval = setInterval(() => {
+    updateProgressDisplay();
+  }, 1000);
+}
+
+function stopTimeTracking() {
+  if (lessonStartTime !== null) {
+    // Calculate time spent on current lesson
+    const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
+    totalTimeSpent += timeSpent;
+    saveUserData();
+    lessonStartTime = null;
+  }
+  
+  // Clear interval
+  if (timeTrackingInterval) {
+    clearInterval(timeTrackingInterval);
+    timeTrackingInterval = null;
+  }
+}
+
+function updateProgressDisplay() {
+  const progressLabel = $("#lessonProgressLabel");
+  if (!progressLabel) return;
+  
+  // Calculate current session time
+  let currentSessionTime = 0;
+  if (lessonStartTime !== null) {
+    currentSessionTime = Math.floor((Date.now() - lessonStartTime) / 1000);
+  }
+  
+  // Total time = saved time + current session time
+  const totalTime = totalTimeSpent + currentSessionTime;
+  const minutes = Math.floor(totalTime / 60);
+  
+  // Display time in minutes
+  progressLabel.textContent = `${minutes}m`;
+}
+
 function switchTab(tab) {
   const lessonCard = $("#lessonCard");
   const journalPanel = $("#journalPanel");
