@@ -522,6 +522,26 @@ function getCurrentLessons() {
   return subjectLessons[activeSubject] || [];
 }
 
+// Get finance/investing related image for quizzes
+function getFinanceQuizImage(quizIndex) {
+  // Collection of diverse finance/investing related images from Unsplash
+  // Includes: money, graphs, charts, financial data, currency, etc.
+  const financeImages = [
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop", // Money/coins
+    "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop", // Stock market graph
+    "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop", // Financial charts
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop", // Financial data
+    "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800&h=400&fit=crop", // Money growth/investment
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop", // Currency/money stacks
+    "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=400&fit=crop", // Financial planning
+    "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=400&fit=crop", // Trading charts
+  ];
+  
+  // Cycle through images based on quiz index
+  const imageIndex = quizIndex % financeImages.length;
+  return financeImages[imageIndex];
+}
+
 function renderLesson() {
   const lessons = getCurrentLessons();
   console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons.length:", lessons.length);
@@ -790,14 +810,16 @@ function renderLesson() {
       imageContainer.style.maxHeight = "300px";
       
       const img = document.createElement("img");
-      // Use subject-specific image based on activeSubject
-      const imagePath = activeSubject === "finance" ? "images/investing-intro.png" : "images/investing-intro.png";
-      let finalPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
-      if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
-        finalPath = "images/" + finalPath;
+      // Get finance/investing related image (money, graphs, etc.)
+      let imageUrl;
+      if (activeSubject === "finance") {
+        imageUrl = getFinanceQuizImage(currentIndex);
+      } else {
+        // Fallback for other subjects
+        imageUrl = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop";
       }
       
-      img.alt = "Subject image";
+      img.alt = "Finance and investing concept";
       img.style.width = "100%";
       img.style.height = "auto";
       img.style.minHeight = "200px";
@@ -808,11 +830,10 @@ function renderLesson() {
       img.style.visibility = "visible";
       img.style.filter = "brightness(1.1) contrast(1.05)";
       img.loading = "eager";
+      img.crossOrigin = "anonymous"; // For external images
       
-      const cacheBuster = `?v=${Date.now()}`;
-      const finalPathWithCache = finalPath + cacheBuster;
-      
-      img.src = finalPathWithCache;
+      // Use the finance image URL directly
+      img.src = imageUrl;
       
       img.onerror = function() {
         console.error("❌ Image failed to load:", this.src);
