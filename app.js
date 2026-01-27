@@ -861,15 +861,23 @@ function triggerConfetti(x, y) {
 
 // XP counter animation
 function animateXpGain(amount) {
-  const xpValue = $("#xpValue");
-  const pendingXpEl = $("#pendingXp");
+  const xpValue = document.getElementById("xpValue") || $("#xpValue");
+  const pendingXpEl = document.getElementById("pendingXp") || $("#pendingXp");
   
-  pendingXpEl.classList.add('xp-pulse');
-  xpValue.classList.add('xp-gain');
+  if (pendingXpEl) {
+    pendingXpEl.classList.add('xp-pulse');
+  }
+  if (xpValue) {
+    xpValue.classList.add('xp-gain');
+  }
   
   setTimeout(() => {
-    pendingXpEl.classList.remove('xp-pulse');
-    xpValue.classList.remove('xp-gain');
+    if (pendingXpEl) {
+      pendingXpEl.classList.remove('xp-pulse');
+    }
+    if (xpValue) {
+      xpValue.classList.remove('xp-gain');
+    }
   }, 600);
 }
 
@@ -1002,7 +1010,9 @@ function renderLesson() {
 
   // Reset hint + pending XP display
   pendingXp = 0;
-  pendingXpEl.textContent = pendingXp.toString();
+  if (pendingXpEl) {
+    pendingXpEl.textContent = pendingXp.toString();
+  }
   // Set hint text based on lesson type
   if (lesson.type === "interactive") {
     hintText.textContent = "Drag the slider to explore how time affects your investment.";
@@ -1623,8 +1633,9 @@ function handleQuizClick(button, option, lesson, event) {
   });
 
   const hintText = $("#hintText");
-  const pendingXpEl = $("#pendingXp");
-  const xpValue = $("#xpValue");
+  // Get fresh reference to ensure element exists
+  const pendingXpEl = document.getElementById("pendingXp") || $("#pendingXp");
+  const xpValue = document.getElementById("xpValue") || $("#xpValue");
 
   const subjectMap = {
     finance: "investing",
@@ -1686,8 +1697,17 @@ function handleQuizClick(button, option, lesson, event) {
 
   xp += pendingXp;
   sessionXpGained += pendingXp; // Track session XP
-  xpValue.textContent = xp.toString();
-  pendingXpEl.textContent = pendingXp.toString();
+  
+  // Get fresh references right before updating to ensure elements exist
+  const currentXpValue = document.getElementById("xpValue");
+  const currentPendingXpEl = document.getElementById("pendingXp");
+  
+  if (currentXpValue) {
+    currentXpValue.textContent = xp.toString();
+  }
+  if (currentPendingXpEl) {
+    currentPendingXpEl.textContent = pendingXp.toString();
+  }
   
   updateXpProgress();
   saveUserData();
