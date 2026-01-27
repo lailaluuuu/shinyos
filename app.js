@@ -369,6 +369,10 @@ let pendingXp = 0;
 let era = "Foundations";
 let activeCategory = null;
 
+// Streak tracking
+let streak = 0;
+let lastLessonDate = null; // ISO date string (YYYY-MM-DD)
+
 // Time tracking
 let lessonStartTime = null;
 let totalTimeSpent = 0; // in seconds
@@ -414,6 +418,23 @@ function loadUserData() {
   if (savedTime !== null) {
     totalTimeSpent = parseInt(savedTime, 10) || 0;
   }
+  
+  // Load streak data
+  const savedStreak = localStorage.getItem('shinyos_streak');
+  if (savedStreak !== null) {
+    streak = parseInt(savedStreak, 10) || 0;
+  }
+  
+  const savedLastDate = localStorage.getItem('shinyos_last_lesson_date');
+  if (savedLastDate) {
+    lastLessonDate = savedLastDate;
+  }
+  
+  // Check if streak should be broken (missed a day)
+  checkAndUpdateStreak();
+  
+  // Update streak display
+  updateStreakDisplay();
 }
 
 // Save user data to localStorage
@@ -423,6 +444,10 @@ function saveUserData() {
     localStorage.setItem('shinyos_badges', JSON.stringify(window.earnedBadges));
   }
   localStorage.setItem('shinyos_time_spent', totalTimeSpent.toString());
+  localStorage.setItem('shinyos_streak', streak.toString());
+  if (lastLessonDate) {
+    localStorage.setItem('shinyos_last_lesson_date', lastLessonDate);
+  }
 }
 
 // Update XP progress bar
@@ -528,6 +553,83 @@ function showAchievementPopup(badge) {
   popup.dataset.autoHideTimeout = autoHideTimeout;
 }
 
+// Get today's date as YYYY-MM-DD string
+function getTodayDateString() {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+}
+
+// Check if streak should be broken (missed a day)
+function checkAndUpdateStreak() {
+  const today = getTodayDateString();
+  
+  if (!lastLessonDate) {
+    // No previous lesson date, streak stays at 0
+    return;
+  }
+  
+  const lastDate = new Date(lastLessonDate);
+  const todayDate = new Date(today);
+  const daysDiff = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+  
+  if (daysDiff > 1) {
+    // More than 1 day has passed, break the streak
+    streak = 0;
+    saveUserData();
+    updateStreakDisplay();
+  }
+}
+
+// Update streak when lesson is completed
+function updateStreakOnLessonComplete() {
+  const today = getTodayDateString();
+  
+  if (!lastLessonDate) {
+    // First lesson ever
+    streak = 1;
+    lastLessonDate = today;
+  } else if (lastLessonDate === today) {
+    // Already completed a lesson today, don't increment streak
+    // (but still update the date to be safe)
+    lastLessonDate = today;
+  } else {
+    // Check if it's consecutive days
+    const lastDate = new Date(lastLessonDate);
+    const todayDate = new Date(today);
+    const daysDiff = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff === 1) {
+      // Consecutive day, increment streak
+      streak += 1;
+    } else if (daysDiff === 0) {
+      // Same day, don't increment
+      // (already handled above, but keeping for safety)
+    } else {
+      // More than 1 day gap, reset streak to 1
+      streak = 1;
+    }
+    
+    lastLessonDate = today;
+  }
+  
+  saveUserData();
+  updateStreakDisplay();
+  
+  // Always show streak hedgehog after completing a lesson
+  // Show hedgehog with streak reaction
+  if (window.showCreatureReaction) {
+    window.showCreatureReaction("hedgehog", "streak");
+  }
+}
+
+// Update streak display in UI
+function updateStreakDisplay() {
+  const streakValue = $("#streakValue");
+  if (streakValue) {
+    streakValue.textContent = streak.toString();
+  }
+}
+
 // Check and award lesson completion badge
 function checkLessonCompletion() {
   const lessons = getCurrentLessons();
@@ -544,6 +646,10 @@ function checkLessonCompletion() {
     const xpValue = $("#xpValue");
     if (xpValue) xpValue.textContent = xp.toString();
     updateXpProgress();
+    
+    // Update streak when lesson is completed
+    updateStreakOnLessonComplete();
+    
     saveUserData();
     
     // Show bonus XP message
