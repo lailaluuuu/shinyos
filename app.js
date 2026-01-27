@@ -1783,6 +1783,30 @@ function initTheme() {
   // Load user data first
   loadUserData();
   
+  // Hide loading screen when app is ready
+  function hideLoadingScreen() {
+    const loadingScreen = document.getElementById("loadingScreen");
+    if (loadingScreen) {
+      // Wait a bit for smooth transition, then hide
+      setTimeout(() => {
+        loadingScreen.classList.add("hidden");
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          if (loadingScreen.parentNode) {
+            loadingScreen.parentNode.removeChild(loadingScreen);
+          }
+        }, 500);
+      }, 300);
+    }
+  }
+  
+  // Hide loading screen after everything is initialized
+  // Use requestAnimationFrame to ensure DOM is fully ready
+  requestAnimationFrame(() => {
+    // Wait for initial render, then hide loading screen
+    setTimeout(hideLoadingScreen, 800);
+  });
+  
   // Save time when page is about to unload
   window.addEventListener('beforeunload', () => {
     stopTimeTracking();
