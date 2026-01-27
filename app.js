@@ -709,6 +709,9 @@ function showStreakScreen() {
     streakScreen.innerHTML = `
       <div class="streak-screen-content">
         <div class="streak-screen-header">
+          <div class="streak-hedgehog-container">
+            <div class="streak-hedgehog">🦔</div>
+          </div>
           <div class="streak-screen-title">🔥 Streak Update</div>
         </div>
         
@@ -1726,6 +1729,28 @@ function goBack() {
   }
 
   if (currentIndex > 0) {
+    // Award XP for reviewing content
+    const reviewXp = 1;
+    xp += reviewXp;
+    sessionXpGained += reviewXp;
+    
+    // Update UI
+    const xpValue = $("#xpValue");
+    const pendingXpEl = $("#pendingXp");
+    if (xpValue) {
+      xpValue.textContent = xp.toString();
+    }
+    if (pendingXpEl) {
+      pendingXpEl.textContent = reviewXp.toString();
+    }
+    
+    // Animate XP gain
+    animateXpGain(reviewXp);
+    
+    // Update progress and save
+    updateXpProgress();
+    saveUserData();
+    
     currentIndex--;
     renderLesson();
     updateBackButton();

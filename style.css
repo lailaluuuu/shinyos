@@ -2788,6 +2788,47 @@ img {
 .streak-screen-header {
   text-align: center;
   margin-bottom: 24px;
+  position: relative;
+}
+
+.streak-hedgehog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+  height: 80px;
+}
+
+.streak-hedgehog {
+  font-size: 64px;
+  animation: streak-hedgehog-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 16px rgba(184, 107, 255, 0.5));
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.streak-hedgehog:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(184, 107, 255, 0.7));
+}
+
+@keyframes streak-hedgehog-float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  25% { 
+    transform: translateY(-6px) rotate(-3deg); 
+  }
+  50% { 
+    transform: translateY(-8px) rotate(0deg); 
+  }
+  75% { 
+    transform: translateY(-6px) rotate(3deg); 
+  }
 }
 
 .streak-screen-title {
