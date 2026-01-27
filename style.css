@@ -3280,26 +3280,6 @@ img {
   animation: fire-flicker 2s ease-in-out infinite;
 }
 
-/* Daily goal progress */
-.metric--today {
-  position: relative;
-  overflow: visible;
-}
-
-.metric--today::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #35c27e, #2ed4c4);
-  border-radius: 999px;
-  transform: scaleX(0.4);
-  transform-origin: left;
-  transition: transform 0.6s ease-out;
-}
-
 /* Responsive adjustments for overlays and animations */
 @media (max-width: 768px) {
   .achievement-popup {
