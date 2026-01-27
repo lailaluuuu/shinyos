@@ -8,7 +8,7 @@ const subjectLessons = {
       id: 1,
       type: "intro",
       title: "Investing — The Skill You Can Learn at Any Age",
-      subtitle: "Curiosity is enough. The rest is learnable.\nWelcome to the class you didn't know existed.",
+      subtitle: "Curiosity is enough. The rest is learnable.\nWelcome to the class that makes the rest of life make more sense.",
       imageUrl: "images/investing-intro.png",
       imageAlt: "Investing introduction"
     },
@@ -19,7 +19,7 @@ const subjectLessons = {
       paragraphs: [
         "The system taught: budgeting, saving, compound interest (4 lines in maths), and how to fill in forms.",
         "The system skipped: how wealth actually forms, why assets exist, what investing is, what it funds, how to allocate capital, and why time is the cheat code.",
-        "The result? Adults with degrees who panic-google 'what is a stock' at 28.",
+        "Most people leave school knowing how to analyse a poem, but not how to read a pension statement or a stock chart.",
         "This course fixes that. You'll understand the mechanics, not just the buzzwords."
       ]
     },
@@ -29,34 +29,41 @@ const subjectLessons = {
       question: "School skipped investing because:",
       options: [
         { id: "a", text: "You can’t grade compounding in 45 minutes", correct: false },
-        { id: "b", text: "It wasn’t a curriculum priority", correct: true },
-        { id: "c", text: "It looked “non-academic", correct: false },
+        { id: "b", text: "It wasn’t a curriculum priority", correct: false },
+        { id: "c", text: "A combination of factors", correct: true },
         { id: "d", text: "It was assumed to be handled at home", correct: false }
       ],
-      explanation: "School curricula prioritise basic literacy and numeracy over practical financial skills like investing, leaving a knowledge gap that affects millions."
+      explanation: "All of these reasons contributed to schools skipping investing education. The system prioritized testable, academic subjects over practical financial skills that require time to demonstrate value, leaving a knowledge gap that affects millions."
     },
     {
       id: 4,
       type: "content",
       title: "What Investing Actually Is",
       paragraphs: [
+        "Most people think investing is guessing, gambling, or day-trading on a spaceship-looking app.",
+        "Others think it's only for rich people or finance professionals.",
+        "School rarely explains it. Families often assume it’s 'too risky' or 'not for us.'",
+        "Investing isn’t day-trading, gambling, or a secret club for the £100k+ crowd.",
+        "It’s just owning a slice of something productive — a company, a piece of land, an energy grid, a solar farm, etc.",
+        "These things create value in the real world: they sell products, pay dividends, rent land, or power homes.",
         "Investing = putting money into productive assets that (hopefully) grow in value or generate income over time.",
         "It isn't gambling, and it isn't magic.",
-        "It's: allocating capital into things that produce returns.",
-        "Think of it like hiring a workforce — your money goes to work. Some assets become star performers, others do less, but the goal is the same: growth over time"
+        "It's allocating capital into things that produce returns.",
+        "Think of it like hiring employees. Your money doesn’t sit still — it goes to work.",
+        "Some assets become star performers, others do ‘meh,’ but the aim is simple: growth over time."
       ]
     },
     {
       id: 5,
       type: "quiz",
-      question: "Investing is best described as:",
+      question: "Investing is closer to:",
       options: [
-        { id: "a", text: "Buying assets that create value over time", correct: false },
-        { id: "b", text: "Allocating capital into productive assets", correct: true },
-        { id: "c", text: "Only for people with £100k+", correct: false },
-        { id: "d", text: "A get-rich-quick scheme", correct: false }
+        { id: "a", text: "Owning a bakery that sells bread every day", correct: true },
+        { id: "b", text: "Betting on a horse to win once", correct: false },
+        { id: "c", text: "Buying a lottery ticket", correct: false },
+        { id: "d", text: "Guessing which emoji your friend will send", correct: false }
       ],
-      explanation: "Investing is about putting money into productive assets that generate returns over time. It's not gambling, and you don't need to be rich to start."
+      explanation: "Investing is about owning productive assets—like a bakery—that create value again and again over time, not one-off bets like horse racing or lottery tickets."
     },
     {
       id: 6,
@@ -66,7 +73,12 @@ const subjectLessons = {
         "Human economies expand because we invent, build, innovate, and demand new things.",
         "Investing is simply how we: fund innovation, fund growth, fund risk, fund long-term progress.",
         "Without investing → no tech, no medicine, no bridges, no chips, no rockets, no progress.",
-        "Investing is how progress is financed."
+        "Investing is how progress is financed.",
+        "Money has three main paths:",
+        "• Spending → gone immediately",
+        "• Saving → safe but static",
+        "• Investing → used to build things and grow",
+        "Most adults only ever get taught the first two."
       ]
     },
     {
@@ -74,12 +86,12 @@ const subjectLessons = {
       type: "quiz",
       question: "Investing is essential because it finances:",
       options: [
-        { id: "a", text: "Innovation and technology", correct: false },
-        { id: "b", text: "Businesses and entrepreneurship", correct: false },
-        { id: "c", text: "Infrastructure and long-term growth", correct: false },
-        { id: "d", text: "All of the above", correct: true }
+        { id: "a", text: "Progress and growth", correct: true },
+        { id: "b", text: "Only cool inventions", correct: false },
+        { id: "c", text: "Only companies", correct: false },
+        { id: "d", text: "Only roads and bridges", correct: false }
       ],
-      explanation: "Investing finances innovation, infrastructure, new businesses, and all forms of economic progress."
+      explanation: "Investing finances economic progress—innovation, businesses, and infrastructure all sit under that umbrella."
     },
     {
       id: 8,
@@ -89,7 +101,7 @@ const subjectLessons = {
         "School treats money as static. It never mentions the villain that slowly steals purchasing power.",
         "£100 today might only have the buying power of ~£74 in 10 years (at ~3% annual inflation)",
         "Inflation is a silent tax on time. Investing is how you fight it.",
-        "That lesson at 15 would have beaten another session at the laminator."
+        "Early awareness makes financial decisions less mysterious and more intentional."
       ]
     },
     {
@@ -112,7 +124,11 @@ const subjectLessons = {
         "Compound growth deserved a 6-week school module, fireworks, and guest speakers.",
         "It's interest on your interest. Growth on growth. Time becoming exponential.",
         "Albert Einstein called it 'the 8th wonder of the world.' School gave it 4 lines in maths and moved on like it wasn't the formula that shapes wealth.",
-        "The earlier you start, the less money you need."
+        "The earlier you start, the less money you need.",
+        "Here’s the important bit: simple interest grows in a straight line. Compound growth curves upward because past growth becomes the engine for future growth.",
+        "At first the curve looks slow — almost boring. Then time tilts it upward and the numbers get weird (in a good way).",
+        "This is why £50/month at 18 can beat £200/month starting at 30. Time is doing most of the work.",
+        "Compound growth doesn’t reward brilliance. It rewards patience."
       ]
     },
     {
@@ -154,16 +170,76 @@ const subjectLessons = {
       ]
     },
     {
-      id: 13,
+      id: 14,
+      type: "content",
+      title: "Stocks & Dividends: Tiny Ownership Explained",
+      paragraphs: [
+        "A stock is a tiny slice of a real business.",
+        "Businesses make products, earn profits, and expand. Stocks let you own a part of that engine.",
+        "How do stockholders get paid?",
+        "→ Dividends: a share of profits paid out to owners",
+        "→ Buybacks: the company buys its own shares (makes yours more valuable)",
+        "→ Price appreciation: as the business grows, the market reprices it",
+        "Not all companies pay dividends. Some reinvest profits into growth instead.",
+        "Dividend companies = income today. Growth companies = more income later (hopefully).",
+        "Modern twist: we now have fractional shares — fancy ways to own tiny pieces of expensive stocks. You don't need a big wad to start.",
+        "Stocks are ownership. Dividends are the owner's paycheck."
+      ]
+    },
+    {
+      id: 15,
       type: "quiz",
       question: "ETFs let beginners:",
       options: [
-        { id: "a", text: "Avoid stock-picking", correct: false },
-        { id: "b", text: "Gain diversification", correct: false },
-        { id: "c", text: "Copy market growth", correct: false },
-        { id: "d", text: "All of the above", correct: true }
+        { id: "a", text: "Diversify automatically", correct: true },
+        { id: "b", text: "Pick individual winners", correct: false },
+        { id: "c", text: "Bet on single companies", correct: false },
+        { id: "d", text: "Avoid the market entirely", correct: false }
       ],
-      explanation: "ETFs (Exchange-Traded Funds) allow beginners to avoid stock-picking, gain instant diversification, and track market growth all at once."
+      explanation: "ETFs spread money across many companies, reducing the need for stock-picking and smoothing volatility."
+    },
+    {
+      id: 16,
+      type: "content",
+      title: "Why Markets Move: News, Fear, and Hype",
+      paragraphs: [
+        "Stock prices don’t move in a vacuum. They react to what’s happening in the world.",
+        "Earnings reports, interest rates, elections, wars, new products, and regulation all change what investors think a business is worth.",
+        "In the short term, prices are heavily influenced by mood: fear, greed, hype, and headlines.",
+        "In the long term, prices are pulled toward reality: profits, cashflow, and how well the business actually performs.",
+        "This is why markets can look chaotic day-to-day but more logical decade-to-decade.",
+        "You can’t control the noise, but you can choose to focus on the signal: real businesses, real earnings, real value over time."
+      ]
+    },
+    {
+      id: 17,
+      type: "quiz",
+      question: "In the short term, markets mainly react to:",
+      options: [
+        { id: "a", text: "Headlines, hype, fear and mood", correct: true },
+        { id: "b", text: "Decades of fundamental performance", correct: false },
+        { id: "c", text: "Perfect forecasting models", correct: false },
+        { id: "d", text: "Astrology", correct: false }
+      ],
+      explanation: "Short-term market movements are driven by sentiment, headlines, and uncertainty. Long-term movements are driven by business performance and cashflows."
+    },
+    {
+      id: 18,
+      type: "content",
+      title: "How to Pick Investments (Beginner Framework)",
+      paragraphs: [
+        "You don't need to 'beat the market' to build wealth. Most people are better off owning the market.",
+        "Good investing decisions are usually boring and rule-based.",
+        "A simple way to think about picking investments:",
+        "1) What am I investing for? (Goal)",
+        "2) When do I need the money? (Time horizon)",
+        "3) How much uncertainty can I tolerate? (Risk)",
+        "4) What assets match that profile? (Allocation)",
+        "For most beginners, broad ETFs are the cleanest starting point: diversified, low-cost, and no guessing required.",
+        "Individual stocks become more reasonable once you understand the businesses behind them.",
+        "Speculative assets (crypto, startups, etc.) should be treated as 'moonshot buckets' — tiny % of the portfolio, never the core.",
+        "The core of good investing is alignment: the assets match your goals, time, and temperament."
+      ]
     },
     {
       id: 21,
@@ -171,7 +247,13 @@ const subjectLessons = {
       title: "Risk: It's Not a Monster, It's the Price",
       paragraphs: [
         "Risk is not danger. Risk is rent you pay to access return.",
-        "School teaches 'avoid risk.' But real life requires understanding it, pricing it, and using it wisely.",
+        "Returns exist because uncertainty exists. If outcomes were guaranteed, returns would be zero. The return is compensation for taking risk.",
+        "School teaches 'avoid risk.' Real life requires understanding it, pricing it, and using it wisely.",
+        "Different assets have different jobs:",
+        "→ Bonds = stability + income",
+        "→ Stock markets = compounding over time",
+        "→ Venture/crypto/startups = asymmetric moonshots",
+        "Time reduces risk. Short horizons look volatile, long horizons look smoother. Volatility ≠ permanent loss.",
         "Low risk = low returns",
         "Medium risk = compounding engine",
         "High risk = moonshot or crater",
@@ -183,12 +265,12 @@ const subjectLessons = {
       type: "quiz",
       question: "Investors earn returns because they:",
       options: [
-        { id: "a", text: "Deserve it", correct: false },
+        { id: "a", text: "Like graphs and spreadsheets", correct: false },
         { id: "b", text: "Take risk", correct: true },
-        { id: "c", text: "Pray to Warren Buffett", correct: false },
-        { id: "d", text: "Have spreadsheets", correct: false }
+        { id: "c", text: "Buy the right guru's book", correct: false },
+        { id: "d", text: "Wait for luck", correct: false }
       ],
-      explanation: "Investors earn returns because they take calculated risks. Risk and return are fundamentally linked in investing."
+      explanation: "Returns exist because investors take risk. If outcomes were guaranteed, returns would be zero."
     },
     {
       id: 23,
@@ -232,14 +314,14 @@ const subjectLessons = {
       question: "If compounding is a cheat code, what is time?",
       options: [
         { id: "a", text: "The multiplier", correct: true },
-        { id: "b", text: "The enemy", correct: false },
+        { id: "b", text: "The enemy", correct: false }, // Quiz option
         { id: "c", text: "The tax collector", correct: false },
         { id: "d", text: "Irrelevant", correct: false }
       ],
       explanation: "Time is the multiplier that makes compounding powerful. The longer your investments compound, the more exponential the growth becomes."
     },
     {
-      id: 21,
+      id: 26,
       type: "content",
       title: "🏁 Lesson 1 Complete — Economic Agency 101",
       paragraphs: [
@@ -257,6 +339,7 @@ const subjectLessons = {
     }
   ]
 };
+
 
 // Categories structure
 const categories = [
