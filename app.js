@@ -635,6 +635,49 @@ function getFinanceQuizImage(quizIndex) {
   return financeImages[imageIndex];
 }
 
+// Add mini hedgehog overlay to finance images
+function addHedgehogOverlay(imageContainer) {
+  if (activeSubject !== "finance") return;
+  
+  const hedgehog = document.createElement("div");
+  hedgehog.textContent = "🦔";
+  hedgehog.style.position = "absolute";
+  hedgehog.style.fontSize = "40px";
+  hedgehog.style.pointerEvents = "auto";
+  hedgehog.style.zIndex = "100";
+  hedgehog.style.opacity = "0.95";
+  hedgehog.style.filter = "drop-shadow(0 3px 10px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 8px rgba(184, 107, 255, 0.4))";
+  hedgehog.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+  hedgehog.style.animation = "hedgehog-float 3s ease-in-out infinite";
+  hedgehog.style.cursor = "pointer";
+  
+  // Random position within image (avoid edges)
+  const minX = 15;
+  const maxX = 85; // percentage
+  const minY = 15;
+  const maxY = 80; // percentage
+  const randomX = minX + Math.random() * (maxX - minX);
+  const randomY = minY + Math.random() * (maxY - minY);
+  
+  hedgehog.style.left = randomX + "%";
+  hedgehog.style.top = randomY + "%";
+  hedgehog.style.transform = "translate(-50%, -50%)";
+  
+  // Ensure container has relative positioning
+  imageContainer.style.position = "relative";
+  imageContainer.appendChild(hedgehog);
+  
+  // Add hover effect
+  hedgehog.addEventListener("mouseenter", () => {
+    hedgehog.style.transform = "translate(-50%, -50%) scale(1.3)";
+    hedgehog.style.opacity = "1";
+  });
+  hedgehog.addEventListener("mouseleave", () => {
+    hedgehog.style.transform = "translate(-50%, -50%) scale(1)";
+    hedgehog.style.opacity = "0.95";
+  });
+}
+
 function renderLesson() {
   const lessons = getCurrentLessons();
   console.log("renderLesson called - activeSubject:", activeSubject, "currentIndex:", currentIndex, "lessons.length:", lessons.length);
@@ -732,6 +775,7 @@ function renderLesson() {
     imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
     imageContainer.style.minHeight = "300px";
     imageContainer.style.width = "100%";
+    imageContainer.style.position = "relative"; // For hedgehog positioning
     
     const img = document.createElement("img");
     const imagePath = lesson.imageUrl || "images/investing-intro.png";
@@ -789,41 +833,7 @@ function renderLesson() {
       this.style.visibility = "visible";
       
       // Add mini hedgehog overlay for finance images
-      if (activeSubject === "finance" && finalPath.includes("investing-intro")) {
-        const hedgehog = document.createElement("div");
-        hedgehog.textContent = "🦔";
-        hedgehog.style.position = "absolute";
-        hedgehog.style.fontSize = "32px";
-        hedgehog.style.pointerEvents = "none";
-        hedgehog.style.zIndex = "10";
-        hedgehog.style.opacity = "0.9";
-        hedgehog.style.filter = "drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5))";
-        hedgehog.style.transition = "transform 0.3s ease";
-        hedgehog.style.animation = "hedgehog-float 3s ease-in-out infinite";
-        
-        // Random position within image (avoid edges)
-        const minX = 20;
-        const maxX = 85; // percentage
-        const minY = 15;
-        const maxY = 75; // percentage
-        const randomX = minX + Math.random() * (maxX - minX);
-        const randomY = minY + Math.random() * (maxY - minY);
-        
-        hedgehog.style.left = randomX + "%";
-        hedgehog.style.top = randomY + "%";
-        hedgehog.style.transform = "translate(-50%, -50%)";
-        
-        imageContainer.style.position = "relative";
-        imageContainer.appendChild(hedgehog);
-        
-        // Add subtle hover effect
-        hedgehog.addEventListener("mouseenter", () => {
-          hedgehog.style.transform = "translate(-50%, -50%) scale(1.2)";
-        });
-        hedgehog.addEventListener("mouseleave", () => {
-          hedgehog.style.transform = "translate(-50%, -50%) scale(1)";
-        });
-      }
+      addHedgehogOverlay(imageContainer);
     };
     
     contentEl.appendChild(imageContainer);
@@ -1208,6 +1218,7 @@ function renderLesson() {
       imageContainer.style.minHeight = "200px";
       imageContainer.style.width = "100%";
       imageContainer.style.maxHeight = "300px";
+      imageContainer.style.position = "relative"; // For hedgehog positioning
       
       const img = document.createElement("img");
       // Get finance/investing related image (money, graphs, etc.)
@@ -1258,6 +1269,9 @@ function renderLesson() {
         this.style.display = "block";
         this.style.opacity = "1";
         this.style.visibility = "visible";
+        
+        // Add mini hedgehog overlay for finance images
+        addHedgehogOverlay(imageContainer);
       };
       
       imageContainer.appendChild(img);
