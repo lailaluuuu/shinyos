@@ -7,48 +7,48 @@ const subjectLessons = {
     {
       id: 1,
       type: "intro",
-      title: "Investing — The Skill You Can Learn at Any Age",
-      subtitle: "Curiosity is enough. The rest is learnable.\nWelcome to the class that makes the rest of life make more sense.",
+      title: "💰 Investing — The Skill You Can Learn at Any Age",
+      subtitle: "Curiosity is enough. The rest is learnable. ✨\nWelcome to the class that makes the rest of life make more sense. 🎓",
       imageUrl: "images/investing-intro.png",
       imageAlt: "Investing introduction"
     },
     {
       id: 2,
       type: "content",
-      title: "Why School Skipped This",
+      title: "🎓 Why School Skipped This",
       paragraphs: [
-        "The system taught: budgeting, saving, compound interest (4 lines in maths), and how to fill in forms.",
-        "The system skipped: how wealth actually forms, why assets exist, what investing is, what it funds, how to allocate capital, and why time is the cheat code.",
-        "Most people leave school knowing how to analyse a poem, but not how to read a pension statement or a stock chart.",
-        "This course fixes that. You'll understand the mechanics, not just the buzzwords."
+        "The system taught: budgeting 💰, saving 💵, compound interest (4 lines in maths), and how to fill in forms 📝.",
+        "The system skipped: how wealth actually forms 💎, why assets exist, what investing is, what it funds, how to allocate capital, and why time is the cheat code ⏰.",
+        "Most people leave school knowing how to analyse a poem 📖, but not how to read a pension statement or a stock chart 📈.",
+        "This course fixes that. You'll understand the mechanics, not just the buzzwords. 🎯"
       ]
     },
     {
       id: 3,
       type: "quiz",
-      question: "School skipped investing because:",
+      question: "🤔 School skipped investing because:",
       options: [
         { id: "a", text: "You can’t grade compounding in 45 minutes", correct: false },
         { id: "b", text: "It wasn’t a curriculum priority", correct: false },
         { id: "c", text: "A combination of factors", correct: true },
-        { id: "d", text: "It was assumed to be handled at home", correct: false }
+        { id: "d", text: "It was assumed to be handled at home 🏠", correct: false }
       ],
       explanation: "All of these reasons contributed to schools skipping investing education. The system prioritized testable, academic subjects over practical financial skills that require time to demonstrate value, leaving a knowledge gap that affects millions."
     },
     {
       id: 4,
       type: "content",
-      title: "What Investing Actually Is",
+      title: "💡 What Investing Actually Is",
       paragraphs: [
-        "Most people think investing is guessing, gambling, or day-trading on a spaceship-looking app.",
-        "Others think it's only for rich people or finance professionals.",
+        "Most people think investing is guessing 🎲, gambling 🎰, or day-trading on a spaceship-looking app 🚀.",
+        "Others think it's only for rich people 💰 or finance professionals 👔.",
         "School rarely explains it. Families often assume it’s 'too risky' or 'not for us.'",
         "Investing isn’t day-trading, gambling, or a secret club for the £100k+ crowd.",
         "It’s just owning a slice of something productive — a company, a piece of land, an energy grid, a solar farm, etc.",
-        "These things create value in the real world: they sell products, pay dividends, rent land, or power homes.",
-        "Investing = putting money into productive assets that (hopefully) grow in value or generate income over time.",
-        "It isn't gambling, and it isn't magic.",
-        "It's allocating capital into things that produce returns.",
+        "These things create value in the real world: they sell products 📦, pay dividends 💵, rent land 🏘️, or power homes 🏡.",
+        "Investing = putting money into productive assets that (hopefully) grow in value 📈 or generate income over time 💰.",
+        "It isn't gambling, and it isn't magic ✨.",
+        "It's allocating capital into things that produce returns 📊.",
         "Think of it like hiring employees. Your money doesn’t sit still — it goes to work.",
         "Some assets become star performers, others do ‘meh,’ but the aim is simple: growth over time."
       ]
@@ -56,63 +56,63 @@ const subjectLessons = {
     {
       id: 5,
       type: "quiz",
-      question: "Investing is closer to:",
+      question: "🤔 Investing is closer to:",
       options: [
-        { id: "a", text: "Owning a bakery that sells bread every day", correct: true },
-        { id: "b", text: "Betting on a horse to win once", correct: false },
-        { id: "c", text: "Buying a lottery ticket", correct: false },
-        { id: "d", text: "Guessing which emoji your friend will send", correct: false }
+        { id: "a", text: "Owning a bakery that sells bread every day 🥖", correct: true },
+        { id: "b", text: "Betting on a horse to win once 🐎", correct: false },
+        { id: "c", text: "Buying a lottery ticket 🎫", correct: false },
+        { id: "d", text: "Guessing which emoji your friend will send 😂", correct: false }
       ],
       explanation: "Investing is about owning productive assets—like a bakery—that create value again and again over time, not one-off bets like horse racing or lottery tickets."
     },
     {
       id: 6,
       type: "content",
-      title: "Why Investing Exists",
+      title: "🌍 Why Investing Exists",
       paragraphs: [
-        "Human economies expand because we invent, build, innovate, and demand new things.",
-        "Investing is simply how we: fund innovation, fund growth, fund risk, fund long-term progress.",
-        "Without investing → no tech, no medicine, no bridges, no chips, no rockets, no progress.",
-        "Investing is how progress is financed.",
+        "Human economies expand because we invent 🔬, build 🏗️, innovate 💡, and demand new things 🆕.",
+        "Investing is simply how we: fund innovation 🚀, fund growth 📈, fund risk ⚠️, fund long-term progress 🌟.",
+        "Without investing → no tech 💻, no medicine 💊, no bridges 🌉, no chips 🖥️, no rockets 🚀, no progress.",
+        "Investing is how progress is financed 💰.",
         "Money has three main paths:",
-        "• Spending → gone immediately",
-        "• Saving → safe but static",
-        "• Investing → used to build things and grow",
-        "Most adults only ever get taught the first two."
+        "• Spending → gone immediately 💸",
+        "• Saving → safe but static 🏦",
+        "• Investing → used to build things and grow 📊",
+        "Most adults only ever get taught the first two. 📚"
       ]
     },
     {
       id: 7,
       type: "quiz",
-      question: "Investing is essential because it finances:",
+      question: "💭 Investing is essential because it finances:",
       options: [
-        { id: "a", text: "Progress and growth", correct: true },
-        { id: "b", text: "Only cool inventions", correct: false },
-        { id: "c", text: "Only companies", correct: false },
-        { id: "d", text: "Only roads and bridges", correct: false }
+        { id: "a", text: "Progress and growth 📈", correct: true },
+        { id: "b", text: "Only cool inventions 🛸", correct: false },
+        { id: "c", text: "Only companies 🏢", correct: false },
+        { id: "d", text: "Only roads and bridges 🌉", correct: false }
       ],
       explanation: "Investing finances economic progress—innovation, businesses, and infrastructure all sit under that umbrella."
     },
     {
       id: 8,
       type: "content",
-      title: "The Invisible Enemy: Inflation",
+      title: "👻 The Invisible Enemy: Inflation",
       paragraphs: [
-        "School treats money as static. It never mentions the villain that slowly steals purchasing power.",
-        "£100 today might only have the buying power of ~£74 in 10 years (at ~3% annual inflation)",
-        "Inflation is a silent tax on time. Investing is how you fight it.",
-        "Early awareness makes financial decisions less mysterious and more intentional."
+        "School treats money as static 💰. It never mentions the villain that slowly steals purchasing power 😈.",
+        "£100 today might only have the buying power of ~£74 in 10 years (at ~3% annual inflation) 📉",
+        "Inflation is a silent tax on time ⏰. Investing is how you fight it ⚔️.",
+        "Early awareness makes financial decisions less mysterious 🔮 and more intentional 🎯."
       ]
     },
     {
       id: 9,
       type: "quiz",
-      question: "Inflation mainly affects:",
+      question: "🤔 Inflation mainly affects:",
       options: [
-        { id: "a", text: "Prices", correct: false },
-        { id: "b", text: "Purchasing power", correct: false },
-        { id: "c", text: "Savings", correct: false },
-        { id: "d", text: "All of the above", correct: true }
+        { id: "a", text: "Prices 💰", correct: false },
+        { id: "b", text: "Purchasing power 💵", correct: false },
+        { id: "c", text: "Savings 🏦", correct: false },
+        { id: "d", text: "All of the above ✅", correct: true }
       ],
       explanation: "Inflation affects prices, purchasing power, and the value of savings over time. It's why investing is essential to preserve and grow wealth."
     },
@@ -134,8 +134,8 @@ const subjectLessons = {
     {
       id: 11,
       type: "interactive",
-      title: "See Your Money Grow",
-      subtitle: "Drag the slider to see how time transforms your investment",
+      title: "📊 See Your Money Grow",
+      subtitle: "Drag the slider to see how time transforms your investment ⏰",
       initialAmount: 1000,
       annualReturn: 7,
       minYears: 1,
@@ -156,89 +156,89 @@ const subjectLessons = {
     {
       id: 13,
       type: "content",
-      title: "Where Investing Happens (Finally Explained)",
+      title: "📍 Where Investing Happens (Finally Explained)",
       paragraphs: [
         "Real assets people grow wealth with:",
-        "Stocks → partial ownership of businesses",
-        "ETFs → many stocks at once (cheat mode)",
-        "Bonds → lending",
-        "Real Estate → physical assets",
-        "Crypto → tech + speculation + volatility",
-        "Businesses → asymmetric upside",
-        "Most adults never hear these words until they're 30+ and then panic google it at 1am.",
-        "Owning the economy is easier than beating it."
+        "Stocks 📈 → partial ownership of businesses",
+        "ETFs 📊 → many stocks at once (cheat mode) 🎮",
+        "Bonds 💼 → lending",
+        "Real Estate 🏘️ → physical assets",
+        "Crypto ₿ → tech + speculation + volatility",
+        "Businesses 🏢 → asymmetric upside",
+        "Most adults never hear these words until they're 30+ and then panic google it at 1am 😅.",
+        "Owning the economy is easier than beating it. 🎯"
       ]
     },
     {
       id: 14,
       type: "content",
-      title: "Stocks & Dividends: Tiny Ownership Explained",
+      title: "📈 Stocks & Dividends: Tiny Ownership Explained",
       paragraphs: [
-        "A stock is a tiny slice of a real business.",
-        "Businesses make products, earn profits, and expand. Stocks let you own a part of that engine.",
-        "How do stockholders get paid?",
-        "→ Dividends: a share of profits paid out to owners",
-        "→ Buybacks: the company buys its own shares (makes yours more valuable)",
-        "→ Price appreciation: as the business grows, the market reprices it",
-        "Not all companies pay dividends. Some reinvest profits into growth instead.",
-        "Dividend companies = income today. Growth companies = more income later (hopefully).",
-        "Modern twist: we now have fractional shares — fancy ways to own tiny pieces of expensive stocks. You don't need a big wad to start.",
-        "Stocks are ownership. Dividends are the owner's paycheck."
+        "A stock is a tiny slice of a real business 🏢.",
+        "Businesses make products 📦, earn profits 💰, and expand 📈. Stocks let you own a part of that engine ⚙️.",
+        "How do stockholders get paid? 💵",
+        "→ Dividends: a share of profits paid out to owners 💰",
+        "→ Buybacks: the company buys its own shares (makes yours more valuable) 📈",
+        "→ Price appreciation: as the business grows, the market reprices it 🎯",
+        "Not all companies pay dividends. Some reinvest profits into growth instead 🌱.",
+        "Dividend companies = income today 💵. Growth companies = more income later (hopefully) 📈.",
+        "Modern twist: we now have fractional shares — fancy ways to own tiny pieces of expensive stocks 🎯. You don't need a big wad to start 💰.",
+        "Stocks are ownership 🏛️. Dividends are the owner's paycheck 💼."
       ]
     },
     {
       id: 15,
       type: "quiz",
-      question: "ETFs let beginners:",
+      question: "🤔 ETFs let beginners:",
       options: [
-        { id: "a", text: "Diversify automatically", correct: true },
-        { id: "b", text: "Pick individual winners", correct: false },
-        { id: "c", text: "Bet on single companies", correct: false },
-        { id: "d", text: "Avoid the market entirely", correct: false }
+        { id: "a", text: "Diversify automatically 📊", correct: true },
+        { id: "b", text: "Pick individual winners 🎯", correct: false },
+        { id: "c", text: "Bet on single companies 🎲", correct: false },
+        { id: "d", text: "Avoid the market entirely 🚫", correct: false }
       ],
       explanation: "ETFs spread money across many companies, reducing the need for stock-picking and smoothing volatility."
     },
     {
       id: 16,
       type: "content",
-      title: "Why Markets Move: News, Fear, and Hype",
+      title: "📰 Why Markets Move: News, Fear, and Hype",
       paragraphs: [
         "Stock prices don’t move in a vacuum. They react to what’s happening in the world.",
-        "Earnings reports, interest rates, elections, wars, new products, and regulation all change what investors think a business is worth.",
-        "In the short term, prices are heavily influenced by mood: fear, greed, hype, and headlines.",
+        "Earnings reports 📊, interest rates 💰, elections 🗳️, wars ⚔️, new products 🆕, and regulation 📜 all change what investors think a business is worth 💎.",
+        "In the short term, prices are heavily influenced by mood: fear 😨, greed 💰, hype 🔥, and headlines 📰.",
         "In the long term, prices are pulled toward reality: profits, cashflow, and how well the business actually performs.",
-        "This is why markets can look chaotic day-to-day but more logical decade-to-decade.",
+        "This is why markets can look chaotic day-to-day 🌪️ but more logical decade-to-decade 📊.",
         "You can’t control the noise, but you can choose to focus on the signal: real businesses, real earnings, real value over time."
       ]
     },
     {
       id: 17,
       type: "quiz",
-      question: "In the short term, markets mainly react to:",
+      question: "🤔 In the short term, markets mainly react to:",
       options: [
-        { id: "a", text: "Headlines, hype, fear and mood", correct: true },
-        { id: "b", text: "Decades of fundamental performance", correct: false },
-        { id: "c", text: "Perfect forecasting models", correct: false },
-        { id: "d", text: "Astrology", correct: false }
+        { id: "a", text: "Headlines 📰, hype 🔥, fear 😨 and mood 😊", correct: true },
+        { id: "b", text: "Decades of fundamental performance 📊", correct: false },
+        { id: "c", text: "Perfect forecasting models 🔮", correct: false },
+        { id: "d", text: "Astrology 🔮", correct: false }
       ],
       explanation: "Short-term market movements are driven by sentiment, headlines, and uncertainty. Long-term movements are driven by business performance and cashflows."
     },
     {
       id: 18,
       type: "content",
-      title: "How to Pick Investments (Beginner Framework)",
+      title: "🎯 How to Pick Investments (Beginner Framework)",
       paragraphs: [
-        "You don't need to 'beat the market' to build wealth. Most people are better off owning the market.",
-        "Good investing decisions are usually boring and rule-based.",
+        "You don't need to 'beat the market' to build wealth 💰. Most people are better off owning the market 📊.",
+        "Good investing decisions are usually boring 😴 and rule-based 📋.",
         "A simple way to think about picking investments:",
-        "1) What am I investing for? (Goal)",
-        "2) When do I need the money? (Time horizon)",
-        "3) How much uncertainty can I tolerate? (Risk)",
-        "4) What assets match that profile? (Allocation)",
-        "For most beginners, broad ETFs are the cleanest starting point: diversified, low-cost, and no guessing required.",
-        "Individual stocks become more reasonable once you understand the businesses behind them.",
-        "Speculative assets (crypto, startups, etc.) should be treated as 'moonshot buckets' — tiny % of the portfolio, never the core.",
-        "The core of good investing is alignment: the assets match your goals, time, and temperament."
+        "1) What am I investing for? (Goal) 🎯",
+        "2) When do I need the money? (Time horizon) ⏰",
+        "3) How much uncertainty can I tolerate? (Risk) ⚠️",
+        "4) What assets match that profile? (Allocation) 📊",
+        "For most beginners, broad ETFs are the cleanest starting point: diversified 📈, low-cost 💰, and no guessing required 🎯.",
+        "Individual stocks become more reasonable once you understand the businesses behind them 🏢.",
+        "Speculative assets (crypto ₿, startups 🚀, etc.) should be treated as 'moonshot buckets' 🌙 — tiny % of the portfolio, never the core.",
+        "The core of good investing is alignment: the assets match your goals 🎯, time ⏰, and temperament 🧘."
       ]
     },
     {
@@ -263,60 +263,60 @@ const subjectLessons = {
     {
       id: 22,
       type: "quiz",
-      question: "Investors earn returns because they:",
+      question: "💭 Investors earn returns because they:",
       options: [
-        { id: "a", text: "Like graphs and spreadsheets", correct: false },
-        { id: "b", text: "Take risk", correct: true },
-        { id: "c", text: "Buy the right guru's book", correct: false },
-        { id: "d", text: "Wait for luck", correct: false }
+        { id: "a", text: "Like graphs and spreadsheets 📊", correct: false },
+        { id: "b", text: "Take risk ⚠️", correct: true },
+        { id: "c", text: "Buy the right guru's book 📚", correct: false },
+        { id: "d", text: "Wait for luck 🍀", correct: false }
       ],
       explanation: "Returns exist because investors take risk. If outcomes were guaranteed, returns would be zero."
     },
     {
       id: 23,
       type: "content",
-      title: "Final Reflection: The One School Never Gave",
+      title: "🎓 Final Reflection: The One School Never Gave",
       paragraphs: [
-        "If money is a worker, investing is hiring workers and teaching them new skills.",
-        "If inflation is a thief, investing locks the door and fights back.",
-        "If compounding is a cheat code, time is the multiplier.",
-        "You now understand: how wealth forms, why inflation matters, why time matters, why investing exists, why productive assets grow, and why compounding is seismic.",
-        "This is the baseline for building portfolios, choosing assets, and not getting eaten by a system you're already living inside."
+        "If money is a worker 👷, investing is hiring workers and teaching them new skills 📚.",
+        "If inflation is a thief 👻, investing locks the door 🔒 and fights back ⚔️.",
+        "If compounding is a cheat code 🎮, time is the multiplier ⏰.",
+        "You now understand: how wealth forms 💎, why inflation matters 📉, why time matters ⏰, why investing exists 🌍, why productive assets grow 📈, and why compounding is seismic 🌊.",
+        "This is the baseline for building portfolios 📊, choosing assets 💰, and not getting eaten by a system you're already living inside 🦈."
       ]
     },
     {
       id: 24,
       type: "quiz",
-      question: "If money is a worker, what is investing?",
+      question: "🤔 If money is a worker 👷, what is investing?",
       options: [
-        { id: "a", text: "Hiring workers", correct: false },
-        { id: "b", text: "Chaining workers to a desk", correct: false },
-        { id: "c", text: "Teaching workers new skills", correct: false },
-        { id: "d", text: "Hiring and teaching workers (A + C)", correct: true }
+        { id: "a", text: "Hiring workers 👥", correct: false },
+        { id: "b", text: "Chaining workers to a desk 🔗", correct: false },
+        { id: "c", text: "Teaching workers new skills 📚", correct: false },
+        { id: "d", text: "Hiring and teaching workers (A + C) ✅", correct: true }
       ],
       explanation: "Investing is like hiring workers (allocating capital) and teaching them new skills (putting money into productive assets that grow)."
     },
     {
       id: 25,
       type: "quiz",
-      question: "If inflation is a thief, what does investing do?",
+      question: "🤔 If inflation is a thief 👻, what does investing do?",
       options: [
-        { id: "a", text: "Locks the door", correct: false },
-        { id: "b", text: "Fights back", correct: false },
-        { id: "c", text: "Ignores it", correct: false },
-        { id: "d", text: "Locks the door and fights back (A + B)", correct: true }
+        { id: "a", text: "Locks the door 🔒", correct: false },
+        { id: "b", text: "Fights back ⚔️", correct: false },
+        { id: "c", text: "Ignores it 🙈", correct: false },
+        { id: "d", text: "Locks the door and fights back (A + B) ✅", correct: true }
       ],
       explanation: "Investing both locks the door (preserves purchasing power) and fights back (grows wealth faster than inflation)."
     },
     {
       id: 19,
       type: "quiz",
-      question: "If compounding is a cheat code, what is time?",
+      question: "🤔 If compounding is a cheat code 🎮, what is time?",
       options: [
-        { id: "a", text: "The multiplier", correct: true },
-        { id: "b", text: "The enemy", correct: false }, // Quiz option
-        { id: "c", text: "The tax collector", correct: false },
-        { id: "d", text: "Irrelevant", correct: false }
+        { id: "a", text: "The multiplier ✖️", correct: true },
+        { id: "b", text: "The enemy 👹", correct: false }, // Quiz option
+        { id: "c", text: "The tax collector 💼", correct: false },
+        { id: "d", text: "Irrelevant ❌", correct: false }
       ],
       explanation: "Time is the multiplier that makes compounding powerful. The longer your investments compound, the more exponential the growth becomes."
     },
