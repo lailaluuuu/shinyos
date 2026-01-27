@@ -3240,12 +3240,13 @@ img {
 
 .hedgehog-rider {
   position: absolute;
-  top: -20px;
+  top: -5px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.5em;
+  font-size: 0.55em;
   z-index: 1;
   animation: hedgehog-bounce 2s ease-in-out infinite;
+  line-height: 1;
 }
 
 .rocket {
