@@ -3201,7 +3201,10 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at top left, #1a1430, #060712 50%, #020308 100%);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(88, 28, 135, 0.5), transparent 60%),
+    radial-gradient(circle at 80% 0%, rgba(56, 189, 248, 0.3), transparent 55%),
+    radial-gradient(circle at 50% 100%, rgba(129, 140, 248, 0.45), #030014);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3229,28 +3232,92 @@ img {
 
 .loading-emoji {
   font-size: 64px;
-  animation: rocket-float 2s ease-in-out infinite;
-  filter: drop-shadow(0 4px 12px rgba(184, 107, 255, 0.5));
 }
 
+/* Center this in your #loadingScreen however you like */
 .rocket-container {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 0%,
+    rgba(255, 255, 255, 0.12),
+    rgba(14, 6, 35, 0.95)
+  );
+  box-shadow:
+    0 0 24px rgba(154, 92, 255, 0.9),
+    0 0 60px rgba(94, 234, 212, 0.5);
+  overflow: visible;
+  isolation: isolate;
+  animation: rocket-float 3.5s ease-in-out infinite;
 }
 
+/* Hedgehog "on" the rocket */
 .hedgehog-rider {
   position: absolute;
-  top: -5px;
-  left: 50%;
+  top: -24px;
+  left: 40%;
   transform: translateX(-50%);
-  font-size: 0.55em;
-  z-index: 1;
-  animation: hedgehog-bounce 2s ease-in-out infinite;
-  line-height: 1;
+  z-index: 2;
+  pointer-events: none;
+  animation: hedgehog-bounce 1.8s ease-in-out infinite;
 }
 
+/* Emoji hedgehog version */
+.hedgehog-emoji {
+  font-size: 2.1rem;
+  filter: drop-shadow(0 0 10px rgba(94, 234, 212, 0.9));
+  text-shadow:
+    0 0 4px #22d3ee,
+    0 0 10px #a855f7;
+}
+
+/* Image hedgehog version (if you use an SVG/PNG instead of emoji) */
+.hedgehog-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(94, 234, 212, 0.9))
+    drop-shadow(0 0 20px rgba(147, 51, 234, 0.9));
+}
+
+/* Rocket */
 .rocket {
   display: inline-block;
+  font-size: 2.8rem;
+  transform-origin: center right;
+  z-index: 1;
+  text-shadow:
+    0 0 6px rgba(56, 189, 248, 0.9),
+    0 0 16px rgba(147, 51, 234, 0.9);
+  animation: rocket-tilt 2.4s ease-in-out infinite;
+}
+
+/* Flame trail */
+.rocket-container::after {
+  content: "🔥";
+  position: absolute;
+  right: -8px;
+  bottom: 6px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 12px rgba(252, 211, 77, 0.9));
+  animation: flame-flicker 0.28s infinite alternate;
+}
+
+/* Sparkle behind */
+.rocket-container::before {
+  content: "✨";
+  position: absolute;
+  left: -22px;
+  top: -12px;
+  font-size: 1.2rem;
+  opacity: 0.6;
+  animation: sparkle-orbit 2.6s ease-in-out infinite;
 }
 
 .loading-text {
@@ -3287,34 +3354,31 @@ img {
   animation-delay: 0.4s;
 }
 
-@keyframes rocket-float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-10px) rotate(-5deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(0deg);
-  }
-  75% {
-    transform: translateY(-10px) rotate(5deg);
-  }
+/* Animations */
+@keyframes hedgehog-bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, -8px); }
 }
 
-@keyframes hedgehog-bounce {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateX(-50%) translateY(-3px) rotate(-3deg);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-5px) rotate(0deg);
-  }
-  75% {
-    transform: translateX(-50%) translateY(-3px) rotate(3deg);
-  }
+@keyframes rocket-tilt {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50%      { transform: rotate(-9deg) translateY(-3px); }
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@keyframes flame-flicker {
+  0%   { opacity: 0.5; transform: scale(0.9) translateY(0); }
+  100% { opacity: 1;   transform: scale(1.15) translateY(2px); }
+}
+
+@keyframes sparkle-orbit {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.7); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-10px, 6px) scale(1.1); }
 }
 
 @keyframes dot-bounce {
