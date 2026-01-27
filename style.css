@@ -3233,6 +3233,25 @@ img {
   filter: drop-shadow(0 4px 12px rgba(184, 107, 255, 0.5));
 }
 
+.rocket-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hedgehog-rider {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5em;
+  z-index: 1;
+  animation: hedgehog-bounce 2s ease-in-out infinite;
+}
+
+.rocket {
+  display: inline-block;
+}
+
 .loading-text {
   font-size: 20px;
   font-weight: 600;
@@ -3279,6 +3298,21 @@ img {
   }
   75% {
     transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes hedgehog-bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-50%) translateY(-3px) rotate(-3deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px) rotate(0deg);
+  }
+  75% {
+    transform: translateX(-50%) translateY(-3px) rotate(3deg);
   }
 }
 
