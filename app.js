@@ -372,6 +372,12 @@ let activeCategory = null;
 // Streak tracking
 let streak = 0;
 let lastLessonDate = null; // ISO date string (YYYY-MM-DD)
+let completedDays = {}; // Object with dates as keys (YYYY-MM-DD) for tracking daily completions
+
+// Session tracking
+let sessionXpGained = 0; // XP gained in current session
+let sessionStartTime = null; // When current session started
+let sessionTimeSpent = 0; // Time spent in current session (in seconds)
 
 // Time tracking
 let lessonStartTime = null;
@@ -430,11 +436,26 @@ function loadUserData() {
     lastLessonDate = savedLastDate;
   }
   
+  // Load completed days
+  const savedCompletedDays = localStorage.getItem('shinyos_completed_days');
+  if (savedCompletedDays) {
+    try {
+      completedDays = JSON.parse(savedCompletedDays);
+    } catch (e) {
+      completedDays = {};
+    }
+  }
+  
   // Check if streak should be broken (missed a day)
   checkAndUpdateStreak();
   
   // Update streak display
   updateStreakDisplay();
+  
+  // Initialize session tracking
+  sessionXpGained = 0;
+  sessionStartTime = Date.now();
+  sessionTimeSpent = 0;
 }
 
 // Save user data to localStorage
@@ -448,6 +469,7 @@ function saveUserData() {
   if (lastLessonDate) {
     localStorage.setItem('shinyos_last_lesson_date', lastLessonDate);
   }
+  localStorage.setItem('shinyos_completed_days', JSON.stringify(completedDays));
 }
 
 // Update XP progress bar
@@ -584,6 +606,14 @@ function checkAndUpdateStreak() {
 function updateStreakOnLessonComplete() {
   const today = getTodayDateString();
   
+  // Mark today as completed
+  completedDays[today] = true;
+  
+  // Calculate session time spent
+  if (sessionStartTime) {
+    sessionTimeSpent = Math.floor((Date.now() - sessionStartTime) / 1000);
+  }
+  
   if (!lastLessonDate) {
     // First lesson ever
     streak = 1;
@@ -615,11 +645,8 @@ function updateStreakOnLessonComplete() {
   saveUserData();
   updateStreakDisplay();
   
-  // Always show streak hedgehog after completing a lesson
-  // Show hedgehog with streak reaction
-  if (window.showCreatureReaction) {
-    window.showCreatureReaction("hedgehog", "streak");
-  }
+  // Show streak screen with hedgehog
+  showStreakScreen();
 }
 
 // Update streak display in UI
@@ -629,6 +656,131 @@ function updateStreakDisplay() {
     streakValue.textContent = streak.toString();
   }
 }
+
+// Show streak screen with week calendar, XP, time, and streak info
+function showStreakScreen() {
+  // First show the hedgehog creature reaction
+  if (window.showCreatureReaction) {
+    window.showCreatureReaction("hedgehog", "streak");
+  }
+  
+  // Wait a bit for the creature to appear, then show the streak screen
+  setTimeout(() => {
+    const root = document.getElementById("creature-reaction-root");
+    if (!root) return;
+    
+    // Get current week's dates
+    const today = new Date();
+    const currentWeek = getCurrentWeekDates(today);
+    
+    // Create streak screen overlay
+    const streakScreen = document.createElement("div");
+    streakScreen.id = "streakScreen";
+    streakScreen.className = "streak-screen";
+    
+    // Calculate time spent (in minutes)
+    const minutesSpent = Math.floor(sessionTimeSpent / 60);
+    const secondsSpent = sessionTimeSpent % 60;
+    const timeDisplay = minutesSpent > 0 
+      ? `${minutesSpent}m ${secondsSpent}s`
+      : `${secondsSpent}s`;
+    
+    // Build week calendar
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    let weekCalendarHTML = '<div class="streak-week-calendar">';
+    
+    currentWeek.forEach((date, index) => {
+      const dateStr = date.toISOString().split('T')[0];
+      const dayName = weekDays[date.getDay()];
+      const isCompleted = completedDays[dateStr] || false;
+      const isToday = dateStr === getTodayDateString();
+      
+      weekCalendarHTML += `
+        <div class="streak-day ${isToday ? 'streak-day--today' : ''} ${isCompleted ? 'streak-day--completed' : ''}">
+          <div class="streak-day-name">${dayName}</div>
+          <div class="streak-day-date">${date.getDate()}</div>
+          ${isCompleted ? '<div class="streak-day-check">✓</div>' : ''}
+        </div>
+      `;
+    });
+    
+    weekCalendarHTML += '</div>';
+    
+    streakScreen.innerHTML = `
+      <div class="streak-screen-content">
+        <div class="streak-screen-header">
+          <div class="streak-screen-title">🔥 Streak Update</div>
+        </div>
+        
+        <div class="streak-screen-stats">
+          <div class="streak-stat">
+            <div class="streak-stat-label">Cumulative Streak</div>
+            <div class="streak-stat-value">${streak} day${streak !== 1 ? 's' : ''}</div>
+          </div>
+          
+          <div class="streak-stat">
+            <div class="streak-stat-label">XP Gained</div>
+            <div class="streak-stat-value">+${sessionXpGained} XP</div>
+          </div>
+          
+          <div class="streak-stat">
+            <div class="streak-stat-label">Time Spent</div>
+            <div class="streak-stat-value">${timeDisplay}</div>
+          </div>
+        </div>
+        
+        ${weekCalendarHTML}
+        
+        <button class="streak-screen-close" onclick="closeStreakScreen()">Continue</button>
+      </div>
+    `;
+    
+    // Append to root (same container as creature reaction)
+    root.appendChild(streakScreen);
+    
+    // Animate in
+    setTimeout(() => {
+      streakScreen.classList.add('streak-screen--visible');
+    }, 100);
+  }, 2000); // Wait 2 seconds for creature to appear first
+}
+
+// Get dates for current week (Sunday to Saturday)
+function getCurrentWeekDates(date) {
+  const dates = [];
+  const day = date.getDay(); // 0 = Sunday, 6 = Saturday
+  const startOfWeek = new Date(date);
+  startOfWeek.setDate(date.getDate() - day); // Go back to Sunday
+  
+  for (let i = 0; i < 7; i++) {
+    const weekDate = new Date(startOfWeek);
+    weekDate.setDate(startOfWeek.getDate() + i);
+    dates.push(weekDate);
+  }
+  
+  return dates;
+}
+
+// Close streak screen
+function closeStreakScreen() {
+  const streakScreen = document.getElementById("streakScreen");
+  if (streakScreen) {
+    streakScreen.classList.remove('streak-screen--visible');
+    setTimeout(() => {
+      if (streakScreen.parentNode) {
+        streakScreen.parentNode.removeChild(streakScreen);
+      }
+    }, 300);
+  }
+  
+  // Reset session tracking for next session
+  sessionXpGained = 0;
+  sessionStartTime = Date.now();
+  sessionTimeSpent = 0;
+}
+
+// Expose close function globally
+window.closeStreakScreen = closeStreakScreen;
 
 // Check and award lesson completion badge
 function checkLessonCompletion() {
@@ -643,6 +795,7 @@ function checkLessonCompletion() {
     // Award bonus XP for completing lesson
     const bonusXp = 50;
     xp += bonusXp;
+    sessionXpGained += bonusXp; // Track session XP
     const xpValue = $("#xpValue");
     if (xpValue) xpValue.textContent = xp.toString();
     updateXpProgress();
@@ -1529,6 +1682,7 @@ function handleQuizClick(button, option, lesson, event) {
   }
 
   xp += pendingXp;
+  sessionXpGained += pendingXp; // Track session XP
   xpValue.textContent = xp.toString();
   pendingXpEl.textContent = pendingXp.toString();
   
