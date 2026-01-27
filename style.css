@@ -3360,6 +3360,13 @@ img {
   50%      { transform: translate(-50%, -8px); }
 }
 
+@keyframes hedgehog-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
+  25%      { transform: translate(-50%, -50%) translateY(-4px) rotate(-2deg); }
+  50%      { transform: translate(-50%, -50%) translateY(-6px) rotate(0deg); }
+  75%      { transform: translate(-50%, -50%) translateY(-4px) rotate(2deg); }
+}
+
 @keyframes rocket-tilt {
   0%, 100% { transform: rotate(-4deg) translateY(0); }
   50%      { transform: rotate(-9deg) translateY(-3px); }

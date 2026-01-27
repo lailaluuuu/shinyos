@@ -787,6 +787,43 @@ function renderLesson() {
       this.style.display = "block";
       this.style.opacity = "1";
       this.style.visibility = "visible";
+      
+      // Add mini hedgehog overlay for finance images
+      if (activeSubject === "finance" && finalPath.includes("investing-intro")) {
+        const hedgehog = document.createElement("div");
+        hedgehog.textContent = "🦔";
+        hedgehog.style.position = "absolute";
+        hedgehog.style.fontSize = "32px";
+        hedgehog.style.pointerEvents = "none";
+        hedgehog.style.zIndex = "10";
+        hedgehog.style.opacity = "0.9";
+        hedgehog.style.filter = "drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5))";
+        hedgehog.style.transition = "transform 0.3s ease";
+        hedgehog.style.animation = "hedgehog-float 3s ease-in-out infinite";
+        
+        // Random position within image (avoid edges)
+        const minX = 20;
+        const maxX = 85; // percentage
+        const minY = 15;
+        const maxY = 75; // percentage
+        const randomX = minX + Math.random() * (maxX - minX);
+        const randomY = minY + Math.random() * (maxY - minY);
+        
+        hedgehog.style.left = randomX + "%";
+        hedgehog.style.top = randomY + "%";
+        hedgehog.style.transform = "translate(-50%, -50%)";
+        
+        imageContainer.style.position = "relative";
+        imageContainer.appendChild(hedgehog);
+        
+        // Add subtle hover effect
+        hedgehog.addEventListener("mouseenter", () => {
+          hedgehog.style.transform = "translate(-50%, -50%) scale(1.2)";
+        });
+        hedgehog.addEventListener("mouseleave", () => {
+          hedgehog.style.transform = "translate(-50%, -50%) scale(1)";
+        });
+      }
     };
     
     contentEl.appendChild(imageContainer);
