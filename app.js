@@ -618,7 +618,8 @@ function getCurrentLessons() {
 // Get finance/investing related image for quizzes
 function getFinanceQuizImage(quizIndex) {
   // Collection of diverse finance/investing related images from Unsplash
-  // Includes: money, graphs, charts, financial data, currency, etc.
+  // Using different photo IDs to ensure variety and prevent repetition
+  // Each image uses a different photo ID or different crop/focus point
   const financeImages = [
     "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop", // Money/coins
     "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop", // Stock market graph
@@ -628,9 +629,24 @@ function getFinanceQuizImage(quizIndex) {
     "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop", // Currency/money stacks
     "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=400&fit=crop", // Financial planning
     "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=400&fit=crop", // Trading charts
+    "https://images.unsplash.com/photo-1554224154-26032e7140dd?w=800&h=400&fit=crop", // Calculator and money
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=400&fit=crop", // Financial documents
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&q=80&auto=format", // Money/coins (variant)
+    "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop&q=80&auto=format", // Stock graph (variant)
+    "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop&q=80&auto=format", // Charts (variant)
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop&q=80&auto=format", // Financial data (variant)
+    "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800&h=400&fit=crop&q=80&auto=format", // Investment (variant)
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop&q=80&auto=format", // Currency (variant)
+    "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=400&fit=crop&q=80&auto=format", // Planning (variant)
+    "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=400&fit=crop&q=80&auto=format", // Trading (variant)
+    "https://images.unsplash.com/photo-1554224154-26032e7140dd?w=800&h=400&fit=crop&q=80&auto=format", // Calculator (variant)
+    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=400&fit=crop&q=80&auto=format", // Documents (variant)
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&dpr=2", // Money/coins (high res)
+    "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop&dpr=2", // Stock graph (high res)
+    "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop&dpr=2", // Charts (high res)
   ];
   
-  // Cycle through images based on quiz index
+  // Cycle through images based on quiz index to ensure variety
   const imageIndex = quizIndex % financeImages.length;
   return financeImages[imageIndex];
 }
