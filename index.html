@@ -35,6 +35,8 @@
   <meta name="msapplication-config" content="none" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDK v9+ (modular, from CDN) -->
+  <script type="module" src="firebase-auth.js"></script>
 </head>
 <body>
   <!-- Loading screen for mobile -->
@@ -74,6 +76,27 @@
         </div>
       </div>
       <div class="top-bar-right">
+        <!-- Auth UI -->
+        <div class="auth-container" id="authContainer">
+          <!-- Logged out state -->
+          <div class="auth-logged-out" id="authLoggedOut">
+            <input type="email" id="authEmail" placeholder="Email" class="auth-input" />
+            <input type="password" id="authPassword" placeholder="Password" class="auth-input" />
+            <button class="auth-btn auth-btn--login" id="loginBtn">Log in</button>
+            <button class="auth-btn auth-btn--signup" id="signupBtn">Sign up</button>
+          </div>
+          <!-- Logged in state -->
+          <div class="auth-logged-in is-hidden" id="authLoggedIn">
+            <span class="auth-user-email" id="authUserEmail"></span>
+            <button class="auth-btn auth-btn--logout" id="logoutBtn">Log out</button>
+          </div>
+        </div>
+        
+        <!-- Save status indicator -->
+        <div class="save-status" id="saveStatus">
+          <span class="save-status-text" id="saveStatusText">Login to save progress</span>
+        </div>
+        
         <div class="top-bar-metrics">
           <div class="metric metric--level">
             <span class="metric-label">Level</span>

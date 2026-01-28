@@ -372,6 +372,11 @@ let activeCategory = null;
 // Streak tracking
 let streak = 0;
 let lastLessonDate = null; // ISO date string (YYYY-MM-DD)
+
+// Expose variables globally for Firebase module access
+window.xp = xp;
+window.streak = streak;
+window.lastLessonDate = lastLessonDate;
 let completedDays = {}; // Object with dates as keys (YYYY-MM-DD) for tracking daily completions
 
 // Session tracking
@@ -458,8 +463,9 @@ function loadUserData() {
   sessionTimeSpent = 0;
 }
 
-// Save user data to localStorage
+// Save user data to localStorage AND Firestore (if logged in)
 function saveUserData() {
+  // Always save to localStorage as fallback
   localStorage.setItem('shinyos_xp', xp.toString());
   if (window.earnedBadges) {
     localStorage.setItem('shinyos_badges', JSON.stringify(window.earnedBadges));
@@ -470,6 +476,11 @@ function saveUserData() {
     localStorage.setItem('shinyos_last_lesson_date', lastLessonDate);
   }
   localStorage.setItem('shinyos_completed_days', JSON.stringify(completedDays));
+  
+  // Also save to Firestore if logged in
+  if (window.firebaseSaveProgress) {
+    window.firebaseSaveProgress();
+  }
 }
 
 // Update XP progress bar
@@ -506,6 +517,11 @@ function awardBadge(badgeId) {
   // Add badge
   window.earnedBadges.push(badgeId);
   saveUserData();
+  
+  // Also add to Firestore lessonsCompleted
+  if (window.firebaseAddCompletedLesson) {
+    window.firebaseAddCompletedLesson(badgeId);
+  }
   
   // Show achievement popup
   showAchievementPopup(badge);
@@ -641,6 +657,10 @@ function updateStreakOnLessonComplete() {
     
     lastLessonDate = today;
   }
+  
+  // Sync for Firebase
+  window.streak = streak;
+  window.lastLessonDate = lastLessonDate;
   
   saveUserData();
   updateStreakDisplay();
@@ -798,6 +818,7 @@ function checkLessonCompletion() {
     // Award bonus XP for completing lesson
     const bonusXp = 50;
     xp += bonusXp;
+    window.xp = xp; // Sync for Firebase
     sessionXpGained += bonusXp; // Track session XP
     const xpValue = $("#xpValue");
     if (xpValue) xpValue.textContent = xp.toString();
@@ -1696,6 +1717,7 @@ function handleQuizClick(button, option, lesson, event) {
   }
 
   xp += pendingXp;
+  window.xp = xp; // Sync for Firebase
   sessionXpGained += pendingXp; // Track session XP
   
   // Get fresh references right before updating to ensure elements exist
@@ -1752,6 +1774,7 @@ function goBack() {
     // Award XP for reviewing content
     const reviewXp = 1;
     xp += reviewXp;
+    window.xp = xp; // Sync for Firebase
     sessionXpGained += reviewXp;
     
     // Update UI
