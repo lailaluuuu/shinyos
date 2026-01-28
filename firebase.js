@@ -36,9 +36,17 @@ const firebaseConfig = {
   appId: "YOUR_APP_ID"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+let app, auth, db;
+
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  console.log("[firebase] Firebase initialized");
+  window.__firebaseModuleLoaded = true;
+} catch (e) {
+  console.error("[firebase] Failed to initialize Firebase. Check firebaseConfig.", e);
+}
 
 let _uid = null;
 let _profile = null;
@@ -83,6 +91,7 @@ async function ensureProfile(uid) {
   if (_readyResolve) _readyResolve();
 }
 
+if (auth) {
 onAuthStateChanged(auth, async (user) => {
   _uid = user ? user.uid : null;
 
@@ -103,6 +112,7 @@ onAuthStateChanged(auth, async (user) => {
     if (_readyResolve) _readyResolve();
   }
 });
+}
 
 // ---- Exposed helpers your app expects ----
 window.firebaseIsLoggedIn = () => !!_uid;
@@ -116,11 +126,26 @@ window.firebaseHasUsername = () => !!(_profile && _profile.username);
 
 // Auth
 window.firebaseLoginGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth, provider);
+  if (!auth) {
+    console.error("[firebase] Auth not initialized. Check firebaseConfig and script load order.");
+    alert("Login is not ready yet. Please check your Firebase configuration.");
+    return;
+  }
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  } catch (e) {
+    console.error("[firebase] Google login failed:", e);
+    alert("Google login failed: " + (e.message || "See console for details."));
+  }
 };
 window.firebaseLogout = async () => {
-  await signOut(auth);
+  if (!auth) return;
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error("[firebase] Logout failed:", e);
+  }
 };
 
 // Save progress from app globals

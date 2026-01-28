@@ -2593,7 +2593,11 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 if (loginBtn) {
   loginBtn.addEventListener("click", async () => {
-    if (typeof window.firebaseLoginGoogle !== "function") return;
+    if (typeof window.firebaseLoginGoogle !== "function") {
+      console.error("firebaseLoginGoogle is not available. Is firebase.js loaded and firebaseConfig set?");
+      alert("Login is not ready yet. Please check your Firebase configuration and reload.");
+      return;
+    }
     await window.firebaseLoginGoogle();
   });
 }
