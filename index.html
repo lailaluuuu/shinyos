@@ -35,8 +35,6 @@
   <meta name="msapplication-config" content="none" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Firebase SDK v9+ (modular, from CDN) -->
-  <script type="module" src="firebase-auth.js"></script>
 </head>
 <body>
   <!-- Loading screen for mobile -->
@@ -79,6 +77,10 @@
         <!-- Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥" -->
         <div class="status-message" id="statusMessage" aria-live="polite"></div>
         <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">🏆 Leaderboard</button>
+
+        <!-- OPTIONAL: login/logout buttons -->
+        <button type="button" class="auth-btn" id="loginBtn">Login</button>
+        <button type="button" class="auth-btn is-hidden" id="logoutBtn">Logout</button>
 
         <div class="top-bar-metrics">
           <div class="metric metric--level">
@@ -255,6 +257,7 @@
     </div>
   </div>
 
+  <script type="module" src="firebase.js"></script>
   <script src="creatures.js"></script>
   <script src="app.js"></script>
 </body>

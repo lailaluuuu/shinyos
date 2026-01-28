@@ -2245,9 +2245,100 @@ function initTheme() {
   }
 }
 
-  document.addEventListener("DOMContentLoaded", () => {
+// ---------- Username Modal Wiring (FIX) ----------
+function wireUsernameModal() {
+  const modal = document.getElementById("usernameModal");
+  const input = document.getElementById("usernameInput");
+  const err = document.getElementById("usernameError");
+  const btn = document.getElementById("usernameSubmit");
+
+  if (!modal || !input || !btn) {
+    console.warn("Username modal elements missing (#usernameModal, #usernameInput, #usernameSubmit).");
+    return;
+  }
+
+  const USERNAME_RE = /^[a-z0-9_]{3,15}$/; // 3–15, lowercase, numbers, underscore
+
+  function setError(msg) {
+    if (!err) return;
+    err.textContent = msg || "";
+    err.classList.toggle("is-visible", !!msg);
+  }
+
+  function sanitize(v) {
+    return (v || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9_]/g, "");
+  }
+
+  function validate(v) {
+    if (!v) return "Pick a username.";
+    if (v.length < 3) return "Too short (min 3).";
+    if (v.length > 15) return "Too long (max 15).";
+    if (!USERNAME_RE.test(v)) return "Use lowercase letters, numbers, underscores only.";
+    return "";
+  }
+
+  function refresh() {
+    const val = sanitize(input.value);
+    if (input.value !== val) input.value = val;
+
+    const msg = validate(val);
+    btn.disabled = !!msg;
+    setError(msg);
+  }
+
+  input.addEventListener("input", refresh);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !btn.disabled) btn.click();
+  });
+
+  btn.addEventListener("click", async () => {
+    const desired = sanitize(input.value);
+    const msg = validate(desired);
+    if (msg) {
+      setError(msg);
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Saving…";
+
+    try {
+      if (typeof window.firebaseSetUsername !== "function") {
+        throw new Error("firebaseSetUsername() missing. Make sure firebase.js is loaded BEFORE app.js.");
+      }
+
+      await window.firebaseSetUsername(desired);
+
+      modal.classList.add("is-hidden");
+      btn.textContent = "Let's go ✨";
+      setError("");
+
+      // Tell the gate to continue
+      window.dispatchEvent(new Event("firebase:usernameset"));
+    } catch (e) {
+      console.warn("Username set failed:", e);
+      const message =
+        (e && (e.code === "username/taken" || String(e.message || "").toLowerCase().includes("taken")))
+          ? "That username is taken — try another."
+          : "Couldn’t save username. Check your connection and try again.";
+      setError(message);
+      btn.disabled = false;
+      btn.textContent = "Let's go ✨";
+    }
+  });
+
+  refresh();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
   // Initialize theme first
   initTheme();
+  // Wire username modal once DOM is ready
+  wireUsernameModal();
   
   // Load user data first
   loadUserData();
@@ -2494,6 +2585,30 @@ function initTheme() {
       runMainInit();
     }
   }, 5000);
+});
+
+// ---------- OPTIONAL: Login/Logout Buttons Wiring ----------
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+    if (typeof window.firebaseLoginGoogle !== "function") return;
+    await window.firebaseLoginGoogle();
+  });
+}
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    if (typeof window.firebaseLogout !== "function") return;
+    await window.firebaseLogout();
+  });
+}
+
+window.addEventListener("firebase:authready", (e) => {
+  const loggedIn = !!e.detail?.hasUser;
+  if (loginBtn) loginBtn.classList.toggle("is-hidden", loggedIn);
+  if (logoutBtn) logoutBtn.classList.toggle("is-hidden", !loggedIn);
 });
 
 // Mobile-specific optimizations
