@@ -2587,32 +2587,74 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 5000);
 });
 
-// ---------- OPTIONAL: Login/Logout Buttons Wiring ----------
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+// ---------- Login/Logout Buttons Wiring (SAFER) ----------
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-if (loginBtn) {
-  loginBtn.addEventListener("click", async () => {
-    if (typeof window.firebaseLoginGoogle !== "function") {
-      console.error("firebaseLoginGoogle is not available. Is firebase.js loaded and firebaseConfig set?");
-      alert("Login is not ready yet. Please check your Firebase configuration and reload.");
+  // If opened as file://, Firebase Auth won't work properly
+  if (location.protocol === "file:") {
+    if (loginBtn) {
+      loginBtn.disabled = true;
+      loginBtn.title = "Run via Live Server (http://localhost...) to enable login.";
+    }
+    console.warn("Opened via file:// — Firebase Auth won’t initialize. Use Live Server.");
+    return;
+  }
+
+  // Wait briefly for firebase.js to attach functions to window
+  function waitForFirebase(maxMs = 3000) {
+    return new Promise((resolve) => {
+      const start = Date.now();
+      const tick = () => {
+        const ok =
+          typeof window.firebaseLoginGoogle === "function" &&
+          typeof window.firebaseLogout === "function";
+        if (ok) return resolve(true);
+        if (Date.now() - start >= maxMs) return resolve(false);
+        setTimeout(tick, 50);
+      };
+      tick();
+    });
+  }
+
+  waitForFirebase().then((ready) => {
+    if (!ready) {
+      console.warn("Firebase functions not found. Check script order: firebase.js BEFORE app.js");
+      if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.title = "Firebase not loaded. Check firebase.js + config + script order.";
+      }
       return;
     }
-    await window.firebaseLoginGoogle();
-  });
-}
 
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", async () => {
-    if (typeof window.firebaseLogout !== "function") return;
-    await window.firebaseLogout();
-  });
-}
+    if (loginBtn) {
+      loginBtn.addEventListener("click", async () => {
+        try {
+          await window.firebaseLoginGoogle();
+        } catch (e) {
+          console.error("Login failed:", e);
+          alert("Login failed. Check Firebase Auth setup + authorized domains.");
+        }
+      });
+    }
 
-window.addEventListener("firebase:authready", (e) => {
-  const loggedIn = !!e.detail?.hasUser;
-  if (loginBtn) loginBtn.classList.toggle("is-hidden", loggedIn);
-  if (logoutBtn) logoutBtn.classList.toggle("is-hidden", !loggedIn);
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          await window.firebaseLogout();
+        } catch (e) {
+          console.error("Logout failed:", e);
+        }
+      });
+    }
+
+    window.addEventListener("firebase:authready", (e) => {
+      const loggedIn = !!e.detail?.hasUser;
+      if (loginBtn) loginBtn.classList.toggle("is-hidden", loggedIn);
+      if (logoutBtn) logoutBtn.classList.toggle("is-hidden", !loggedIn);
+    });
+  });
 });
 
 // Mobile-specific optimizations
