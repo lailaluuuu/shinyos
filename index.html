@@ -76,27 +76,10 @@
         </div>
       </div>
       <div class="top-bar-right">
-        <!-- Auth UI -->
-        <div class="auth-container" id="authContainer">
-          <!-- Logged out state -->
-          <div class="auth-logged-out" id="authLoggedOut">
-            <input type="email" id="authEmail" placeholder="Email" class="auth-input" />
-            <input type="password" id="authPassword" placeholder="Password" class="auth-input" />
-            <button class="auth-btn auth-btn--login" id="loginBtn">Log in</button>
-            <button class="auth-btn auth-btn--signup" id="signupBtn">Sign up</button>
-          </div>
-          <!-- Logged in state -->
-          <div class="auth-logged-in is-hidden" id="authLoggedIn">
-            <span class="auth-user-email" id="authUserEmail"></span>
-            <button class="auth-btn auth-btn--logout" id="logoutBtn">Log out</button>
-          </div>
-        </div>
-        
-        <!-- Save status indicator -->
-        <div class="save-status" id="saveStatus">
-          <span class="save-status-text" id="saveStatusText">Login to save progress</span>
-        </div>
-        
+        <!-- Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥" -->
+        <div class="status-message" id="statusMessage" aria-live="polite"></div>
+        <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">🏆 Leaderboard</button>
+
         <div class="top-bar-metrics">
           <div class="metric metric--level">
             <span class="metric-label">Level</span>
@@ -244,6 +227,33 @@
 
   <!-- Creature Reaction System -->
   <div id="creature-reaction-root"></div>
+
+  <!-- First-time username prompt -->
+  <div class="username-modal is-hidden" id="usernameModal" role="dialog" aria-modal="true" aria-labelledby="usernameModalTitle">
+    <div class="username-modal-backdrop"></div>
+    <div class="username-modal-content">
+      <h2 class="username-modal-title" id="usernameModalTitle">Choose your username ✨</h2>
+      <form id="usernameForm" class="username-form">
+        <input type="text" id="usernameInput" class="username-input" placeholder="e.g. hedgehog42" maxlength="32" autocomplete="username" required />
+        <p class="username-error" id="usernameError" aria-live="polite"></p>
+        <button type="submit" class="username-submit" id="usernameSubmit">Let's go ✨</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaderboard modal -->
+  <div class="leaderboard-modal is-hidden" id="leaderboardModal" role="dialog" aria-modal="true" aria-labelledby="leaderboardModalTitle">
+    <div class="leaderboard-modal-backdrop"></div>
+    <div class="leaderboard-modal-content">
+      <div class="leaderboard-modal-header">
+        <h2 class="leaderboard-modal-title" id="leaderboardModalTitle">🏆 Leaderboard</h2>
+        <button type="button" class="leaderboard-modal-close" id="leaderboardModalClose" aria-label="Close leaderboard">×</button>
+      </div>
+      <div class="leaderboard-list" id="leaderboardList">
+        <!-- Leaderboard query & render fills this -->
+      </div>
+    </div>
+  </div>
 
   <script src="creatures.js"></script>
   <script src="app.js"></script>

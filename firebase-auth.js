@@ -1,23 +1,28 @@
-// Firebase Auth + Firestore for ShinyOS
+// Firebase Auth + Firestore for ShinyOS — username-first, XP, streaks, leaderboard
 // Uses Firebase Web SDK v9+ modular (works on GitHub Pages without bundlers)
+// Email is optional and not part of main UX.
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
+import {
+  getAuth,
+  signInAnonymously,
+  onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-import { 
-  getFirestore, 
-  doc, 
-  getDoc, 
-  setDoc 
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 // ============================================
-// FIREBASE CONFIG - Replace with your own keys
+// FIREBASE CONFIG — Replace with your own keys
+// Enable Anonymous auth in Firebase Console → Authentication → Sign-in methods
 // ============================================
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
@@ -25,397 +30,364 @@ const firebaseConfig = {
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_PROJECT_ID.appspot.com",
   messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  appId: "YOUR_APP_ID",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ============================================
-// USER PROGRESS STATE
-// ============================================
+const USERS = "users";
+const USERNAMES = "usernames";
+const LEADERBOARD_LIMIT = 100;
+
 let currentUser = null;
 let userProgress = null;
 
-// ============================================
-// HELPER: Get today's date as YYYY-MM-DD
-// ============================================
 function getTodayString() {
-  return new Date().toISOString().split('T')[0];
+  return new Date().toISOString().split("T")[0];
 }
 
-// ============================================
-// HELPER: Calculate days between two date strings
-// ============================================
 function getDaysDiff(dateStr1, dateStr2) {
   const d1 = new Date(dateStr1);
   const d2 = new Date(dateStr2);
-  const diffTime = Math.abs(d2 - d1);
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
 }
 
-// ============================================
-// LOAD USER PROGRESS FROM FIRESTORE
-// ============================================
+// ------------------------------
+// First-time username prompt
+// ------------------------------
+
+function showUsernameModal() {
+  const el = document.getElementById("usernameModal");
+  if (el) el.classList.remove("is-hidden");
+}
+
+function hideUsernameModal() {
+  const el = document.getElementById("usernameModal");
+  if (el) el.classList.add("is-hidden");
+}
+
+function setUsernameError(msg) {
+  const el = document.getElementById("usernameError");
+  if (el) {
+    el.textContent = msg || "";
+    el.classList.toggle("is-visible", !!msg);
+  }
+}
+
+// Check username unique via usernames collection
+async function isUsernameAvailable(normalized) {
+  const ref = doc(db, USERNAMES, normalized);
+  const snap = await getDoc(ref);
+  return !snap.exists();
+}
+
+// Create anonymous user + user doc + usernames entry
+async function createUserWithUsername(username) {
+  const raw = (username || "").trim();
+  if (!raw) {
+    setUsernameError("Username is required.");
+    return false;
+  }
+
+  const normalized = raw.toLowerCase().replace(/\s+/g, "");
+  if (!normalized) {
+    setUsernameError("Username is required.");
+    return false;
+  }
+
+  const available = await isUsernameAvailable(normalized);
+  if (!available) {
+    setUsernameError("That username is already taken. Try another.");
+    return false;
+  }
+
+  try {
+    const cred = await signInAnonymously(auth);
+    const uid = cred.user.uid;
+    const today = getTodayString();
+
+    const userDoc = {
+      username: raw,
+      xp: 0,
+      streak: 1,
+      lastLogin: today,
+      lessonsCompleted: [],
+    };
+
+    await setDoc(doc(db, USERS, uid), userDoc);
+    await setDoc(doc(db, USERNAMES, normalized), { uid });
+
+    userProgress = userDoc;
+    currentUser = cred.user;
+    hideUsernameModal();
+    setUsernameError("");
+
+    dispatchAuthReady(true);
+    return true;
+  } catch (e) {
+    console.error("Create user error:", e);
+    setUsernameError("Something went wrong. Please try again.");
+    return false;
+  }
+}
+
+function dispatchAuthReady(hasUser) {
+  window.__firebaseAuthReady = { hasUser };
+  window.dispatchEvent(
+    new CustomEvent("firebase:authready", { detail: { hasUser } })
+  );
+}
+
+// ------------------------------
+// Restore returning user
+// ------------------------------
+
 async function loadUserProgress(uid) {
   try {
-    const userDocRef = doc(db, "users", uid);
-    const userDocSnap = await getDoc(userDocRef);
-    
+    const userRef = doc(db, USERS, uid);
+    const snap = await getDoc(userRef);
     const today = getTodayString();
-    
-    if (userDocSnap.exists()) {
-      // User doc exists - load it
-      userProgress = userDocSnap.data();
-      
-      // Apply streak rules
-      const lastLogin = userProgress.lastLogin;
+
+    if (snap.exists()) {
+      userProgress = snap.data();
+
+      // Streak logic on login / app load
+      const lastLogin = userProgress.lastLogin || null;
       if (lastLogin) {
-        const diffDays = getDaysDiff(lastLogin, today);
-        
-        if (diffDays === 0) {
-          // Same day - keep streak as is
-        } else if (diffDays === 1) {
-          // Consecutive day - increment streak
+        const daysDiff = getDaysDiff(lastLogin, today);
+        if (daysDiff === 0) {
+          // Same day — no change
+        } else if (daysDiff === 1) {
           userProgress.streak = (userProgress.streak || 0) + 1;
         } else {
-          // Missed more than 1 day - reset streak
           userProgress.streak = 1;
         }
+      } else {
+        userProgress.streak = userProgress.streak || 1;
       }
-      
-      // Update lastLogin to today
+
       userProgress.lastLogin = today;
-      
     } else {
-      // No doc - create defaults
       userProgress = {
+        username: "Learner",
         xp: 0,
         streak: 1,
         lastLogin: today,
-        lessonsCompleted: []
+        lessonsCompleted: [],
       };
     }
-    
-    // Save updated progress to Firestore
+
     await saveUserProgressToFirestore();
-    
-    // Sync to local app state
     syncProgressToApp();
-    
-    updateSaveStatus("Progress synced", "success");
-    
-  } catch (error) {
-    console.error("Error loading user progress:", error);
-    updateSaveStatus("Sync error", "error");
+  } catch (e) {
+    console.error("Error loading user progress:", e);
   }
 }
 
-// ============================================
-// SAVE USER PROGRESS TO FIRESTORE
-// ============================================
 async function saveUserProgressToFirestore() {
   if (!currentUser || !userProgress) return;
-  
   try {
-    const userDocRef = doc(db, "users", currentUser.uid);
-    await setDoc(userDocRef, userProgress, { merge: true });
-    updateSaveStatus("Saved", "success");
-  } catch (error) {
-    console.error("Error saving user progress:", error);
-    updateSaveStatus("Save failed", "error");
+    const ref = doc(db, USERS, currentUser.uid);
+    await setDoc(ref, userProgress, { merge: true });
+  } catch (e) {
+    console.error("Error saving progress:", e);
   }
 }
 
-// ============================================
-// SYNC PROGRESS TO APP (update global variables)
-// ============================================
 function syncProgressToApp() {
   if (!userProgress) return;
-  
-  // Update global variables (defined in app.js)
-  if (typeof window.xp !== 'undefined') {
-    window.xp = userProgress.xp || 0;
+
+  if (typeof window.xp !== "undefined") window.xp = userProgress.xp ?? 0;
+  if (typeof window.streak !== "undefined")
+    window.streak = userProgress.streak ?? 0;
+  if (typeof window.lastLessonDate !== "undefined")
+    window.lastLessonDate = userProgress.lastLogin ?? null;
+  if (typeof window.earnedBadges !== "undefined" && userProgress.lessonsCompleted) {
+    window.earnedBadges = userProgress.lessonsCompleted.filter((id) =>
+      String(id).includes("-complete")
+    );
   }
-  if (typeof window.streak !== 'undefined') {
-    window.streak = userProgress.streak || 0;
-  }
-  if (typeof window.lastLessonDate !== 'undefined') {
-    window.lastLessonDate = userProgress.lastLogin;
-  }
-  if (typeof window.earnedBadges !== 'undefined' && userProgress.lessonsCompleted) {
-    // Convert lessonsCompleted to badge format if needed
-    window.earnedBadges = userProgress.lessonsCompleted.filter(id => id.includes('-complete'));
-  }
-  
-  // Update UI
+
   updateUIFromProgress();
 }
 
-// ============================================
-// SYNC APP STATE TO PROGRESS (before saving)
-// ============================================
 function syncAppToProgress() {
   if (!userProgress) {
     userProgress = {
+      username: "Learner",
       xp: 0,
       streak: 1,
       lastLogin: getTodayString(),
-      lessonsCompleted: []
+      lessonsCompleted: [],
     };
   }
-  
-  // Pull from global app state
-  if (typeof window.xp !== 'undefined') {
-    userProgress.xp = window.xp;
-  }
-  if (typeof window.streak !== 'undefined') {
-    userProgress.streak = window.streak;
-  }
-  if (typeof window.lastLessonDate !== 'undefined' && window.lastLessonDate) {
+
+  if (typeof window.xp !== "undefined") userProgress.xp = window.xp;
+  if (typeof window.streak !== "undefined") userProgress.streak = window.streak;
+  if (typeof window.lastLessonDate !== "undefined" && window.lastLessonDate) {
     userProgress.lastLogin = window.lastLessonDate;
   }
-  if (typeof window.earnedBadges !== 'undefined') {
-    // Merge badges into lessonsCompleted
+  if (typeof window.earnedBadges !== "undefined") {
     const badges = window.earnedBadges || [];
     const existing = new Set(userProgress.lessonsCompleted || []);
-    badges.forEach(b => existing.add(b));
+    badges.forEach((b) => existing.add(b));
     userProgress.lessonsCompleted = Array.from(existing);
   }
 }
 
-// ============================================
-// UPDATE UI FROM PROGRESS
-// ============================================
 function updateUIFromProgress() {
   if (!userProgress) return;
-  
-  const xpValue = document.getElementById("xpValue");
-  const streakValue = document.getElementById("streakValue");
-  const levelValue = document.getElementById("levelValue");
-  const xpProgressMini = document.getElementById("xpProgressMini");
-  
-  if (xpValue) xpValue.textContent = userProgress.xp || 0;
-  if (streakValue) streakValue.textContent = userProgress.streak || 0;
-  
-  // Calculate level (every 100 XP = 1 level)
-  const level = Math.floor((userProgress.xp || 0) / 100) + 1;
-  if (levelValue) levelValue.textContent = level;
-  
-  // Update XP progress bar
-  if (xpProgressMini) {
-    const xpInCurrentLevel = (userProgress.xp || 0) % 100;
-    xpProgressMini.style.width = `${xpInCurrentLevel}%`;
+
+  const xpVal = document.getElementById("xpValue");
+  const streakVal = document.getElementById("streakValue");
+  const levelVal = document.getElementById("levelValue");
+  const xpBar = document.getElementById("xpProgressMini");
+
+  if (xpVal) xpVal.textContent = String(userProgress.xp ?? 0);
+  if (streakVal) streakVal.textContent = String(userProgress.streak ?? 0);
+
+  const lvl = Math.floor((userProgress.xp ?? 0) / 100) + 1;
+  if (levelVal) levelVal.textContent = String(lvl);
+  if (xpBar) {
+    const pct = (userProgress.xp ?? 0) % 100;
+    xpBar.style.width = `${pct}%`;
   }
 }
 
-// ============================================
-// UPDATE SAVE STATUS INDICATOR
-// ============================================
-function updateSaveStatus(text, type = "info") {
-  const statusEl = document.getElementById("saveStatusText");
-  if (statusEl) {
-    statusEl.textContent = text;
-    statusEl.className = "save-status-text";
-    if (type === "success") statusEl.classList.add("save-status--success");
-    if (type === "error") statusEl.classList.add("save-status--error");
-    
-    // Auto-clear success/error after 2s
-    if (type !== "info") {
-      setTimeout(() => {
-        if (currentUser) {
-          statusEl.textContent = "Synced";
-          statusEl.className = "save-status-text save-status--success";
-        }
-      }, 2000);
-    }
-  }
+// ------------------------------
+// Rotating status message
+// ------------------------------
+
+function getUsername() {
+  return (userProgress && userProgress.username) || "";
 }
 
-// ============================================
-// CLEAR PROGRESS ON LOGOUT
-// ============================================
-function clearProgressOnLogout() {
-  userProgress = null;
-  
-  // Reset to defaults (or localStorage values)
-  if (typeof window.xp !== 'undefined') window.xp = 0;
-  if (typeof window.streak !== 'undefined') window.streak = 0;
-  if (typeof window.earnedBadges !== 'undefined') window.earnedBadges = [];
-  
-  // Update UI
-  const xpValue = document.getElementById("xpValue");
-  const streakValue = document.getElementById("streakValue");
-  const levelValue = document.getElementById("levelValue");
-  const xpProgressMini = document.getElementById("xpProgressMini");
-  
-  if (xpValue) xpValue.textContent = "0";
-  if (streakValue) streakValue.textContent = "0";
-  if (levelValue) levelValue.textContent = "1";
-  if (xpProgressMini) xpProgressMini.style.width = "0%";
-  
-  updateSaveStatus("Login to save progress", "info");
-}
-
-// ============================================
-// AUTH UI HANDLERS
-// ============================================
-function setupAuthUI() {
-  const emailInput = document.getElementById("authEmail");
-  const passwordInput = document.getElementById("authPassword");
-  const loginBtn = document.getElementById("loginBtn");
-  const signupBtn = document.getElementById("signupBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  
-  // Login handler
-  if (loginBtn) {
-    loginBtn.addEventListener("click", async () => {
-      const email = emailInput?.value?.trim();
-      const password = passwordInput?.value;
-      
-      if (!email || !password) {
-        alert("Please enter email and password");
-        return;
-      }
-      
-      try {
-        loginBtn.disabled = true;
-        loginBtn.textContent = "...";
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        console.error("Login error:", error);
-        alert("Login failed: " + error.message);
-      } finally {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Log in";
+// Leaderboard query & render — top by XP, then streak. Rank = 1-based index in top N.
+// Firestore: create composite index on users (xp desc, streak desc) when prompted.
+// Rules: users/{uid} — read/write if request.auth.uid == uid; usernames — read for uniqueness, write with auth.
+async function fetchLeaderboard() {
+  try {
+    const q = query(
+      collection(db, USERS),
+      orderBy("xp", "desc"),
+      orderBy("streak", "desc"),
+      limit(LEADERBOARD_LIMIT)
+    );
+    const snap = await getDocs(q);
+    const list = [];
+    snap.forEach((d) => {
+      const data = d.data();
+      if (data.username) {
+        list.push({
+          uid: d.id,
+          username: data.username,
+          xp: data.xp ?? 0,
+          streak: data.streak ?? 0,
+        });
       }
     });
+    return list;
+  } catch (e) {
+    console.error("Leaderboard fetch error:", e);
+    return [];
   }
-  
-  // Signup handler
-  if (signupBtn) {
-    signupBtn.addEventListener("click", async () => {
-      const email = emailInput?.value?.trim();
-      const password = passwordInput?.value;
-      
-      if (!email || !password) {
-        alert("Please enter email and password");
-        return;
-      }
-      
-      if (password.length < 6) {
-        alert("Password must be at least 6 characters");
-        return;
-      }
-      
-      try {
-        signupBtn.disabled = true;
-        signupBtn.textContent = "...";
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        console.error("Signup error:", error);
-        alert("Signup failed: " + error.message);
-      } finally {
-        signupBtn.disabled = false;
-        signupBtn.textContent = "Sign up";
-      }
-    });
-  }
-  
-  // Logout handler
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
-    });
-  }
-  
-  // Enter key handler for inputs
-  [emailInput, passwordInput].forEach(input => {
-    if (input) {
-      input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          loginBtn?.click();
-        }
-      });
-    }
-  });
 }
 
-// ============================================
-// AUTH STATE CHANGE LISTENER
-// ============================================
+async function getCurrentUserRank() {
+  if (!currentUser || !userProgress) return null;
+  const list = await fetchLeaderboard();
+  const idx = list.findIndex((r) => r.uid === currentUser.uid);
+  return idx >= 0 ? idx + 1 : null;
+}
+
+// ------------------------------
+// Auth state
+// ------------------------------
+
 onAuthStateChanged(auth, async (user) => {
-  const authLoggedOut = document.getElementById("authLoggedOut");
-  const authLoggedIn = document.getElementById("authLoggedIn");
-  const authUserEmail = document.getElementById("authUserEmail");
-  
   if (user) {
-    // User is signed in
     currentUser = user;
-    
-    // Update UI to show logged-in state
-    if (authLoggedOut) authLoggedOut.classList.add("is-hidden");
-    if (authLoggedIn) authLoggedIn.classList.remove("is-hidden");
-    if (authUserEmail) authUserEmail.textContent = user.email;
-    
-    // Load user progress from Firestore
-    updateSaveStatus("Syncing...", "info");
     await loadUserProgress(user.uid);
-    
+    hideUsernameModal();
+    dispatchAuthReady(true);
   } else {
-    // User is signed out
     currentUser = null;
-    
-    // Update UI to show logged-out state
-    if (authLoggedOut) authLoggedOut.classList.remove("is-hidden");
-    if (authLoggedIn) authLoggedIn.classList.add("is-hidden");
-    if (authUserEmail) authUserEmail.textContent = "";
-    
-    // Clear progress
-    clearProgressOnLogout();
+    userProgress = null;
+    // First-time or logged-out: show "Choose your username" modal
+    showUsernameModal();
+    dispatchAuthReady(false);
   }
 });
 
-// ============================================
-// EXPOSE FIREBASE SAVE FUNCTION TO APP.JS
-// ============================================
-window.firebaseSaveProgress = async function() {
-  if (!currentUser) return; // Only save if logged in
-  
+// ------------------------------
+// Expose to app.js
+// ------------------------------
+
+window.firebaseSaveProgress = async function () {
+  if (!currentUser) return;
   syncAppToProgress();
   await saveUserProgressToFirestore();
 };
 
-// Add lesson to completed list
-window.firebaseAddCompletedLesson = async function(lessonId) {
+window.firebaseAddCompletedLesson = async function (lessonId) {
   if (!currentUser || !userProgress) return;
-  
-  if (!userProgress.lessonsCompleted) {
-    userProgress.lessonsCompleted = [];
-  }
-  
-  if (!userProgress.lessonsCompleted.includes(lessonId)) {
-    userProgress.lessonsCompleted.push(lessonId);
-    await saveUserProgressToFirestore();
-  }
+  const list = userProgress.lessonsCompleted || [];
+  if (list.includes(lessonId)) return;
+  userProgress.lessonsCompleted = [...list, lessonId];
+  await saveUserProgressToFirestore();
 };
 
-// Check if user is logged in
-window.firebaseIsLoggedIn = function() {
-  return currentUser !== null;
+window.firebaseIsLoggedIn = function () {
+  return currentUser != null;
 };
 
-// ============================================
-// INIT ON DOM READY
-// ============================================
+window.firebaseGetUsername = getUsername;
+window.firebaseGetRank = getCurrentUserRank;
+window.firebaseFetchLeaderboard = fetchLeaderboard;
+window.firebaseGetUid = function () {
+  return currentUser ? currentUser.uid : null;
+};
+
+// Username modal submit — called from HTML or app
+window.firebaseSubmitUsername = async function () {
+  const input = document.getElementById("usernameInput");
+  const username = input ? input.value.trim() : "";
+  return createUserWithUsername(username);
+};
+
+// Init: wire username modal form
+function setupUsernameModal() {
+  const form = document.getElementById("usernameForm");
+  const input = document.getElementById("usernameInput");
+  const submitBtn = document.getElementById("usernameSubmit");
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "…";
+      }
+      await window.firebaseSubmitUsername();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Let's go ✨";
+      }
+    });
+  }
+
+  if (input) {
+    input.addEventListener("input", () => setUsernameError(""));
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setUsernameError("");
+    });
+  }
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", setupAuthUI);
+  document.addEventListener("DOMContentLoaded", setupUsernameModal);
 } else {
-  setupAuthUI();
+  setupUsernameModal();
 }

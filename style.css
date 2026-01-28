@@ -3653,7 +3653,288 @@ img {
 }
 
 /* ============================================
-   AUTH UI STYLES
+   USERNAME MODAL (first-time prompt)
+   ============================================ */
+
+.username-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.username-modal.is-hidden {
+  display: none;
+}
+
+.username-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 18, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.username-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  padding: 32px 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(20, 18, 35, 0.95));
+  border-radius: 20px;
+  border: 2px solid rgba(184, 107, 255, 0.3);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+.username-modal-title {
+  margin: 0 0 24px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.username-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.username-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.username-input::placeholder {
+  color: var(--text-soft);
+}
+
+.username-input:focus {
+  border-color: #b86bff;
+  box-shadow: 0 0 0 3px rgba(184, 107, 255, 0.2);
+}
+
+.username-error {
+  margin: 0;
+  font-size: 13px;
+  color: #ff6b6b;
+  min-height: 1.2em;
+  visibility: hidden;
+}
+
+.username-error.is-visible {
+  visibility: visible;
+}
+
+.username-submit {
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #b86bff, #8b5cf6);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.username-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(184, 107, 255, 0.4);
+}
+
+.username-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   ROTATING STATUS MESSAGE
+   ============================================ */
+
+.status-message {
+  margin-right: 12px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .status-message {
+    max-width: 140px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .status-message {
+    display: none;
+  }
+}
+
+/* ============================================
+   LEADERBOARD
+   ============================================ */
+
+.leaderboard-btn {
+  padding: 6px 12px;
+  margin-right: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.leaderboard-btn:hover {
+  background: rgba(184, 107, 255, 0.15);
+  border-color: rgba(184, 107, 255, 0.3);
+}
+
+.leaderboard-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.leaderboard-modal.is-hidden {
+  display: none;
+}
+
+.leaderboard-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 18, 0.85);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+.leaderboard-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(20, 18, 35, 0.96));
+  border-radius: 16px;
+  border: 2px solid rgba(184, 107, 255, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboard-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.leaderboard-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.leaderboard-modal-close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--text-soft);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+
+.leaderboard-modal-close:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.leaderboard-list {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 120px;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 72px 56px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 14px;
+}
+
+.leaderboard-row--you {
+  background: rgba(184, 107, 255, 0.18);
+  border: 1px solid rgba(184, 107, 255, 0.35);
+}
+
+.leaderboard-rank {
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+.leaderboard-username {
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-xp {
+  color: #35c27e;
+  font-weight: 600;
+}
+
+.leaderboard-streak {
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.leaderboard-loading,
+.leaderboard-empty {
+  margin: 0;
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+/* ============================================
+   AUTH UI STYLES (legacy, kept for reference)
    ============================================ */
 
 .auth-container {

@@ -401,48 +401,45 @@ const badges = {
   }
 };
 
-// Load user data from localStorage
+// Load user data from localStorage (or rely on Firestore when username is set)
 function loadUserData() {
-  const savedXp = localStorage.getItem('shinyos_xp');
-  if (savedXp !== null) {
-    xp = parseInt(savedXp, 10) || 120;
-    const xpValue = $("#xpValue");
-    if (xpValue) xpValue.textContent = xp.toString();
-    updateXpProgress();
-  }
-  
-  const savedBadges = localStorage.getItem('shinyos_badges');
-  if (savedBadges) {
-    try {
-      const badgeIds = JSON.parse(savedBadges);
-      // Badges are stored as an array of badge IDs
-      window.earnedBadges = badgeIds;
-    } catch (e) {
+  const useFirebase = typeof window.firebaseIsLoggedIn === "function" && window.firebaseIsLoggedIn();
+
+  if (!useFirebase) {
+    const savedXp = localStorage.getItem("shinyos_xp");
+    if (savedXp !== null) {
+      xp = parseInt(savedXp, 10) || 120;
+      const xpValue = $("#xpValue");
+      if (xpValue) xpValue.textContent = xp.toString();
+      updateXpProgress();
+    }
+    const savedBadges = localStorage.getItem("shinyos_badges");
+    if (savedBadges) {
+      try {
+        window.earnedBadges = JSON.parse(savedBadges);
+      } catch (e) {
+        window.earnedBadges = [];
+      }
+    } else {
       window.earnedBadges = [];
     }
+    const savedStreak = localStorage.getItem("shinyos_streak");
+    if (savedStreak !== null) streak = parseInt(savedStreak, 10) || 0;
+    const savedLastDate = localStorage.getItem("shinyos_last_lesson_date");
+    if (savedLastDate) lastLessonDate = savedLastDate;
+    checkAndUpdateStreak();
   } else {
-    window.earnedBadges = [];
+    // Sync app globals from Firestore (already applied via syncProgressToApp)
+    if (typeof window.xp !== "undefined") xp = window.xp;
+    if (typeof window.streak !== "undefined") streak = window.streak;
+    if (typeof window.lastLessonDate !== "undefined") lastLessonDate = window.lastLessonDate;
+    if (typeof window.earnedBadges !== "undefined") window.earnedBadges = window.earnedBadges || [];
   }
-  
-  // Load time spent
-  const savedTime = localStorage.getItem('shinyos_time_spent');
-  if (savedTime !== null) {
-    totalTimeSpent = parseInt(savedTime, 10) || 0;
-  }
-  
-  // Load streak data
-  const savedStreak = localStorage.getItem('shinyos_streak');
-  if (savedStreak !== null) {
-    streak = parseInt(savedStreak, 10) || 0;
-  }
-  
-  const savedLastDate = localStorage.getItem('shinyos_last_lesson_date');
-  if (savedLastDate) {
-    lastLessonDate = savedLastDate;
-  }
-  
-  // Load completed days
-  const savedCompletedDays = localStorage.getItem('shinyos_completed_days');
+
+  const savedTime = localStorage.getItem("shinyos_time_spent");
+  if (savedTime !== null) totalTimeSpent = parseInt(savedTime, 10) || 0;
+
+  const savedCompletedDays = localStorage.getItem("shinyos_completed_days");
   if (savedCompletedDays) {
     try {
       completedDays = JSON.parse(savedCompletedDays);
@@ -450,14 +447,8 @@ function loadUserData() {
       completedDays = {};
     }
   }
-  
-  // Check if streak should be broken (missed a day)
-  checkAndUpdateStreak();
-  
-  // Update streak display
+
   updateStreakDisplay();
-  
-  // Initialize session tracking
   sessionXpGained = 0;
   sessionStartTime = Date.now();
   sessionTimeSpent = 0;
@@ -1719,18 +1710,18 @@ function handleQuizClick(button, option, lesson, event) {
   xp += pendingXp;
   window.xp = xp; // Sync for Firebase
   sessionXpGained += pendingXp; // Track session XP
-  
-  // Get fresh references right before updating to ensure elements exist
+
+  // Add lesson ID to lessonsCompleted (only once); Firebase skips if already present
+  const lessonId = `${activeSubject}-${lesson.id}`;
+  if (window.firebaseAddCompletedLesson) {
+    window.firebaseAddCompletedLesson(lessonId);
+  }
+
   const currentXpValue = document.getElementById("xpValue");
   const currentPendingXpEl = document.getElementById("pendingXp");
-  
-  if (currentXpValue) {
-    currentXpValue.textContent = xp.toString();
-  }
-  if (currentPendingXpEl) {
-    currentPendingXpEl.textContent = pendingXp.toString();
-  }
-  
+  if (currentXpValue) currentXpValue.textContent = xp.toString();
+  if (currentPendingXpEl) currentPendingXpEl.textContent = pendingXp.toString();
+
   updateXpProgress();
   saveUserData();
   animateXpGain(pendingXp);
@@ -2278,89 +2269,158 @@ function initTheme() {
     }
   }
   
-  // Hide loading screen after everything is initialized
-  // Use requestAnimationFrame to ensure DOM is fully ready
-  requestAnimationFrame(() => {
-    // Wait for initial render, then hide loading screen
-    setTimeout(hideLoadingScreen, 800);
-  });
-  
-  // Save time when page is about to unload
-  window.addEventListener('beforeunload', () => {
-    stopTimeTracking();
-  });
-  
-  // Also save time when page becomes hidden (mobile browsers)
-  document.addEventListener('visibilitychange', () => {
+  window.addEventListener("beforeunload", () => stopTimeTracking());
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopTimeTracking();
     } else {
-      // Only restart if we're on a lesson (not on category/subject selection)
       const lessonCard = document.getElementById("lessonCard");
       if (lessonCard && !lessonCard.classList.contains("is-hidden")) {
         startTimeTracking();
       }
     }
   });
-  
+
   const quizBlock = $("#quizBlock");
-  if (quizBlock) {
-    quizBlock.style.display = "none";
-  }
-  
+  if (quizBlock) quizBlock.style.display = "none";
   const celebrationOverlay = document.getElementById("celebrationOverlay");
-  if (celebrationOverlay) {
-    celebrationOverlay.style.display = "none";
-  }
-  
-  // Ensure achievement popup is dismissed on load (fix for stuck popups)
+  if (celebrationOverlay) celebrationOverlay.style.display = "none";
+
   const achievementPopup = $("#achievementPopup");
   if (achievementPopup) {
     achievementPopup.classList.remove("active");
-    // Add click/touch handler to dismiss
-    const dismissAchievement = () => {
-      achievementPopup.classList.remove("active");
-    };
+    const dismissAchievement = () => achievementPopup.classList.remove("active");
     achievementPopup.addEventListener("click", dismissAchievement);
     achievementPopup.addEventListener("touchend", dismissAchievement);
   }
-  
-  // Ensure currentIndex starts at 0 for intro lesson
+
   currentIndex = 0;
   activeSubject = "finance";
-  
-  updateMetaForSubject("finance");
-  showCategories();
-  renderLesson();
-  updateXpProgress(); // Ensure XP progress is updated on load
 
-  const nextBtn = $("#nextBtn");
-  if (nextBtn) {
-    nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      goNext();
-    });
-    // Prevent auto-focus that might trigger accidental clicks
-    nextBtn.blur();
-  }
-  
-  const backBtn = $("#backBtn");
-  if (backBtn) {
-    backBtn.addEventListener("click", goBack);
-    updateBackButton();
+  // Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥"
+  let statusUseRank = Math.random() < 0.5;
+  async function updateStatusMessage() {
+    const el = document.getElementById("statusMessage");
+    if (!el) return;
+    const username = typeof window.firebaseGetUsername === "function" ? window.firebaseGetUsername() : "";
+    if (!username) {
+      el.textContent = "";
+      return;
+    }
+    if (statusUseRank && typeof window.firebaseGetRank === "function") {
+      const rank = await window.firebaseGetRank();
+      if (rank != null) {
+        el.textContent = "You're #" + rank + " this week 👀🔥";
+        return;
+      }
+    }
+    el.textContent = "Welcome back, " + username + " 🦔";
   }
 
-  document.querySelectorAll(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      switchTab(tab.dataset.tab);
-      tab.classList.add('tab-press');
-      setTimeout(() => tab.classList.remove('tab-press'), 150);
-    });
-  });
+  function rotateStatusMessage() {
+    statusUseRank = !statusUseRank;
+    updateStatusMessage();
+  }
 
-  // Mobile optimizations
-  initMobileOptimizations();
+  // Leaderboard query & render: fetch top users, highlight current user
+  async function openLeaderboard() {
+    const modal = document.getElementById("leaderboardModal");
+    const listEl = document.getElementById("leaderboardList");
+    if (!modal || !listEl) return;
+    modal.classList.remove("is-hidden");
+    listEl.innerHTML = "<p class=\"leaderboard-loading\">Loading…</p>";
+    const fetchLeaderboard = window.firebaseFetchLeaderboard;
+    const uid = typeof window.firebaseGetUid === "function" ? window.firebaseGetUid() : null;
+    if (typeof fetchLeaderboard !== "function") {
+      listEl.innerHTML = "<p class=\"leaderboard-empty\">Leaderboard unavailable.</p>";
+      return;
+    }
+    let rows = [];
+    try {
+      rows = await fetchLeaderboard();
+    } catch (e) {
+      listEl.innerHTML = "<p class=\"leaderboard-empty\">Leaderboard unavailable.</p>";
+      return;
+    }
+    if (!rows.length) {
+      listEl.innerHTML = "<p class=\"leaderboard-empty\">No learners yet. Be the first!</p>";
+      return;
+    }
+    listEl.innerHTML = "";
+    function escapeHtml(s) {
+      const d = document.createElement("div");
+      d.textContent = s;
+      return d.innerHTML;
+    }
+    rows.forEach(function (r, i) {
+      const rank = i + 1;
+      const isCurrent = uid && r.uid === uid;
+      const row = document.createElement("div");
+      row.className = "leaderboard-row" + (isCurrent ? " leaderboard-row--you" : "");
+      row.innerHTML = "<span class=\"leaderboard-rank\">#" + rank + "</span><span class=\"leaderboard-username\">" + escapeHtml(r.username) + "</span><span class=\"leaderboard-xp\">" + r.xp + " XP</span><span class=\"leaderboard-streak\">🔥 " + r.streak + "</span>";
+      listEl.appendChild(row);
+    });
+  }
+
+  function closeLeaderboard() {
+    const modal = document.getElementById("leaderboardModal");
+    if (modal) modal.classList.add("is-hidden");
+  }
+
+  const leaderboardBtn = document.getElementById("leaderboardBtn");
+  const leaderboardClose = document.getElementById("leaderboardModalClose");
+  const leaderboardBackdrop = document.querySelector(".leaderboard-modal-backdrop");
+  if (leaderboardBtn) leaderboardBtn.addEventListener("click", openLeaderboard);
+  if (leaderboardClose) leaderboardClose.addEventListener("click", closeLeaderboard);
+  if (leaderboardBackdrop) leaderboardBackdrop.addEventListener("click", closeLeaderboard);
+
+  let mainInitDone = false;
+  function runMainInit() {
+    if (mainInitDone) return;
+    mainInitDone = true;
+
+    loadUserData();
+    updateMetaForSubject("finance");
+    showCategories();
+    renderLesson();
+    updateXpProgress();
+
+    updateStatusMessage();
+    setInterval(rotateStatusMessage, 15000);
+
+    const nextBtn = $("#nextBtn");
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        goNext();
+      });
+      nextBtn.blur();
+    }
+    const backBtn = $("#backBtn");
+    if (backBtn) {
+      backBtn.addEventListener("click", goBack);
+      updateBackButton();
+    }
+    document.querySelectorAll(".tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        switchTab(tab.dataset.tab);
+        tab.classList.add("tab-press");
+        setTimeout(function () { tab.classList.remove("tab-press"); }, 150);
+      });
+    });
+    initMobileOptimizations();
+  }
+
+  function onAuthReady(hasUser) {
+    hideLoadingScreen();
+    if (hasUser) runMainInit();
+  }
+
+  if (window.__firebaseAuthReady) {
+    onAuthReady(window.__firebaseAuthReady.hasUser);
+  }
+  window.addEventListener("firebase:authready", function (e) { onAuthReady(e.detail.hasUser); });
 });
 
 // Mobile-specific optimizations
