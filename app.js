@@ -2427,35 +2427,71 @@ function initTheme() {
     initMobileOptimizations();
   }
 
-  function onAuthReady(hasUser) {
-    // CRITICAL: Hide loading screen IMMEDIATELY when auth is ready
-    // Do NOT wait for Firestore reads - they happen asynchronously after this
+  // ——— Username required gate ———
+  let waitingForUsername = false;
+
+  async function onAuthReady(hasUser) {
     hideLoadingScreen();
-    if (hasUser) runMainInit();
+    if (!hasUser) return;
+
+    // Username required gate: wait for user progress, then check username
+    try {
+      const whenReady = typeof window.firebaseWhenUserProgressReady === "function"
+        ? window.firebaseWhenUserProgressReady() : Promise.resolve();
+      await whenReady;
+    } catch (e) {
+      console.warn("User progress ready check failed:", e);
+    }
+
+    const hasUsername = typeof window.firebaseHasUsername === "function"
+      ? window.firebaseHasUsername() : false;
+
+    if (hasUsername) {
+      runMainInit();
+      return;
+    }
+
+    // ——— Username prompt overlay ———
+    // Pause app init; show modal until username set. Block interaction until completed.
+    waitingForUsername = true;
+    const modal = document.getElementById("usernameModal");
+    const gateInput = document.getElementById("usernameInput");
+    const gateError = document.getElementById("usernameError");
+    const gateSubmit = document.getElementById("usernameSubmit");
+    if (gateInput) { gateInput.value = ""; gateInput.focus(); }
+    if (gateError) { gateError.textContent = ""; gateError.classList.remove("is-visible"); }
+    if (gateSubmit) { gateSubmit.disabled = true; gateSubmit.textContent = "Let's go ✨"; }
+    if (modal) modal.classList.remove("is-hidden");
+
+    const onUsernameSet = () => {
+      waitingForUsername = false;
+      window.removeEventListener("firebase:usernameset", onUsernameSet);
+      // Resume app init after username set
+      runMainInit();
+      updateStatusMessage();
+    };
+    window.addEventListener("firebase:usernameset", onUsernameSet);
   }
 
   // Handle auth ready immediately if already available
   if (window.__firebaseAuthReady) {
     onAuthReady(window.__firebaseAuthReady.hasUser);
   }
-  
-  // Listen for auth ready event - this fires when Firebase Auth initializes
-  // NOT when Firestore reads complete
-  window.addEventListener("firebase:authready", function (e) { 
-    onAuthReady(e.detail.hasUser); 
+
+  window.addEventListener("firebase:authready", function (e) {
+    onAuthReady(e.detail.hasUser);
   });
-  
-  // Safety fallback: ensure loading screen hides after max 5 seconds
-  // This prevents app from being stuck if Firebase Auth takes too long
+
+  // Safety fallback: hide loading after max 5s; do NOT run main init if blocked on username or no user
   setTimeout(() => {
     const loadingScreen = document.getElementById("loadingScreen");
     if (loadingScreen && !loadingScreen.classList.contains("hidden")) {
       console.warn("Loading screen timeout - forcing hide");
       hideLoadingScreen();
-      // Still try to run main init if not done
-      if (!mainInitDone) {
-        runMainInit();
-      }
+    }
+    const loggedIn = typeof window.firebaseIsLoggedIn === "function" && window.firebaseIsLoggedIn();
+    if (!mainInitDone && !waitingForUsername && loggedIn) {
+      runMainInit();
     }
   }, 5000);
 });

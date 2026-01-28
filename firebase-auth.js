@@ -44,6 +44,10 @@ const LEADERBOARD_LIMIT = 100;
 let currentUser = null;
 let userProgress = null;
 
+// Username required gate: resolves when user progress has been loaded from Firestore
+let userProgressReadyResolve = null;
+let userProgressReadyPromise = null;
+
 function getTodayString() {
   return new Date().toISOString().split("T")[0];
 }
@@ -139,7 +143,7 @@ async function createUserWithUsername(username) {
     hideUsernameModal();
     setUsernameError("");
 
-    dispatchAuthReady(true);
+    // Auth ready is dispatched from onAuthStateChanged; do not dispatch here
     return true;
   } catch (e) {
     console.error("Create user error:", e);
@@ -153,6 +157,48 @@ function dispatchAuthReady(hasUser) {
   window.dispatchEvent(
     new CustomEvent("firebase:authready", { detail: { hasUser } })
   );
+}
+
+// Username required gate: set username for existing user (already signed in, no username in Firestore).
+// Defensive: Firestore failures show error, keep prompt open, never throw.
+async function setUsernameForCurrentUser(raw) {
+  const trimmed = (raw || "").trim();
+  if (!trimmed) {
+    setUsernameError("Username is required.");
+    return false;
+  }
+
+  const normalized = trimmed.toLowerCase().replace(/\s+/g, "");
+  if (!normalized) {
+    setUsernameError("Username is required.");
+    return false;
+  }
+
+  const available = await isUsernameAvailable(normalized);
+  if (!available) {
+    setUsernameError("That username is already taken. Try another.");
+    return false;
+  }
+
+  if (!currentUser) return false;
+
+  try {
+    await setDoc(doc(db, USERS, currentUser.uid), { username: trimmed }, { merge: true });
+    await setDoc(doc(db, USERNAMES, normalized), { uid: currentUser.uid });
+  } catch (e) {
+    console.warn("Firestore write failed when setting username:", e);
+    setUsernameError("Something went wrong. Please try again.");
+    return false;
+  }
+
+  if (!userProgress) userProgress = { username: trimmed, xp: 0, streak: 1, lastLogin: getTodayString(), lessonsCompleted: [] };
+  else userProgress.username = trimmed;
+
+  hideUsernameModal();
+  setUsernameError("");
+  // Resume app init after username set
+  window.dispatchEvent(new CustomEvent("firebase:usernameset", { detail: { username: trimmed } }));
+  return true;
 }
 
 // ------------------------------
@@ -219,6 +265,11 @@ async function loadUserProgress(uid) {
     };
     
     syncProgressToApp();
+  } finally {
+    if (userProgressReadyResolve) {
+      userProgressReadyResolve();
+      userProgressReadyResolve = null;
+    }
   }
 }
 
@@ -355,21 +406,25 @@ async function getCurrentUserRank() {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-    // CRITICAL: Dispatch auth ready IMMEDIATELY, don't wait for Firestore
-    // This ensures loading screen hides as soon as auth is ready
-    dispatchAuthReady(true);
+    userProgress = null;
+    userProgressReadyPromise = new Promise((r) => { userProgressReadyResolve = r; });
     hideUsernameModal();
-    
-    // Load user progress asynchronously AFTER auth ready is dispatched
-    // This is non-blocking - if Firestore fails, app still loads
+
+    // Load user progress; when done, userProgressReadyPromise resolves (username gate uses it)
     loadUserProgress(user.uid).catch((e) => {
       console.warn("Background user progress load failed:", e);
-      // App continues with default values
+      if (userProgressReadyResolve) {
+        userProgressReadyResolve();
+        userProgressReadyResolve = null;
+      }
     });
+
+    dispatchAuthReady(true);
   } else {
     currentUser = null;
     userProgress = null;
-    // First-time or logged-out: show "Choose your username" modal
+    userProgressReadyPromise = null;
+    userProgressReadyResolve = null;
     showUsernameModal();
     dispatchAuthReady(false);
   }
@@ -404,12 +459,37 @@ window.firebaseGetUid = function () {
   return currentUser ? currentUser.uid : null;
 };
 
-// Username modal submit — called from HTML or app
+// Username required gate: promise that resolves when user progress has been loaded
+window.firebaseWhenUserProgressReady = function () {
+  if (!userProgressReadyPromise) return Promise.resolve();
+  return userProgressReadyPromise;
+};
+
+// Username required gate: true if user has a non-empty username in Firestore / userProgress
+window.firebaseHasUsername = function () {
+  const u = (userProgress && userProgress.username) || "";
+  return typeof u === "string" && u.trim().length > 0;
+};
+
+// Username required gate: set username for existing user; dispatches firebase:usernameset on success
+window.firebaseSetUsernameForCurrentUser = setUsernameForCurrentUser;
+
+// Username modal submit — create new user (no auth) or set username for existing user (auth, no username)
 window.firebaseSubmitUsername = async function () {
   const input = document.getElementById("usernameInput");
   const username = input ? input.value.trim() : "";
-  return createUserWithUsername(username);
+  if (!currentUser) return createUserWithUsername(username);
+  return setUsernameForCurrentUser(username);
 };
+
+// Username prompt overlay: disable confirm until valid (required, trim)
+function updateUsernameSubmitState() {
+  const input = document.getElementById("usernameInput");
+  const submitBtn = document.getElementById("usernameSubmit");
+  if (!input || !submitBtn) return;
+  const valid = (input.value || "").trim().length > 0;
+  submitBtn.disabled = !valid;
+}
 
 // Init: wire username modal form
 function setupUsernameModal() {
@@ -426,18 +506,23 @@ function setupUsernameModal() {
       }
       await window.firebaseSubmitUsername();
       if (submitBtn) {
-        submitBtn.disabled = false;
+        updateUsernameSubmitState();
         submitBtn.textContent = "Let's go ✨";
       }
     });
   }
 
   if (input) {
-    input.addEventListener("input", () => setUsernameError(""));
+    input.addEventListener("input", () => {
+      setUsernameError("");
+      updateUsernameSubmitState();
+    });
     input.addEventListener("keydown", (e) => {
       if (e.key === "Escape") setUsernameError("");
     });
   }
+
+  updateUsernameSubmitState();
 }
 
 if (document.readyState === "loading") {
