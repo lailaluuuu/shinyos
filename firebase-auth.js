@@ -77,10 +77,18 @@ function setUsernameError(msg) {
 }
 
 // Check username unique via usernames collection
+// Defensive: wraps Firestore read in try/catch to handle permission errors
 async function isUsernameAvailable(normalized) {
-  const ref = doc(db, USERNAMES, normalized);
-  const snap = await getDoc(ref);
-  return !snap.exists();
+  try {
+    const ref = doc(db, USERNAMES, normalized);
+    const snap = await getDoc(ref);
+    return !snap.exists();
+  } catch (e) {
+    // On permission error or any Firestore failure, log and assume available
+    // This allows username creation to proceed even if Firestore is misconfigured
+    console.warn("Username availability check failed (Firestore may have permission issues):", e);
+    return true; // Assume available to allow user to proceed
+  }
 }
 
 // Create anonymous user + user doc + usernames entry
@@ -116,8 +124,15 @@ async function createUserWithUsername(username) {
       lessonsCompleted: [],
     };
 
-    await setDoc(doc(db, USERS, uid), userDoc);
-    await setDoc(doc(db, USERNAMES, normalized), { uid });
+    // Defensive: Firestore writes wrapped in try/catch - don't block auth on write failures
+    try {
+      await setDoc(doc(db, USERS, uid), userDoc);
+      await setDoc(doc(db, USERNAMES, normalized), { uid });
+    } catch (firestoreError) {
+      // Log but don't block - user is authenticated, app can continue
+      console.warn("Firestore write failed (permissions may be misconfigured):", firestoreError);
+      // Continue anyway - user is authenticated and can use the app
+    }
 
     userProgress = userDoc;
     currentUser = cred.user;
@@ -144,11 +159,13 @@ function dispatchAuthReady(hasUser) {
 // Restore returning user
 // ------------------------------
 
+// Defensive: Firestore read wrapped in try/catch - never blocks, always provides fallback
 async function loadUserProgress(uid) {
+  const today = getTodayString();
+  
   try {
     const userRef = doc(db, USERS, uid);
     const snap = await getDoc(userRef);
-    const today = getTodayString();
 
     if (snap.exists()) {
       userProgress = snap.data();
@@ -170,6 +187,7 @@ async function loadUserProgress(uid) {
 
       userProgress.lastLogin = today;
     } else {
+      // User doc doesn't exist - create default
       userProgress = {
         username: "Learner",
         xp: 0,
@@ -179,10 +197,28 @@ async function loadUserProgress(uid) {
       };
     }
 
-    await saveUserProgressToFirestore();
+    // Try to save, but don't block on failure
+    try {
+      await saveUserProgressToFirestore();
+    } catch (saveError) {
+      console.warn("Failed to save user progress to Firestore:", saveError);
+    }
+    
     syncProgressToApp();
   } catch (e) {
-    console.error("Error loading user progress:", e);
+    // Firestore permission error or any other error - provide fallback
+    console.warn("Error loading user progress from Firestore (permissions may be misconfigured):", e);
+    
+    // Always provide fallback data so app can continue
+    userProgress = {
+      username: "Learner",
+      xp: 0,
+      streak: 1,
+      lastLogin: today,
+      lessonsCompleted: [],
+    };
+    
+    syncProgressToApp();
   }
 }
 
@@ -267,6 +303,7 @@ function getUsername() {
 // Leaderboard query & render — top by XP, then streak. Rank = 1-based index in top N.
 // Firestore: create composite index on users (xp desc, streak desc) when prompted.
 // Rules: users/{uid} — read/write if request.auth.uid == uid; usernames — read for uniqueness, write with auth.
+// Defensive: Always returns empty array on error, never throws
 async function fetchLeaderboard() {
   try {
     const q = query(
@@ -290,16 +327,25 @@ async function fetchLeaderboard() {
     });
     return list;
   } catch (e) {
-    console.error("Leaderboard fetch error:", e);
+    // Permission error or any Firestore failure - return empty array
+    // This allows app to continue, leaderboard just won't show data
+    console.warn("Leaderboard fetch failed (Firestore permissions may be misconfigured):", e);
     return [];
   }
 }
 
+// Defensive: Handles Firestore errors gracefully
 async function getCurrentUserRank() {
   if (!currentUser || !userProgress) return null;
-  const list = await fetchLeaderboard();
-  const idx = list.findIndex((r) => r.uid === currentUser.uid);
-  return idx >= 0 ? idx + 1 : null;
+  try {
+    const list = await fetchLeaderboard();
+    const idx = list.findIndex((r) => r.uid === currentUser.uid);
+    return idx >= 0 ? idx + 1 : null;
+  } catch (e) {
+    // If leaderboard fetch fails, return null (rank unavailable)
+    console.warn("Failed to get user rank:", e);
+    return null;
+  }
 }
 
 // ------------------------------
@@ -309,9 +355,17 @@ async function getCurrentUserRank() {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-    await loadUserProgress(user.uid);
-    hideUsernameModal();
+    // CRITICAL: Dispatch auth ready IMMEDIATELY, don't wait for Firestore
+    // This ensures loading screen hides as soon as auth is ready
     dispatchAuthReady(true);
+    hideUsernameModal();
+    
+    // Load user progress asynchronously AFTER auth ready is dispatched
+    // This is non-blocking - if Firestore fails, app still loads
+    loadUserProgress(user.uid).catch((e) => {
+      console.warn("Background user progress load failed:", e);
+      // App continues with default values
+    });
   } else {
     currentUser = null;
     userProgress = null;

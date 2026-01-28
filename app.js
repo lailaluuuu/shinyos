@@ -2298,23 +2298,35 @@ function initTheme() {
   activeSubject = "finance";
 
   // Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥"
+  // Defensive: Handles Firestore errors gracefully, never blocks UI
   let statusUseRank = Math.random() < 0.5;
   async function updateStatusMessage() {
     const el = document.getElementById("statusMessage");
     if (!el) return;
-    const username = typeof window.firebaseGetUsername === "function" ? window.firebaseGetUsername() : "";
-    if (!username) {
-      el.textContent = "";
-      return;
-    }
-    if (statusUseRank && typeof window.firebaseGetRank === "function") {
-      const rank = await window.firebaseGetRank();
-      if (rank != null) {
-        el.textContent = "You're #" + rank + " this week 👀🔥";
+    try {
+      const username = typeof window.firebaseGetUsername === "function" ? window.firebaseGetUsername() : "";
+      if (!username) {
+        el.textContent = "";
         return;
       }
+      if (statusUseRank && typeof window.firebaseGetRank === "function") {
+        try {
+          const rank = await window.firebaseGetRank();
+          if (rank != null) {
+            el.textContent = "You're #" + rank + " this week 👀🔥";
+            return;
+          }
+        } catch (e) {
+          // Firestore error getting rank - fall back to username message
+          console.warn("Failed to get rank for status message:", e);
+        }
+      }
+      el.textContent = "Welcome back, " + username + " 🦔";
+    } catch (e) {
+      // Any error - just clear status message, don't break app
+      console.warn("Error updating status message:", e);
+      el.textContent = "";
     }
-    el.textContent = "Welcome back, " + username + " 🦔";
   }
 
   function rotateStatusMessage() {
@@ -2323,6 +2335,7 @@ function initTheme() {
   }
 
   // Leaderboard query & render: fetch top users, highlight current user
+  // Defensive: Handles Firestore errors gracefully, shows placeholder on failure
   async function openLeaderboard() {
     const modal = document.getElementById("leaderboardModal");
     const listEl = document.getElementById("leaderboardList");
@@ -2339,6 +2352,8 @@ function initTheme() {
     try {
       rows = await fetchLeaderboard();
     } catch (e) {
+      // Firestore permission error or any failure - show placeholder
+      console.warn("Leaderboard fetch failed:", e);
       listEl.innerHTML = "<p class=\"leaderboard-empty\">Leaderboard unavailable.</p>";
       return;
     }
@@ -2413,14 +2428,36 @@ function initTheme() {
   }
 
   function onAuthReady(hasUser) {
+    // CRITICAL: Hide loading screen IMMEDIATELY when auth is ready
+    // Do NOT wait for Firestore reads - they happen asynchronously after this
     hideLoadingScreen();
     if (hasUser) runMainInit();
   }
 
+  // Handle auth ready immediately if already available
   if (window.__firebaseAuthReady) {
     onAuthReady(window.__firebaseAuthReady.hasUser);
   }
-  window.addEventListener("firebase:authready", function (e) { onAuthReady(e.detail.hasUser); });
+  
+  // Listen for auth ready event - this fires when Firebase Auth initializes
+  // NOT when Firestore reads complete
+  window.addEventListener("firebase:authready", function (e) { 
+    onAuthReady(e.detail.hasUser); 
+  });
+  
+  // Safety fallback: ensure loading screen hides after max 5 seconds
+  // This prevents app from being stuck if Firebase Auth takes too long
+  setTimeout(() => {
+    const loadingScreen = document.getElementById("loadingScreen");
+    if (loadingScreen && !loadingScreen.classList.contains("hidden")) {
+      console.warn("Loading screen timeout - forcing hide");
+      hideLoadingScreen();
+      // Still try to run main init if not done
+      if (!mainInitDone) {
+        runMainInit();
+      }
+    }
+  }, 5000);
 });
 
 // Mobile-specific optimizations
