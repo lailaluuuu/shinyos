@@ -453,6 +453,8 @@ function loadUserData() {
   sessionXpGained = 0;
   sessionStartTime = Date.now();
   sessionTimeSpent = 0;
+
+  syncBottomXpPill();
 }
 
 // Save user data to localStorage AND Firestore (if logged in)
@@ -491,6 +493,26 @@ function updateXpProgress() {
     }
   }
 }
+
+// Keep bottom XP pill in sync: show pending (+8/+2) when earned, else show total XP (from header or app state)
+function syncBottomXpPill() {
+  const pillEl = document.getElementById("pendingXp");
+  if (!pillEl) return;
+  const displayVal = pendingXp > 0
+    ? pendingXp
+    : (() => {
+        const headerEl = document.getElementById("xpValue");
+        if (headerEl && headerEl.textContent) {
+          const n = parseInt(headerEl.textContent, 10);
+          if (!isNaN(n)) return n;
+        }
+        return xp;
+      })();
+  pillEl.textContent = String(displayVal);
+}
+
+// Expose for Firebase module so it can refresh the pill when it updates the header
+window.syncBottomXpPill = syncBottomXpPill;
 
 // Award badge
 function awardBadge(badgeId) {
@@ -999,7 +1021,6 @@ function renderLesson() {
   const progressLabel = $("#lessonProgressLabel");
   const progressFill = $("#lessonProgressFill");
   const hintText = $("#hintText");
-  const pendingXpEl = $("#pendingXp");
 
   if (!contentEl) {
     console.error("lessonContent element not found!");
@@ -1021,11 +1042,9 @@ function renderLesson() {
   // Update back button visibility
   updateBackButton();
 
-  // Reset hint + pending XP display
+  // Reset hint + pending XP display (pill shows total XP when no pending)
   pendingXp = 0;
-  if (pendingXpEl) {
-    pendingXpEl.textContent = pendingXp.toString();
-  }
+  syncBottomXpPill();
   // Set hint text based on lesson type
   if (lesson.type === "interactive") {
     hintText.textContent = "Drag the slider to explore how time affects your investment.";
@@ -1719,9 +1738,9 @@ function handleQuizClick(button, option, lesson, event) {
   }
 
   const currentXpValue = document.getElementById("xpValue");
-  const currentPendingXpEl = document.getElementById("pendingXp");
   if (currentXpValue) currentXpValue.textContent = xp.toString();
-  if (currentPendingXpEl) currentPendingXpEl.textContent = pendingXp.toString();
+
+  syncBottomXpPill();
 
   updateXpProgress();
   saveUserData();

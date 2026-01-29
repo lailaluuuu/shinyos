@@ -341,6 +341,8 @@ function updateUIFromProgress() {
     const pct = (userProgress.xp ?? 0) % 100;
     xpBar.style.width = `${pct}%`;
   }
+
+  if (typeof window.syncBottomXpPill === "function") window.syncBottomXpPill();
 }
 
 // ------------------------------
