@@ -449,6 +449,30 @@ const subjectLessons = {
   ]
 };
 
+// Normalize subjectLessons: expand any "lesson" with sections into flat slides (content/quiz) so renderLesson can display them
+(function normalizeSubjectLessons() {
+  Object.keys(subjectLessons).forEach(function (subjectKey) {
+    const lessons = subjectLessons[subjectKey];
+    if (!Array.isArray(lessons)) return;
+    const result = [];
+    lessons.forEach(function (lesson) {
+      if (lesson.type === "lesson" && lesson.sections && Array.isArray(lesson.sections)) {
+        lesson.sections.forEach(function (section) {
+          if (section.type === "content") {
+            result.push({ type: "content", title: section.title, paragraphs: section.paragraphs || [] });
+          } else if (section.type === "quiz") {
+            result.push({ type: "quiz", question: section.question, options: section.options || [], explanation: section.explanation });
+          } else if (section.type === "reflection") {
+            result.push({ type: "content", title: section.title, paragraphs: [section.prompt || ""] });
+          }
+        });
+      } else {
+        result.push(lesson);
+      }
+    });
+    subjectLessons[subjectKey] = result;
+  });
+})();
 
 // Categories structure (used by world grid + horizontal category picker)
 const categories = [
