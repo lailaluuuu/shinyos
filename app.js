@@ -1,6 +1,7 @@
 // Yuno learning platform - Single Lesson Version (Investing 101)
 // Subject lessons data
 // Note: Lesson order is determined by array position, not the 'id' field
+// Username: 3–20 characters (lowercase, numbers, underscore)
 // Lessons can be added or modified in the finance array below
 const subjectLessons = {
   finance: [
