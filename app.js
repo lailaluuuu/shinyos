@@ -2212,6 +2212,12 @@ function openSubjectModal() {
   const btn = $("#subjectSelectorBtn");
   if (modal) modal.classList.remove("is-hidden");
   if (btn) btn.setAttribute("aria-expanded", "true");
+  const scrollY = window.scrollY;
+  document.body.style.overflow = "hidden";
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
 }
 
 function closeSubjectModal() {
@@ -2219,6 +2225,13 @@ function closeSubjectModal() {
   const btn = $("#subjectSelectorBtn");
   if (modal) modal.classList.add("is-hidden");
   if (btn) btn.setAttribute("aria-expanded", "false");
+  const scrollY = document.body.style.top ? Math.abs(parseInt(document.body.style.top, 10)) : 0;
+  document.body.style.overflow = "";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  window.scrollTo(0, scrollY);
 }
 
 function renderSubjectSelectorButton() {
@@ -2257,6 +2270,10 @@ function renderSubjectModalList() {
     item.appendChild(iconSpan);
     item.appendChild(nameSpan);
     item.addEventListener("click", () => selectSubjectFromModal(category));
+    item.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      selectSubjectFromModal(category);
+    }, { passive: false });
     list.appendChild(item);
   });
 }
@@ -2697,11 +2714,29 @@ document.addEventListener("DOMContentLoaded", () => {
     updateXpProgress();
 
     const subjectSelectorBtn = $("#subjectSelectorBtn");
-    if (subjectSelectorBtn) subjectSelectorBtn.addEventListener("click", openSubjectModal);
+    if (subjectSelectorBtn) {
+      subjectSelectorBtn.addEventListener("click", openSubjectModal);
+      subjectSelectorBtn.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        openSubjectModal();
+      }, { passive: false });
+    }
     const subjectModalClose = $("#subjectModalClose");
-    if (subjectModalClose) subjectModalClose.addEventListener("click", closeSubjectModal);
+    if (subjectModalClose) {
+      subjectModalClose.addEventListener("click", closeSubjectModal);
+      subjectModalClose.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        closeSubjectModal();
+      }, { passive: false });
+    }
     const subjectModalBackdrop = $("#subjectModalBackdrop");
-    if (subjectModalBackdrop) subjectModalBackdrop.addEventListener("click", closeSubjectModal);
+    if (subjectModalBackdrop) {
+      subjectModalBackdrop.addEventListener("click", closeSubjectModal);
+      subjectModalBackdrop.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        closeSubjectModal();
+      }, { passive: false });
+    }
 
     updateStatusMessage();
     setInterval(rotateStatusMessage, 15000);
