@@ -3792,9 +3792,9 @@ img {
    ============================================ */
 
 .leaderboard-btn {
-  padding: 6px 12px;
+  padding: 6px 10px;
   margin-right: 12px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text);
   background: rgba(255, 255, 255, 0.08);
@@ -3802,6 +3802,11 @@ img {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
+  min-width: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .leaderboard-btn:hover {
