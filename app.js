@@ -346,6 +346,8 @@ const subjectLessons = {
       type: "lesson",
       title: "🧠 Pattern Hunger",
       subtitle: "Why your brain finds meaning — even when none exists",
+      imageUrl: "images/pattern-hunger-intro.png",
+      imageAlt: "Pattern Hunger introduction",
       sections: [
         {
           type: "content",
@@ -457,13 +459,24 @@ const subjectLessons = {
     const result = [];
     lessons.forEach(function (lesson) {
       if (lesson.type === "lesson" && lesson.sections && Array.isArray(lesson.sections)) {
+        const subject = lesson.subject || subjectKey;
+        if (lesson.imageUrl) {
+          result.push({
+            type: "intro",
+            subject: subject,
+            title: lesson.title,
+            subtitle: lesson.subtitle || "",
+            imageUrl: lesson.imageUrl,
+            imageAlt: lesson.imageAlt || (lesson.title + " introduction")
+          });
+        }
         lesson.sections.forEach(function (section) {
           if (section.type === "content") {
-            result.push({ type: "content", title: section.title, paragraphs: section.paragraphs || [] });
+            result.push({ type: "content", subject: subject, title: section.title, paragraphs: section.paragraphs || [] });
           } else if (section.type === "quiz") {
-            result.push({ type: "quiz", question: section.question, options: section.options || [], explanation: section.explanation });
+            result.push({ type: "quiz", subject: subject, question: section.question, options: section.options || [], explanation: section.explanation });
           } else if (section.type === "reflection") {
-            result.push({ type: "content", title: section.title, paragraphs: [section.prompt || ""] });
+            result.push({ type: "content", subject: subject, title: section.title, paragraphs: [section.prompt || ""] });
           }
         });
       } else {
