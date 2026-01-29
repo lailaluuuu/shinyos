@@ -2258,7 +2258,7 @@ function wireUsernameModal() {
     return;
   }
 
-  const USERNAME_RE = /^[a-z0-9_]{3,15}$/; // 3–15, lowercase, numbers, underscore
+  const USERNAME_RE = /^[a-z0-9_]{3,20}$/; // 3–20, lowercase, numbers, underscore
 
   function setError(msg) {
     if (!err) return;
@@ -2277,7 +2277,7 @@ function wireUsernameModal() {
   function validate(v) {
     if (!v) return "Pick a username.";
     if (v.length < 3) return "Too short (min 3).";
-    if (v.length > 15) return "Too long (max 15).";
+    if (v.length > 20) return "Too long (max 20).";
     if (!USERNAME_RE.test(v)) return "Use lowercase letters, numbers, underscores only.";
     return "";
   }
