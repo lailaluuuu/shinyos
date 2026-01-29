@@ -338,6 +338,114 @@ const subjectLessons = {
         "🎉 Congratulations! You've completed Investing 101!"
       ]
     }
+  ],
+  mind: [
+    {
+      id: "mind-pattern-hunger",
+      subject: "mind",
+      type: "lesson",
+      title: "🧠 Pattern Hunger",
+      subtitle: "Why your brain finds meaning — even when none exists",
+      sections: [
+        {
+          type: "content",
+          title: "Your brain hates randomness",
+          paragraphs: [
+            "Your brain would rather believe a false pattern than accept randomness.",
+            "This isn't a flaw. It's survival wiring.",
+            "For most of human history, missing a real pattern once could mean danger. Seeing a fake one usually meant nothing.",
+            "So the brain learned a rule:",
+            "When in doubt — assume meaning."
+          ]
+        },
+        {
+          type: "content",
+          title: "The pattern machine",
+          paragraphs: [
+            "Humans are not neutral observers.",
+            "Your brain is constantly connecting dots:",
+            "• Faces in clouds",
+            "• Signals in silence",
+            "• Meaning in coincidence",
+            "• Stories from incomplete information",
+            "This happens automatically. Before logic. Before choice."
+          ]
+        },
+        {
+          type: "content",
+          title: "Pattern hunger",
+          paragraphs: [
+            "This constant search for meaning is sometimes called pattern hunger.",
+            "The mind feels uncomfortable with gaps.",
+            "Uncertainty feels worse than a bad explanation — so the brain fills in the blanks.",
+            "Even if the story isn't true.",
+            "Especially if the story feels familiar."
+          ]
+        },
+        {
+          type: "content",
+          title: "Where it shows up in real life",
+          paragraphs: [
+            "You've experienced this when:",
+            "• Someone doesn't reply and your mind writes a story",
+            "• Two bad events happen and it becomes a pattern",
+            "• Silence feels like a message",
+            "• A coincidence feels intentional",
+            "The brain connects dots automatically — whether they belong together or not."
+          ]
+        },
+        {
+          type: "content",
+          title: "The quiet danger",
+          paragraphs: [
+            "Patterns feel comforting.",
+            "Even false ones.",
+            "A bad explanation can feel safer than uncertainty.",
+            "But mistaking noise for signal can lead to unnecessary fear, bad decisions, and emotional exhaustion.",
+            "Someone checks their phone twice during lunch → you assume they're upset with you → you act distant → they notice and now they're actually confused.",
+            "Not everything means something."
+          ]
+        },
+        {
+          type: "content",
+          title: "The skill: noticing the pattern",
+          paragraphs: [
+            "The goal is not to stop your brain from finding patterns.",
+            "That's impossible.",
+            "The skill is noticing when it happens.",
+            "One useful question:",
+            "Is this a real signal — or my brain filling silence?",
+            "That pause creates space."
+          ]
+        },
+        {
+          type: "reflection",
+          title: "A small experiment",
+          prompt: "Think of a recent situation where you read into something.\n\nNow try this sentence:\n\n\"This may be a pattern — or it may just be noise.\"\n\nNotice what loosens.\n\nThis isn't about being right. It's about holding your conclusions more lightly."
+        },
+        {
+          type: "quiz",
+          question: "Why does the brain prefer a false pattern over no pattern?",
+          options: [
+            { id: "a", text: "Because it likes drama", correct: false },
+            { id: "b", text: "Because humans are irrational", correct: false },
+            { id: "c", text: "Because it evolved for survival, not accuracy", correct: true },
+            { id: "d", text: "Because emotions override logic", correct: false }
+          ],
+          explanation: "Missing a real threat once = death. Seeing a fake threat = just embarrassing. Evolution chose paranoia."
+        },
+        {
+          type: "content",
+          title: "Closing thought",
+          paragraphs: [
+            "The brain is a storyteller.",
+            "Wisdom is knowing when the story is useful — and when it's just noise.",
+            "You don't need to stop the pattern.",
+            "You just need to see it."
+          ]
+        }
+      ]
+    }
   ]
 };
 
@@ -2120,66 +2228,135 @@ function showCategories() {
   });
   
   activeCategory = null;
+  renderCategoryPicker();
 }
 
-function handleCategoryClick(node, category) {
+// Shared: show subjects for a category (used by grid and by horizontal category picker)
+function showSubjectsForCategory(category) {
   const categoryGrid = $("#categoryGrid");
   const subjectGrid = $("#subjectGrid");
   const breadcrumb = $("#breadcrumb");
   const breadcrumbSeparator = $("#breadcrumbSeparator");
   const breadcrumbCurrent = $("#breadcrumbCurrent");
-  
+
   subjectGrid.classList.remove("is-hidden");
-  
   breadcrumb.querySelector(".breadcrumb-item").classList.remove("is-active");
   breadcrumbSeparator.style.display = "inline";
   breadcrumbCurrent.textContent = category.name;
-  
+
   document.querySelectorAll("#categoryGrid .world-node").forEach(n => {
     n.classList.remove("is-active");
+    if (n.dataset.category === category.id) n.classList.add("is-active");
   });
-  node.classList.add("is-active");
-  
+
   subjectGrid.innerHTML = "";
-  
   category.subjects.forEach((subjectId, idx) => {
     const subject = subjectMetadata[subjectId];
     if (!subject) return;
-    
+
     const node = document.createElement("div");
     node.className = `world-node world-node--${subjectId}`;
     node.dataset.subject = subjectId;
     node.style.animation = `fadeInScale 0.4s ease-out ${idx * 0.1}s both`;
-    
+
     const icon = document.createElement("div");
     icon.className = "node-icon";
     icon.textContent = subject.icon;
-    
+
     const content = document.createElement("div");
     content.className = "node-content";
-    
+
     const title = document.createElement("span");
     title.className = "node-title";
     title.textContent = subject.name;
-    
+
     const subtitle = document.createElement("span");
     subtitle.className = "node-subtitle";
     subtitle.textContent = subject.subtitle;
-    
+
     content.appendChild(title);
     content.appendChild(subtitle);
     node.appendChild(icon);
     node.appendChild(content);
-    
+
     node.addEventListener("click", () => handleSubjectClick(node));
-    
+
     subjectGrid.appendChild(node);
   });
-  
+
   activeCategory = category.id;
-  
-  node.classList.add('node-activate');
-  setTimeout(() => node.classList.remove('node-activate'), 400);
+  renderCategoryPicker();
+}
+
+function handleCategoryClick(node, category) {
+  showSubjectsForCategory(category);
+  node.classList.add("is-active");
+  node.classList.add("node-activate");
+  setTimeout(() => node.classList.remove("node-activate"), 400);
+}
+
+// Progress 0–100 for a category (based on current subject progress when applicable)
+function getCategoryProgress(category) {
+  if (!category.subjects.length) return 0;
+  let total = 0;
+  let completed = 0;
+  for (const subjectId of category.subjects) {
+    const lessons = subjectLessons[subjectId];
+    if (!lessons || !lessons.length) continue;
+    total += lessons.length;
+    if (subjectId === activeSubject) completed = currentIndex;
+  }
+  if (total === 0) return 0;
+  return Math.min(100, Math.round((completed / total) * 100));
+}
+
+function renderCategoryPicker() {
+  const container = $("#categoryPicker");
+  if (!container) return;
+  container.innerHTML = "";
+  categories.forEach((category) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "category-picker__card";
+    card.setAttribute("role", "tab");
+    card.setAttribute("aria-selected", activeCategory === category.id ? "true" : "false");
+    card.dataset.categoryId = category.id;
+    if (activeCategory === category.id) card.classList.add("is-active");
+
+    const icon = document.createElement("span");
+    icon.className = "category-picker__icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = category.icon;
+
+    const name = document.createElement("span");
+    name.className = "category-picker__name";
+    name.textContent = category.name;
+
+    const pct = getCategoryProgress(category);
+    const progressWrap = document.createElement("div");
+    progressWrap.className = "category-picker__progress";
+    const pctText = document.createElement("span");
+    pctText.textContent = `${pct}%`;
+    const progressBar = document.createElement("div");
+    progressBar.className = "category-picker__progress-bar";
+    const progressFill = document.createElement("div");
+    progressFill.className = "category-picker__progress-fill";
+    progressFill.style.width = `${pct}%`;
+    progressBar.appendChild(progressFill);
+    progressWrap.appendChild(pctText);
+    progressWrap.appendChild(progressBar);
+
+    card.appendChild(icon);
+    card.appendChild(name);
+    card.appendChild(progressWrap);
+
+    card.addEventListener("click", () => {
+      showSubjectsForCategory(category);
+      card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    });
+
+    container.appendChild(card);
+  });
 }
 
 function handleSubjectClick(node) {
@@ -2522,6 +2699,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadUserData();
     updateMetaForSubject("finance");
     showCategories();
+    showSubjectsForCategory(categories[0]);
     renderLesson();
     updateXpProgress();
 
