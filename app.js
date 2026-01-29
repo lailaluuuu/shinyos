@@ -2210,6 +2210,15 @@ function updateMetaForSubject(subject) {
     lessonSubtitle.innerHTML = "Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.";
     era = "Foundations";
     journalText.textContent = "Investing District · Finance. Stamps for compound growth, asset types, risk management, and your notes on building wealth.";
+  } else if (subjectMetadata[subject]) {
+    const meta = subjectMetadata[subject];
+    const category = categories.find((c) => c.subjects && c.subjects.includes(subject));
+    subjectChip.textContent = (category ? category.name + " · " : "") + meta.name;
+    unitChip.textContent = "Unit: " + (meta.subtitle || meta.name);
+    lessonTitle.textContent = meta.name + " — " + (meta.subtitle || "");
+    lessonSubtitle.textContent = meta.subtitle || "Learn and reflect.";
+    era = "Foundations";
+    journalText.textContent = (category ? category.name + " · " : "") + meta.name + ". " + (meta.subtitle || "") + " Your notes and progress.";
   } else {
     subjectChip.textContent = "Prototype · Subject";
     unitChip.textContent = "Unit: Coming soon";
