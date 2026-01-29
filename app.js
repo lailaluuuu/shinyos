@@ -2346,68 +2346,8 @@ function getLessonNodeIcon(lesson, subjectId) {
 }
 
 function renderLessonPath() {
-  const container = $("#lessonPathContainer");
-  const pathEl = $("#lessonPath");
-  if (!container || !pathEl) return;
-
-  if (!activeCategory) {
-    pathEl.innerHTML = "<p class='lesson-path-empty'>Select a subject above to see your lesson path.</p>";
-    return;
-  }
-
-  const lessons = getLessonsForCategory(activeCategory);
-  const subjectKey = getSubjectKeyForCategory(activeCategory);
-
-  if (!lessons.length) {
-    pathEl.innerHTML = "<p class='lesson-path-empty'>No lessons yet for this subject. More coming soon.</p>";
-    return;
-  }
-
-  const isCurrentSubject = subjectKey === activeSubject;
-  pathEl.innerHTML = "";
-
-  lessons.forEach((lesson, index) => {
-    const isCompleted = isCurrentSubject && index < currentIndex;
-    const isCurrent = isCurrentSubject && index === currentIndex;
-    const isLocked = isCurrentSubject && index > currentIndex;
-
-    const node = document.createElement("div");
-    node.className = "lesson-path-node" + (isCompleted ? " is-completed" : "") + (isCurrent ? " is-current" : "") + (isLocked ? " is-locked" : "");
-    node.setAttribute("role", "listitem");
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "lesson-path-node-btn" + (isLocked ? " is-locked" : "");
-    btn.dataset.lessonIndex = String(index);
-    btn.setAttribute("aria-label", isLocked ? `Lesson ${index + 1} (locked)` : isCurrent ? `Lesson ${index + 1} (current)` : `Lesson ${index + 1}`);
-
-    const iconOrEmoji = getLessonNodeIcon(lesson, subjectKey || "finance");
-    if (lesson.imageUrl) {
-      const img = document.createElement("img");
-      img.src = lesson.imageUrl;
-      img.alt = lesson.imageAlt || lesson.title || "";
-      img.className = "lesson-path-node-icon";
-      btn.appendChild(img);
-    } else {
-      const span = document.createElement("span");
-      span.className = "lesson-path-node-icon emoji";
-      span.textContent = iconOrEmoji || "•";
-      btn.appendChild(span);
-    }
-
-    if (!isLocked) {
-      btn.addEventListener("click", () => handleLessonPathNodeClick(index));
-    }
-
-    node.appendChild(btn);
-    pathEl.appendChild(node);
-  });
-
-  // Scroll current lesson node into view
-  const currentNode = pathEl.querySelector(".lesson-path-node.is-current .lesson-path-node-btn");
-  if (currentNode && container) {
-    setTimeout(() => currentNode.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-  }
+  // Disabled - vertical lesson path hidden
+  return;
 }
 
 function handleLessonPathNodeClick(index) {
