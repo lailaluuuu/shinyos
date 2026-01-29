@@ -351,37 +351,86 @@ const subjectLessons = {
       sections: [
         {
           type: "content",
-          title: "Your brain hates randomness",
+          title: "Your brain hates randomness 🎲",
           paragraphs: [
             "Your brain would rather believe a false pattern than accept randomness.",
             "This isn't a flaw. It's survival wiring.",
+            "Your visual cortex processes 10 million bits of information per second. Most of it gets thrown away. What stays? Patterns.",
             "For most of human history, missing a real pattern once could mean danger. Seeing a fake one usually meant nothing.",
+            "A rustle in the grass could be wind — or a predator. Our ancestors who assumed 'just wind' didn't become ancestors.",
             "So the brain learned a rule:",
             "When in doubt — assume meaning."
           ]
         },
         {
           type: "content",
-          title: "The pattern machine",
+          title: "The pattern machine 🔗",
           paragraphs: [
             "Humans are not neutral observers.",
             "Your brain is constantly connecting dots:",
-            "• Faces in clouds",
+            "• Faces in clouds (pareidolia — even happens in 12-week-old infants)",
             "• Signals in silence",
             "• Meaning in coincidence",
             "• Stories from incomplete information",
+            "This happens in your fusiform gyrus — a brain region so sensitive to patterns that it fires when you see three dots arranged like a face.",
+            ": )",
+            "Your brain just did it.",
+            "That wasn't a face. But for a split second, your fusiform gyrus treated it like one.",
             "This happens automatically. Before logic. Before choice."
           ]
         },
         {
           type: "content",
-          title: "Pattern hunger",
+          title: "The clustering illusion",
+          paragraphs: [
+            "In 1985, psychologist Thomas Gilovich studied basketball fans.",
+            "Everyone believed in the 'hot hand' — the idea that players have streaks where they're more likely to make shots.",
+            "Gilovich analyzed thousands of shots.",
+            "Result? No hot hand. Just randomness.",
+            "But here's what's wild: when people were shown random sequences of makes and misses, they still saw streaks.",
+            "Even pure noise looks like a pattern to the human brain.",
+            "Three heads in a row? Feels meaningful. But flip a coin 100 times and you'll get several streaks of 3+ in a row.",
+            "That's just math being math."
+          ]
+        },
+        {
+          type: "content",
+          title: "Pattern hunger 🍽️",
           paragraphs: [
             "This constant search for meaning is sometimes called pattern hunger.",
             "The mind feels uncomfortable with gaps.",
+            "In one study, researchers showed people random dot movements. When asked what they saw, most created elaborate explanations.",
+            "The dots were random. But the brain demanded a story.",
             "Uncertainty feels worse than a bad explanation — so the brain fills in the blanks.",
             "Even if the story isn't true.",
             "Especially if the story feels familiar."
+          ]
+        },
+        {
+          type: "content",
+          title: "Your brain on anxiety",
+          paragraphs: [
+            "Pattern detection goes into overdrive when you're stressed.",
+            "Cortisol — your stress hormone — makes the pattern-seeking parts of your brain more active.",
+            "This made sense for survival: when there's danger, you need to spot threats quickly.",
+            "But in modern life it means:",
+            "Anxious people see more patterns in random data.",
+            "Stressed brains connect dots faster — and less accurately.",
+            "When you're worried, your brain doesn't just find patterns. It finds threats."
+          ]
+        },
+        {
+          type: "content",
+          title: "The gambler's fallacy 🎰",
+          paragraphs: [
+            "A roulette wheel hits black five times in a row.",
+            "People start betting on red. 'It's due.'",
+            "But the wheel has no memory. Each spin is independent. The odds haven't changed.",
+            "Yet the pattern feels undeniable.",
+            "This is called the gambler's fallacy — and it costs people millions every year.",
+            "Your brain sees: black, black, black, black, black.",
+            "Your brain thinks: RED must be next.",
+            "Reality: the wheel doesn't care about patterns. Only humans do."
           ]
         },
         {
@@ -391,9 +440,23 @@ const subjectLessons = {
             "You've experienced this when:",
             "• Someone doesn't reply and your mind writes a story",
             "• Two bad events happen and it becomes a pattern",
+            "• You check your phone at 11:11 three times and think the universe is sending signs",
             "• Silence feels like a message",
             "• A coincidence feels intentional",
+            "• Your Spotify shuffle plays two sad songs and you think it 'knows'",
             "The brain connects dots automatically — whether they belong together or not."
+          ]
+        },
+        {
+          type: "content",
+          title: "Apophenia and conspiracy thinking 🕵️",
+          paragraphs: [
+            "Apophenia is the tendency to see connections between unrelated things.",
+            "Everyone does this sometimes. But when it becomes extreme, it can lead to conspiracy theories.",
+            "Why? Because conspiracy theories are just pattern recognition in overdrive.",
+            "Nothing is random. Everything connects. Every detail has meaning.",
+            "In one study, people who felt less control over their lives were more likely to see patterns in random images.",
+            "When life feels chaotic, the brain compensates by finding order — even if it has to invent it."
           ]
         },
         {
@@ -404,17 +467,24 @@ const subjectLessons = {
             "Even false ones.",
             "A bad explanation can feel safer than uncertainty.",
             "But mistaking noise for signal can lead to unnecessary fear, bad decisions, and emotional exhaustion.",
+            "Real example:",
             "Someone checks their phone twice during lunch → you assume they're upset with you → you act distant → they notice and now they're actually confused.",
+            "You created the pattern you feared.",
             "Not everything means something."
           ]
         },
         {
           type: "content",
-          title: "The skill: noticing the pattern",
+          title: "The skill: noticing the pattern 👁️",
           paragraphs: [
             "The goal is not to stop your brain from finding patterns.",
-            "That's impossible.",
-            "The skill is noticing when it happens.",
+            "That's impossible. And actually, you don't want to.",
+            "Pattern recognition helps you:",
+            "• Learn from experience",
+            "• Predict danger",
+            "• Understand people",
+            "• Navigate complexity",
+            "The skill is noticing when it happens — and asking if it's signal or noise.",
             "One useful question:",
             "Is this a real signal — or my brain filling silence?",
             "That pause creates space."
@@ -422,8 +492,8 @@ const subjectLessons = {
         },
         {
           type: "reflection",
-          title: "A small experiment",
-          prompt: "Think of a recent situation where you read into something.\n\nNow try this sentence:\n\n\"This may be a pattern — or it may just be noise.\"\n\nNotice what loosens.\n\nThis isn't about being right. It's about holding your conclusions more lightly."
+          title: "A small experiment 🧪",
+          prompt: "Think of a recent situation where you read into something.\n\nNow try this sentence:\n\n\"This may be a pattern — or it may just be noise.\"\n\nNotice what loosens.\n\nThis isn't about being right. It's about holding your conclusions more lightly.\n\nHere's another one to try when anxiety is high:\n\n\"My brain is doing what it evolved to do — find threats. But not every rustle is a predator.\""
         },
         {
           type: "quiz",
@@ -434,16 +504,31 @@ const subjectLessons = {
             { id: "c", text: "Because it evolved for survival, not accuracy", correct: true },
             { id: "d", text: "Because emotions override logic", correct: false }
           ],
-          explanation: "Missing a real threat once = death. Seeing a fake threat = just embarrassing. Evolution chose paranoia."
+          explanation: "Missing a real threat once = death. Seeing a fake threat = just embarrassing. Evolution chose paranoia. Better to flee from 100 rustling bushes (where 99 are wind) than to ignore the one that's a tiger."
+        },
+        {
+          type: "quiz",
+          question: "What happens to pattern recognition when you're stressed?",
+          options: [
+            { id: "a", text: "It becomes more accurate", correct: false },
+            { id: "b", text: "It becomes more active and less accurate", correct: true },
+            { id: "c", text: "It shuts down completely", correct: false },
+            { id: "d", text: "It only finds positive patterns", correct: false }
+          ],
+          explanation: "Cortisol makes your pattern-detection systems more sensitive — which means you connect dots faster but with less accuracy. Stressed brains see more threats, even in random data."
         },
         {
           type: "content",
-          title: "Closing thought",
+          title: "Closing thought 💭",
           paragraphs: [
             "The brain is a storyteller.",
+            "It's been writing fiction for 200,000 years — and it's very good at it.",
             "Wisdom is knowing when the story is useful — and when it's just noise.",
             "You don't need to stop the pattern.",
-            "You just need to see it."
+            "You just need to see it.",
+            "And remember:",
+            "Sometimes three dots are just three dots.",
+            "Even if they briefly looked like a face."
           ]
         }
       ]
