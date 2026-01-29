@@ -105,46 +105,23 @@
       </div>
     </header>
 
-    <!-- Horizontal category picker (below stats, Duolingo-style) -->
-    <div class="category-picker-wrap" id="categoryPickerWrap">
-      <div class="category-picker" id="categoryPicker" role="tablist" aria-label="Lesson categories">
-        <!-- Category cards injected by app.js -->
-      </div>
+    <!-- Subject selector (below stats, Duolingo-style) -->
+    <div class="subject-selector-wrap" id="subjectSelectorWrap">
+      <button type="button" class="subject-selector-btn" id="subjectSelectorBtn" aria-haspopup="true" aria-expanded="false" aria-label="Select subject">
+        <span class="subject-selector-icon" id="subjectSelectorIcon">📈</span>
+        <span class="subject-selector-label" id="subjectSelectorLabel">Select Subject</span>
+        <span class="subject-selector-chevron" aria-hidden="true">▼</span>
+      </button>
     </div>
 
     <!-- Main layout -->
     <main class="layout">
-      <!-- Left: world / subjects -->
+      <!-- Left: lesson path (Duolingo-style) -->
       <section class="world-panel">
-        <div class="world-header">
-          <h2>🗺️ Learning Atlas</h2>
-          <p class="world-subtitle">
-            Pick any topic and start learning. Skill is repetition, not magic.
-          </p>
-        </div>
-
-        <div class="world-map">
-          <!-- Era ring -->
-          <div class="era-pill">
-            <span class="era-dot"></span>
-            <span id="eraPillLabel">Foundations Era</span>
-          </div>
-
-          <!-- Breadcrumb navigation -->
-          <div class="breadcrumb" id="breadcrumb">
-            <button class="breadcrumb-item is-active" onclick="window.showCategories && window.showCategories()">🗺️ Categories</button>
-            <span class="breadcrumb-separator" id="breadcrumbSeparator" style="display: none;"> → </span>
-            <span class="breadcrumb-current" id="breadcrumbCurrent"></span>
-          </div>
-
-          <!-- Category folders (shown by default) -->
-          <div class="world-grid" id="categoryGrid">
-            <!-- Categories will be dynamically populated by JS -->
-          </div>
-
-          <!-- Subject grid (shown when category is selected) -->
-          <div class="world-grid is-hidden" id="subjectGrid">
-            <!-- Subjects will be dynamically populated by JS -->
+        <div class="lesson-path-container" id="lessonPathContainer">
+          <!-- Vertical lesson path injected by app.js -->
+          <div class="lesson-path" id="lessonPath" role="list">
+            <!-- Lesson nodes injected by app.js -->
           </div>
         </div>
       </section>
@@ -274,6 +251,20 @@
       </div>
       <div class="profile-modal-body">
         <button type="button" class="profile-modal-logout is-hidden" id="profileModalLogout">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subject selector modal -->
+  <div class="subject-modal is-hidden" id="subjectModal" role="dialog" aria-modal="true" aria-labelledby="subjectModalTitle">
+    <div class="subject-modal-backdrop" id="subjectModalBackdrop"></div>
+    <div class="subject-modal-content">
+      <div class="subject-modal-header">
+        <h2 class="subject-modal-title" id="subjectModalTitle">Choose a subject</h2>
+        <button type="button" class="subject-modal-close" id="subjectModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="subject-modal-list" id="subjectModalList">
+        <!-- Subject options injected by app.js -->
       </div>
     </div>
   </div>

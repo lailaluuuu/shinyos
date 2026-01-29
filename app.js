@@ -1055,6 +1055,21 @@ function getCurrentLessons() {
   return subjectLessons[activeSubject] || [];
 }
 
+// Get lessons for a selected category (subject in UI: Investing, Finance, Economics, Psychology)
+function getLessonsForCategory(categoryId) {
+  const category = categories.find((c) => c.id === categoryId);
+  if (!category || !category.subjects || category.subjects.length === 0) return [];
+  const subjectId = category.subjects[0];
+  return subjectLessons[subjectId] || [];
+}
+
+// Get the actual subject key (for lesson data) for a category
+function getSubjectKeyForCategory(categoryId) {
+  const category = categories.find((c) => c.id === categoryId);
+  if (!category || !category.subjects || category.subjects.length === 0) return null;
+  return category.subjects[0];
+}
+
 // Get finance/investing related image for quizzes
 function getFinanceQuizImage(quizIndex) {
   // Collection of diverse finance/investing related images from Unsplash
@@ -1900,6 +1915,7 @@ function goNext() {
     return;
   }
   renderLesson();
+  renderLessonPath();
   updateBackButton();
 }
 
@@ -1942,6 +1958,7 @@ function goBack() {
     
     currentIndex--;
     renderLesson();
+    renderLessonPath();
     updateBackButton();
   }
 }
@@ -2189,251 +2206,210 @@ function updateMetaForSubject(subject) {
   }
 }
 
-function showCategories() {
-  const categoryGrid = $("#categoryGrid");
-  const subjectGrid = $("#subjectGrid");
-  const breadcrumb = $("#breadcrumb");
-  const breadcrumbSeparator = $("#breadcrumbSeparator");
-  const breadcrumbCurrent = $("#breadcrumbCurrent");
-  
-  subjectGrid.classList.add("is-hidden");
-  categoryGrid.classList.remove("is-hidden");
-  
-  breadcrumb.querySelector(".breadcrumb-item").classList.add("is-active");
-  breadcrumbSeparator.style.display = "none";
-  breadcrumbCurrent.textContent = "";
-  
-  document.querySelectorAll("#categoryGrid .world-node").forEach(n => {
-    n.classList.remove("is-active");
-  });
-  
-  categoryGrid.innerHTML = "";
-  
-  categories.forEach((category, idx) => {
-    const node = document.createElement("div");
-    node.className = "world-node";
-    node.dataset.category = category.id;
-    node.style.animation = `fadeInScale 0.4s ease-out ${idx * 0.1}s both`;
-    
-    const icon = document.createElement("div");
-    icon.className = "node-icon";
-    icon.textContent = category.icon;
-    
-    const content = document.createElement("div");
-    content.className = "node-content";
-    
-    const title = document.createElement("span");
-    title.className = "node-title";
-    title.textContent = category.name;
-    
-    const subtitle = document.createElement("span");
-    subtitle.className = "node-subtitle";
-    subtitle.textContent = category.subtitle;
-    
-    content.appendChild(title);
-    content.appendChild(subtitle);
-    node.appendChild(icon);
-    node.appendChild(content);
-    
-    node.addEventListener("click", () => handleCategoryClick(node, category));
-    
-    categoryGrid.appendChild(node);
-  });
-  
-  activeCategory = null;
-  renderCategoryPicker();
+// ---- Subject selector (Duolingo-style) ----
+function openSubjectModal() {
+  const modal = $("#subjectModal");
+  const btn = $("#subjectSelectorBtn");
+  if (modal) modal.classList.remove("is-hidden");
+  if (btn) btn.setAttribute("aria-expanded", "true");
 }
 
-// Shared: show subjects for a category (used by grid and by horizontal category picker)
-function showSubjectsForCategory(category) {
-  const categoryGrid = $("#categoryGrid");
-  const subjectGrid = $("#subjectGrid");
-  const breadcrumb = $("#breadcrumb");
-  const breadcrumbSeparator = $("#breadcrumbSeparator");
-  const breadcrumbCurrent = $("#breadcrumbCurrent");
-
-  subjectGrid.classList.remove("is-hidden");
-  breadcrumb.querySelector(".breadcrumb-item").classList.remove("is-active");
-  breadcrumbSeparator.style.display = "inline";
-  breadcrumbCurrent.textContent = category.name;
-
-  document.querySelectorAll("#categoryGrid .world-node").forEach(n => {
-    n.classList.remove("is-active");
-    if (n.dataset.category === category.id) n.classList.add("is-active");
-  });
-
-  subjectGrid.innerHTML = "";
-  category.subjects.forEach((subjectId, idx) => {
-    const subject = subjectMetadata[subjectId];
-    if (!subject) return;
-
-    const node = document.createElement("div");
-    node.className = `world-node world-node--${subjectId}`;
-    node.dataset.subject = subjectId;
-    node.style.animation = `fadeInScale 0.4s ease-out ${idx * 0.1}s both`;
-
-    const icon = document.createElement("div");
-    icon.className = "node-icon";
-    icon.textContent = subject.icon;
-
-    const content = document.createElement("div");
-    content.className = "node-content";
-
-    const title = document.createElement("span");
-    title.className = "node-title";
-    title.textContent = subject.name;
-
-    const subtitle = document.createElement("span");
-    subtitle.className = "node-subtitle";
-    subtitle.textContent = subject.subtitle;
-
-    content.appendChild(title);
-    content.appendChild(subtitle);
-    node.appendChild(icon);
-    node.appendChild(content);
-
-    node.addEventListener("click", () => handleSubjectClick(node));
-
-    subjectGrid.appendChild(node);
-  });
-
-  activeCategory = category.id;
-  renderCategoryPicker();
+function closeSubjectModal() {
+  const modal = $("#subjectModal");
+  const btn = $("#subjectSelectorBtn");
+  if (modal) modal.classList.add("is-hidden");
+  if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
-function handleCategoryClick(node, category) {
-  showSubjectsForCategory(category);
-  node.classList.add("is-active");
-  node.classList.add("node-activate");
-  setTimeout(() => node.classList.remove("node-activate"), 400);
-}
-
-// Progress 0–100 for a category (based on current subject progress when applicable)
-function getCategoryProgress(category) {
-  if (!category.subjects.length) return 0;
-  let total = 0;
-  let completed = 0;
-  for (const subjectId of category.subjects) {
-    const lessons = subjectLessons[subjectId];
-    if (!lessons || !lessons.length) continue;
-    total += lessons.length;
-    if (subjectId === activeSubject) completed = currentIndex;
+function renderSubjectSelectorButton() {
+  const iconEl = $("#subjectSelectorIcon");
+  const labelEl = $("#subjectSelectorLabel");
+  if (!iconEl || !labelEl) return;
+  if (activeCategory) {
+    const category = categories.find((c) => c.id === activeCategory);
+    if (category) {
+      iconEl.textContent = category.icon;
+      labelEl.textContent = category.name;
+    } else {
+      iconEl.textContent = "📚";
+      labelEl.textContent = "Select Subject";
+    }
+  } else {
+    iconEl.textContent = "📚";
+    labelEl.textContent = "Select Subject";
   }
-  if (total === 0) return 0;
-  return Math.min(100, Math.round((completed / total) * 100));
 }
 
-function renderCategoryPicker() {
-  const container = $("#categoryPicker");
-  if (!container) return;
-  container.innerHTML = "";
+function renderSubjectModalList() {
+  const list = $("#subjectModalList");
+  if (!list) return;
+  list.innerHTML = "";
   categories.forEach((category) => {
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = "category-picker__card";
-    card.setAttribute("role", "tab");
-    card.setAttribute("aria-selected", activeCategory === category.id ? "true" : "false");
-    card.dataset.categoryId = category.id;
-    if (activeCategory === category.id) card.classList.add("is-active");
-
-    const icon = document.createElement("span");
-    icon.className = "category-picker__icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = category.icon;
-
-    const name = document.createElement("span");
-    name.className = "category-picker__name";
-    name.textContent = category.name;
-
-    const pct = getCategoryProgress(category);
-    const progressWrap = document.createElement("div");
-    progressWrap.className = "category-picker__progress";
-    const pctText = document.createElement("span");
-    pctText.textContent = `${pct}%`;
-    const progressBar = document.createElement("div");
-    progressBar.className = "category-picker__progress-bar";
-    const progressFill = document.createElement("div");
-    progressFill.className = "category-picker__progress-fill";
-    progressFill.style.width = `${pct}%`;
-    progressBar.appendChild(progressFill);
-    progressWrap.appendChild(pctText);
-    progressWrap.appendChild(progressBar);
-
-    card.appendChild(icon);
-    card.appendChild(name);
-    card.appendChild(progressWrap);
-
-    card.addEventListener("click", () => {
-      showSubjectsForCategory(category);
-      card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-    });
-
-    container.appendChild(card);
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "subject-modal-item" + (activeCategory === category.id ? " is-active" : "");
+    item.dataset.categoryId = category.id;
+    const iconSpan = document.createElement("span");
+    iconSpan.className = "subject-modal-item-icon";
+    iconSpan.textContent = category.icon;
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = category.name;
+    item.appendChild(iconSpan);
+    item.appendChild(nameSpan);
+    item.addEventListener("click", () => selectSubjectFromModal(category));
+    list.appendChild(item);
   });
 }
 
-function handleSubjectClick(node) {
-  const subject = node.dataset.subject;
-
-  // Stop time tracking when switching subjects
-  stopTimeTracking();
-
-  document.querySelectorAll(".world-node").forEach((n) => n.classList.remove("is-active"));
-  node.classList.add("is-active");
-  
-  node.classList.add('node-activate');
-  setTimeout(() => node.classList.remove('node-activate'), 400);
-
-  if (subjectLessons[subject]) {
-    activeSubject = subject;
+function selectSubjectFromModal(category) {
+  activeCategory = category.id;
+  const subjectKey = getSubjectKeyForCategory(category.id);
+  if (subjectKey && subjectLessons[subjectKey]) {
+    activeSubject = subjectKey;
     currentIndex = 0;
-    
-    const tabs = document.querySelectorAll(".tab");
-    tabs.forEach((t) => t.classList.remove("is-active"));
-    const lessonTab = document.querySelector('[data-tab="lesson"]');
-    if (lessonTab) {
-      lessonTab.classList.add("is-active");
-    }
-    
-    const lessonCard = document.getElementById("lessonCard");
-    const journalPanel = document.getElementById("journalPanel");
-    if (lessonCard) lessonCard.classList.remove("is-hidden");
-    if (journalPanel) journalPanel.classList.add("is-hidden");
-    
-    const lessonContent = document.getElementById("lessonContent");
-    const lessonBody = lessonContent ? lessonContent.parentElement : null;
-    
-    if (lessonContent) {
-      lessonContent.style.display = "block";
-      lessonContent.style.visibility = "visible";
-      lessonContent.style.opacity = "1";
-      lessonContent.classList.remove("is-hidden");
-    }
-    if (lessonBody) {
-      lessonBody.style.display = "block";
-      lessonBody.style.visibility = "visible";
-      lessonBody.style.opacity = "1";
-      lessonBody.classList.remove("is-hidden");
-    }
-    
-    updateMetaForSubject(subject);
+    stopTimeTracking();
+    focusLessonTab();
+    showLessonCard();
+    updateMetaForSubject(activeSubject);
     renderLesson();
-    
   } else {
     activeSubject = "finance";
-    updateMetaForSubject(subject);
-    $("#lessonContent").innerHTML = "<p class='slide-in-up'>This subject is not available yet. Please select a valid subject.</p>";
+    updateMetaForSubject(activeSubject);
+    focusLessonTab();
+    showLessonCard();
+    $("#lessonContent").innerHTML = "<p class='slide-in-up'>This subject is coming soon. Pick another to start learning.</p>";
     $("#quizBlock").innerHTML = "";
-    const progressLabel = $("#lessonProgressLabel");
-    const progressFill = $("#lessonProgressFill");
-    if (progressLabel) {
-      const minutes = Math.floor(totalTimeSpent / 60);
-      progressLabel.textContent = `${minutes}m`;
-    }
-    if (progressFill) {
-      progressFill.style.width = "0%";
-    }
   }
+  closeSubjectModal();
+  renderSubjectSelectorButton();
+  renderLessonPath();
+}
+
+function focusLessonTab() {
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach((t) => t.classList.remove("is-active"));
+  const lessonTab = document.querySelector('[data-tab="lesson"]');
+  if (lessonTab) lessonTab.classList.add("is-active");
+  const lessonCard = document.getElementById("lessonCard");
+  const journalPanel = document.getElementById("journalPanel");
+  if (lessonCard) lessonCard.classList.remove("is-hidden");
+  if (journalPanel) journalPanel.classList.add("is-hidden");
+  const lessonContent = document.getElementById("lessonContent");
+  const lessonBody = lessonContent ? lessonContent.parentElement : null;
+  if (lessonContent) {
+    lessonContent.style.display = "block";
+    lessonContent.style.visibility = "visible";
+    lessonContent.style.opacity = "1";
+    lessonContent.classList.remove("is-hidden");
+  }
+  if (lessonBody) {
+    lessonBody.style.display = "block";
+    lessonBody.style.visibility = "visible";
+    lessonBody.style.opacity = "1";
+    lessonBody.classList.remove("is-hidden");
+  }
+}
+
+function showLessonCard() {
+  const lessonCard = document.getElementById("lessonCard");
+  const journalPanel = document.getElementById("journalPanel");
+  if (lessonCard) lessonCard.classList.remove("is-hidden");
+  if (journalPanel) journalPanel.classList.add("is-hidden");
+}
+
+// ---- Lesson path (Duolingo-style vertical path) ----
+function getLessonNodeIcon(lesson, subjectId) {
+  if (lesson.imageUrl) return null;
+  if (lesson.type === "intro") return "📖";
+  if (lesson.type === "quiz") return "❓";
+  if (lesson.type === "interactive") return "📊";
+  const title = (lesson.title || "").trim();
+  if (title.length) return title.charAt(0);
+  return subjectId === "finance" ? "💰" : "📚";
+}
+
+function renderLessonPath() {
+  const container = $("#lessonPathContainer");
+  const pathEl = $("#lessonPath");
+  if (!container || !pathEl) return;
+
+  if (!activeCategory) {
+    pathEl.innerHTML = "<p class='lesson-path-empty'>Select a subject above to see your lesson path.</p>";
+    return;
+  }
+
+  const lessons = getLessonsForCategory(activeCategory);
+  const subjectKey = getSubjectKeyForCategory(activeCategory);
+
+  if (!lessons.length) {
+    pathEl.innerHTML = "<p class='lesson-path-empty'>No lessons yet for this subject. More coming soon.</p>";
+    return;
+  }
+
+  const isCurrentSubject = subjectKey === activeSubject;
+  pathEl.innerHTML = "";
+
+  lessons.forEach((lesson, index) => {
+    const isCompleted = isCurrentSubject && index < currentIndex;
+    const isCurrent = isCurrentSubject && index === currentIndex;
+    const isLocked = isCurrentSubject && index > currentIndex;
+
+    const node = document.createElement("div");
+    node.className = "lesson-path-node" + (isCompleted ? " is-completed" : "") + (isCurrent ? " is-current" : "") + (isLocked ? " is-locked" : "");
+    node.setAttribute("role", "listitem");
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "lesson-path-node-btn" + (isLocked ? " is-locked" : "");
+    btn.dataset.lessonIndex = String(index);
+    btn.setAttribute("aria-label", isLocked ? `Lesson ${index + 1} (locked)` : isCurrent ? `Lesson ${index + 1} (current)` : `Lesson ${index + 1}`);
+
+    const iconOrEmoji = getLessonNodeIcon(lesson, subjectKey || "finance");
+    if (lesson.imageUrl) {
+      const img = document.createElement("img");
+      img.src = lesson.imageUrl;
+      img.alt = lesson.imageAlt || lesson.title || "";
+      img.className = "lesson-path-node-icon";
+      btn.appendChild(img);
+    } else {
+      const span = document.createElement("span");
+      span.className = "lesson-path-node-icon emoji";
+      span.textContent = iconOrEmoji || "•";
+      btn.appendChild(span);
+    }
+
+    if (!isLocked) {
+      btn.addEventListener("click", () => handleLessonPathNodeClick(index));
+    }
+
+    node.appendChild(btn);
+    pathEl.appendChild(node);
+  });
+
+  // Scroll current lesson node into view
+  const currentNode = pathEl.querySelector(".lesson-path-node.is-current .lesson-path-node-btn");
+  if (currentNode && container) {
+    setTimeout(() => currentNode.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+  }
+}
+
+function handleLessonPathNodeClick(index) {
+  const subjectKey = getSubjectKeyForCategory(activeCategory);
+  if (!subjectKey || !subjectLessons[subjectKey]) return;
+  activeSubject = subjectKey;
+  currentIndex = index;
+  stopTimeTracking();
+  focusLessonTab();
+  showLessonCard();
+  updateMetaForSubject(activeSubject);
+  renderLesson();
+  renderLessonPath();
+}
+
+// Legacy: no-op so existing refs (e.g. breadcrumb) don’t break
+function showCategories() {
+  renderSubjectSelectorButton();
+  renderLessonPath();
 }
 
 window.showCategories = showCategories;
@@ -2710,11 +2686,22 @@ document.addEventListener("DOMContentLoaded", () => {
     mainInitDone = true;
 
     loadUserData();
-    updateMetaForSubject("finance");
-    showCategories();
-    showSubjectsForCategory(categories[0]);
+    activeCategory = categories[0].id;
+    activeSubject = getSubjectKeyForCategory(activeCategory) || "finance";
+    currentIndex = 0;
+    updateMetaForSubject(activeSubject);
+    renderSubjectSelectorButton();
+    renderSubjectModalList();
+    renderLessonPath();
     renderLesson();
     updateXpProgress();
+
+    const subjectSelectorBtn = $("#subjectSelectorBtn");
+    if (subjectSelectorBtn) subjectSelectorBtn.addEventListener("click", openSubjectModal);
+    const subjectModalClose = $("#subjectModalClose");
+    if (subjectModalClose) subjectModalClose.addEventListener("click", closeSubjectModal);
+    const subjectModalBackdrop = $("#subjectModalBackdrop");
+    if (subjectModalBackdrop) subjectModalBackdrop.addEventListener("click", closeSubjectModal);
 
     updateStatusMessage();
     setInterval(rotateStatusMessage, 15000);
