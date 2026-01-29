@@ -28,12 +28,12 @@ import {
 // ---- YOUR FIREBASE CONFIG HERE ----
 // TODO: Replace all placeholder values with your real Firebase project config.
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCre2rH_lAzrYALrW262rM49JJ5TmIKm8E",
+  authDomain: "shinyos-03147038-a6c79.firebaseapp.com",
+  projectId: "shinyos-03147038-a6c79",
+  storageBucket: "shinyos-03147038-a6c79.firebasestorage.app",
+  messagingSenderId: "152984677136",
+  appId: "1:152984677136:web:32ad90426c642cd05b9395"
 };
 
 let app, auth, db;
