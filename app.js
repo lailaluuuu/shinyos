@@ -472,6 +472,13 @@ const categories = [
     icon: "📊",
     subtitle: "How economies work",
     subjects: []
+  },
+  {
+    id: "psychology",
+    name: "Psychology",
+    icon: "🧠",
+    subtitle: "Mind and behavior",
+    subjects: ["mind"]
   }
 ];
 
@@ -482,6 +489,12 @@ const subjectMetadata = {
     icon: "💰",
     subtitle: "The real-world skill school forgot to mention",
     category: "foundations"
+  },
+  mind: {
+    name: "Mind",
+    icon: "🧠",
+    subtitle: "Why your brain finds meaning",
+    category: "psychology"
   }
 };
 
