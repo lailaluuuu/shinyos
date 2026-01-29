@@ -342,14 +342,28 @@ const subjectLessons = {
 };
 
 
-// Categories structure
+// Categories structure (used by world grid + horizontal category picker)
 const categories = [
   {
-    id: "foundations",
-    name: "Foundations",
-    icon: "🏛️",
-    subtitle: "Core concepts and fundamentals",
+    id: "investing",
+    name: "Investing",
+    icon: "📈",
+    subtitle: "Markets and growth",
     subjects: ["finance"]
+  },
+  {
+    id: "finance",
+    name: "Finance",
+    icon: "💰",
+    subtitle: "Money and capital",
+    subjects: ["finance"]
+  },
+  {
+    id: "economics",
+    name: "Economics",
+    icon: "📊",
+    subtitle: "How economies work",
+    subjects: []
   }
 ];
 
