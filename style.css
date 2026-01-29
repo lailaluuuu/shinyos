@@ -1721,6 +1721,20 @@ textarea {
     border-radius: 16px;
   }
 
+  /* Profile menu (three dots) – top-right on mobile, no overlap */
+  .profile-menu-btn {
+    position: absolute;
+    right: 16px;
+    top: max(14px, env(safe-area-inset-top));
+    margin-right: 0;
+    z-index: 2;
+  }
+
+  .brand {
+    margin-right: 48px;
+    max-width: calc(100% - 48px);
+  }
+
   .top-bar-right {
     width: 100%;
     justify-content: space-between;
@@ -2020,9 +2034,16 @@ textarea {
     gap: 10px;
     border-radius: 14px;
   }
-  
+
+  .profile-menu-btn {
+    right: 14px;
+    top: max(12px, env(safe-area-inset-top));
+  }
+
   .brand {
     gap: 10px;
+    margin-right: 44px;
+    max-width: calc(100% - 44px);
   }
   
   .logo-mark {
