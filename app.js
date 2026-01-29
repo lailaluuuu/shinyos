@@ -2616,10 +2616,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 5000);
 });
 
-// ---------- Login/Logout Buttons Wiring (SAFER) ----------
+// ---------- Login + Profile menu (Logout in modal) ----------
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
+  const profileMenuBtn = document.getElementById("profileMenuBtn");
+  const profileModal = document.getElementById("profileModal");
+  const profileModalBackdrop = document.getElementById("profileModalBackdrop");
+  const profileModalClose = document.getElementById("profileModalClose");
+  const profileModalLogout = document.getElementById("profileModalLogout");
+
+  function openProfileModal() {
+    if (profileModal) profileModal.classList.remove("is-hidden");
+  }
+  function closeProfileModal() {
+    if (profileModal) profileModal.classList.add("is-hidden");
+  }
+
+  if (profileMenuBtn) {
+    profileMenuBtn.addEventListener("click", openProfileModal);
+  }
+  if (profileModalBackdrop) {
+    profileModalBackdrop.addEventListener("click", closeProfileModal);
+  }
+  if (profileModalClose) {
+    profileModalClose.addEventListener("click", closeProfileModal);
+  }
+  if (profileModalLogout) {
+    profileModalLogout.addEventListener("click", async () => {
+      try {
+        if (typeof window.firebaseLogout === "function") {
+          await window.firebaseLogout();
+        }
+        closeProfileModal();
+      } catch (e) {
+        console.error("Logout failed:", e);
+      }
+    });
+  }
 
   // If opened as file://, Firebase Auth won't work properly
   if (location.protocol === "file:") {
@@ -2668,20 +2701,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        try {
-          await window.firebaseLogout();
-        } catch (e) {
-          console.error("Logout failed:", e);
-        }
-      });
-    }
-
     window.addEventListener("firebase:authready", (e) => {
       const loggedIn = !!e.detail?.hasUser;
       if (loginBtn) loginBtn.classList.toggle("is-hidden", loggedIn);
-      if (logoutBtn) logoutBtn.classList.toggle("is-hidden", !loggedIn);
+      if (profileModalLogout) profileModalLogout.classList.toggle("is-hidden", !loggedIn);
     });
   });
 });

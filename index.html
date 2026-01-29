@@ -66,6 +66,7 @@
   <div class="app">
     <!-- Top bar -->
     <header class="top-bar">
+      <button type="button" class="profile-menu-btn" id="profileMenuBtn" aria-label="Open profile menu"><span class="profile-menu-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></button>
       <div class="brand">
         <div class="logo-mark">◎</div>
         <div class="logo-text">
@@ -78,9 +79,8 @@
         <div class="status-message" id="statusMessage" aria-live="polite"></div>
         <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">🏆 Leaderboard</button>
 
-        <!-- OPTIONAL: login/logout buttons -->
+        <!-- Login button (logout moved to profile menu) -->
         <button type="button" class="auth-btn" id="loginBtn">Login</button>
-        <button type="button" class="auth-btn is-hidden" id="logoutBtn">Logout</button>
 
         <div class="top-bar-metrics">
           <div class="metric metric--level">
@@ -253,6 +253,20 @@
       </div>
       <div class="leaderboard-list" id="leaderboardList">
         <!-- Leaderboard query & render fills this -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile menu modal (three-dots → Logout + tagline) -->
+  <div class="profile-modal is-hidden" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="profile-modal-backdrop" id="profileModalBackdrop"></div>
+    <div class="profile-modal-content">
+      <div class="profile-modal-header">
+        <p class="profile-modal-tagline" id="profileModalTitle">operating system for your brain</p>
+        <button type="button" class="profile-modal-close" id="profileModalClose" aria-label="Close menu">×</button>
+      </div>
+      <div class="profile-modal-body">
+        <button type="button" class="profile-modal-logout is-hidden" id="profileModalLogout">Logout</button>
       </div>
     </div>
   </div>
