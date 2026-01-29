@@ -1,0 +1,25 @@
+# Firebase config with API keys (copy firebase.example.js to firebase.js and add your keys)
+firebase.js
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Dependencies
+node_modules/
+
+# OS and editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build / cache
+dist/
+.cache/
