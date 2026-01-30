@@ -1688,7 +1688,8 @@ function renderLesson() {
     imageContainer.style.position = "relative"; // For hedgehog positioning
     
     const img = document.createElement("img");
-    const imagePath = lesson.imageUrl || "images/investing-intro.png";
+    // Use subject-specific intro image; space lesson uses black-holes intro
+    let imagePath = lesson.imageUrl || (activeSubject === "space" ? "images/black-holes-intro.png" : "images/investing-intro.png");
     let finalPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
     if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
       finalPath = "images/" + finalPath;
