@@ -63,35 +63,17 @@
     </div>
   </div>
 
-  <!-- Intro screen (intro.png with animated floating icons); dismissed via "Let's go..." -->
+  <!-- Intro screen (intro.png); hedgehog, rocket, stars float in the middle -->
   <div class="intro-screen is-hidden" id="introScreen" aria-hidden="true">
     <div class="intro-screen-bg" style="background-image: url('images/intro.png');"></div>
-    <!-- Particle / ambient background -->
-    <div class="intro-particles" aria-hidden="true">
-      <span class="intro-particle intro-particle--1"></span>
-      <span class="intro-particle intro-particle--2"></span>
-      <span class="intro-particle intro-particle--3"></span>
-      <span class="intro-particle intro-particle--4"></span>
-      <span class="intro-particle intro-particle--5"></span>
-      <span class="intro-particle intro-particle--6"></span>
-      <span class="intro-particle intro-particle--7"></span>
-      <span class="intro-particle intro-particle--8"></span>
-    </div>
-    <!-- Floating icons around the screen (lightbulb, magnifying glass, chart, brain, galaxy, etc.) -->
-    <div class="intro-screen-icons-wrap" aria-hidden="true">
-      <span class="intro-icon intro-icon--1" title="">💡</span>
-      <span class="intro-icon intro-icon--2" title="">🔍</span>
-      <span class="intro-icon intro-icon--3" title="">🌙</span>
-      <span class="intro-icon intro-icon--4" title="">📈</span>
-      <span class="intro-icon intro-icon--5" title="">🧠</span>
-      <span class="intro-icon intro-icon--6" title="">🔗</span>
-      <span class="intro-icon intro-icon--7" title="">🌌</span>
-      <span class="intro-icon intro-icon--8" title="">🦔</span>
-      <span class="intro-icon intro-icon--9" title="">🚀</span>
-      <span class="intro-icon intro-icon--10" title="">✨</span>
+    <!-- Only hedgehog, rocket, and stars float in the center -->
+    <div class="intro-float-elements" aria-hidden="true">
+      <span class="intro-float intro-float--hedgehog">🦔</span>
+      <span class="intro-float intro-float--rocket">🚀</span>
+      <span class="intro-float intro-float--stars">✨</span>
     </div>
     <div class="intro-screen-content">
-      <button type="button" class="intro-screen-btn" id="introScreenBtn">Let's go...</button>
+      <button type="button" class="intro-screen-btn" id="introScreenBtn">Get started</button>
     </div>
   </div>
 
