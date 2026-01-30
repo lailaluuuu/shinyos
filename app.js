@@ -1188,7 +1188,6 @@ const categories = [
   {
     id: "finance",
     name: "Finance",
-    dropdownLabel: "Let's go....✨",
     icon: "💰",
     subtitle: "Money and capital",
     subjects: ["finance"]
@@ -3157,8 +3156,7 @@ function renderSubjectDropdowns() {
     btn.setAttribute("aria-haspopup", "true");
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-label", "Open " + category.name + " lessons");
-    var dropdownLabel = category.dropdownLabel != null ? category.dropdownLabel : category.name;
-    btn.innerHTML = "<span class=\"subject-dropdown-icon\">" + category.icon + "</span><span class=\"subject-dropdown-label\">" + dropdownLabel + "</span><span class=\"subject-dropdown-chevron\" aria-hidden=\"true\">▼</span>";
+    btn.innerHTML = "<span class=\"subject-dropdown-icon\">" + category.icon + "</span><span class=\"subject-dropdown-label\">" + category.name + "</span><span class=\"subject-dropdown-chevron\" aria-hidden=\"true\">▼</span>";
     const menu = document.createElement("div");
     menu.className = "subject-dropdown-menu";
     menu.setAttribute("role", "menu");
