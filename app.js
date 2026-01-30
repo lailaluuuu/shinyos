@@ -2676,7 +2676,10 @@ function renderSubjectSelectorButton() {
   const iconEl = $("#subjectSelectorIcon");
   const labelEl = $("#subjectSelectorLabel");
   if (!iconEl || !labelEl) return;
-  if (activeCategory) {
+  if (!userHasSelectedSubject) {
+    iconEl.textContent = "✨";
+    labelEl.textContent = "Let's go...";
+  } else if (activeCategory) {
     const category = categories.find((c) => c.id === activeCategory);
     if (category) {
       iconEl.textContent = category.icon;
