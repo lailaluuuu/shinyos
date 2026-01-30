@@ -1645,12 +1645,8 @@ function showStreakScreen() {
     streakScreen.id = "streakScreen";
     streakScreen.className = "streak-screen";
     
-    // Calculate time spent (in minutes)
-    const minutesSpent = Math.floor(sessionTimeSpent / 60);
-    const secondsSpent = sessionTimeSpent % 60;
-    const timeDisplay = minutesSpent > 0 
-      ? `${minutesSpent}m ${secondsSpent}s`
-      : `${secondsSpent}s`;
+    // Calculate time spent (seconds only)
+    const timeDisplay = `${sessionTimeSpent}s`;
     
     // Build week calendar
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -2831,12 +2827,11 @@ function updateProgressDisplay() {
     currentSessionTime = Math.floor((Date.now() - lessonStartTime) / 1000);
   }
   
-  // Total time = saved time + current session time
+  // Total time = saved time + current session time (seconds)
   const totalTime = totalTimeSpent + currentSessionTime;
-  const minutes = Math.floor(totalTime / 60);
   
-  // Display time in minutes
-  progressLabel.textContent = `${minutes}m`;
+  // Display time in seconds
+  progressLabel.textContent = `${totalTime}s`;
 }
 
 function switchTab(tab) {
