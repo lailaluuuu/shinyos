@@ -807,39 +807,301 @@ const subjectLessons = {
       slug: "terraforming-mars",
       subject: "space",
       type: "lesson",
-      title: "Terraforming Mars",
-      subtitle: "",
+      title: "Terraforming Mars: From Red Hell to Green Paradise",
+      subtitle: "Transform Mars using lasers, imported nitrogen, and artificial magnetic fields",
       difficulty: "Advanced",
       estimatedTime: "15-20 min",
       xpReward: 250,
       icon: "🔴",
       imageUrl: "",
       imageAlt: "Terraforming Mars introduction",
-      introduction: {
-        hook: "",
-        context: "",
-        learningObjectives: []
-      },
       sections: [
         {
           type: "content",
-          title: "",
-          paragraphs: []
+          title: "🔴 Introduction: From Red Hell to Green Paradise",
+          paragraphs: [
+            "Mars is a disappointing hellhole lacking practically everything we need to stay alive. But what if we could transform it into a green new world using gigantic lasers and oceans of lava?",
+            "This isn't science fiction. Terraforming Mars is theoretically possible on the same timescale our ancestors built great monuments. If humanity expands into the solar system, this could be our reality.",
+            "Learning objectives:",
+            "• Understand the three major challenges of terraforming Mars",
+            "• Learn how thermolysis can create a breathable atmosphere",
+            "• Discover why we need to import nitrogen from Titan",
+            "• Explore how to build a stable biosphere from scratch",
+            "• Understand the long-term protection needs of a terraformed planet"
+          ]
+        },
+        {
+          type: "content",
+          title: "Step 1: Understanding the Problem",
+          paragraphs: [
+            "Before we can fix Mars, we need to understand exactly what's wrong with it. Mars today is a barren wasteland, but it wasn't always this way.",
+            "About 4 billion years ago, Mars had a nice oxygen-rich atmosphere and vast oceans. It held onto this atmosphere for several hundred million years before losing it. Ultraviolet rays broke down atmospheric gases, and then solar wind swept them away into space.",
+            "Key points:",
+            "• Mars' atmosphere is too thin to breathe or protect from radiation",
+            "• The surface is dry with no soil to grow anything",
+            "• High cancer risk from radiation exposure",
+            "• But frozen water exists in polar ice caps and deep reservoirs",
+            "• Oxygen is trapped in iron oxides (rust) and carbonates in rocks"
+          ]
         },
         {
           type: "quiz",
-          question: "",
-          options: [],
-          explanation: ""
+          question: "What happened to Mars' original atmosphere?",
+          options: [
+            { id: "a", text: "It was stolen by aliens for their own planet", correct: false },
+            { id: "b", text: "Ultraviolet rays broke it down and solar wind swept it away", correct: true },
+            { id: "c", text: "It sank into the planet's core", correct: false },
+            { id: "d", text: "Mars never had an atmosphere to begin with", correct: false }
+          ],
+          explanation: "UV radiation broke down the atmospheric gases and oceans molecule by molecule. Then, without a strong magnetic field to protect it, the solar wind - a stream of charged particles from the Sun - gradually stripped away Mars' atmosphere over hundreds of millions of years."
+        },
+        {
+          type: "content",
+          title: "Step 2: The Goal",
+          paragraphs: [
+            "To make Mars habitable, we need to recreate Earth-like conditions. But what exactly does that mean in numbers?",
+            "Earth's atmosphere is a precisely balanced mixture: 21% oxygen for us to breathe, 79% nitrogen as a buffer gas, and a tiny bit of CO2 (about 0.04%) to regulate temperature through the greenhouse effect.",
+            "Target specs: 21% O2, 79% N2, trace CO2. Temperature: 14°C average. Pressure: 1 bar (same as Earth at sea level). We must shield against UV and cosmic radiation. We need liquid oceans and rivers on the surface, and weathered ground capable of supporting plant life."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why can't we just create a pure oxygen atmosphere on Mars?",
+          options: [
+            { id: "a", text: "Pure oxygen is too heavy and would sink into the ground", correct: false },
+            { id: "b", text: "It would be extremely flammable and hard to breathe safely", correct: true },
+            { id: "c", text: "Oxygen is toxic to all known life forms", correct: false },
+            { id: "d", text: "We don't have enough oxygen to make a full atmosphere", correct: false }
+          ],
+          explanation: "A pure oxygen atmosphere would be incredibly dangerous - everything would be highly flammable, causing fires to spread rapidly. It's also difficult to breathe pure oxygen at normal pressure for extended periods. We need nitrogen as a 'buffer gas' to dilute the oxygen and make it safer, just like on Earth."
+        },
+        {
+          type: "content",
+          title: "Challenge 1: Creating the Atmosphere",
+          paragraphs: [
+            "Here's the wild part: to fix Mars' atmosphere, we first need to make things much worse. We need to melt the entire surface into oceans of lava.",
+            "The oxygen we need is locked in Martian rocks as iron oxides (Fe2O3) and carbonates. To free these gases, we use THERMOLYSIS - breaking down compounds using extreme heat. This requires temperatures as high as the surface of the Sun.",
+            "The method: Giant orbital laser arrays. Solar-pumped lasers powered by focused sunlight. Mirror array 11x the size of the United States. 20 Petawatts continuous (2x the most powerful laser today). 750 kg of O2 per cubic meter of rock melted. We only need to melt the top 8 meters of surface."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why do we need to melt Mars' surface instead of just importing oxygen from elsewhere?",
+          options: [
+            { id: "a", text: "Melting rocks is more fun than shipping gases", correct: false },
+            { id: "b", text: "The oxygen is already there, locked in the rocks - we just need to free it", correct: true },
+            { id: "c", text: "Imported oxygen wouldn't mix properly with Mars' atmosphere", correct: false },
+            { id: "d", text: "Space shipping is illegal under interplanetary law", correct: false }
+          ],
+          explanation: "Mars' rust-red color comes from iron oxides - essentially rust. This rust contains enormous amounts of oxygen chemically bound to iron. It's far more efficient to extract this oxygen that's already on Mars than to ship trillions of tons from elsewhere in the solar system."
+        },
+        {
+          type: "content",
+          title: "Step 3: The Great Melting",
+          paragraphs: [
+            "Imagine what this would look like: 50 years of continuous planetary melting. It would be simultaneously terrifying and awe-inspiring.",
+            "The skies shrouded in storms. The ground glowing red-hot, criss-crossed by rivers of lava. Tireless laser beams sweeping over the landscape, leaving trails too bright to look at. After they pass, the ground cools quickly. A strange snow falls - ashes from elements like silicon and iron solidifying as they cool.",
+            "Happy accidents: All water from ice caps and underground rises as steam. Forms planet-wide clouds that rain everywhere. Rain washes out nasty gases like chlorine. Carries away harmful accumulated surface elements. Forms shallow oceans (saltier than Earth's). We can selectively dig deeper for ocean basins and preserve landmarks like Olympus Mons. Timeline: ~50 years of continuous lasering."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "After 50 years of melting Mars, what's the problem with our new atmosphere?",
+          options: [
+            { id: "a", text: "It's too cold and the oxygen freezes solid", correct: false },
+            { id: "b", text: "It's nearly 100% oxygen at only 0.2 bar - hard to breathe and extremely flammable", correct: true },
+            { id: "c", text: "It contains too many greenhouse gases and overheats the planet", correct: false },
+            { id: "d", text: "The laser damage made it toxic to all life", correct: false }
+          ],
+          explanation: "After thermolysis, we have an atmosphere that's almost pure oxygen at only 0.2 bar pressure (about 1/5 of Earth's pressure). This is dangerous for two reasons: it's difficult to breathe comfortably at low pressure, and pure oxygen is extremely flammable - any spark could cause catastrophic fires. We desperately need nitrogen to dilute it."
+        },
+        {
+          type: "content",
+          title: "Step 4: The Nitrogen Problem",
+          paragraphs: [
+            "We have a breathable amount of oxygen, but we need to add 79% nitrogen to make it safe and Earth-like. Unfortunately, Mars is severely lacking in nitrogen. We have to import it... from Saturn.",
+            "The plan: Titan (Saturn's largest moon) has a thick atmosphere that's almost entirely nitrogen. We need 3,000 trillion tons. Titan is ~1.2 billion km from Mars. Giant automated factories on Titan's surface: laser-powered factories suck in Titan's atmosphere, compress nitrogen into liquid form, pump into bullet-shaped tanks, mass driver shoots them to Mars, tanks explode in Mars orbit mixing with oxygen. Timeline: ~2 generations (~50 years) with enough resources. Would be easier if we terraformed Venus first and had leftover nitrogen!"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why is Titan the ideal source for nitrogen?",
+          options: [
+            { id: "a", text: "It's the closest celestial body with nitrogen", correct: false },
+            { id: "b", text: "Titan's nitrogen is a special type that works better", correct: false },
+            { id: "c", text: "It has a thick atmosphere that's almost entirely nitrogen - exactly what we need", correct: true },
+            { id: "d", text: "The nitrogen on Titan is already compressed and ready to ship", correct: false }
+          ],
+          explanation: "Titan is unique in our solar system: it's the only moon with a thick atmosphere, and that atmosphere is about 95% nitrogen - almost pure! While it's far away (at Saturn), it's essentially a massive nitrogen reservoir. Other solar system bodies might have some nitrogen, but nothing comes close to Titan's abundance and accessibility."
+        },
+        {
+          type: "content",
+          title: "Step 5: One Century Later",
+          paragraphs: [
+            "About 100 years after starting the terraforming process, Mars has transformed dramatically. But it's still not ready for life.",
+            "Status: Breathable mix of 21% O2, 79% N2 ✓. Pressure 1 bar ✓. Temperature warmed by CO2 and super greenhouse gases ✓. Appearance: black marble from cooling lava, spotted with growing oceans and red untouched patches. Problem: Still a wasteland - no better than Earth's harshest deserts. What's missing? LIFE."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "What would Mars look like at this stage?",
+          options: [
+            { id: "a", text: "Exactly like Earth with green continents and blue oceans", correct: false },
+            { id: "b", text: "A black marble with growing oceans and some red patches of old surface", correct: true },
+            { id: "c", text: "Still completely red and dusty, unchanged from before", correct: false },
+            { id: "d", text: "A glowing ball of molten lava", correct: false }
+          ],
+          explanation: "The extensive melting would leave most of Mars' surface covered in cooled, black lava rock. Growing oceans would create blue patches, and areas where we preserved the original surface (like Olympus Mons) would remain red. It would be a stark, alien-looking world - breathable but lifeless."
+        },
+        {
+          type: "content",
+          title: "Challenge 2: Building a Biosphere",
+          paragraphs: [
+            "Installing a biosphere on a new planet is extremely difficult. Unexpected interactions between species or diseases can destabilize it to the point of collapse. We need to be strategic.",
+            "Phase 1 - Seed the Oceans: Start with phytoplankton (microscopic plants). Without competition, they bloom rapidly. Creates bottom of aquatic food chain. Add tiny zooplankton next, then fish, potentially sharks and whales. Ocean life should thrive relatively quickly.",
+            "Phase 2 - Conquer the Land (Much Harder): Plants need nutrient-filled soil. Mars has congealed lava and ash - essentially sterile rock. Slow solution: wait thousands of years for weathering. Fast solution: use our laser again!"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why is establishing life on land much harder than in the oceans?",
+          options: [
+            { id: "a", text: "Plants are more fragile than fish", correct: false },
+            { id: "b", text: "The oceans provide better radiation shielding", correct: false },
+            { id: "c", text: "Plants need nutrient-filled soil, but Mars' surface is sterile lava rock and ash", correct: true },
+            { id: "d", text: "Land life requires oxygen but ocean life doesn't", correct: false }
+          ],
+          explanation: "Ocean life can thrive in water enriched with dissolved minerals and nutrients. But land plants need complex soil with organic matter, minerals, and microorganisms. Mars' freshly melted surface is just solidified lava and volcanic ash - it has the wrong chemistry and structure. It's like trying to grow a garden on a parking lot."
+        },
+        {
+          type: "content",
+          title: "Step 6: Creating Soil Fast",
+          paragraphs: [
+            "We could wait millennia for natural weathering, but we have a giant laser. Let's use it creatively.",
+            "Rapid on-off laser pulses: ground rapidly heats up and contracts, breaks rock into smaller and smaller pieces. Add water to create dark mud. Mix in fungi and nitrogen-fixing bacteria.",
+            "Nitrogen-fixing bacteria absorb N2 from the air and convert it into nitrate compounds that feed plants. They're Earth's natural fertilizer factories.",
+            "First plants: species native to volcanic islands on Earth - perfectly suited to laser-blasted Martian landscape. Progression: enriched mud becomes foundation → grasslands emerge → forests grow (very tall, very fast due to lower gravity) → tree roots gather nutrients and dig deeper → roots turn more rock into soil → self-sustaining ecosystem formed."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "What makes nitrogen-fixing bacteria so crucial for Mars?",
+          options: [
+            { id: "a", text: "They eat the toxic ash and make it safe", correct: false },
+            { id: "b", text: "They convert atmospheric nitrogen into nitrate compounds that plants can use as food", correct: true },
+            { id: "c", text: "They produce oxygen through photosynthesis", correct: false },
+            { id: "d", text: "They protect other organisms from radiation", correct: false }
+          ],
+          explanation: "Nitrogen-fixing bacteria perform chemical magic: they take N2 gas from the air (which plants can't use directly) and convert it into nitrates and ammonia (which plants CAN use). This is critical because even though Mars now has a nitrogen-rich atmosphere, plants can't access it without these bacteria. They're the bridge that makes the atmosphere useful for plant life."
+        },
+        {
+          type: "content",
+          title: "Step 7: Ecosystem Expansion",
+          paragraphs: [
+            "Once we have functioning grasslands and forests, we can gradually introduce more complexity. But we need to be careful.",
+            "Introduction order: more plant varieties (gradually), insects (but NOT mosquitoes!), animals (starting small, working up), careful monitoring at every step.",
+            "Dangers: plants absorbing too much CO2 → planet cools too much; key species dying out → population collapse. On Earth, other species would fill the void. Mars' biosphere isn't as flexible yet. Constant monitoring and intervention needed to prevent collapse. Hundreds if not thousands of years before stable environment. Eventually Mars will have air, water, and food to sustain large human colonies."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why would a Martian biosphere be more fragile than Earth's?",
+          options: [
+            { id: "a", text: "Mars' lower gravity makes organisms weaker", correct: false },
+            { id: "b", text: "The artificial atmosphere is unstable", correct: false },
+            { id: "c", text: "Mars has fewer species with less biodiversity, so there are no backup species to fill ecological niches if something dies out", correct: true },
+            { id: "d", text: "Martian soil is poisonous to most life", correct: false }
+          ],
+          explanation: "Earth's biospheres are resilient because they have incredible biodiversity - if one species of pollinator goes extinct, there are often others that can take over that role. Mars' engineered biosphere would start with minimal species, carefully selected. This means there are no 'backup' species. If your key pollinators die out, you could lose all plants that depend on them, triggering a cascade of extinctions."
+        },
+        {
+          type: "content",
+          title: "Challenge 3: Long-Term Protection",
+          paragraphs: [
+            "We've built an atmosphere and biosphere, but there's a problem we haven't addressed: Mars' core does not produce a magnetic field.",
+            "Earth's magnetic field deflects solar radiation and cosmic rays. Mars has no rotating liquid iron core = no magnetic field. Solar wind will gradually strip away our new atmosphere (again!). High radiation exposure is dangerous for long-term Martian populations.",
+            "The solution: Artificial magnetic field. Doesn't need to be huge like Earth's - just deflect solar wind enough so it doesn't touch Mars. Design: magnetic umbrella far ahead of Mars."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why did Mars lose its original atmosphere billions of years ago?",
+          options: [
+            { id: "a", text: "Asteroid impacts blew it away", correct: false },
+            { id: "b", text: "It was too cold and the atmosphere froze and fell to the surface", correct: false },
+            { id: "c", text: "Without a magnetic field, solar wind gradually stripped it away", correct: true },
+            { id: "d", text: "Mars' low gravity couldn't hold onto the gases", correct: false }
+          ],
+          explanation: "Mars' core cooled and solidified early in its history, shutting down its magnetic field. Without this protective shield, the solar wind - a constant stream of charged particles from the Sun - could directly impact Mars' atmosphere. Over hundreds of millions of years, it literally blew the atmosphere away into space, atom by atom. We need to prevent this from happening again."
+        },
+        {
+          type: "content",
+          title: "Step 8: The Magnetic Umbrella",
+          paragraphs: [
+            "The final piece of the puzzle is elegant in its simplicity: a giant magnetic shield in space.",
+            "Design: large superconducting ring, powered by nuclear facilities, placed at Mars-Sun L1 point. Lagrange point 1 is a special orbital position that stays constantly between the Sun and Mars. It deflects solar wind to the sides like an umbrella, protecting the entire planet and atmosphere.",
+            "The solar wind is made of charged particles. A strong magnetic field deflects charged particles. The umbrella doesn't stop all radiation, but it prevents the continuous atmospheric stripping that doomed original Mars. Atmosphere protected ✓"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why place the magnetic shield at the L1 point instead of orbiting Mars?",
+          options: [
+            { id: "a", text: "L1 is closer to nuclear power sources", correct: false },
+            { id: "b", text: "L1 stays constantly between the Sun and Mars, providing continuous protection", correct: true },
+            { id: "c", text: "L1 has stronger gravity that powers the magnets", correct: false },
+            { id: "d", text: "The magnetic field is stronger at L1", correct: false }
+          ],
+          explanation: "Lagrange points are special positions where gravitational forces balance out. The L1 point between the Sun and Mars stays in a fixed position relative to both bodies. This means our magnetic shield can remain stationary between the Sun and Mars without using fuel, providing constant protection as Mars orbits. Any other orbit would leave gaps in protection."
+        },
+        {
+          type: "content",
+          title: "The Complete Vision",
+          paragraphs: [
+            "Let's review the complete timeline and what we've accomplished.",
+            "Years 0–50: Continuous laser melting → Oxygen atmosphere created. Years 50–100: Nitrogen import from Titan → Breathable atmosphere complete. Years 100–150: Ocean seeding → Marine biosphere established. Years 150–300: Soil creation and plant introduction → Land biosphere growing. Years 300–1000: Ecosystem stabilization and expansion. Ongoing: Magnetic umbrella maintenance and biosphere management.",
+            "Roughly 1,000 years from start to stable, Earth-like planet. Same timescale as building great pyramids, cathedrals, or the Great Wall of China.",
+            "Final result: A black, blue, and green marble. A giant volcanic island in space. Breathable, protected, stable atmosphere. Oceans, rivers, rain cycles. Thriving biosphere from microbes to potentially large animals. Large colonies can live on the surface without suits. First home designed and shaped solely by us and for us."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "What makes terraforming Mars more feasible than it might seem?",
+          options: [
+            { id: "a", text: "It only takes 50 years from start to finish", correct: false },
+            { id: "b", text: "We already have all the technology we need today", correct: false },
+            { id: "c", text: "The timescale (roughly 1,000 years) is similar to great monuments humans have built", correct: true },
+            { id: "d", text: "Mars will terraform itself if we just add water", correct: false }
+          ],
+          explanation: "The ~1,000 year timeline seems long by human lifespans, but it's remarkably short by civilizational standards. Humans have built projects that lasted centuries: the Great Wall of China was built over ~2,000 years, Gothic cathedrals took centuries, and the pyramids were built over many generations. We're capable of multi-generational projects."
+        },
+        {
+          type: "content",
+          title: "Final Reflection",
+          paragraphs: [
+            "Terraforming Mars isn't just about creating a second Earth. It's about what it represents for humanity.",
+            "Significance: First time living in a home designed completely by us. Proof that we can shape entire worlds. Insurance against extinction events on Earth. First step toward becoming a multi-planetary species. Testing ground for eventual interstellar colonization. Ultimate expression of human ambition and engineering.",
+            "Challenges: Requires solving current problems (climate, energy, cooperation). Needs massive resource investment. Demands multi-generational thinking. Requires unprecedented international cooperation. Must balance speed with safety and ethics.",
+            "The real question: Not 'can we do it?' but 'will we choose to do it?'"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "What is the most significant obstacle to terraforming Mars?",
+          options: [
+            { id: "a", text: "The technology doesn't exist and may never exist", correct: false },
+            { id: "b", text: "Mars is too far away to work on effectively", correct: false },
+            { id: "c", text: "The financial resources, international cooperation, and long-term commitment required from humanity", correct: true },
+            { id: "d", text: "The laws of physics make it impossible to maintain an atmosphere on Mars", correct: false }
+          ],
+          explanation: "The video emphasizes that terraforming Mars is 'possible' from a physics and engineering standpoint - we know how to do it. The real obstacles are human: can we gather the enormous resources? Can nations cooperate on a millennium-scale project? Will we prioritize this over other pressing problems? Can we maintain motivation across dozens of generations? Technology is the easy part; human nature and social organization are the hard parts."
+        },
+        {
+          type: "reflection",
+          title: "🌟 Completion: Mars Terraform Architect",
+          prompt: "You've learned how to transform Mars from a frozen, barren hellhole into a living, breathing world - using lasers, imported nitrogen from Saturn, carefully managed biospheres, and artificial magnetic fields. The process would take roughly 1,000 years and require unprecedented human cooperation and resources.\n\nKey takeaways:\n• Mars lost its atmosphere because solar wind stripped it away without magnetic protection\n• Thermolysis with orbital lasers can extract oxygen from Martian rocks\n• Nitrogen must be imported from Titan (Saturn) to create Earth-like atmosphere\n• Building a stable biosphere requires careful sequencing from simple to complex life\n• Artificial magnetic shield at L1 point protects atmosphere long-term\n• Timeline: ~1,000 years - similar to humanity's greatest monuments\n\nAchievement unlocked: Mars Terraform Architect. Bonus: 100 XP. Unlocks: Venus terraforming, Titan colonization, Generation ships."
         }
-      ],
-      completion: {
-        summary: "",
-        keyTakeaways: [],
-        achievement: "",
-        bonusXP: 100,
-        unlocks: []
-      }
+      ]
     }
   ]
 };
