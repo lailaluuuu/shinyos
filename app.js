@@ -3927,7 +3927,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }, { passive: false });
     }
 
-    // Intro screen (full-screen welcome): show only when no subject selected yet; "Let's go..." → subject selection
+    // Intro screen (full-screen welcome): show after loading; "Let's go..." dismisses intro and reveals home
     const introScreen = document.getElementById("introScreen");
     const introScreenBtn = document.getElementById("introScreenBtn");
     if (introScreenBtn) {
@@ -3936,7 +3936,7 @@ document.addEventListener("DOMContentLoaded", () => {
           introScreen.classList.add("is-hidden");
           introScreen.setAttribute("aria-hidden", "true");
         }
-        openSubjectModal();
+        // Reveal home; user can then click "Let's go..." on home to open subject modal
       });
       introScreenBtn.addEventListener("touchend", function (e) {
         e.preventDefault();
@@ -3944,10 +3944,13 @@ document.addEventListener("DOMContentLoaded", () => {
           introScreen.classList.add("is-hidden");
           introScreen.setAttribute("aria-hidden", "true");
         }
-        openSubjectModal();
       }, { passive: false });
     }
-    // Home page is the default landing view (header + dropdowns + hero + Let's go). Keep full-screen intro hidden.
+    // Show intro screen on top after init (flow: Loading → Intro → Home)
+    if (introScreen) {
+      introScreen.classList.remove("is-hidden");
+      introScreen.setAttribute("aria-hidden", "false");
+    }
   }
 
   // ——— Username required gate ———
