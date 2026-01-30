@@ -526,6 +526,21 @@ body::after {
   flex-shrink: 0;
 }
 
+.lesson-completed-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(52, 211, 153, 0.2);
+  color: rgba(52, 211, 153, 0.95);
+  flex-shrink: 0;
+}
+
+.lesson-completed-badge::before {
+  content: "✓ ";
+}
+
 /* ---- Lesson path (Duolingo-style vertical path) ---- */
 .lesson-path-container {
   min-height: 320px;

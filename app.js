@@ -637,6 +637,9 @@ window.streak = streak;
 window.lastLessonDate = lastLessonDate;
 let completedDays = {}; // Object with dates as keys (YYYY-MM-DD) for tracking daily completions
 
+// Completed lessons (XP already awarded once; key = subject key e.g. "finance", "investing")
+let completedLessonsForXp = [];
+
 // Session tracking
 let sessionXpGained = 0; // XP gained in current session
 let sessionStartTime = null; // When current session started
@@ -706,6 +709,18 @@ function loadUserData() {
     }
   }
 
+  const savedCompletedLessonsXp = localStorage.getItem("shinyos_completed_lessons_xp");
+  if (savedCompletedLessonsXp) {
+    try {
+      completedLessonsForXp = JSON.parse(savedCompletedLessonsXp);
+      if (!Array.isArray(completedLessonsForXp)) completedLessonsForXp = [];
+    } catch (e) {
+      completedLessonsForXp = [];
+    }
+  } else {
+    completedLessonsForXp = [];
+  }
+
   updateStreakDisplay();
   sessionXpGained = 0;
   sessionStartTime = Date.now();
@@ -727,10 +742,23 @@ function saveUserData() {
     localStorage.setItem('shinyos_last_lesson_date', lastLessonDate);
   }
   localStorage.setItem('shinyos_completed_days', JSON.stringify(completedDays));
-  
+  localStorage.setItem('shinyos_completed_lessons_xp', JSON.stringify(completedLessonsForXp));
+
   // Also save to Firestore if logged in
   if (window.firebaseSaveProgress) {
     window.firebaseSaveProgress();
+  }
+}
+
+// Completed-lesson XP: only award XP once per lesson (subject)
+function isLessonCompletedForXp(subjectKey) {
+  return Array.isArray(completedLessonsForXp) && completedLessonsForXp.includes(subjectKey);
+}
+function markLessonCompletedForXp(subjectKey) {
+  if (!Array.isArray(completedLessonsForXp)) completedLessonsForXp = [];
+  if (!completedLessonsForXp.includes(subjectKey)) {
+    completedLessonsForXp.push(subjectKey);
+    saveUserData();
   }
 }
 
@@ -1085,26 +1113,34 @@ function checkLessonCompletion() {
     if (badges[badgeId]) {
       awardBadge(badgeId);
     }
-    
-    // Award bonus XP for completing lesson
-    const bonusXp = 50;
-    xp += bonusXp;
-    window.xp = xp; // Sync for Firebase
-    sessionXpGained += bonusXp; // Track session XP
-    const xpValue = $("#xpValue");
-    if (xpValue) xpValue.textContent = xp.toString();
-    updateXpProgress();
-    
+
+    const alreadyCompleted = isLessonCompletedForXp(activeSubject);
+    if (!alreadyCompleted) {
+      // Award bonus XP for completing lesson (first time only)
+      const bonusXp = 50;
+      xp += bonusXp;
+      window.xp = xp; // Sync for Firebase
+      sessionXpGained += bonusXp; // Track session XP
+      const xpValue = $("#xpValue");
+      if (xpValue) xpValue.textContent = xp.toString();
+      updateXpProgress();
+      markLessonCompletedForXp(activeSubject);
+    }
+
     // Update streak when lesson is completed
     updateStreakOnLessonComplete();
-    
+
     saveUserData();
-    
-    // Show bonus XP message
+
+    // Show message
     const hintText = $("#hintText");
     if (hintText) {
-      hintText.textContent = `🎉 Lesson complete! +${bonusXp} bonus XP!`;
-      hintText.classList.add('hint-success');
+      if (alreadyCompleted) {
+        hintText.textContent = "Lesson complete! (No additional XP — already completed.)";
+      } else {
+        hintText.textContent = `🎉 Lesson complete! +50 bonus XP!`;
+        hintText.classList.add('hint-success');
+      }
     }
   }
 }
@@ -1317,8 +1353,10 @@ function renderLesson() {
   // Reset hint + pending XP display (pill shows total XP when no pending)
   pendingXp = 0;
   syncBottomXpPill();
-  // Set hint text based on lesson type
-  if (lesson.type === "interactive") {
+  // Set hint text: show retake message if lesson already completed for XP, else by lesson type
+  if (currentIndex === 0 && isLessonCompletedForXp(activeSubject)) {
+    hintText.textContent = "This lesson is completed. You can practice again but won't earn additional XP.";
+  } else if (lesson.type === "interactive") {
     hintText.textContent = "Drag the slider to explore how time affects your investment.";
   } else if (lesson.type === "quiz") {
     hintText.textContent = "Tap an answer to check your understanding.";
@@ -1999,9 +2037,19 @@ function handleQuizClick(button, option, lesson, event) {
     }
   }
 
-  xp += pendingXp;
-  window.xp = xp; // Sync for Firebase
-  sessionXpGained += pendingXp; // Track session XP
+  // Only award XP on first completion of this lesson
+  if (!isLessonCompletedForXp(activeSubject)) {
+    xp += pendingXp;
+    window.xp = xp; // Sync for Firebase
+    sessionXpGained += pendingXp; // Track session XP
+
+    const currentXpValue = document.getElementById("xpValue");
+    if (currentXpValue) currentXpValue.textContent = xp.toString();
+
+    syncBottomXpPill();
+    updateXpProgress();
+    animateXpGain(pendingXp);
+  }
 
   // Add lesson ID to lessonsCompleted (only once); Firebase skips if already present
   const lessonId = `${activeSubject}-${lesson.id}`;
@@ -2009,14 +2057,7 @@ function handleQuizClick(button, option, lesson, event) {
     window.firebaseAddCompletedLesson(lessonId);
   }
 
-  const currentXpValue = document.getElementById("xpValue");
-  if (currentXpValue) currentXpValue.textContent = xp.toString();
-
-  syncBottomXpPill();
-
-  updateXpProgress();
   saveUserData();
-  animateXpGain(pendingXp);
 }
 
 function goNext() {
@@ -2055,29 +2096,27 @@ function goBack() {
   }
 
   if (currentIndex > 0) {
-    // Award XP for reviewing content
-    const reviewXp = 1;
-    xp += reviewXp;
-    window.xp = xp; // Sync for Firebase
-    sessionXpGained += reviewXp;
-    
-    // Update UI
-    const xpValue = $("#xpValue");
-    const pendingXpEl = $("#pendingXp");
-    if (xpValue) {
-      xpValue.textContent = xp.toString();
+    // Award XP for reviewing content (only if lesson not already completed for XP)
+    if (!isLessonCompletedForXp(activeSubject)) {
+      const reviewXp = 1;
+      xp += reviewXp;
+      window.xp = xp; // Sync for Firebase
+      sessionXpGained += reviewXp;
+
+      const xpValue = $("#xpValue");
+      const pendingXpEl = $("#pendingXp");
+      if (xpValue) {
+        xpValue.textContent = xp.toString();
+      }
+      if (pendingXpEl) {
+        pendingXpEl.textContent = reviewXp.toString();
+      }
+      animateXpGain(reviewXp);
+      updateXpProgress();
     }
-    if (pendingXpEl) {
-      pendingXpEl.textContent = reviewXp.toString();
-    }
-    
-    // Animate XP gain
-    animateXpGain(reviewXp);
-    
-    // Update progress and save
-    updateXpProgress();
+
     saveUserData();
-    
+
     currentIndex--;
     renderLesson();
     renderLessonPath();
@@ -2400,6 +2439,14 @@ function renderSubjectModalList() {
     nameSpan.textContent = category.name;
     item.appendChild(iconSpan);
     item.appendChild(nameSpan);
+    const subjectKey = getSubjectKeyForCategory(category.id);
+    if (subjectKey && isLessonCompletedForXp(subjectKey)) {
+      const badge = document.createElement("span");
+      badge.className = "lesson-completed-badge";
+      badge.textContent = "Completed";
+      badge.setAttribute("aria-label", "Lesson completed — no additional XP");
+      item.appendChild(badge);
+    }
     item.addEventListener("click", () => selectSubjectFromModal(category));
     item.addEventListener("touchend", function (e) {
       e.preventDefault();
