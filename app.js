@@ -842,25 +842,11 @@ const subjectLessons = {
 // Categories structure (used by world grid + horizontal category picker)
 const categories = [
   {
-    id: "investing",
-    name: "Investing",
-    icon: "📈",
-    subtitle: "Markets and growth",
-    subjects: ["finance"]
-  },
-  {
     id: "finance",
     name: "Finance",
     icon: "💰",
     subtitle: "Money and capital",
     subjects: ["finance"]
-  },
-  {
-    id: "economics",
-    name: "Economics",
-    icon: "📊",
-    subtitle: "How economies work",
-    subjects: []
   },
   {
     id: "psychology",
@@ -1493,7 +1479,7 @@ function getCurrentLessons() {
   return subjectLessons[activeSubject] || [];
 }
 
-// Get lessons for a selected category (subject in UI: Investing, Finance, Economics, Psychology)
+// Get lessons for a selected category (subject in UI: Finance, Psychology, Space)
 function getLessonsForCategory(categoryId) {
   const category = categories.find((c) => c.id === categoryId);
   if (!category || !category.subjects || category.subjects.length === 0) return [];
@@ -2262,7 +2248,6 @@ function handleQuizClick(button, option, lesson, event) {
 
   const subjectMap = {
     finance: "investing",
-    economics: "economics",
   };
   const creatureSubject = subjectMap[activeSubject] || "default";
 
