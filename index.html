@@ -84,7 +84,7 @@
       <div class="brand">
         <div class="logo-mark">◎</div>
         <div class="logo-text">
-          <span class="logo-main">ShinyOS</span>
+          <span class="logo-main">shinyos</span>
           <span class="logo-sub">operating system for your brain</span>
         </div>
       </div>
@@ -126,13 +126,12 @@
 
     <!-- Main layout -->
     <main class="layout">
-      <!-- Welcome/home page when no subject selected (intro.png + Let's go... → subject selection) -->
+      <!-- Welcome/home page when no subject selected (matches snip: Let's go button above illustration) -->
       <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject to start learning">
+        <button type="button" class="home-cta-btn" id="homeCtaBtn">✨ Let's go... <span class="home-cta-chevron">▼</span></button>
         <div class="home-hero-image-wrap" id="homeHeroImageWrap">
           <img src="images/intro.png" alt="Welcome to ShinyOS" class="home-hero-image" id="homeHeroImage" />
         </div>
-        <p class="home-welcome-tagline">Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.</p>
-        <button type="button" class="home-cta-btn" id="homeCtaBtn">Let's go...</button>
       </div>
       <section class="lesson-panel is-hidden" id="lessonPanel">
         <div class="lesson-tabs">

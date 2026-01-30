@@ -3509,26 +3509,30 @@ function showLessonCard() {
   if (journalPanel) journalPanel.classList.add("is-hidden");
 }
 
-/** Show home state: header + subject dropdown only; no lesson content. Intro image visible. */
+/** Show home state: header + Let's go button + illustration. Subject dropdowns hidden. */
 function showHomeState() {
   userHasSelectedSubject = false;
   const homeEmpty = document.getElementById("homeEmptyState");
   const lessonPanel = document.getElementById("lessonPanel");
   const heroWrap = document.getElementById("homeHeroImageWrap");
+  const subjectWrap = document.getElementById("subjectDropdownsWrap");
   if (homeEmpty) homeEmpty.classList.remove("is-hidden");
   if (lessonPanel) lessonPanel.classList.add("is-hidden");
   if (heroWrap) heroWrap.classList.remove("intro-image-hidden");
+  if (subjectWrap) subjectWrap.classList.add("is-hidden");
 }
 
-/** Show lesson view (after user has selected a subject). Intro image hidden. */
+/** Show lesson view (after user has selected a subject). Intro image hidden, subject dropdowns visible. */
 function showLessonView() {
   userHasSelectedSubject = true;
   const homeEmpty = document.getElementById("homeEmptyState");
   const lessonPanel = document.getElementById("lessonPanel");
   const heroWrap = document.getElementById("homeHeroImageWrap");
+  const subjectWrap = document.getElementById("subjectDropdownsWrap");
   if (homeEmpty) homeEmpty.classList.add("is-hidden");
   if (lessonPanel) lessonPanel.classList.remove("is-hidden");
   if (heroWrap) heroWrap.classList.add("intro-image-hidden");
+  if (subjectWrap) subjectWrap.classList.remove("is-hidden");
 }
 
 // ---- Lesson path (Duolingo-style vertical path) ----

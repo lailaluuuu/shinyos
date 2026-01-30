@@ -368,6 +368,10 @@ body::after {
   align-items: flex-start;
 }
 
+.subject-dropdowns-wrap.is-hidden {
+  display: none !important;
+}
+
 .subject-dropdown {
   position: relative;
 }
@@ -2396,7 +2400,7 @@ body::after {
   transform: translateY(0);
 }
 
-/* ---- Home empty state (no lesson until subject selected) ---- */
+/* ---- Home empty state (matches snip: Let's go button above illustration) ---- */
 .home-empty-state {
   margin-top: 24px;
   min-height: 40vh;
@@ -2406,10 +2410,12 @@ body::after {
     radial-gradient(circle at 80% 70%, rgba(53, 194, 126, 0.04) 0%, transparent 50%);
   border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0 24px 24px;
   box-sizing: border-box;
+  gap: 20px;
 }
 
 /* Hide entire home empty state when a subject is selected (dropdown no longer "Let's go...") */
@@ -2420,9 +2426,47 @@ body::after {
   min-height: 0;
 }
 
-/* Decorative centerpiece image (intro.png) on home/dashboard when no lesson selected */
+/* Let's go button - full width, dark, sparkles + caret (matches snip) */
+.home-cta-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(30, 25, 45, 0.95), rgba(15, 15, 30, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.home-cta-btn .home-cta-chevron {
+  font-size: 10px;
+  opacity: 0.8;
+  margin-left: 4px;
+}
+
+.home-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.home-cta-btn:active {
+  transform: translateY(0);
+}
+
+/* Main illustration frame (intro.png) - large, subtle inner glow (matches snip) */
 .home-hero-image-wrap {
-  max-width: min(55vw, 520px);
+  max-width: 100%;
   width: 100%;
   padding: 12px;
   border-radius: var(--radius-lg);
@@ -2430,46 +2474,14 @@ body::after {
   box-shadow: 
     0 0 0 1px rgba(184, 107, 255, 0.15),
     0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 40px rgba(184, 107, 255, 0.08);
+    0 0 40px rgba(184, 107, 255, 0.08),
+    inset 0 0 40px rgba(184, 107, 255, 0.04);
   background: rgba(255, 255, 255, 0.02);
 }
 
 /* Hide intro.png when a subject is selected (dropdown no longer "Let's go...") */
 .home-hero-image-wrap.intro-image-hidden {
   display: none !important;
-}
-
-/* Welcome tagline and CTA on home page */
-.home-welcome-tagline {
-  margin: 20px 0 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--text-soft);
-  text-align: center;
-  max-width: 420px;
-}
-
-.home-cta-btn {
-  margin-top: 24px;
-  padding: 14px 32px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  background: linear-gradient(135deg, rgba(184, 107, 255, 0.9), rgba(78, 162, 255, 0.8));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  box-shadow: 0 4px 20px rgba(184, 107, 255, 0.4);
-}
-
-.home-cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(184, 107, 255, 0.5);
-}
-
-.home-cta-btn:active {
-  transform: translateY(0);
 }
 
 /* ---- Lesson intro page (subject intro before first lesson) ---- */
@@ -2593,19 +2605,16 @@ body::after {
   .home-empty-state {
     margin-top: 16px;
     min-height: 35vh;
-    padding: 16px;
+    padding: 0 16px 16px;
+    gap: 16px;
   }
   .home-hero-image-wrap {
-    max-width: min(85vw, 320px);
+    max-width: 100%;
     padding: 8px;
   }
-  .home-welcome-tagline {
-    font-size: 14px;
-    margin-top: 16px;
-  }
   .home-cta-btn {
-    margin-top: 20px;
-    padding: 12px 28px;
+    margin-top: 12px;
+    padding: 16px 20px;
     font-size: 15px;
   }
 }
