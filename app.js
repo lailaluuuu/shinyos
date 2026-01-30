@@ -1161,6 +1161,26 @@ let lessonCatalogBySubject = {};
     lessonBoundariesBySubject[subjectKey] = boundaries;
     lessonCatalogBySubject[subjectKey] = catalog;
   });
+  // Synthetic catalog for single-lesson subjects (finance, mind) so dropdown shows one lesson each
+  const subjectNames = { finance: "Investing", mind: "Mind", space: "Space" };
+  const subjectIcons = { finance: "💰", mind: "🧠", space: "🚀" };
+  Object.keys(subjectLessons).forEach(function (subjectKey) {
+    const catalog = lessonCatalogBySubject[subjectKey];
+    const slides = subjectLessons[subjectKey];
+    if (catalog.length === 0 && slides.length > 0) {
+      const first = slides[0];
+      const title = (first.type === "intro" && first.title) ? first.title : (first.title || subjectNames[subjectKey] || subjectKey);
+      lessonCatalogBySubject[subjectKey] = [{
+        slug: "main",
+        title: typeof title === "string" ? title : (subjectNames[subjectKey] || subjectKey),
+        difficulty: "",
+        estimatedTime: "~15 min",
+        xpReward: 50,
+        icon: subjectIcons[subjectKey] || "📚"
+      }];
+      lessonBoundariesBySubject[subjectKey] = [{ slug: "main", startIndex: 0, endIndex: slides.length }];
+    }
+  });
 })();
 
 // Categories structure (used by world grid + horizontal category picker)
@@ -1367,16 +1387,27 @@ function saveUserData() {
   }
 }
 
-// Completed-lesson XP: only award XP once per lesson (subject)
-function isLessonCompletedForXp(subjectKey) {
-  return Array.isArray(completedLessonsForXp) && completedLessonsForXp.includes(subjectKey);
+// Completed-lesson XP: only award XP once per lesson. Key = subjectKey for single-lesson, "subjectKey/slug" for multi-lesson.
+function isLessonCompletedForXp(subjectKey, slug) {
+  if (!Array.isArray(completedLessonsForXp)) return false;
+  const key = slug ? subjectKey + "/" + slug : subjectKey;
+  if (completedLessonsForXp.includes(key)) return true;
+  if (!slug && completedLessonsForXp.includes(subjectKey)) return true; // backward compat
+  return false;
 }
-function markLessonCompletedForXp(subjectKey) {
+function markLessonCompletedForXp(subjectKey, slug) {
   if (!Array.isArray(completedLessonsForXp)) completedLessonsForXp = [];
-  if (!completedLessonsForXp.includes(subjectKey)) {
-    completedLessonsForXp.push(subjectKey);
+  const key = slug ? subjectKey + "/" + slug : subjectKey;
+  if (!completedLessonsForXp.includes(key)) {
+    completedLessonsForXp.push(key);
     saveUserData();
   }
+}
+function isAnyLessonCompletedForSubject(subjectKey) {
+  if (!Array.isArray(completedLessonsForXp)) return false;
+  return completedLessonsForXp.some(function (k) {
+    return k === subjectKey || (typeof k === "string" && k.startsWith(subjectKey + "/"));
+  });
 }
 
 // Update XP progress bar
@@ -1731,7 +1762,8 @@ function checkLessonCompletion() {
       awardBadge(badgeId);
     }
 
-    const alreadyCompleted = isLessonCompletedForXp(activeSubject);
+    const completionKey = hasLessonPicker(activeSubject) ? activeLessonSlug : null;
+    const alreadyCompleted = isLessonCompletedForXp(activeSubject, completionKey || undefined);
     if (!alreadyCompleted) {
       // Award bonus XP for completing lesson (first time only)
       const bonusXp = 50;
@@ -1741,7 +1773,7 @@ function checkLessonCompletion() {
       const xpValue = $("#xpValue");
       if (xpValue) xpValue.textContent = xp.toString();
       updateXpProgress();
-      markLessonCompletedForXp(activeSubject);
+      markLessonCompletedForXp(activeSubject, completionKey || undefined);
     }
 
     // Update streak when lesson is completed
@@ -1977,7 +2009,8 @@ function renderLesson() {
   pendingXp = 0;
   syncBottomXpPill();
   // Set hint text: show retake message if lesson already completed for XP, else by lesson type
-  if (currentIndex === 0 && isLessonCompletedForXp(activeSubject)) {
+  const completionKey = hasLessonPicker(activeSubject) ? activeLessonSlug : null;
+  if (currentIndex === 0 && isLessonCompletedForXp(activeSubject, completionKey || undefined)) {
     hintText.textContent = "This lesson is completed. You can practice again but won't earn additional XP.";
   } else if (lesson.type === "interactive") {
     hintText.textContent = "Drag the slider to explore how time affects your investment.";
@@ -2649,7 +2682,8 @@ function handleQuizClick(button, option, lesson, event) {
   }
 
   // Only award XP on first completion of this lesson
-  if (!isLessonCompletedForXp(activeSubject)) {
+  const completionKey = hasLessonPicker(activeSubject) ? activeLessonSlug : null;
+  if (!isLessonCompletedForXp(activeSubject, completionKey || undefined)) {
     xp += pendingXp;
     window.xp = xp; // Sync for Firebase
     sessionXpGained += pendingXp; // Track session XP
@@ -2706,19 +2740,20 @@ function goBack() {
     setTimeout(() => backBtn.classList.remove('button-press'), 200);
   }
 
-  // If at first slide of a lesson and category has lesson picker, return to picker (Space category)
+  // If at first slide of a lesson, return to home (lessons are in subject dropdowns)
   const slugAt = getLessonSlugAt(activeSubject, currentIndex);
-  if (slugAt && hasLessonPicker(activeSubject) && currentIndex === getLessonStartIndex(activeSubject, slugAt)) {
-    activeLessonSlug = null;
-    showLessonPickerView();
-    renderLessonPicker();
-    updateHashForView();
+  if (slugAt && currentIndex === getLessonStartIndex(activeSubject, slugAt)) {
+    showHomeState();
+    closeAllSubjectDropdowns();
+    try { window.location.hash = ""; } catch (e) {}
+    renderSubjectDropdownsActiveState();
     return;
   }
 
   if (currentIndex > 0) {
     // Award XP for reviewing content (only if lesson not already completed for XP)
-    if (!isLessonCompletedForXp(activeSubject)) {
+    const completionKey = hasLessonPicker(activeSubject) ? activeLessonSlug : null;
+    if (!isLessonCompletedForXp(activeSubject, completionKey || undefined)) {
       const reviewXp = 1;
       xp += reviewXp;
       window.xp = xp; // Sync for Firebase
@@ -3011,12 +3046,186 @@ function updateMetaForSubject(subject) {
   }
 }
 
-// ---- Subject selector (Duolingo-style) ----
+// ---- Subject dropdowns (each subject = dropdown with lessons) ----
+function closeAllSubjectDropdowns() {
+  document.querySelectorAll(".subject-dropdown-menu.is-open").forEach(function (menu) {
+    menu.classList.remove("is-open");
+  });
+  document.querySelectorAll(".subject-dropdown-btn[aria-expanded='true']").forEach(function (btn) {
+    btn.setAttribute("aria-expanded", "false");
+  });
+}
+
+function openSubjectDropdown(categoryId) {
+  closeAllSubjectDropdowns();
+  refreshSubjectDropdownLessons(categoryId); // Update completion trophies
+  const wrap = document.getElementById("subjectDropdownsWrap");
+  if (!wrap) return;
+  const btn = wrap.querySelector(".subject-dropdown[data-category-id='" + categoryId + "'] .subject-dropdown-btn");
+  const menu = wrap.querySelector(".subject-dropdown[data-category-id='" + categoryId + "'] .subject-dropdown-menu");
+  if (btn) btn.setAttribute("aria-expanded", "true");
+  if (menu) menu.classList.add("is-open");
+}
+
+function refreshSubjectDropdownLessons(categoryId) {
+  const wrap = document.getElementById("subjectDropdownsWrap");
+  if (!wrap) return;
+  const menuInner = wrap.querySelector(".subject-dropdown[data-category-id='" + categoryId + "'] .subject-dropdown-menu-inner");
+  if (!menuInner) return;
+  const category = categories.find(function (c) { return c.id === categoryId; });
+  const subjectKey = category ? getSubjectKeyForCategory(category.id) : null;
+  if (!subjectKey || !subjectLessons[subjectKey]) return;
+  const catalog = getLessonCatalog(subjectKey);
+  menuInner.innerHTML = "";
+  catalog.forEach(function (entry) {
+    const completed = isLessonCompletedForXp(subjectKey, entry.slug === "main" ? undefined : entry.slug);
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "subject-dropdown-lesson";
+    item.setAttribute("role", "menuitem");
+    item.setAttribute("aria-label", "Start lesson: " + entry.title);
+    item.dataset.slug = entry.slug;
+    const metaParts = [];
+    if (entry.difficulty) metaParts.push(entry.difficulty);
+    if (entry.estimatedTime) metaParts.push(entry.estimatedTime);
+    if (entry.xpReward != null && entry.xpReward > 0) metaParts.push(entry.xpReward + " XP");
+    item.innerHTML =
+      "<span class=\"subject-dropdown-lesson-icon\">" + (entry.icon || "📚") + "</span>" +
+      "<div class=\"subject-dropdown-lesson-body\">" +
+      "<div class=\"subject-dropdown-lesson-title\">" + escapeHtml(entry.title) + "</div>" +
+      (metaParts.length ? "<div class=\"subject-dropdown-lesson-meta\">" + metaParts.map(function (p) { return "<span>" + escapeHtml(p) + "</span>"; }).join("") + "</div>" : "") +
+      "</div>" +
+      (completed ? "<span class=\"subject-dropdown-lesson-trophy\" aria-label=\"Completed\">🏆</span>" : "");
+    item.addEventListener("click", function () {
+      navigateToLessonFromDropdown(category.id, subjectKey, entry.slug === "main" ? null : entry.slug);
+    });
+    item.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      navigateToLessonFromDropdown(category.id, subjectKey, entry.slug === "main" ? null : entry.slug);
+    }, { passive: false });
+    menuInner.appendChild(item);
+  });
+}
+
+function navigateToLessonFromDropdown(categoryId, subjectKey, slug) {
+  activeCategory = categoryId;
+  activeSubject = subjectKey;
+  activeLessonSlug = slug || null;
+  currentIndex = getLessonStartIndex(subjectKey, slug || "main");
+  closeAllSubjectDropdowns();
+  showLessonView();
+  stopTimeTracking();
+  focusLessonTab();
+  hideLessonPickerView();
+  showLessonCard();
+  updateMetaForSubject(activeSubject);
+  renderLesson();
+  renderLessonPath();
+  updateBackButton();
+  updateHashForView();
+  try {
+    localStorage.setItem("shinyos_lastCategory", activeCategory);
+    localStorage.setItem("shinyos_lastSubject", activeSubject);
+  } catch (e) {}
+  renderSubjectDropdownsActiveState();
+  renderLessonPath();
+}
+
+function renderSubjectDropdownsActiveState() {
+  document.querySelectorAll(".subject-dropdown").forEach(function (el) {
+    const id = el.getAttribute("data-category-id");
+    el.classList.toggle("is-active", id === activeCategory);
+  });
+}
+
+function renderSubjectDropdowns() {
+  const wrap = document.getElementById("subjectDropdownsWrap");
+  if (!wrap) return;
+  if (wrap.querySelector(".subject-dropdown")) return; // already built
+  wrap.innerHTML = "";
+  categories.forEach(function (category) {
+    const subjectKey = getSubjectKeyForCategory(category.id);
+    if (!subjectKey || !subjectLessons[subjectKey]) return;
+    const catalog = getLessonCatalog(subjectKey);
+    const dropdown = document.createElement("div");
+    dropdown.className = "subject-dropdown" + (activeCategory === category.id ? " is-active" : "");
+    dropdown.setAttribute("data-category-id", category.id);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "subject-dropdown-btn";
+    btn.setAttribute("aria-haspopup", "true");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "Open " + category.name + " lessons");
+    btn.innerHTML = "<span class=\"subject-dropdown-icon\">" + category.icon + "</span><span class=\"subject-dropdown-label\">" + category.name + "</span><span class=\"subject-dropdown-chevron\" aria-hidden=\"true\">▼</span>";
+    const menu = document.createElement("div");
+    menu.className = "subject-dropdown-menu";
+    menu.setAttribute("role", "menu");
+    const inner = document.createElement("div");
+    inner.className = "subject-dropdown-menu-inner";
+    catalog.forEach(function (entry) {
+      const completed = isLessonCompletedForXp(subjectKey, entry.slug === "main" ? undefined : entry.slug);
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "subject-dropdown-lesson";
+      item.setAttribute("role", "menuitem");
+      item.setAttribute("aria-label", "Start lesson: " + entry.title);
+      item.dataset.slug = entry.slug;
+      const metaParts = [];
+      if (entry.difficulty) metaParts.push(entry.difficulty);
+      if (entry.estimatedTime) metaParts.push(entry.estimatedTime);
+      if (entry.xpReward != null && entry.xpReward > 0) metaParts.push(entry.xpReward + " XP");
+      item.innerHTML =
+        "<span class=\"subject-dropdown-lesson-icon\">" + (entry.icon || "📚") + "</span>" +
+        "<div class=\"subject-dropdown-lesson-body\">" +
+        "<div class=\"subject-dropdown-lesson-title\">" + escapeHtml(entry.title) + "</div>" +
+        (metaParts.length ? "<div class=\"subject-dropdown-lesson-meta\">" + metaParts.map(function (p) { return "<span>" + escapeHtml(p) + "</span>"; }).join("") + "</div>" : "") +
+        "</div>" +
+        (completed ? "<span class=\"subject-dropdown-lesson-trophy\" aria-label=\"Completed\">🏆</span>" : "");
+      item.addEventListener("click", function () {
+        navigateToLessonFromDropdown(category.id, subjectKey, entry.slug === "main" ? null : entry.slug);
+      });
+      item.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        navigateToLessonFromDropdown(category.id, subjectKey, entry.slug === "main" ? null : entry.slug);
+      }, { passive: false });
+      inner.appendChild(item);
+    });
+    menu.appendChild(inner);
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+      closeAllSubjectDropdowns();
+      if (!isOpen) {
+        btn.setAttribute("aria-expanded", "true");
+        menu.classList.add("is-open");
+      }
+    });
+    btn.addEventListener("touchend", function (e) {
+      e.stopPropagation();
+    }, { passive: false });
+    dropdown.appendChild(btn);
+    dropdown.appendChild(menu);
+    wrap.appendChild(dropdown);
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".subject-dropdowns-wrap")) closeAllSubjectDropdowns();
+  });
+  document.addEventListener("touchstart", function (e) {
+    if (!e.target.closest(".subject-dropdowns-wrap")) closeAllSubjectDropdowns();
+  }, { passive: true });
+  renderSubjectDropdownsActiveState();
+}
+
+function escapeHtml(s) {
+  const div = document.createElement("div");
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+// ---- Subject modal (used by "Let's go" / intro flow) ----
 function openSubjectModal() {
   const modal = $("#subjectModal");
-  const btn = $("#subjectSelectorBtn");
   if (modal) modal.classList.remove("is-hidden");
-  if (btn) btn.setAttribute("aria-expanded", "true");
   const scrollY = window.scrollY;
   document.body.style.overflow = "hidden";
   document.body.style.position = "fixed";
@@ -3027,9 +3236,7 @@ function openSubjectModal() {
 
 function closeSubjectModal() {
   const modal = $("#subjectModal");
-  const btn = $("#subjectSelectorBtn");
   if (modal) modal.classList.add("is-hidden");
-  if (btn) btn.setAttribute("aria-expanded", "false");
   const scrollY = document.body.style.top ? Math.abs(parseInt(document.body.style.top, 10)) : 0;
   document.body.style.overflow = "";
   document.body.style.position = "";
@@ -3037,28 +3244,6 @@ function closeSubjectModal() {
   document.body.style.left = "";
   document.body.style.right = "";
   window.scrollTo(0, scrollY);
-}
-
-function renderSubjectSelectorButton() {
-  const iconEl = $("#subjectSelectorIcon");
-  const labelEl = $("#subjectSelectorLabel");
-  if (!iconEl || !labelEl) return;
-  if (!userHasSelectedSubject) {
-    iconEl.textContent = "✨";
-    labelEl.textContent = "Let's go...";
-  } else if (activeCategory) {
-    const category = categories.find((c) => c.id === activeCategory);
-    if (category) {
-      iconEl.textContent = category.icon;
-      labelEl.textContent = category.name;
-    } else {
-      iconEl.textContent = "📚";
-      labelEl.textContent = "Select Subject";
-    }
-  } else {
-    iconEl.textContent = "📚";
-    labelEl.textContent = "Select Subject";
-  }
 }
 
 function renderSubjectModalList() {
@@ -3078,7 +3263,7 @@ function renderSubjectModalList() {
     item.appendChild(iconSpan);
     item.appendChild(nameSpan);
     const subjectKey = getSubjectKeyForCategory(category.id);
-    if (subjectKey && isLessonCompletedForXp(subjectKey)) {
+    if (subjectKey && isAnyLessonCompletedForSubject(subjectKey)) {
       const badge = document.createElement("span");
       badge.className = "lesson-completed-badge";
       badge.textContent = "Completed";
@@ -3097,28 +3282,30 @@ function renderSubjectModalList() {
 function selectSubjectFromModal(category) {
   activeCategory = category.id;
   const subjectKey = getSubjectKeyForCategory(category.id);
-  showLessonView(); // Switch from home state to lesson view
   try {
     localStorage.setItem("shinyos_lastCategory", activeCategory);
     localStorage.setItem("shinyos_lastSubject", subjectKey || activeSubject || "finance");
   } catch (e) {}
+  closeSubjectModal();
   if (subjectKey && subjectLessons[subjectKey]) {
     activeSubject = subjectKey;
-    stopTimeTracking();
-    focusLessonTab();
     if (hasLessonPicker(subjectKey)) {
-      activeLessonSlug = null;
-      showLessonPickerView();
-      renderLessonPicker();
-      updateHashForView();
+      // Multi-lesson: stay on home, open this subject's dropdown so user picks a lesson
+      openSubjectDropdown(category.id);
+      renderSubjectDropdownsActiveState();
     } else {
+      // Single-lesson: go straight to lesson
       activeLessonSlug = null;
       currentIndex = 0;
+      showLessonView();
+      stopTimeTracking();
+      focusLessonTab();
       hideLessonPickerView();
       showLessonCard();
       updateMetaForSubject(activeSubject);
       renderLesson();
       renderLessonPath();
+      renderSubjectDropdownsActiveState();
     }
   } else {
     activeSubject = "finance";
@@ -3128,9 +3315,8 @@ function selectSubjectFromModal(category) {
     showLessonCard();
     $("#lessonContent").innerHTML = "<p class='slide-in-up'>This subject is coming soon. Pick another to start learning.</p>";
     $("#quizBlock").innerHTML = "";
+    renderSubjectDropdownsActiveState();
   }
-  closeSubjectModal();
-  renderSubjectSelectorButton();
   renderLessonPath();
 }
 
@@ -3231,29 +3417,30 @@ function applyHash() {
   const subjectKey = getSubjectKeyForCategory(category.id);
   if (!subjectKey || !subjectLessons[subjectKey]) return;
   activeSubject = subjectKey;
-  showLessonView();
-  focusLessonTab();
   if (lessonSlug && hasLessonPicker(subjectKey)) {
     const catalog = getLessonCatalog(subjectKey);
     const entry = catalog.find((e) => e.slug === lessonSlug);
     if (entry) {
-      selectLessonFromPicker(lessonSlug);
+      navigateToLessonFromDropdown(category.id, subjectKey, lessonSlug);
       return;
     }
   }
   if (hasLessonPicker(subjectKey)) {
     activeLessonSlug = null;
-    showLessonPickerView();
-    renderLessonPicker();
+    showHomeState();
+    openSubjectDropdown(categoryId);
   } else {
     currentIndex = 0;
     activeLessonSlug = null;
+    showLessonView();
+    focusLessonTab();
     hideLessonPickerView();
     showLessonCard();
     updateMetaForSubject(activeSubject);
     renderLesson();
+    renderLessonPath();
   }
-  renderSubjectSelectorButton();
+  renderSubjectDropdownsActiveState();
   renderLessonPath();
 }
 
@@ -3270,24 +3457,23 @@ function restoreLastSubjectIfHome() {
   if (!category || !subjectLessons[lastSubject]) return;
   activeCategory = lastCategory;
   activeSubject = lastSubject;
-  showLessonView();
-  stopTimeTracking();
-  focusLessonTab();
   if (hasLessonPicker(activeSubject)) {
     activeLessonSlug = null;
-    showLessonPickerView();
-    renderLessonPicker();
-    updateHashForView();
+    showHomeState();
+    openSubjectDropdown(lastCategory);
   } else {
     activeLessonSlug = null;
     currentIndex = 0;
+    showLessonView();
+    stopTimeTracking();
+    focusLessonTab();
     hideLessonPickerView();
     showLessonCard();
     updateMetaForSubject(activeSubject);
     renderLesson();
     renderLessonPath();
   }
-  renderSubjectSelectorButton();
+  renderSubjectDropdownsActiveState();
   renderLessonPath();
 }
 
@@ -3378,7 +3564,7 @@ function handleLessonPathNodeClick(index) {
 
 // Legacy: no-op so existing refs (e.g. breadcrumb) don’t break
 function showCategories() {
-  renderSubjectSelectorButton();
+  renderSubjectDropdownsActiveState();
   renderLessonPath();
 }
 
@@ -3663,19 +3849,12 @@ document.addEventListener("DOMContentLoaded", () => {
     currentIndex = 0;
     userHasSelectedSubject = false;
     showHomeState(); // Header + subject dropdown only; no lesson until user selects
-    renderSubjectSelectorButton();
+    renderSubjectDropdowns(); // Build subject dropdown buttons and lesson menus
+    renderSubjectDropdownsActiveState();
     renderSubjectModalList();
     updateMetaForSubject(activeSubject);
     updateXpProgress();
 
-    const subjectSelectorBtn = $("#subjectSelectorBtn");
-    if (subjectSelectorBtn) {
-      subjectSelectorBtn.addEventListener("click", openSubjectModal);
-      subjectSelectorBtn.addEventListener("touchend", function (e) {
-        e.preventDefault();
-        openSubjectModal();
-      }, { passive: false });
-    }
     const subjectModalClose = $("#subjectModalClose");
     if (subjectModalClose) {
       subjectModalClose.addEventListener("click", closeSubjectModal);
@@ -3715,13 +3894,13 @@ document.addEventListener("DOMContentLoaded", () => {
       lessonPickerBackBtn.addEventListener("click", function () {
         showHomeState();
         try { window.location.hash = ""; } catch (e) {}
-        renderSubjectSelectorButton();
+        renderSubjectDropdownsActiveState();
       });
       lessonPickerBackBtn.addEventListener("touchend", function (e) {
         e.preventDefault();
         showHomeState();
         try { window.location.hash = ""; } catch (e) {}
-        renderSubjectSelectorButton();
+        renderSubjectDropdownsActiveState();
       }, { passive: false });
     }
     window.addEventListener("hashchange", applyHash);
