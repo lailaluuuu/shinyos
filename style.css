@@ -2129,12 +2129,44 @@ body::after {
     radial-gradient(circle at 50% 30%, rgba(184, 107, 255, 0.06) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(53, 194, 126, 0.04) 0%, transparent 50%);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Decorative centerpiece image (intro.png) on home/dashboard when no lesson selected */
+.home-hero-image-wrap {
+  max-width: min(55vw, 520px);
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 0 0 1px rgba(184, 107, 255, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(184, 107, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.home-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-lg) - 4px);
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
   .home-empty-state {
     margin-top: 16px;
     min-height: 35vh;
+    padding: 16px;
+  }
+  .home-hero-image-wrap {
+    max-width: min(85vw, 320px);
+    padding: 8px;
   }
 }
 
