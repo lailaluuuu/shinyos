@@ -2784,22 +2784,26 @@ function showLessonCard() {
   if (journalPanel) journalPanel.classList.add("is-hidden");
 }
 
-/** Show home state: header + subject dropdown only; no lesson content. */
+/** Show home state: header + subject dropdown only; no lesson content. Intro image visible. */
 function showHomeState() {
   userHasSelectedSubject = false;
   const homeEmpty = document.getElementById("homeEmptyState");
   const lessonPanel = document.getElementById("lessonPanel");
+  const heroWrap = document.getElementById("homeHeroImageWrap");
   if (homeEmpty) homeEmpty.classList.remove("is-hidden");
   if (lessonPanel) lessonPanel.classList.add("is-hidden");
+  if (heroWrap) heroWrap.classList.remove("intro-image-hidden");
 }
 
-/** Show lesson view (after user has selected a subject). */
+/** Show lesson view (after user has selected a subject). Intro image hidden. */
 function showLessonView() {
   userHasSelectedSubject = true;
   const homeEmpty = document.getElementById("homeEmptyState");
   const lessonPanel = document.getElementById("lessonPanel");
+  const heroWrap = document.getElementById("homeHeroImageWrap");
   if (homeEmpty) homeEmpty.classList.add("is-hidden");
   if (lessonPanel) lessonPanel.classList.remove("is-hidden");
+  if (heroWrap) heroWrap.classList.add("intro-image-hidden");
 }
 
 // ---- Lesson path (Duolingo-style vertical path) ----

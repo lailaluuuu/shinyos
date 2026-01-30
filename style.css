@@ -2150,6 +2150,11 @@ body::after {
   background: rgba(255, 255, 255, 0.02);
 }
 
+/* Hide intro.png when a subject is selected (dropdown no longer "Let's go...") */
+.home-hero-image-wrap.intro-image-hidden {
+  display: none !important;
+}
+
 .home-hero-image {
   display: block;
   width: 100%;
