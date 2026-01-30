@@ -3150,8 +3150,8 @@ function initMobileOptimizations() {
 
   // Improve touch responsiveness for quiz options
   document.addEventListener('touchstart', function(e) {
-    if (e.target.closest('.quiz-option, .world-node, .next-btn, .back-btn, .tab')) {
-      e.target.closest('.quiz-option, .world-node, .next-btn, .back-btn, .tab')?.classList.add('touch-active');
+    if (e.target.closest('.quiz-option, .next-btn, .back-btn, .tab')) {
+      e.target.closest('.quiz-option, .next-btn, .back-btn, .tab')?.classList.add('touch-active');
     }
   }, { passive: true });
 
