@@ -533,6 +533,73 @@ const subjectLessons = {
         }
       ]
     }
+  ],
+  space: [
+    {
+      id: 1,
+      type: "intro",
+      title: "Black Holes: Where Reality Stops Making Sense",
+      subtitle: "Explore the mysteries of the universe.\nCuriosity is enough. The rest is learnable. ✨",
+      imageUrl: "images/space-intro.png",
+      imageAlt: "Space introduction"
+    },
+    {
+      id: 2,
+      type: "content",
+      title: "[CONTENT HERE]",
+      paragraphs: ["[CONTENT HERE]"]
+    },
+    {
+      id: 3,
+      type: "content",
+      title: "[CONTENT HERE]",
+      paragraphs: ["[CONTENT HERE]"]
+    },
+    {
+      id: 4,
+      type: "content",
+      title: "[CONTENT HERE]",
+      paragraphs: ["[CONTENT HERE]"]
+    },
+    {
+      id: 5,
+      type: "content",
+      title: "[CONTENT HERE]",
+      paragraphs: ["[CONTENT HERE]"]
+    },
+    {
+      id: 6,
+      type: "quiz",
+      question: "[QUESTION HERE]",
+      options: [
+        { id: "a", text: "[OPTION A]", correct: true },
+        { id: "b", text: "[OPTION B]", correct: false },
+        { id: "c", text: "[OPTION C]", correct: false },
+        { id: "d", text: "[OPTION D]", correct: false }
+      ],
+      explanation: "[EXPLANATION HERE]"
+    },
+    {
+      id: 7,
+      type: "quiz",
+      question: "[QUESTION HERE]",
+      options: [
+        { id: "a", text: "[OPTION A]", correct: true },
+        { id: "b", text: "[OPTION B]", correct: false },
+        { id: "c", text: "[OPTION C]", correct: false },
+        { id: "d", text: "[OPTION D]", correct: false }
+      ],
+      explanation: "[EXPLANATION HERE]"
+    },
+    {
+      id: 8,
+      type: "content",
+      title: "Lesson Complete",
+      paragraphs: [
+        "[COMPLETION MESSAGE HERE]",
+        "🎉 Congratulations! You've completed Black Holes: Where Reality Stops Making Sense!"
+      ]
+    }
   ]
 };
 
@@ -617,6 +684,12 @@ const subjectMetadata = {
     icon: "🧠",
     subtitle: "Why your brain finds meaning",
     category: "psychology"
+  },
+  space: {
+    name: "Space",
+    icon: "🚀",
+    subtitle: "Explore the mysteries of the universe",
+    category: "space"
   }
 };
 
@@ -2520,7 +2593,9 @@ function getLessonNodeIcon(lesson, subjectId) {
   if (lesson.type === "interactive") return "📊";
   const title = (lesson.title || "").trim();
   if (title.length) return title.charAt(0);
-  return subjectId === "finance" ? "💰" : "📚";
+  if (subjectId === "finance") return "💰";
+  if (subjectId === "space") return "🚀";
+  return "📚";
 }
 
 function renderLessonPath() {
