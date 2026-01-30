@@ -537,10 +537,12 @@ const subjectLessons = {
   space: [
     {
       id: "space-black-holes",
+      slug: "black-holes",
       subject: "space",
       type: "lesson",
       title: "🌌 Black Holes: Where Reality Stops Making Sense",
       subtitle: "The universe contains things that exist even if you can't picture them",
+      icon: "🕳️",
       imageUrl: "images/black-holes-intro.png",
       imageAlt: "Black hole introduction",
       sections: [
@@ -799,9 +801,54 @@ const subjectLessons = {
           ]
         }
       ]
+    },
+    {
+      id: "terraforming-mars-001",
+      slug: "terraforming-mars",
+      subject: "space",
+      type: "lesson",
+      title: "Terraforming Mars",
+      subtitle: "",
+      difficulty: "Advanced",
+      estimatedTime: "15-20 min",
+      xpReward: 250,
+      icon: "🔴",
+      imageUrl: "",
+      imageAlt: "Terraforming Mars introduction",
+      introduction: {
+        hook: "",
+        context: "",
+        learningObjectives: []
+      },
+      sections: [
+        {
+          type: "content",
+          title: "",
+          paragraphs: []
+        },
+        {
+          type: "quiz",
+          question: "",
+          options: [],
+          explanation: ""
+        }
+      ],
+      completion: {
+        summary: "",
+        keyTakeaways: [],
+        achievement: "",
+        bonusXP: 100,
+        unlocks: []
+      }
     }
   ]
 };
+
+// Lesson boundaries per subject (slug -> { startIndex, endIndex }) for categories with multiple lessons
+let lessonBoundariesBySubject = {};
+
+// Lesson catalog per subject (for picker): [{ slug, title, difficulty, estimatedTime, xpReward, icon }, ...]
+let lessonCatalogBySubject = {};
 
 // Normalize subjectLessons: expand any "lesson" with sections into flat slides (content/quiz) so renderLesson can display them
 (function normalizeSubjectLessons() {
@@ -809,9 +856,21 @@ const subjectLessons = {
     const lessons = subjectLessons[subjectKey];
     if (!Array.isArray(lessons)) return;
     const result = [];
+    const boundaries = [];
+    const catalog = [];
     lessons.forEach(function (lesson) {
       if (lesson.type === "lesson" && lesson.sections && Array.isArray(lesson.sections)) {
         const subject = lesson.subject || subjectKey;
+        const slug = lesson.slug || (lesson.id && String(lesson.id).replace(/^[^-]+-/, "")) || "lesson";
+        const startIndex = result.length;
+        catalog.push({
+          slug: slug,
+          title: lesson.title || "Lesson",
+          difficulty: lesson.difficulty || "",
+          estimatedTime: lesson.estimatedTime || "",
+          xpReward: lesson.xpReward != null ? lesson.xpReward : 0,
+          icon: lesson.icon || (subjectKey === "space" ? "🔴" : "📚")
+        });
         if (lesson.imageUrl) {
           result.push({
             type: "intro",
@@ -831,11 +890,14 @@ const subjectLessons = {
             result.push({ type: "content", subject: subject, title: section.title, paragraphs: [section.prompt || ""] });
           }
         });
+        boundaries.push({ slug: slug, startIndex: startIndex, endIndex: result.length });
       } else {
         result.push(lesson);
       }
     });
     subjectLessons[subjectKey] = result;
+    lessonBoundariesBySubject[subjectKey] = boundaries;
+    lessonCatalogBySubject[subjectKey] = catalog;
   });
 })();
 
@@ -892,8 +954,33 @@ let xp = 120;
 let pendingXp = 0;
 let era = "Foundations";
 let activeCategory = null;
+/** When in a category with multiple lessons, which lesson slug is active (null = on lesson picker). */
+let activeLessonSlug = null;
 /** When false, show home state (header + subject dropdown only); lesson loads only after user selects a subject. */
 let userHasSelectedSubject = false;
+
+function getLessonCatalog(subjectKey) {
+  return lessonCatalogBySubject[subjectKey] || [];
+}
+
+function getLessonStartIndex(subjectKey, slug) {
+  const boundaries = lessonBoundariesBySubject[subjectKey] || [];
+  const b = boundaries.find((x) => x.slug === slug);
+  return b ? b.startIndex : 0;
+}
+
+function getLessonSlugAt(subjectKey, index) {
+  const boundaries = lessonBoundariesBySubject[subjectKey] || [];
+  for (let i = boundaries.length - 1; i >= 0; i--) {
+    if (index >= boundaries[i].startIndex && index < boundaries[i].endIndex) return boundaries[i].slug;
+  }
+  return null;
+}
+
+function hasLessonPicker(subjectKey) {
+  const catalog = getLessonCatalog(subjectKey);
+  return catalog.length > 1;
+}
 
 // Streak tracking
 let streak = 0;
@@ -2363,6 +2450,16 @@ function goBack() {
     setTimeout(() => backBtn.classList.remove('button-press'), 200);
   }
 
+  // If at first slide of a lesson and category has lesson picker, return to picker (Space category)
+  const slugAt = getLessonSlugAt(activeSubject, currentIndex);
+  if (slugAt && hasLessonPicker(activeSubject) && currentIndex === getLessonStartIndex(activeSubject, slugAt)) {
+    activeLessonSlug = null;
+    showLessonPickerView();
+    renderLessonPicker();
+    updateHashForView();
+    return;
+  }
+
   if (currentIndex > 0) {
     // Award XP for reviewing content (only if lesson not already completed for XP)
     if (!isLessonCompletedForXp(activeSubject)) {
@@ -2619,9 +2716,23 @@ function updateMetaForSubject(subject) {
     const meta = subjectMetadata[subject];
     const category = categories.find((c) => c.subjects && c.subjects.includes(subject));
     subjectChip.textContent = (category ? category.name + " · " : "") + meta.name;
-    unitChip.textContent = "Unit: " + (meta.subtitle || meta.name);
-    lessonTitle.textContent = meta.name + " — " + (meta.subtitle || "");
-    lessonSubtitle.textContent = meta.subtitle || "Learn and reflect.";
+    if (subject === "space" && activeLessonSlug) {
+      const catalog = getLessonCatalog(subject);
+      const entry = catalog.find((e) => e.slug === activeLessonSlug);
+      if (entry) {
+        unitChip.textContent = "Unit: " + entry.title;
+        lessonTitle.textContent = entry.title;
+        lessonSubtitle.textContent = (entry.difficulty ? entry.difficulty + " · " : "") + (entry.estimatedTime || "") + (entry.xpReward ? " · " + entry.xpReward + " XP" : "");
+      } else {
+        unitChip.textContent = "Unit: " + (meta.subtitle || meta.name);
+        lessonTitle.textContent = meta.name + " — " + (meta.subtitle || "");
+        lessonSubtitle.textContent = meta.subtitle || "Learn and reflect.";
+      }
+    } else {
+      unitChip.textContent = "Unit: " + (meta.subtitle || meta.name);
+      lessonTitle.textContent = meta.name + " — " + (meta.subtitle || "");
+      lessonSubtitle.textContent = meta.subtitle || "Learn and reflect.";
+    }
     era = "Foundations";
     journalText.textContent = (category ? category.name + " · " : "") + meta.name + ". " + (meta.subtitle || "") + " Your notes and progress.";
   } else {
@@ -2733,21 +2844,155 @@ function selectSubjectFromModal(category) {
   showLessonView(); // Switch from home state to lesson view
   if (subjectKey && subjectLessons[subjectKey]) {
     activeSubject = subjectKey;
-    currentIndex = 0;
     stopTimeTracking();
     focusLessonTab();
-    showLessonCard();
-    updateMetaForSubject(activeSubject);
-    renderLesson();
+    if (hasLessonPicker(subjectKey)) {
+      activeLessonSlug = null;
+      showLessonPickerView();
+      renderLessonPicker();
+      updateHashForView();
+    } else {
+      activeLessonSlug = null;
+      currentIndex = 0;
+      hideLessonPickerView();
+      showLessonCard();
+      updateMetaForSubject(activeSubject);
+      renderLesson();
+      renderLessonPath();
+    }
   } else {
     activeSubject = "finance";
     updateMetaForSubject(activeSubject);
     focusLessonTab();
+    hideLessonPickerView();
     showLessonCard();
     $("#lessonContent").innerHTML = "<p class='slide-in-up'>This subject is coming soon. Pick another to start learning.</p>";
     $("#quizBlock").innerHTML = "";
   }
   closeSubjectModal();
+  renderSubjectSelectorButton();
+  renderLessonPath();
+}
+
+function showLessonPickerView() {
+  const picker = $("#lessonPickerView");
+  const card = $("#lessonCard");
+  if (picker) {
+    picker.classList.remove("is-hidden");
+  }
+  if (card) {
+    card.classList.add("is-hidden");
+  }
+}
+
+function hideLessonPickerView() {
+  const picker = $("#lessonPickerView");
+  const card = $("#lessonCard");
+  if (picker) {
+    picker.classList.add("is-hidden");
+  }
+  if (card) {
+    card.classList.remove("is-hidden");
+  }
+}
+
+function renderLessonPicker() {
+  const grid = $("#lessonPickerGrid");
+  const titleEl = $("#lessonPickerTitle");
+  if (!grid) return;
+  const category = categories.find((c) => c.id === activeCategory);
+  if (titleEl && category) {
+    titleEl.textContent = category.name;
+  }
+  grid.innerHTML = "";
+  const catalog = getLessonCatalog(activeSubject);
+  catalog.forEach((entry) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "lesson-picker-card";
+    card.dataset.slug = entry.slug;
+    card.setAttribute("aria-label", `Start lesson: ${entry.title}`);
+    const icon = document.createElement("div");
+    icon.className = "lesson-picker-card-icon";
+    icon.textContent = entry.icon || "📚";
+    const title = document.createElement("h3");
+    title.className = "lesson-picker-card-title";
+    title.textContent = entry.title;
+    const meta = document.createElement("div");
+    meta.className = "lesson-picker-card-meta";
+    const parts = [];
+    if (entry.difficulty) parts.push(`<span>${entry.difficulty}</span>`);
+    if (entry.estimatedTime) parts.push(`<span>${entry.estimatedTime}</span>`);
+    if (entry.xpReward != null && entry.xpReward > 0) parts.push(`<span>${entry.xpReward} XP</span>`);
+    meta.innerHTML = parts.join("");
+    card.appendChild(icon);
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.addEventListener("click", () => selectLessonFromPicker(entry.slug));
+    card.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      selectLessonFromPicker(entry.slug);
+    }, { passive: false });
+    grid.appendChild(card);
+  });
+}
+
+function selectLessonFromPicker(slug) {
+  activeLessonSlug = slug;
+  currentIndex = getLessonStartIndex(activeSubject, slug);
+  stopTimeTracking();
+  hideLessonPickerView();
+  showLessonCard();
+  updateMetaForSubject(activeSubject);
+  renderLesson();
+  renderLessonPath();
+  updateBackButton();
+  updateHashForView();
+}
+
+function updateHashForView() {
+  if (activeCategory !== "space") return;
+  if (activeLessonSlug) {
+    try { window.location.hash = "space/" + activeLessonSlug; } catch (e) {}
+  } else {
+    try { window.location.hash = "space"; } catch (e) {}
+  }
+}
+
+function applyHash() {
+  const hash = (window.location.hash || "").replace(/^#/, "").trim();
+  if (!hash) return;
+  const parts = hash.split("/");
+  const categoryId = parts[0];
+  const lessonSlug = parts[1];
+  const category = categories.find((c) => c.id === categoryId);
+  if (!category || categoryId !== "space") return;
+  activeCategory = category.id;
+  const subjectKey = getSubjectKeyForCategory(category.id);
+  if (!subjectKey || !subjectLessons[subjectKey]) return;
+  activeSubject = subjectKey;
+  showLessonView();
+  focusLessonTab();
+  if (lessonSlug && hasLessonPicker(subjectKey)) {
+    const catalog = getLessonCatalog(subjectKey);
+    const entry = catalog.find((e) => e.slug === lessonSlug);
+    if (entry) {
+      selectLessonFromPicker(lessonSlug);
+      return;
+    }
+  }
+  if (hasLessonPicker(subjectKey)) {
+    activeLessonSlug = null;
+    showLessonPickerView();
+    renderLessonPicker();
+  } else {
+    currentIndex = 0;
+    activeLessonSlug = null;
+    hideLessonPickerView();
+    showLessonCard();
+    updateMetaForSubject(activeSubject);
+    renderLesson();
+  }
   renderSubjectSelectorButton();
   renderLessonPath();
 }
@@ -3171,6 +3416,22 @@ document.addEventListener("DOMContentLoaded", () => {
       backBtn.addEventListener("click", goBack);
       updateBackButton();
     }
+    const lessonPickerBackBtn = $("#lessonPickerBackBtn");
+    if (lessonPickerBackBtn) {
+      lessonPickerBackBtn.addEventListener("click", function () {
+        showHomeState();
+        try { window.location.hash = ""; } catch (e) {}
+        renderSubjectSelectorButton();
+      });
+      lessonPickerBackBtn.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        showHomeState();
+        try { window.location.hash = ""; } catch (e) {}
+        renderSubjectSelectorButton();
+      }, { passive: false });
+    }
+    window.addEventListener("hashchange", applyHash);
+    applyHash();
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
         switchTab(tab.dataset.tab);

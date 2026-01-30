@@ -141,6 +141,17 @@
           <button class="tab" data-tab="journal">🏆</button>
         </div>
 
+        <!-- Lesson picker (Space / multi-lesson category): choose which lesson to start -->
+        <div class="lesson-picker is-hidden" id="lessonPickerView" aria-label="Choose a lesson">
+          <div class="lesson-picker-header">
+            <button type="button" class="lesson-picker-back" id="lessonPickerBackBtn" aria-label="Back to subject">← Back</button>
+            <h2 class="lesson-picker-title" id="lessonPickerTitle">Space</h2>
+          </div>
+          <div class="lesson-picker-grid" id="lessonPickerGrid">
+            <!-- Lesson cards injected by app.js -->
+          </div>
+        </div>
+
         <div class="lesson-card" id="lessonCard">
           <div class="lesson-chip-row">
             <span class="chip chip--subject" id="subjectChip">Finance</span>
