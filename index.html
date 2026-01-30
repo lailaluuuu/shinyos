@@ -122,9 +122,11 @@
 
     <!-- Main layout -->
     <main class="layout">
-      <!-- Welcome/home page when no subject selected (matches snip: Let's go button above illustration) -->
+      <!-- Persistent "Let's go" navigation dropdown - visible on all pages -->
+      <button type="button" class="home-cta-btn" id="homeCtaBtn">✨ Let's go... <span class="home-cta-chevron">▼</span></button>
+      
+      <!-- Welcome/home page when no subject selected -->
       <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject to start learning">
-        <button type="button" class="home-cta-btn" id="homeCtaBtn">✨ Let's go... <span class="home-cta-chevron">▼</span></button>
         <div class="home-hero-image-wrap" id="homeHeroImageWrap">
           <img src="images/intro.png" alt="Welcome to ShinyOS" class="home-hero-image" id="homeHeroImage" />
         </div>

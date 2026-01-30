@@ -3490,7 +3490,7 @@ function showLessonCard() {
   if (journalPanel) journalPanel.classList.add("is-hidden");
 }
 
-/** Show home state: header + Let's go button + illustration. Subject dropdowns hidden. */
+/** Show home state: header + illustration. Let's go button remains visible (persistent nav). Subject dropdowns hidden. */
 function showHomeState() {
   userHasSelectedSubject = false;
   const homeEmpty = document.getElementById("homeEmptyState");
@@ -3503,7 +3503,7 @@ function showHomeState() {
   if (subjectWrap) subjectWrap.classList.add("is-hidden");
 }
 
-/** Show lesson view (after user has selected a subject). Intro image hidden, subject dropdowns visible. */
+/** Show lesson view (after user has selected a subject). Let's go button remains visible (persistent nav). Intro image hidden, subject dropdowns visible. */
 function showLessonView() {
   userHasSelectedSubject = true;
   const homeEmpty = document.getElementById("homeEmptyState");
@@ -3902,7 +3902,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     initMobileOptimizations();
 
-    // Home CTA "Let's go..." button → open subject selection
+    // Persistent "Let's go..." navigation button → open subject selection (visible on ALL pages)
     const homeCtaBtn = document.getElementById("homeCtaBtn");
     if (homeCtaBtn) {
       homeCtaBtn.addEventListener("click", function () { openSubjectModal(); });
