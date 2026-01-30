@@ -63,6 +63,19 @@
     </div>
   </div>
 
+  <!-- Intro screen (intro.png with animated icons); dismissed via "Get started" -->
+  <div class="intro-screen is-hidden" id="introScreen" aria-hidden="true">
+    <div class="intro-screen-bg" style="background-image: url('images/intro.png');"></div>
+    <div class="intro-screen-content">
+      <div class="intro-screen-icons">
+        <span class="intro-icon intro-icon--1">🦔</span>
+        <span class="intro-icon intro-icon--2">🚀</span>
+        <span class="intro-icon intro-icon--3">✨</span>
+      </div>
+      <button type="button" class="intro-screen-btn" id="introScreenBtn">Get started</button>
+    </div>
+  </div>
+
   <div class="app">
     <!-- Top bar -->
     <header class="top-bar">
@@ -116,7 +129,9 @@
 
     <!-- Main layout -->
     <main class="layout">
-      <section class="lesson-panel">
+      <!-- Empty state when no subject selected (header + dropdown only) -->
+      <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject above to start learning"></div>
+      <section class="lesson-panel is-hidden" id="lessonPanel">
         <div class="lesson-tabs">
           <button class="tab is-active" data-tab="lesson">Lesson</button>
           <button class="tab" data-tab="journal">🏆</button>

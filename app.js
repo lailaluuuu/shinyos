@@ -892,6 +892,8 @@ let xp = 120;
 let pendingXp = 0;
 let era = "Foundations";
 let activeCategory = null;
+/** When false, show home state (header + subject dropdown only); lesson loads only after user selects a subject. */
+let userHasSelectedSubject = false;
 
 // Streak tracking
 let streak = 0;
@@ -2725,6 +2727,7 @@ function renderSubjectModalList() {
 function selectSubjectFromModal(category) {
   activeCategory = category.id;
   const subjectKey = getSubjectKeyForCategory(category.id);
+  showLessonView(); // Switch from home state to lesson view
   if (subjectKey && subjectLessons[subjectKey]) {
     activeSubject = subjectKey;
     currentIndex = 0;
@@ -2776,6 +2779,24 @@ function showLessonCard() {
   const journalPanel = document.getElementById("journalPanel");
   if (lessonCard) lessonCard.classList.remove("is-hidden");
   if (journalPanel) journalPanel.classList.add("is-hidden");
+}
+
+/** Show home state: header + subject dropdown only; no lesson content. */
+function showHomeState() {
+  userHasSelectedSubject = false;
+  const homeEmpty = document.getElementById("homeEmptyState");
+  const lessonPanel = document.getElementById("lessonPanel");
+  if (homeEmpty) homeEmpty.classList.remove("is-hidden");
+  if (lessonPanel) lessonPanel.classList.add("is-hidden");
+}
+
+/** Show lesson view (after user has selected a subject). */
+function showLessonView() {
+  userHasSelectedSubject = true;
+  const homeEmpty = document.getElementById("homeEmptyState");
+  const lessonPanel = document.getElementById("lessonPanel");
+  if (homeEmpty) homeEmpty.classList.add("is-hidden");
+  if (lessonPanel) lessonPanel.classList.remove("is-hidden");
 }
 
 // ---- Lesson path (Duolingo-style vertical path) ----
@@ -2968,9 +2989,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.hidden) {
       stopTimeTracking();
     } else {
-      const lessonCard = document.getElementById("lessonCard");
-      if (lessonCard && !lessonCard.classList.contains("is-hidden")) {
-        startTimeTracking();
+      if (userHasSelectedSubject) {
+        const lessonCard = document.getElementById("lessonCard");
+        if (lessonCard && !lessonCard.classList.contains("is-hidden")) {
+          startTimeTracking();
+        }
       }
     }
   });
@@ -3092,11 +3115,11 @@ document.addEventListener("DOMContentLoaded", () => {
     activeCategory = categories[0].id;
     activeSubject = getSubjectKeyForCategory(activeCategory) || "finance";
     currentIndex = 0;
-    updateMetaForSubject(activeSubject);
+    userHasSelectedSubject = false;
+    showHomeState(); // Header + subject dropdown only; no lesson until user selects
     renderSubjectSelectorButton();
     renderSubjectModalList();
-    renderLessonPath();
-    renderLesson();
+    updateMetaForSubject(activeSubject);
     updateXpProgress();
 
     const subjectSelectorBtn = $("#subjectSelectorBtn");
@@ -3149,6 +3172,29 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     initMobileOptimizations();
+
+    // Intro screen: show after init; dismiss via "Get started"
+    const introScreen = document.getElementById("introScreen");
+    const introScreenBtn = document.getElementById("introScreenBtn");
+    if (introScreenBtn) {
+      introScreenBtn.addEventListener("click", function () {
+        if (introScreen) {
+          introScreen.classList.add("is-hidden");
+          introScreen.setAttribute("aria-hidden", "true");
+        }
+      });
+      introScreenBtn.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        if (introScreen) {
+          introScreen.classList.add("is-hidden");
+          introScreen.setAttribute("aria-hidden", "true");
+        }
+      }, { passive: false });
+    }
+    if (introScreen) {
+      introScreen.classList.remove("is-hidden");
+      introScreen.setAttribute("aria-hidden", "false");
+    }
   }
 
   // ——— Username required gate ———
