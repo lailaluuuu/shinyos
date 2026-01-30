@@ -144,10 +144,49 @@
 
     <!-- Main layout -->
     <main class="layout">
-      <!-- Welcome/home page when no subject selected (intro.png + Let's go... → subject selection) -->
+      <!-- Welcome/home page when no subject selected (hero illustration + Let's go... → subject selection) -->
       <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject to start learning">
         <div class="home-hero-image-wrap" id="homeHeroImageWrap">
-          <img src="images/intro.png" alt="Welcome to ShinyOS" class="home-hero-image" id="homeHeroImage" />
+          <div class="hero-illustration" id="homeHeroImage" aria-hidden="true">
+            <!-- Deep purple starry sky background -->
+            <div class="hero-illustration-bg"></div>
+            <!-- Subtle floating particles -->
+            <div class="hero-particles" aria-hidden="true">
+              <span class="hero-particle hero-particle--1"></span>
+              <span class="hero-particle hero-particle--2"></span>
+              <span class="hero-particle hero-particle--3"></span>
+              <span class="hero-particle hero-particle--4"></span>
+              <span class="hero-particle hero-particle--5"></span>
+              <span class="hero-particle hero-particle--6"></span>
+              <span class="hero-particle hero-particle--7"></span>
+              <span class="hero-particle hero-particle--8"></span>
+            </div>
+            <!-- Tree with golden glow -->
+            <div class="hero-tree-wrap">
+              <svg class="hero-tree" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Roots -->
+                <path class="hero-tree-roots" d="M60 95 Q35 120 25 140 Q30 135 45 125 Q40 140 55 145 Q50 135 60 130 Q70 138 75 142 Q90 130 95 138 Q100 125 60 95 Z" fill="rgba(139, 90, 43, 0.9)" />
+                <!-- Trunk -->
+                <path class="hero-tree-trunk" d="M48 95 L52 45 Q60 38 68 45 L72 95 Z" fill="rgba(101, 67, 33, 0.95)" />
+                <!-- Foliage / branches -->
+                <path class="hero-tree-foliage" d="M60 20 Q30 35 25 55 Q35 50 50 42 Q40 60 55 55 Q60 38 65 55 Q80 50 95 55 Q95 35 60 20 Z" fill="rgba(34, 85, 51, 0.95)" />
+                <path class="hero-tree-foliage hero-tree-foliage--2" d="M60 35 Q40 48 38 65 Q48 58 58 52 Q52 68 62 65 Q60 50 68 65 Q78 58 82 65 Q80 48 60 35 Z" fill="rgba(45, 100, 60, 0.95)" />
+              </svg>
+            </div>
+            <!-- Hedgehog at base of tree -->
+            <span class="hero-hedgehog" aria-hidden="true">🦔</span>
+            <!-- Floating learning icons -->
+            <span class="hero-icon hero-icon--1" title="Ideas / learning">💡</span>
+            <span class="hero-icon hero-icon--2" title="Research">🔍</span>
+            <span class="hero-icon hero-icon--3" title="Time / cycles">🌙</span>
+            <span class="hero-icon hero-icon--4" title="Space / universe">🌌</span>
+            <span class="hero-icon hero-icon--5" title="Connections">🔗</span>
+            <span class="hero-icon hero-icon--6" title="Psychology">🧠</span>
+            <span class="hero-icon hero-icon--7" title="Progress / investing">📈</span>
+            <span class="hero-icon hero-icon--8" title="Sun / day">☀️</span>
+            <span class="hero-icon hero-icon--9 hero-icon--nodes" title="Connected nodes">◇</span>
+            <span class="hero-icon hero-icon--10 hero-icon--nodes" title="Connected nodes">◆</span>
+          </div>
         </div>
         <p class="home-welcome-tagline">Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.</p>
         <button type="button" class="home-cta-btn" id="homeCtaBtn">Let's go...</button>

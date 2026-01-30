@@ -2478,7 +2478,133 @@ body::after {
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Hide intro.png when a subject is selected (dropdown no longer "Let's go...") */
+/* Hero illustration: tree, hedgehog, starry sky, floating icons */
+.hero-illustration {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: calc(var(--radius-lg) - 4px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-illustration-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 100% at 50% 60%, #2d1b4e 0%, #1a0a2e 35%, #0d0520 70%, #060312 100%);
+  background-image:
+    radial-gradient(ellipse 120% 100% at 50% 60%, #2d1b4e 0%, #1a0a2e 35%, #0d0520 70%, #060312 100%),
+    radial-gradient(1.5px 1.5px at 15% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 80%, rgba(255, 255, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 45%, rgba(255, 255, 255, 0.25) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 55%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 85%, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+}
+
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: hero-particle-float 10s ease-in-out infinite;
+}
+
+.hero-particle--1 { left: 12%; top: 22%; animation-delay: 0s; animation-duration: 8s; }
+.hero-particle--2 { left: 88%; top: 18%; animation-delay: 1s; animation-duration: 11s; }
+.hero-particle--3 { left: 22%; top: 72%; animation-delay: 2s; animation-duration: 9s; }
+.hero-particle--4 { left: 78%; top: 78%; animation-delay: 0.5s; animation-duration: 10s; }
+.hero-particle--5 { left: 52%; top: 38%; animation-delay: 3s; animation-duration: 12s; }
+.hero-particle--6 { left: 18%; top: 52%; animation-delay: 1.5s; animation-duration: 8.5s; }
+.hero-particle--7 { left: 92%; top: 48%; animation-delay: 2.5s; animation-duration: 9.5s; }
+.hero-particle--8 { left: 48%; top: 88%; animation-delay: 0.8s; animation-duration: 11.5s; }
+
+@keyframes hero-particle-float {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  25% { transform: translate(10px, -12px) scale(1.15); opacity: 0.35; }
+  50% { transform: translate(-6px, 8px) scale(0.9); opacity: 0.25; }
+  75% { transform: translate(4px, 6px) scale(1.05); opacity: 0.3; }
+}
+
+.hero-tree-wrap {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 24px rgba(255, 200, 100, 0.35)) drop-shadow(0 0 48px rgba(255, 180, 80, 0.2));
+  animation: hero-tree-glow 4s ease-in-out infinite;
+}
+
+@keyframes hero-tree-glow {
+  0%, 100% { filter: drop-shadow(0 0 24px rgba(255, 200, 100, 0.35)) drop-shadow(0 0 48px rgba(255, 180, 80, 0.2)); }
+  50% { filter: drop-shadow(0 0 32px rgba(255, 210, 120, 0.45)) drop-shadow(0 0 56px rgba(255, 190, 90, 0.28)); }
+}
+
+.hero-tree {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+  display: block;
+}
+
+.hero-hedgehog {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+  animation: hero-hedgehog-sway 5s ease-in-out infinite;
+}
+
+@keyframes hero-hedgehog-sway {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+.hero-icon {
+  position: absolute;
+  font-size: clamp(1rem, 2.8vw, 1.5rem);
+  opacity: 0.9;
+  animation: hero-icon-drift 14s ease-in-out infinite;
+  z-index: 2;
+}
+
+.hero-icon--nodes {
+  font-size: 0.65em;
+  opacity: 0.6;
+  color: rgba(255, 220, 150, 0.9);
+}
+
+.hero-icon--1 { left: 8%; top: 20%; animation-delay: 0s; animation-duration: 12s; }
+.hero-icon--2 { left: 90%; top: 24%; animation-delay: 1.2s; animation-duration: 15s; }
+.hero-icon--3 { left: 12%; top: 72%; animation-delay: 2s; animation-duration: 13s; }
+.hero-icon--4 { left: 88%; top: 18%; animation-delay: 0.6s; animation-duration: 11s; }
+.hero-icon--5 { left: 82%; top: 70%; animation-delay: 0.3s; animation-duration: 14s; }
+.hero-icon--6 { left: 22%; top: 28%; animation-delay: 1.8s; animation-duration: 12s; }
+.hero-icon--7 { left: 78%; top: 62%; animation-delay: 0.9s; animation-duration: 16s; }
+.hero-icon--8 { left: 92%; top: 58%; animation-delay: 2.2s; animation-duration: 10s; }
+.hero-icon--9 { left: 38%; top: 14%; animation-delay: 0.4s; animation-duration: 13s; }
+.hero-icon--10 { left: 62%; top: 78%; animation-delay: 1.5s; animation-duration: 11.5s; }
+
+@keyframes hero-icon-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(6px, -8px) rotate(2deg); }
+  40% { transform: translate(-5px, 5px) rotate(-1deg); }
+  60% { transform: translate(8px, 3px) rotate(1deg); }
+  80% { transform: translate(-3px, -6px) rotate(-2deg); }
+}
+
+/* Hide intro/hero when a subject is selected (dropdown no longer "Let's go...") */
 .home-hero-image-wrap.intro-image-hidden {
   display: none !important;
 }
