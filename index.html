@@ -72,7 +72,7 @@
         <span class="intro-icon intro-icon--2">🚀</span>
         <span class="intro-icon intro-icon--3">✨</span>
       </div>
-      <button type="button" class="intro-screen-btn" id="introScreenBtn">Get started</button>
+      <button type="button" class="intro-screen-btn" id="introScreenBtn">Let's go...</button>
     </div>
   </div>
 
@@ -129,11 +129,13 @@
 
     <!-- Main layout -->
     <main class="layout">
-      <!-- Empty state when no subject selected (header + dropdown only) -->
-      <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject above to start learning">
+      <!-- Welcome/home page when no subject selected (intro.png + Let's go... → subject selection) -->
+      <div class="home-empty-state" id="homeEmptyState" aria-label="Choose a subject to start learning">
         <div class="home-hero-image-wrap" id="homeHeroImageWrap">
-          <img src="images/intro.png" alt="" class="home-hero-image" id="homeHeroImage" />
+          <img src="images/intro.png" alt="Welcome to ShinyOS" class="home-hero-image" id="homeHeroImage" />
         </div>
+        <p class="home-welcome-tagline">Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.</p>
+        <button type="button" class="home-cta-btn" id="homeCtaBtn">Let's go...</button>
       </div>
       <section class="lesson-panel is-hidden" id="lessonPanel">
         <div class="lesson-tabs">

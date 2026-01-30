@@ -2284,6 +2284,39 @@ body::after {
   display: none !important;
 }
 
+/* Welcome tagline and CTA on home page */
+.home-welcome-tagline {
+  margin: 20px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-soft);
+  text-align: center;
+  max-width: 420px;
+}
+
+.home-cta-btn {
+  margin-top: 24px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(184, 107, 255, 0.9), rgba(78, 162, 255, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 20px rgba(184, 107, 255, 0.4);
+}
+
+.home-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(184, 107, 255, 0.5);
+}
+
+.home-cta-btn:active {
+  transform: translateY(0);
+}
+
 /* ---- Lesson intro page (subject intro before first lesson) ---- */
 .lesson-intro-page {
   display: flex;
@@ -2410,6 +2443,15 @@ body::after {
   .home-hero-image-wrap {
     max-width: min(85vw, 320px);
     padding: 8px;
+  }
+  .home-welcome-tagline {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+  .home-cta-btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    font-size: 15px;
   }
 }
 

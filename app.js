@@ -3098,6 +3098,10 @@ function selectSubjectFromModal(category) {
   activeCategory = category.id;
   const subjectKey = getSubjectKeyForCategory(category.id);
   showLessonView(); // Switch from home state to lesson view
+  try {
+    localStorage.setItem("shinyos_lastCategory", activeCategory);
+    localStorage.setItem("shinyos_lastSubject", subjectKey || activeSubject || "finance");
+  } catch (e) {}
   if (subjectKey && subjectLessons[subjectKey]) {
     activeSubject = subjectKey;
     stopTimeTracking();
@@ -3248,6 +3252,40 @@ function applyHash() {
     showLessonCard();
     updateMetaForSubject(activeSubject);
     renderLesson();
+  }
+  renderSubjectSelectorButton();
+  renderLessonPath();
+}
+
+/** Restore last selected subject from localStorage when no hash; skip intro on subsequent visits. */
+function restoreLastSubjectIfHome() {
+  if (userHasSelectedSubject) return;
+  let lastCategory, lastSubject;
+  try {
+    lastCategory = localStorage.getItem("shinyos_lastCategory");
+    lastSubject = localStorage.getItem("shinyos_lastSubject");
+  } catch (e) { return; }
+  if (!lastCategory || !lastSubject) return;
+  const category = categories.find((c) => c.id === lastCategory);
+  if (!category || !subjectLessons[lastSubject]) return;
+  activeCategory = lastCategory;
+  activeSubject = lastSubject;
+  showLessonView();
+  stopTimeTracking();
+  focusLessonTab();
+  if (hasLessonPicker(activeSubject)) {
+    activeLessonSlug = null;
+    showLessonPickerView();
+    renderLessonPicker();
+    updateHashForView();
+  } else {
+    activeLessonSlug = null;
+    currentIndex = 0;
+    hideLessonPickerView();
+    showLessonCard();
+    updateMetaForSubject(activeSubject);
+    renderLesson();
+    renderLessonPath();
   }
   renderSubjectSelectorButton();
   renderLessonPath();
@@ -3688,6 +3726,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.addEventListener("hashchange", applyHash);
     applyHash();
+    restoreLastSubjectIfHome(); // Skip intro on subsequent visits when a subject was previously selected
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
         switchTab(tab.dataset.tab);
@@ -3697,7 +3736,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     initMobileOptimizations();
 
-    // Intro screen: show after init; dismiss via "Get started"
+    // Home CTA "Let's go..." button → open subject selection
+    const homeCtaBtn = document.getElementById("homeCtaBtn");
+    if (homeCtaBtn) {
+      homeCtaBtn.addEventListener("click", function () { openSubjectModal(); });
+      homeCtaBtn.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        openSubjectModal();
+      }, { passive: false });
+    }
+
+    // Intro screen (full-screen welcome): show only when no subject selected yet; "Let's go..." → subject selection
     const introScreen = document.getElementById("introScreen");
     const introScreenBtn = document.getElementById("introScreenBtn");
     if (introScreenBtn) {
@@ -3706,6 +3755,7 @@ document.addEventListener("DOMContentLoaded", () => {
           introScreen.classList.add("is-hidden");
           introScreen.setAttribute("aria-hidden", "true");
         }
+        openSubjectModal();
       });
       introScreenBtn.addEventListener("touchend", function (e) {
         e.preventDefault();
@@ -3713,9 +3763,11 @@ document.addEventListener("DOMContentLoaded", () => {
           introScreen.classList.add("is-hidden");
           introScreen.setAttribute("aria-hidden", "true");
         }
+        openSubjectModal();
       }, { passive: false });
     }
-    if (introScreen) {
+    // Only show full-screen intro when still on home (no subject selected)
+    if (introScreen && !userHasSelectedSubject) {
       introScreen.classList.remove("is-hidden");
       introScreen.setAttribute("aria-hidden", "false");
     }
