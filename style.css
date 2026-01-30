@@ -2136,6 +2136,14 @@ body::after {
   box-sizing: border-box;
 }
 
+/* Hide entire home empty state when a subject is selected (dropdown no longer "Let's go...") */
+.home-empty-state.is-hidden {
+  display: none !important;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+}
+
 /* Decorative centerpiece image (intro.png) on home/dashboard when no lesson selected */
 .home-hero-image-wrap {
   max-width: min(55vw, 520px);
