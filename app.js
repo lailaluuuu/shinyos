@@ -1971,7 +1971,6 @@ function renderLesson() {
 
   const contentEl = $("#lessonContent");
   const quizBlock = $("#quizBlock");
-  const progressLabel = $("#lessonProgressLabel");
   const progressFill = $("#lessonProgressFill");
   const hintText = $("#hintText");
   const nextBtn = $("#nextBtn");
@@ -2818,20 +2817,7 @@ function stopTimeTracking() {
 }
 
 function updateProgressDisplay() {
-  const progressLabel = $("#lessonProgressLabel");
-  if (!progressLabel) return;
-  
-  // Calculate current session time
-  let currentSessionTime = 0;
-  if (lessonStartTime !== null) {
-    currentSessionTime = Math.floor((Date.now() - lessonStartTime) / 1000);
-  }
-  
-  // Total time = saved time + current session time (seconds)
-  const totalTime = totalTimeSpent + currentSessionTime;
-  
-  // Display time in seconds
-  progressLabel.textContent = `${totalTime}s`;
+  // Numbers intentionally not displayed on lesson progress bar
 }
 
 function switchTab(tab) {
