@@ -3904,8 +3904,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }, { passive: false });
     }
     window.addEventListener("hashchange", applyHash);
-    applyHash();
-    restoreLastSubjectIfHome(); // Skip intro on subsequent visits when a subject was previously selected
+    // Always show home page as default landing when opening the app (do not apply hash or restore last subject on init)
+    showHomeState();
+    try { window.location.hash = ""; } catch (e) {}
+    renderSubjectDropdownsActiveState();
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
         switchTab(tab.dataset.tab);
@@ -3945,11 +3947,7 @@ document.addEventListener("DOMContentLoaded", () => {
         openSubjectModal();
       }, { passive: false });
     }
-    // Only show full-screen intro when still on home (no subject selected)
-    if (introScreen && !userHasSelectedSubject) {
-      introScreen.classList.remove("is-hidden");
-      introScreen.setAttribute("aria-hidden", "false");
-    }
+    // Home page is the default landing view (header + dropdowns + hero + Let's go). Keep full-screen intro hidden.
   }
 
   // ——— Username required gate ———
