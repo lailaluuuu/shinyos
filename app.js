@@ -668,6 +668,13 @@ const categories = [
     icon: "🧠",
     subtitle: "Mind and behavior",
     subjects: ["mind"]
+  },
+  {
+    id: "space",
+    name: "Space",
+    icon: "🚀",
+    subtitle: "Explore the mysteries of the universe",
+    subjects: ["space"]
   }
 ];
 
