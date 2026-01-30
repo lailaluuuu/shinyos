@@ -536,68 +536,268 @@ const subjectLessons = {
   ],
   space: [
     {
-      id: 1,
-      type: "intro",
-      title: "Black Holes: Where Reality Stops Making Sense",
-      subtitle: "Explore the mysteries of the universe.\nCuriosity is enough. The rest is learnable. ✨",
-      imageUrl: "images/space-intro.png",
-      imageAlt: "Space introduction"
-    },
-    {
-      id: 2,
-      type: "content",
-      title: "[CONTENT HERE]",
-      paragraphs: ["[CONTENT HERE]"]
-    },
-    {
-      id: 3,
-      type: "content",
-      title: "[CONTENT HERE]",
-      paragraphs: ["[CONTENT HERE]"]
-    },
-    {
-      id: 4,
-      type: "content",
-      title: "[CONTENT HERE]",
-      paragraphs: ["[CONTENT HERE]"]
-    },
-    {
-      id: 5,
-      type: "content",
-      title: "[CONTENT HERE]",
-      paragraphs: ["[CONTENT HERE]"]
-    },
-    {
-      id: 6,
-      type: "quiz",
-      question: "[QUESTION HERE]",
-      options: [
-        { id: "a", text: "[OPTION A]", correct: true },
-        { id: "b", text: "[OPTION B]", correct: false },
-        { id: "c", text: "[OPTION C]", correct: false },
-        { id: "d", text: "[OPTION D]", correct: false }
-      ],
-      explanation: "[EXPLANATION HERE]"
-    },
-    {
-      id: 7,
-      type: "quiz",
-      question: "[QUESTION HERE]",
-      options: [
-        { id: "a", text: "[OPTION A]", correct: true },
-        { id: "b", text: "[OPTION B]", correct: false },
-        { id: "c", text: "[OPTION C]", correct: false },
-        { id: "d", text: "[OPTION D]", correct: false }
-      ],
-      explanation: "[EXPLANATION HERE]"
-    },
-    {
-      id: 8,
-      type: "content",
-      title: "Lesson Complete",
-      paragraphs: [
-        "[COMPLETION MESSAGE HERE]",
-        "🎉 Congratulations! You've completed Black Holes: Where Reality Stops Making Sense!"
+      id: "space-black-holes",
+      subject: "space",
+      type: "lesson",
+      title: "🌌 Black Holes: Where Reality Stops Making Sense",
+      subtitle: "The universe contains things that exist even if you can't picture them",
+      imageUrl: "images/black-holes-intro.png",
+      imageAlt: "Black hole introduction",
+      sections: [
+        {
+          type: "content",
+          title: "⚡ Where reality breaks",
+          paragraphs: [
+            "There are places in the universe where time slows, space bends, and 'before' and 'after' stop behaving normally.",
+            "Black holes are not exotic objects.",
+            "They are logical consequences of gravity.",
+            "In 1915, Karl Schwarzschild — a German physicist doing calculations in the trenches of World War I — found something impossible in Einstein's equations.",
+            "A mathematical solution where gravity becomes so strong that spacetime collapses into itself.",
+            "Einstein didn't believe it. He thought nature would forbid it.",
+            "Nature disagreed. 🌍"
+          ]
+        },
+        {
+          type: "content",
+          title: "🕳️ What a black hole actually is",
+          paragraphs: [
+            "Not a vacuum cleaner.",
+            "Not a tunnel.",
+            "Not a hole.",
+            "A black hole is matter compressed so tightly that space itself curves inward — permanently.",
+            "Take the Sun. Compress it into a sphere 3 kilometers wide.",
+            "Take Earth. Compress it into a marble 9 millimeters across.",
+            "At that density, escape velocity exceeds the speed of light.",
+            "Nothing — not even light — can climb back out of that gravitational well.",
+            "That's a black hole."
+          ]
+        },
+        {
+          type: "content",
+          title: "📐 The Schwarzschild radius",
+          paragraphs: [
+            "Every object has a Schwarzschild radius — the size it would need to be compressed to become a black hole.",
+            "For you: about 10⁻²⁵ meters (a billion billion times smaller than an atom).",
+            "For Earth: 9 millimeters.",
+            "For the Sun: 3 kilometers.",
+            "Right now, you're not compressed enough. But the math doesn't care about 'should.'",
+            "If you could compress anything — a person, a planet, a star — below its Schwarzschild radius, it would collapse into a black hole.",
+            "Gravity doesn't stop being polite at some threshold. It just wins."
+          ]
+        },
+        {
+          type: "content",
+          title: "🌀 Spacetime curvature",
+          paragraphs: [
+            "Gravity isn't a force pulling you down.",
+            "It's the shape of spacetime.",
+            "Mass tells spacetime how to curve. Curved spacetime tells mass how to move.",
+            "That's Einstein's general relativity in one sentence.",
+            "Near a black hole, spacetime doesn't just curve — it collapses.",
+            "Imagine a trampoline. Put a bowling ball on it. The fabric dips.",
+            "Now imagine the bowling ball is so heavy the fabric tears and folds in on itself infinitely.",
+            "That's closer."
+          ]
+        },
+        {
+          type: "content",
+          title: "🚫 The event horizon: the point of no return",
+          paragraphs: [
+            "The event horizon is the boundary where escape velocity equals the speed of light.",
+            "Cross it, and you cannot come back.",
+            "Not because something is pulling you.",
+            "Because all paths through spacetime now point inward.",
+            "'Forward in time' and 'toward the center' become the same direction.",
+            "It's not that you can't escape.",
+            "It's that escape stops being a direction that exists."
+          ]
+        },
+        {
+          type: "content",
+          title: "🧠 The most disturbing thing about the event horizon",
+          paragraphs: [
+            "Here's what breaks your brain:",
+            "From the outside, you watch someone fall toward a black hole.",
+            "They get slower. And slower. And slower.",
+            "Time dilation means you never actually see them cross the event horizon.",
+            "Their light gets redshifted into oblivion. They fade. But they never quite disappear.",
+            "From their perspective?",
+            "Nothing special happens at the event horizon. They cross it in finite time. Everything seems normal.",
+            "Then they continue falling toward the singularity.",
+            "Both perspectives are correct.",
+            "Reality literally disagrees with itself depending on where you're standing."
+          ]
+        },
+        {
+          type: "content",
+          title: "🍝 Spaghettification (yes, that's the real term)",
+          paragraphs: [
+            "If you fell into a black hole feet-first, tidal forces would stretch you.",
+            "Your feet experience stronger gravity than your head.",
+            "Near a stellar black hole (a few times the Sun's mass), this difference becomes extreme within meters.",
+            "You would be stretched vertically and compressed horizontally.",
+            "Long before you reached the event horizon, you would be torn into a stream of atoms.",
+            "Scientists call this 'spaghettification.' 🍝",
+            "For supermassive black holes (millions of solar masses), the tidal forces at the event horizon are gentler.",
+            "You could cross it intact — and wouldn't realize anything happened until much later.",
+            "By then, escape would no longer be a concept that applies."
+          ]
+        },
+        {
+          type: "content",
+          title: "∞ The singularity: where math gives up",
+          paragraphs: [
+            "At the center of a black hole is the singularity.",
+            "According to general relativity: infinite density, zero volume, infinite curvature.",
+            "This is where the equations return 'undefined.'",
+            "Physicists don't think singularities are physically real.",
+            "They think singularities are places where general relativity breaks down — where we need quantum gravity.",
+            "We don't have that theory yet.",
+            "So we genuinely don't know what happens at the center of a black hole.",
+            "Not 'we haven't measured it yet.'",
+            "We don't have the language to describe it."
+          ]
+        },
+        {
+          type: "content",
+          title: "✨ Hawking radiation: black holes evaporate",
+          paragraphs: [
+            "In 1974, Stephen Hawking discovered something shocking.",
+            "Black holes aren't entirely black.",
+            "Quantum effects near the event horizon cause black holes to emit radiation.",
+            "Very slowly. A solar-mass black hole would take 10⁶⁷ years to evaporate.",
+            "For comparison, the universe is 1.4 × 10¹⁰ years old.",
+            "But here's the paradox:",
+            "Hawking radiation appears to be random. It carries no information about what fell in.",
+            "But quantum mechanics says information can't be destroyed.",
+            "This is called the black hole information paradox — and it's still unsolved.",
+            "Some of the smartest physicists alive disagree about the answer."
+          ]
+        },
+        {
+          type: "content",
+          title: "⏳ Time dilation near black holes",
+          paragraphs: [
+            "The closer you are to a black hole, the slower your clock ticks relative to someone far away.",
+            "This isn't perception. It's measurable, physical time.",
+            "In the movie Interstellar, the characters visit a planet near a black hole where 1 hour = 7 Earth years.",
+            "That math is correct for a rapidly spinning black hole (Gargantua in the film).",
+            "If you orbited close to a black hole for what felt like a year, you could return to find centuries had passed.",
+            "You wouldn't have traveled to the future.",
+            "You would have experienced less time.",
+            "Relativity doesn't care about what feels fair."
+          ]
+        },
+        {
+          type: "content",
+          title: "📸 We've actually photographed one",
+          paragraphs: [
+            "In 2019, the Event Horizon Telescope — a planet-sized network of radio telescopes — captured the first image of a black hole.",
+            "M87*, a supermassive black hole 55 million light-years away.",
+            "6.5 billion times the mass of the Sun.",
+            "The image shows a ring of glowing gas around a dark center — the shadow of the event horizon.",
+            "That shadow is larger than our entire solar system.",
+            "In 2022, they photographed Sagittarius A* — the black hole at the center of our galaxy.",
+            "4 million solar masses. 27,000 light-years from Earth.",
+            "We orbit it.",
+            "We have been orbiting it for the entire existence of our species."
+          ]
+        },
+        {
+          type: "content",
+          title: "🧠 Why this breaks the brain",
+          paragraphs: [
+            "Your intuition expects:",
+            "• Solid objects with surfaces",
+            "• Clear boundaries",
+            "• One shared timeline",
+            "• Up and down",
+            "Black holes offer:",
+            "• Warped space with no 'inside' surface",
+            "• Boundaries that depend on your reference frame",
+            "• Time that flows differently depending on where you are",
+            "• Directions that stop existing",
+            "Your brain was not built for this.",
+            "And that's the point."
+          ]
+        },
+        {
+          type: "content",
+          title: "💡 What this teaches us",
+          paragraphs: [
+            "The universe does not care what feels intuitive.",
+            "Human intuition evolved for:",
+            "• Throwing spears at 20 mph",
+            "• Crossing rivers",
+            "• Spotting faces in crowds",
+            "• Predicting where a deer will run",
+            "Not for:",
+            "• Objects moving at 99.9% the speed of light",
+            "• Curved spacetime",
+            "• Infinite density",
+            "• Time as a flexible dimension",
+            "Black holes are not weird because they're exotic.",
+            "They're weird because they're honest.",
+            "They show what the universe actually is — not what our primate brains are comfortable with."
+          ]
+        },
+        {
+          type: "quiz",
+          question: "What is the event horizon?",
+          options: [
+            { id: "a", text: "The surface of the black hole", correct: false },
+            { id: "b", text: "The point where gravity becomes infinite", correct: false },
+            { id: "c", text: "The boundary where escape becomes impossible", correct: true },
+            { id: "d", text: "The edge of the observable universe", correct: false }
+          ],
+          explanation: "The event horizon is the point of no return — where escape velocity exceeds the speed of light. It's not a physical surface. It's a boundary in spacetime itself. Cross it, and all future paths lead inward."
+        },
+        {
+          type: "quiz",
+          question: "Why do two observers disagree about what happens at the event horizon?",
+          options: [
+            { id: "a", text: "One of them is hallucinating", correct: false },
+            { id: "b", text: "Time dilation causes their clocks to run at different rates", correct: true },
+            { id: "c", text: "Black holes create optical illusions", correct: false },
+            { id: "d", text: "The event horizon moves depending on who's watching", correct: false }
+          ],
+          explanation: "Extreme time dilation means an outside observer never sees someone cross the horizon (their clock slows to a stop from the outside perspective), while the falling observer crosses it in finite time on their own clock. Both are correct. Relativity is deeply weird."
+        },
+        {
+          type: "content",
+          title: "💫 The quiet insight",
+          paragraphs: [
+            "Confusion isn't failure.",
+            "It's contact with the edge of understanding.",
+            "Black holes remind us:",
+            "• Reality is stranger than stories",
+            "• Certainty is often a shortcut",
+            "• 'I don't know' is a valid state",
+            "• The universe is under no obligation to make sense to you",
+            "And here's the beautiful part:",
+            "We figured this out anyway.",
+            "Not by trusting our intuition — but by trusting the math even when it felt impossible."
+          ]
+        },
+        {
+          type: "reflection",
+          title: "🤔 A thought experiment",
+          prompt: "Think of something that feels impossible to imagine.\n\nInfinite density. Time stopping. Directions that cease to exist.\n\nNow consider:\n\nThe universe contains things that exist even if you can't picture them.\n\nThat's not unsettling.\n\nThat's expansive.\n\nYour intuition is a tool for survival, not a map of reality."
+        },
+        {
+          type: "content",
+          title: "🌟 Closing thought",
+          paragraphs: [
+            "Black holes don't destroy reality.",
+            "They reveal how little of it we were ever built to understand.",
+            "And yet — through math, observation, and sheer intellectual audacity — we mapped them anyway.",
+            "That's the real lesson.",
+            "Not that the universe is strange.",
+            "But that human curiosity is stronger than human intuition.",
+            "We can understand things we cannot imagine.",
+            "That might be the most remarkable thing in the universe. ✨"
+          ]
+        }
       ]
     }
   ]
