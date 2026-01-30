@@ -813,7 +813,7 @@ const subjectLessons = {
       estimatedTime: "15-20 min",
       xpReward: 250,
       icon: "🔴",
-      imageUrl: "",
+      imageUrl: "images/terraforming_mars.png",
       imageAlt: "Terraforming Mars introduction",
       sections: [
         {
@@ -1946,11 +1946,14 @@ function renderLesson() {
   const progressLabel = $("#lessonProgressLabel");
   const progressFill = $("#lessonProgressFill");
   const hintText = $("#hintText");
+  const nextBtn = $("#nextBtn");
 
   if (!contentEl) {
     console.error("lessonContent element not found!");
     return;
   }
+
+  contentEl.classList.remove("lesson-intro-page");
 
   // Start time tracking for this lesson
   startTimeTracking();
@@ -1966,6 +1969,9 @@ function renderLesson() {
 
   // Update back button visibility
   updateBackButton();
+
+  // Default Next button text (overridden for intro)
+  if (nextBtn) nextBtn.textContent = "Continue";
 
   // Reset hint + pending XP display (pill shows total XP when no pending)
   pendingXp = 0;
@@ -1986,6 +1992,8 @@ function renderLesson() {
 
   // Render content vs quiz vs intro
   if (lesson.type === "intro") {
+    if (nextBtn) nextBtn.textContent = "Start Learning";
+
     // Clear quiz block for intro lessons
     if (quizBlock) {
       quizBlock.innerHTML = "";
@@ -1993,7 +2001,7 @@ function renderLesson() {
       quizBlock.style.opacity = "0";
       quizBlock.style.visibility = "hidden";
     }
-    
+
     // Force visibility of lesson body parent
     if (lessonBody) {
       lessonBody.style.display = "block";
@@ -2002,9 +2010,10 @@ function renderLesson() {
       lessonBody.classList.remove("is-hidden");
       lessonBody.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(20, 18, 35, 0.95))";
     }
-    
+
     // Clear and populate intro content
     contentEl.innerHTML = "";
+    contentEl.className = "lesson-content lesson-intro-page";
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
     contentEl.style.opacity = "1";
@@ -2012,84 +2021,69 @@ function renderLesson() {
     contentEl.style.textAlign = "center";
     contentEl.style.padding = "40px 20px";
     contentEl.style.background = "transparent";
-    
-    // Create image container
+
+    // Wrapper for entrance animation
+    const introWrapper = document.createElement("div");
+    introWrapper.className = "lesson-intro-inner";
+
+    // Create image container with premium styling
     const imageContainer = document.createElement("div");
-    imageContainer.style.marginBottom = "30px";
-    imageContainer.style.borderRadius = "16px";
-    imageContainer.style.overflow = "hidden";
-    imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
-    imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-    imageContainer.style.minHeight = "300px";
-    imageContainer.style.width = "100%";
-    imageContainer.style.position = "relative"; // For hedgehog positioning
-    
+    imageContainer.className = "lesson-intro-image-wrap";
+    imageContainer.style.position = "relative";
+
     const img = document.createElement("img");
-    // Use subject-specific intro image; space lesson uses black-holes intro
     let imagePath = lesson.imageUrl || (activeSubject === "space" ? "images/black-holes-intro.png" : "images/investing-intro.png");
     let finalPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
     if (!finalPath.startsWith("images/") && !finalPath.startsWith("http")) {
       finalPath = "images/" + finalPath;
     }
-    
+
     img.alt = lesson.imageAlt || "Subject image";
-    img.style.width = "100%";
-    img.style.height = "auto";
-    img.style.minHeight = "300px";
-    img.style.maxHeight = "450px";
-    img.style.objectFit = "cover";
-    img.style.display = "block";
-    img.style.opacity = "1";
-    img.style.visibility = "visible";
-    img.style.filter = "brightness(1.1) contrast(1.05)";
-    img.className = "slide-in-up";
+    img.className = "lesson-intro-image";
     img.loading = "eager";
-    
+
     imageContainer.appendChild(img);
-    
+
     const cacheBuster = `?v=${Date.now()}`;
     const finalPathWithCache = finalPath + cacheBuster;
-    
-    imageContainer.style.backgroundImage = `url("${finalPathWithCache}")`;
-    imageContainer.style.backgroundSize = "cover";
-    imageContainer.style.backgroundPosition = "center";
-    
+
     img.src = finalPathWithCache;
-    
+
     img.onerror = function() {
       console.error("❌ Image failed to load:", this.src);
       this.style.display = "none";
-      const subjectIcon = activeSubject === "finance" ? "💰" : "📚";
-      imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
-      imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
-      imageContainer.style.display = "flex";
-      imageContainer.style.alignItems = "center";
-      imageContainer.style.justifyContent = "center";
-      imageContainer.style.flexDirection = "column";
-      
+      const subjectIcon = activeSubject === "space" ? "🔴" : (activeSubject === "finance" ? "💰" : "📚");
+      imageContainer.classList.add("lesson-intro-image--error");
       const placeholder = document.createElement("div");
+      placeholder.className = "lesson-intro-placeholder";
       placeholder.textContent = subjectIcon;
-      placeholder.style.fontSize = "100px";
-      placeholder.style.opacity = "0.6";
       imageContainer.appendChild(placeholder);
     };
-    
+
     img.onload = function() {
       console.log("✅ Intro image loaded successfully");
       this.style.display = "block";
-      this.style.opacity = "1";
-      this.style.visibility = "visible";
-      
-      // Add mini hedgehog overlay for finance images
       addHedgehogOverlay(imageContainer);
     };
-    
-    contentEl.appendChild(imageContainer);
-    
+
+    introWrapper.appendChild(imageContainer);
+
+    // Subtitle text (staggered animation)
+    if (lesson.subtitle) {
+      const subtitleEl = document.createElement("p");
+      subtitleEl.className = "lesson-intro-subtitle slide-in-up";
+      subtitleEl.style.animationDelay = "0.25s";
+      subtitleEl.style.opacity = "0";
+      subtitleEl.textContent = lesson.subtitle;
+      introWrapper.appendChild(subtitleEl);
+    }
+
+    contentEl.appendChild(introWrapper);
+
   } else if (lesson.type === "content") {
     // **FIXED CONTENT RENDERING SECTION**
     console.log("Rendering CONTENT lesson at index", currentIndex, "Title:", lesson.title);
-    
+
     // Clear quiz block for content lessons
     if (quizBlock) {
       quizBlock.innerHTML = "";
