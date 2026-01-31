@@ -155,6 +155,30 @@ body::after {
   pointer-events: none;
 }
 
+/* Desktop: single row — row-1 and row-2 are flex children */
+.top-bar-row-1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.top-bar-row-2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile-only CTA in header — hidden on desktop */
+.home-cta-btn-mobile {
+  display: none;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -209,6 +233,7 @@ body::after {
   font-weight: 500;
 }
 
+/* Legacy selector for any JS that targets .top-bar-right (row-2 is the right group on desktop) */
 .top-bar-right {
   display: flex;
   align-items: center;
@@ -3082,25 +3107,67 @@ textarea {
     padding: 0;
   }
 
-  /* Mobile header: 2-row layout, all desktop elements, no overlap, 44px tap targets */
+  /* Mobile header: 2-row flex layout (max-width: 768px), 44px tap targets, 8–12px gap */
   .top-bar {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto auto auto;
-    gap: 12px 10px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
     border-radius: 16px;
     overflow: visible;
   }
 
-  .top-bar-right {
-    display: contents;
+  /* Row 1: Left = menu + logo + tagline | Right = "Let's go... ✨" */
+  .top-bar-row-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 44px;
+  }
+
+  .top-bar-row-1 .status-message {
+    display: none;
+  }
+
+  .home-cta-btn-mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(184, 107, 255, 0.2), rgba(30, 25, 45, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .home-cta-btn-mobile:hover {
+    background: linear-gradient(135deg, rgba(184, 107, 255, 0.3), rgba(30, 25, 45, 0.98));
+    border-color: rgba(184, 107, 255, 0.4);
+  }
+
+  .home-cta-btn-mobile:active {
+    transform: scale(0.98);
+  }
+
+  /* Row 2: Crown, House, Trophy, XP, Streak, Moon — horizontal row with spacing */
+  .top-bar-row-2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-height: 44px;
   }
 
   .profile-menu-btn {
-    grid-column: 1;
-    grid-row: 1;
     width: 44px;
     min-width: 44px;
     height: 44px;
@@ -3110,48 +3177,18 @@ textarea {
   }
 
   .brand {
-    grid-column: 2;
-    grid-row: 1;
     min-width: 0;
     gap: 8px;
     margin-right: 0;
     align-self: center;
-  }
-
-  .theme-toggle {
-    grid-column: 3;
-    grid-row: 1;
-    width: 44px;
-    min-width: 44px;
-    height: 44px;
-    min-height: 44px;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .top-bar-right .status-message {
-    grid-column: 1;
-    grid-row: 2;
-    min-width: 0;
-    max-width: none;
-    font-size: 12px;
-    margin-right: 0;
-    padding: 4px 0;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    line-height: 1.35;
-    align-self: center;
+    flex: 1;
   }
 
   .header-nav-icons {
-    grid-column: 2;
-    grid-row: 2;
     display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 10px;
     flex-shrink: 0;
-    justify-content: flex-start;
   }
 
   .header-nav-icons .leaderboard-btn {
@@ -3172,9 +3209,7 @@ textarea {
     margin-left: 0;
   }
 
-  .top-bar-right .auth-btn {
-    grid-column: 3;
-    grid-row: 2;
+  .top-bar-row-2 .auth-btn {
     flex: 0 0 auto;
     padding: 8px 12px;
     font-size: 13px;
@@ -3183,12 +3218,10 @@ textarea {
   }
 
   .top-bar-metrics {
-    grid-column: 1 / -1;
-    grid-row: 3;
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    align-items: stretch;
+    align-items: center;
     flex-shrink: 0;
     margin-top: 0;
   }
@@ -3227,6 +3260,15 @@ textarea {
 
   .metric--level .metric-value {
     font-size: 16px;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    font-size: 18px;
+    flex-shrink: 0;
   }
 
   .logo-mark {
@@ -3533,7 +3575,7 @@ textarea {
     font-size: 17px;
   }
 
-  .top-bar-right .status-message {
+  .top-bar-row-1 .status-message {
     max-width: none;
     font-size: 11px;
   }

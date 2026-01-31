@@ -4046,6 +4046,15 @@ document.addEventListener("DOMContentLoaded", () => {
         openSubjectModal();
       }, { passive: false });
     }
+    // Mobile header "Let's go... ✨" (row 1 right) — same action
+    const homeCtaBtnMobile = document.getElementById("homeCtaBtnMobile");
+    if (homeCtaBtnMobile) {
+      homeCtaBtnMobile.addEventListener("click", function () { openSubjectModal(); });
+      homeCtaBtnMobile.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        openSubjectModal();
+      }, { passive: false });
+    }
 
     // Intro screen (full-screen welcome): show after loading; "Let's go..." dismisses intro and reveals home
     const introScreen = document.getElementById("introScreen");

@@ -78,28 +78,29 @@
   </div>
 
   <div class="app">
-    <!-- Top bar -->
+    <!-- Top bar: 2-row layout on mobile (max-width: 768px), single row on desktop -->
     <header class="top-bar">
-      <button type="button" class="profile-menu-btn" id="profileMenuBtn" aria-label="Open profile menu"><span class="profile-menu-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></button>
-      <div class="brand">
-        <div class="logo-mark">◎</div>
-        <div class="logo-text">
-          <span class="logo-main">shinyos</span>
-          <span class="logo-sub">operating system for your brain</span>
+      <div class="top-bar-row-1">
+        <button type="button" class="profile-menu-btn" id="profileMenuBtn" aria-label="Open profile menu"><span class="profile-menu-dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></button>
+        <div class="brand">
+          <div class="logo-mark">◎</div>
+          <div class="logo-text">
+            <span class="logo-main">shinyos</span>
+            <span class="logo-sub">operating system for your brain</span>
+          </div>
         </div>
-      </div>
-      <div class="top-bar-right">
-        <!-- Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥" -->
+        <!-- Desktop: status message. Mobile: hidden in header (welcome is "Let's go... ✨") -->
         <div class="status-message" id="statusMessage" aria-live="polite"></div>
+        <!-- Mobile only: welcome CTA in row 1 right -->
+        <button type="button" class="home-cta-btn-mobile" id="homeCtaBtnMobile" aria-label="Let's go">Let's go... ✨</button>
+      </div>
+      <div class="top-bar-row-2">
         <div class="header-nav-icons">
           <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">👑</button>
           <button type="button" class="leaderboard-btn" id="headerHomeBtn" aria-label="Home">🏠</button>
           <button type="button" class="leaderboard-btn" id="headerTrophyBtn" aria-label="Trophies / Journal">🏆</button>
         </div>
-
-        <!-- Login button (logout moved to profile menu) -->
         <button type="button" class="auth-btn" id="loginBtn">Login</button>
-
         <div class="top-bar-metrics">
           <div class="metric metric--xp">
             <span class="metric-label">XP</span>
