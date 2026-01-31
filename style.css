@@ -2525,8 +2525,8 @@ body::after {
 }
 
 .intro-float--hedgehog { left: 38%; top: 42%; animation-delay: 0s; }
-.intro-float--rocket   { left: 52%; top: 38%; animation-delay: 0.4s; }
-.intro-float--stars   { left: 58%; top: 45%; animation-delay: 0.2s; font-size: clamp(1.2rem, 3.5vw, 2rem); }
+.intro-float--rocket   { left: 52%; top: 42%; animation-delay: 0.4s; }
+.intro-float--stars   { left: 58%; top: 42%; animation-delay: 0.2s; font-size: clamp(1.2rem, 3.5vw, 2rem); }
 
 @keyframes intro-float-bob {
   0%, 100% { transform: translateY(0); }
