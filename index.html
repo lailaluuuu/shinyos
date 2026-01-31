@@ -92,6 +92,8 @@
         <!-- Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥" -->
         <div class="status-message" id="statusMessage" aria-live="polite"></div>
         <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">👑</button>
+        <button type="button" class="leaderboard-btn" id="headerHomeBtn" aria-label="Home">🏠</button>
+        <button type="button" class="leaderboard-btn" id="headerTrophyBtn" aria-label="Trophies / Journal">🏆</button>
 
         <!-- Login button (logout moved to profile menu) -->
         <button type="button" class="auth-btn" id="loginBtn">Login</button>
@@ -128,11 +130,6 @@
         </div>
       </div>
       <section class="lesson-panel is-hidden" id="lessonPanel">
-        <div class="lesson-tabs">
-          <button class="tab is-active" data-tab="lesson">Lesson</button>
-          <button class="tab" data-tab="journal">🏆</button>
-        </div>
-
         <!-- Lesson picker (Space / multi-lesson category): choose which lesson to start -->
         <div class="lesson-picker is-hidden" id="lessonPickerView" aria-label="Choose a lesson">
           <div class="lesson-picker-header">

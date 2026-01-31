@@ -2824,17 +2824,18 @@ function switchTab(tab) {
   const lessonCard = $("#lessonCard");
   const journalPanel = $("#journalPanel");
   const tabs = document.querySelectorAll(".tab");
-  
-  tabs.forEach((t) => t.classList.remove("is-active"));
+  if (tabs.length) tabs.forEach((t) => t.classList.remove("is-active"));
 
   if (tab === "lesson") {
     lessonCard.classList.remove("is-hidden");
     journalPanel.classList.add("is-hidden");
-    document.querySelector('[data-tab="lesson"]').classList.add("is-active");
+    var el = document.querySelector('[data-tab="lesson"]');
+    if (el) el.classList.add("is-active");
   } else if (tab === "journal") {
     lessonCard.classList.add("is-hidden");
     journalPanel.classList.remove("is-hidden");
-    document.querySelector('[data-tab="journal"]').classList.add("is-active");
+    var el = document.querySelector('[data-tab="journal"]');
+    if (el) el.classList.add("is-active");
     renderBadges(); // Render badges when journal tab is opened
   }
   
@@ -3941,6 +3942,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (leaderboardBtn) leaderboardBtn.addEventListener("click", openLeaderboard);
   if (leaderboardClose) leaderboardClose.addEventListener("click", closeLeaderboard);
   if (leaderboardBackdrop) leaderboardBackdrop.addEventListener("click", closeLeaderboard);
+
+  const headerHomeBtn = document.getElementById("headerHomeBtn");
+  const headerTrophyBtn = document.getElementById("headerTrophyBtn");
+  if (headerHomeBtn) {
+    headerHomeBtn.addEventListener("click", function () { showHomeState(); });
+  }
+  if (headerTrophyBtn) {
+    headerTrophyBtn.addEventListener("click", function () {
+      const lessonPanel = document.getElementById("lessonPanel");
+      if (lessonPanel && lessonPanel.classList.contains("is-hidden")) {
+        showLessonView();
+      }
+      switchTab("journal");
+    });
+  }
 
   let mainInitDone = false;
   function runMainInit() {
