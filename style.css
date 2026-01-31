@@ -3085,7 +3085,8 @@ textarea {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    padding: max(48px, calc(env(safe-area-inset-top, 0px) + 16px)) 16px 12px 16px;
+    /* Header moved up 12px on mobile for better balance */
+    padding: max(36px, calc(env(safe-area-inset-top, 0px) + 4px)) 16px 12px 16px;
     border-radius: 16px;
     overflow: visible;
   }
@@ -3095,7 +3096,7 @@ textarea {
     position: absolute;
     right: 16px;
     /* Align vertical center with icon row: padding-top + brand row (~38px) + gap (8px) + half icon height (18px) - half button height (20px) */
-    top: calc(max(48px, calc(env(safe-area-inset-top) + 16px)) + 38px + 8px + 18px - 20px);
+    top: calc(max(36px, calc(env(safe-area-inset-top) + 4px)) + 38px + 8px + 18px - 20px);
     margin-right: 0;
     z-index: 2;
     display: flex;
@@ -3118,9 +3119,16 @@ textarea {
     width: auto;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    gap: 6px;
+    gap: 8px;
     flex: 0 0 auto;
     flex-shrink: 0;
+  }
+
+  /* XP bar narrower on mobile (15–20% reduction) so streak flame has room */
+  .metric--xp {
+    flex: 0 1 82%;
+    max-width: 82%;
+    margin-right: 0;
   }
 
   .metric--streak {
@@ -3429,7 +3437,8 @@ textarea {
   }
 
   .top-bar {
-    padding: max(48px, calc(env(safe-area-inset-top, 0px) + 16px)) 14px 12px 14px;
+    /* Header moved up 12px on mobile for better balance */
+    padding: max(36px, calc(env(safe-area-inset-top, 0px) + 4px)) 14px 12px 14px;
     gap: 10px;
     border-radius: 14px;
     overflow: visible;
@@ -3438,7 +3447,7 @@ textarea {
   .profile-menu-btn {
     right: 14px;
     /* Aligned with icon row (480px uses gap: 10px) */
-    top: calc(max(48px, calc(env(safe-area-inset-top) + 16px)) + 38px + 10px + 18px - 20px);
+    top: calc(max(36px, calc(env(safe-area-inset-top) + 4px)) + 38px + 10px + 18px - 20px);
   }
 
   .brand {
@@ -3454,13 +3463,19 @@ textarea {
   }
 
   .top-bar-metrics {
-    gap: 4px;
+    gap: 6px;
   }
 
   .metric {
     padding: 4px 6px;
     min-width: 0;
     flex: 1 1 0;
+  }
+
+  /* XP bar narrower on mobile so streak flame has room */
+  .metric--xp {
+    flex: 0 1 82%;
+    max-width: 82%;
   }
 
   .metric--streak {
