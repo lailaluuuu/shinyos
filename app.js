@@ -2155,6 +2155,26 @@ let lessonBoundariesBySubject = {};
 // Lesson catalog per subject (for picker): [{ slug, title, difficulty, estimatedTime, xpReward, icon }, ...]
 let lessonCatalogBySubject = {};
 
+/** Split a long paragraphs array into chunks for multiple slides. Prefers breaking after empty strings. */
+function splitParagraphsForSlides(paragraphs, maxPerSlide) {
+  if (!Array.isArray(paragraphs) || paragraphs.length <= maxPerSlide) {
+    return paragraphs.length ? [paragraphs] : [];
+  }
+  const chunks = [];
+  let i = 0;
+  while (i < paragraphs.length) {
+    let end = Math.min(i + maxPerSlide, paragraphs.length);
+    if (end < paragraphs.length && paragraphs[end] === "") {
+      end++;
+    }
+    chunks.push(paragraphs.slice(i, end));
+    i = end;
+  }
+  return chunks;
+}
+
+const MAX_PARAGRAPHS_PER_SLIDE = 20;
+
 // Normalize subjectLessons: expand any "lesson" with sections into flat slides (content/quiz) so renderLesson can display them
 (function normalizeSubjectLessons() {
   Object.keys(subjectLessons).forEach(function (subjectKey) {
@@ -2189,7 +2209,16 @@ let lessonCatalogBySubject = {};
         }
         lesson.sections.forEach(function (section) {
           if (section.type === "content") {
-            result.push({ type: "content", subject: subject, title: section.title, paragraphs: section.paragraphs || [] });
+            const paras = section.paragraphs || [];
+            if (paras.length <= MAX_PARAGRAPHS_PER_SLIDE) {
+              result.push({ type: "content", subject: subject, title: section.title, paragraphs: paras });
+            } else {
+              const chunks = splitParagraphsForSlides(paras, MAX_PARAGRAPHS_PER_SLIDE);
+              chunks.forEach(function (chunk, idx) {
+                const title = idx === 0 ? section.title : section.title + " (continued)";
+                result.push({ type: "content", subject: subject, title: title, paragraphs: chunk });
+              });
+            }
           } else if (section.type === "quiz") {
             result.push({ type: "quiz", subject: subject, question: section.question, options: section.options || [], explanation: section.explanation });
           } else if (section.type === "reflection") {
