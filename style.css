@@ -174,11 +174,6 @@ body::after {
   z-index: 1;
 }
 
-/* Mobile-only CTA in header — hidden on desktop */
-.home-cta-btn-mobile {
-  display: none;
-}
-
 .brand {
   display: flex;
   align-items: center;
@@ -3129,33 +3124,6 @@ textarea {
 
   .top-bar-row-1 .status-message {
     display: none;
-  }
-
-  .home-cta-btn-mobile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    background: linear-gradient(135deg, rgba(184, 107, 255, 0.2), rgba(30, 25, 45, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    cursor: pointer;
-    flex-shrink: 0;
-    -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-
-  .home-cta-btn-mobile:hover {
-    background: linear-gradient(135deg, rgba(184, 107, 255, 0.3), rgba(30, 25, 45, 0.98));
-    border-color: rgba(184, 107, 255, 0.4);
-  }
-
-  .home-cta-btn-mobile:active {
-    transform: scale(0.98);
   }
 
   /* Row 2: Crown, House, Trophy, XP, Streak, Moon — horizontal row with spacing */
