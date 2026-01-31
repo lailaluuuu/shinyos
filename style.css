@@ -2769,6 +2769,53 @@ body::after {
   object-fit: contain;
 }
 
+/* Leaf overlay: positioning context for overlay (no visual change) */
+.home-hero-image-wrap {
+  position: relative;
+}
+
+.home-tree-leaf-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: calc(var(--radius-lg) - 4px);
+  overflow: hidden;
+}
+
+.home-tree-leaf {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg) scale(0.5);
+  opacity: 0;
+  background: radial-gradient(ellipse 70% 70% at 30% 30%, #f0d878, #c9972a 50%, #a67c1e);
+  box-shadow: 0 0 6px rgba(212, 168, 75, 0.9), 0 0 12px rgba(201, 151, 42, 0.5);
+}
+
+.home-tree-leaf.leaf-visible {
+  opacity: 1;
+  transform: rotate(-45deg) scale(1);
+}
+
+@keyframes leaf-grow-in {
+  from {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-45deg) scale(1);
+  }
+}
+
+.home-tree-leaf.leaf-animate-in {
+  animation: leaf-grow-in 0.8s ease-out forwards;
+}
+
 @media (max-width: 768px) {
   .home-empty-state {
     margin-top: 0;

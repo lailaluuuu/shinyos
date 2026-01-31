@@ -3568,6 +3568,46 @@ function showLessonCard() {
   if (journalPanel) journalPanel.classList.add("is-hidden");
 }
 
+/** Leaf growth: positions on tree overlay (percent of container). */
+var TREE_LEAF_POSITIONS = [
+  { left: 18, top: 22 }, { left: 28, top: 18 }, { left: 38, top: 24 }, { left: 52, top: 20 }, { left: 62, top: 26 },
+  { left: 72, top: 22 }, { left: 82, top: 28 }, { left: 22, top: 34 }, { left: 32, top: 38 }, { left: 48, top: 36 },
+  { left: 58, top: 42 }, { left: 68, top: 38 }, { left: 78, top: 44 }, { left: 26, top: 50 }, { left: 42, top: 48 },
+  { left: 54, top: 52 }, { left: 64, top: 50 }, { left: 76, top: 54 }, { left: 34, top: 58 }, { left: 46, top: 62 },
+  { left: 56, top: 60 }, { left: 70, top: 64 }, { left: 40, top: 70 }, { left: 52, top: 72 }, { left: 62, top: 68 }
+];
+var treeLeafPreviousCount = -1;
+
+function renderTreeLeaves() {
+  var overlay = document.getElementById("homeTreeLeafOverlay");
+  if (!overlay) return;
+  var completedCount = Array.isArray(completedLessonsForXp) ? completedLessonsForXp.length : 0;
+  var total = TREE_LEAF_POSITIONS.length;
+  var visibleLeaves = Math.min(completedCount, total);
+  var animateIndex = -1;
+  if (visibleLeaves > treeLeafPreviousCount && treeLeafPreviousCount >= 0) {
+    animateIndex = treeLeafPreviousCount;
+  }
+  if (treeLeafPreviousCount < 0) treeLeafPreviousCount = visibleLeaves;
+  overlay.innerHTML = "";
+  for (var i = 0; i < visibleLeaves; i++) {
+    var pos = TREE_LEAF_POSITIONS[i];
+    var leaf = document.createElement("div");
+    leaf.className = "home-tree-leaf";
+    leaf.style.left = pos.left + "%";
+    leaf.style.top = pos.top + "%";
+    leaf.style.marginLeft = "-6px";
+    leaf.style.marginTop = "-6px";
+    if (i === animateIndex) {
+      leaf.classList.add("leaf-animate-in");
+    } else {
+      leaf.classList.add("leaf-visible");
+    }
+    overlay.appendChild(leaf);
+  }
+  treeLeafPreviousCount = visibleLeaves;
+}
+
 /** Show home state: header + illustration. Let's go button remains visible (persistent nav). Subject dropdowns hidden. */
 function showHomeState() {
   userHasSelectedSubject = false;
@@ -3579,6 +3619,7 @@ function showHomeState() {
   if (lessonPanel) lessonPanel.classList.add("is-hidden");
   if (heroWrap) heroWrap.classList.remove("intro-image-hidden");
   if (subjectWrap) subjectWrap.classList.add("is-hidden");
+  renderTreeLeaves();
 }
 
 /** Show lesson view (after user has selected a subject). Let's go button remains visible (persistent nav). Intro image hidden, subject dropdowns visible. */
