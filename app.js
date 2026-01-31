@@ -545,6 +545,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Flashlight in the Dark 🔦",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Flashlight in darkness representing attention",
           paragraphs: [
             "**Welcome to Your First Superpower! ⚡**",
             "",
@@ -817,6 +819,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Zoom Lens 🔍",
+          imageUrl: "https://images.unsplash.com/photo-1516307365426-bea591f050c9?w=800&h=400&fit=crop",
+          imageAlt: "Camera lens representing focus and zoom levels",
           paragraphs: [
             "**Your Attention Has Settings! 📸**",
             "",
@@ -1169,6 +1173,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Brain Test Challenge 🎮",
+          imageUrl: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=400&fit=crop",
+          imageAlt: "Neural network representing brain challenges",
           paragraphs: [
             "**Time for a Brain Challenge Mashup! 🎯**",
             "",
@@ -1415,6 +1421,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Neuron Highway 🛣️",
+          imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=400&fit=crop",
+          imageAlt: "Neural pathways and brain connections",
           paragraphs: [
             "**Coming Soon!**",
             "",
@@ -1447,6 +1455,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Different Operating Systems 💻",
+          imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
+          imageAlt: "Psychology and diverse thinking",
           paragraphs: [
             "**Not All Brains Work the Same Way! 🧠≠🧠**",
             "",
@@ -1545,6 +1555,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🎉 Brain Power Complete!",
+          imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=400&fit=crop",
+          imageAlt: "Mind and achievement",
           paragraphs: [
             "**Congratulations! You've unlocked the secrets of your amazing brain! 🧠✨**",
             "",
@@ -2211,12 +2223,14 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
           if (section.type === "content") {
             const paras = section.paragraphs || [];
             if (paras.length <= MAX_PARAGRAPHS_PER_SLIDE) {
-              result.push({ type: "content", subject: subject, title: section.title, paragraphs: paras });
+              result.push({ type: "content", subject: subject, title: section.title, paragraphs: paras, imageUrl: section.imageUrl, imageAlt: section.imageAlt });
             } else {
               const chunks = splitParagraphsForSlides(paras, MAX_PARAGRAPHS_PER_SLIDE);
               chunks.forEach(function (chunk, idx) {
                 const title = idx === 0 ? section.title : section.title + " (continued)";
-                result.push({ type: "content", subject: subject, title: title, paragraphs: chunk });
+                const slideImageUrl = idx === 0 ? section.imageUrl : undefined;
+                const slideImageAlt = idx === 0 ? section.imageAlt : undefined;
+                result.push({ type: "content", subject: subject, title: title, paragraphs: chunk, imageUrl: slideImageUrl, imageAlt: slideImageAlt });
               });
             }
           } else if (section.type === "quiz") {
@@ -3251,6 +3265,56 @@ function renderLesson() {
     contentEl.style.display = "block";
     contentEl.style.visibility = "visible";
     contentEl.classList.remove("is-hidden");
+    
+    // Add image with hedgehog overlay when present
+    if (lesson.imageUrl) {
+      const imageContainer = document.createElement("div");
+      imageContainer.className = "slide-in-up";
+      imageContainer.style.marginBottom = "24px";
+      imageContainer.style.borderRadius = "16px";
+      imageContainer.style.overflow = "hidden";
+      imageContainer.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1)";
+      imageContainer.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+      imageContainer.style.minHeight = "200px";
+      imageContainer.style.width = "100%";
+      imageContainer.style.maxHeight = "300px";
+      imageContainer.style.position = "relative";
+      
+      const img = document.createElement("img");
+      img.alt = lesson.imageAlt || "Slide image";
+      img.style.width = "100%";
+      img.style.height = "auto";
+      img.style.minHeight = "200px";
+      img.style.maxHeight = "300px";
+      img.style.objectFit = "cover";
+      img.style.display = "block";
+      img.style.filter = "brightness(1.1) contrast(1.05)";
+      img.loading = "lazy";
+      img.crossOrigin = "anonymous";
+      img.src = lesson.imageUrl;
+      
+      img.onerror = function() {
+        this.style.display = "none";
+        imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
+        imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
+        imageContainer.style.display = "flex";
+        imageContainer.style.alignItems = "center";
+        imageContainer.style.justifyContent = "center";
+        const placeholder = document.createElement("div");
+        placeholder.textContent = "🧠";
+        placeholder.style.fontSize = "80px";
+        placeholder.style.opacity = "0.6";
+        imageContainer.appendChild(placeholder);
+        addHedgehogOverlay(imageContainer);
+      };
+      
+      img.onload = function() {
+        addHedgehogOverlay(imageContainer);
+      };
+      
+      imageContainer.appendChild(img);
+      contentEl.appendChild(imageContainer);
+    }
     
     // Build all content elements
     if (lesson.title) {
