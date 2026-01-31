@@ -2524,9 +2524,9 @@ body::after {
   animation: intro-float-bob 3s ease-in-out infinite;
 }
 
-.intro-float--hedgehog { left: 38%; top: 42%; animation-delay: 0s; }
-.intro-float--rocket   { left: 52%; top: 42%; animation-delay: 0.4s; }
-.intro-float--stars   { left: 58%; top: 42%; animation-delay: 0.2s; font-size: clamp(1.2rem, 3.5vw, 2rem); }
+.intro-float--hedgehog { left: 30%; top: 42%; animation-delay: 0s; }
+.intro-float--rocket   { left: 50%; top: 42%; animation-delay: 0.4s; }
+.intro-float--stars   { left: 70%; top: 42%; animation-delay: 0.2s; font-size: clamp(1.2rem, 3.5vw, 2rem); }
 
 @keyframes intro-float-bob {
   0%, 100% { transform: translateY(0); }
