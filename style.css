@@ -5559,6 +5559,12 @@ img {
   display: none;
 }
 
+@media (max-width: 768px) {
+  .profile-modal-content {
+    margin-top: 56px;
+  }
+}
+
 .leaderboard-list {
   overflow-y: auto;
   flex: 1;
