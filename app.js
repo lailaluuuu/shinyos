@@ -442,6 +442,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Where it shows up in real life",
+          imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=400&fit=crop",
+          imageAlt: "Connections and networks in daily life",
           paragraphs: [
             "You've experienced this when:",
             "• Someone doesn't reply and your mind writes a story",
@@ -482,6 +484,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The skill: noticing the pattern 👁️",
+          imageUrl: "https://images.unsplash.com/photo-1516307365426-bea591f050c9?w=800&h=400&fit=crop",
+          imageAlt: "Psychology and observation",
           paragraphs: [
             "The goal is not to stop your brain from finding patterns.",
             "That's impossible. And actually, you don't want to.",
@@ -1620,6 +1624,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "⚡ Where reality breaks",
+          imageUrl: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&h=400&fit=crop",
+          imageAlt: "Galaxy and space where reality bends",
           paragraphs: [
             "There are places in the universe where time slows, space bends, and 'before' and 'after' stop behaving normally.",
             "Black holes are not exotic objects.",
@@ -1648,6 +1654,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "📐 The Schwarzschild radius",
+          imageUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=400&fit=crop",
+          imageAlt: "Space and stars representing mathematical boundaries",
           paragraphs: [
             "Every object has a Schwarzschild radius — the size it would need to be compressed to become a black hole.",
             "For you: about 10⁻²⁵ meters (a billion billion times smaller than an atom).",
@@ -1675,6 +1683,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🚫 The event horizon: the point of no return",
+          imageUrl: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&h=400&fit=crop",
+          imageAlt: "Earth and space representing the boundary of no return",
           paragraphs: [
             "The event horizon is the boundary where escape velocity equals the speed of light.",
             "Cross it, and you cannot come back.",
@@ -1704,6 +1714,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🍝 Spaghettification (yes, that's the real term)",
+          imageUrl: "https://images.unsplash.com/photo-1545156521-77bd85671d30?w=800&h=400&fit=crop",
+          imageAlt: "Nebula representing spacetime warping",
           paragraphs: [
             "If you fell into a black hole feet-first, tidal forces would stretch you.",
             "Your feet experience stronger gravity than your head.",
@@ -1734,6 +1746,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "✨ Hawking radiation: black holes evaporate",
+          imageUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&h=400&fit=crop",
+          imageAlt: "Stars and radiation in space",
           paragraphs: [
             "In 1974, Stephen Hawking discovered something shocking.",
             "Black holes aren't entirely black.",
@@ -1764,6 +1778,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "📸 We've actually photographed one",
+          imageUrl: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&h=400&fit=crop",
+          imageAlt: "Telescope and space observation",
           paragraphs: [
             "In 2019, the Event Horizon Telescope — a planet-sized network of radio telescopes — captured the first image of a black hole.",
             "M87*, a supermassive black hole 55 million light-years away.",
@@ -1890,6 +1906,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🔴 Introduction: From Red Hell to Green Paradise",
+          imageUrl: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=800&h=400&fit=crop",
+          imageAlt: "Mars - the red planet",
           paragraphs: [
             "Mars is a disappointing hellhole lacking practically everything we need to stay alive. But what if we could transform it into a green new world using gigantic lasers and oceans of lava?",
             "This isn't science fiction. Terraforming Mars is theoretically possible on the same timescale our ancestors built great monuments. If humanity expands into the solar system, this could be our reality.",
@@ -1904,6 +1922,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🔬 Step 1: Understanding the Problem",
+          imageUrl: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=800&h=400&fit=crop",
+          imageAlt: "Mars as a barren wasteland",
           paragraphs: [
             "Before we can fix Mars, we need to understand exactly what's wrong with it. Mars today is a barren wasteland, but it wasn't always this way.",
             "About 4 billion years ago, Mars had a nice oxygen-rich atmosphere and vast oceans. It held onto this atmosphere for several hundred million years before losing it. Ultraviolet rays broke down atmospheric gases, and then solar wind swept them away into space.",
