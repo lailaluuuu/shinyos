@@ -3072,7 +3072,7 @@ textarea {
 
 @media (max-width: 768px) {
   .app {
-    padding: 8px 12px 20px;
+    padding: 6px 12px 20px;
     margin: 0 auto;
     max-width: 100%;
   }
@@ -3085,10 +3085,22 @@ textarea {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    /* Header moved up 12px on mobile for better balance */
-    padding: max(36px, calc(env(safe-area-inset-top, 0px) + 4px)) 16px 12px 16px;
+    /* Header moved up on mobile – compact top padding, right padding for theme toggle */
+    padding: max(12px, env(safe-area-inset-top, 0px)) max(56px, calc(16px + env(safe-area-inset-right, 0px))) 12px 16px;
     border-radius: 16px;
     overflow: visible;
+  }
+
+  /* Theme toggle – top-right corner with safe area, above header content */
+  .theme-toggle {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    right: max(16px, env(safe-area-inset-right, 0px));
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    flex-shrink: 0;
+    z-index: 3;
   }
 
   /* Profile menu (three dots) – top-right on mobile, aligned with crown/house/trophy row */
@@ -3096,7 +3108,7 @@ textarea {
     position: absolute;
     right: 16px;
     /* Align vertical center with icon row: padding-top + brand row (~38px) + gap (8px) + half icon height (18px) - half button height (20px) */
-    top: calc(max(36px, calc(env(safe-area-inset-top) + 4px)) + 38px + 8px + 18px - 20px);
+    top: calc(max(12px, env(safe-area-inset-top, 0px)) + 38px + 8px + 18px - 20px);
     margin-right: 0;
     z-index: 2;
     display: flex;
@@ -3119,7 +3131,7 @@ textarea {
     width: auto;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    gap: 8px;
+    gap: 12px;
     flex: 0 0 auto;
     flex-shrink: 0;
   }
@@ -3137,18 +3149,9 @@ textarea {
     visibility: visible;
   }
 
-  .theme-toggle {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    flex-shrink: 0;
-    align-self: flex-end;
-    margin-top: -4px;
-  }
-
   .metric {
     min-width: 0;
-    padding: 5px 8px;
+    padding: 6px 10px;
     flex: 1 1 0;
   }
 
@@ -3195,7 +3198,7 @@ textarea {
   .layout {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .world-node {
@@ -3437,17 +3440,19 @@ textarea {
   }
 
   .top-bar {
-    /* Header moved up 12px on mobile for better balance */
-    padding: max(36px, calc(env(safe-area-inset-top, 0px) + 4px)) 14px 12px 14px;
+    padding: max(12px, env(safe-area-inset-top, 0px)) max(56px, calc(14px + env(safe-area-inset-right, 0px))) 12px 14px;
     gap: 10px;
     border-radius: 14px;
     overflow: visible;
   }
 
+  .theme-toggle {
+    right: max(14px, env(safe-area-inset-right, 0px));
+  }
+
   .profile-menu-btn {
     right: 14px;
-    /* Aligned with icon row (480px uses gap: 10px) */
-    top: calc(max(36px, calc(env(safe-area-inset-top) + 4px)) + 38px + 10px + 18px - 20px);
+    top: calc(max(12px, env(safe-area-inset-top, 0px)) + 38px + 10px + 18px - 20px);
   }
 
   .brand {
@@ -3463,7 +3468,7 @@ textarea {
   }
 
   .top-bar-metrics {
-    gap: 6px;
+    gap: 10px;
   }
 
   .metric {
