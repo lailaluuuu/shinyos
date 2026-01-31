@@ -5225,6 +5225,11 @@ img {
   border-color: rgba(184, 107, 255, 0.3);
 }
 
+/* Tighter spacing between home and trophy icons to free space for streak in header */
+#headerHomeBtn + #headerTrophyBtn {
+  margin-left: -12px;
+}
+
 .leaderboard-modal {
   position: fixed;
   inset: 0;
