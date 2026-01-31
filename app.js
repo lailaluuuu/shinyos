@@ -3678,28 +3678,37 @@ window.goNextDirect = goNext;
 window.goBackDirect = goBack;
 
 // Theme management
+function setThemeColor(theme) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.content = theme === 'light' ? '#f8f7ff' : '#060712';
+  }
+}
+
 function initTheme() {
   const savedTheme = localStorage.getItem('shinyos_theme') || 'dark';
   const html = document.documentElement;
   html.setAttribute('data-theme', savedTheme);
-  
+  setThemeColor(savedTheme);
+
   const themeToggle = $("#themeToggle");
   const themeIcon = themeToggle?.querySelector('.theme-icon');
-  
+
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const currentTheme = html.getAttribute('data-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', newTheme);
       localStorage.setItem('shinyos_theme', newTheme);
-      
+      setThemeColor(newTheme);
+
       // Update icon
       if (themeIcon) {
         themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
       }
     });
   }
-  
+
   // Set initial icon
   if (themeIcon) {
     themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
