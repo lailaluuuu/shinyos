@@ -3087,6 +3087,7 @@ textarea {
     gap: 8px;
     padding: max(48px, calc(env(safe-area-inset-top, 0px) + 16px)) 16px 12px 16px;
     border-radius: 16px;
+    overflow: visible;
   }
 
   /* Profile menu (three dots) – top-right on mobile, aligned with crown/house/trophy row */
@@ -3114,11 +3115,18 @@ textarea {
   }
 
   .top-bar-metrics {
-    width: 100%;
-    justify-content: space-between;
+    width: auto;
+    justify-content: flex-end;
     flex-wrap: nowrap;
     gap: 6px;
     flex: 0 0 auto;
+    flex-shrink: 0;
+  }
+
+  .metric--streak {
+    flex-shrink: 0;
+    min-width: 2.5em;
+    visibility: visible;
   }
 
   .theme-toggle {
@@ -3424,6 +3432,7 @@ textarea {
     padding: max(48px, calc(env(safe-area-inset-top, 0px) + 16px)) 14px 12px 14px;
     gap: 10px;
     border-radius: 14px;
+    overflow: visible;
   }
 
   .profile-menu-btn {
@@ -3452,6 +3461,12 @@ textarea {
     padding: 4px 6px;
     min-width: 0;
     flex: 1 1 0;
+  }
+
+  .metric--streak {
+    flex-shrink: 0;
+    min-width: 2.5em;
+    visibility: visible;
   }
 
   .metric-label {
