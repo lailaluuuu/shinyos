@@ -3084,18 +3084,19 @@ textarea {
   .top-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    /* Header moved up on mobile – compact top padding, right padding for theme toggle */
-    padding: max(12px, env(safe-area-inset-top, 0px)) max(56px, calc(16px + env(safe-area-inset-right, 0px))) 12px 16px;
+    gap: 6px;
+    /* Theme on left – left padding for toggle; reduced overall padding */
+    padding: max(10px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(52px, calc(14px + env(safe-area-inset-left, 0px)));
     border-radius: 16px;
     overflow: visible;
   }
 
-  /* Theme toggle – top-right corner with safe area, above header content */
+  /* Theme toggle – top-left corner with safe area (mobile only) */
   .theme-toggle {
     position: absolute;
     top: max(8px, env(safe-area-inset-top, 0px));
-    right: max(16px, env(safe-area-inset-right, 0px));
+    left: max(12px, env(safe-area-inset-left, 0px));
+    right: auto;
     width: 40px;
     height: 40px;
     font-size: 18px;
@@ -3103,12 +3104,11 @@ textarea {
     z-index: 3;
   }
 
-  /* Profile menu (three dots) – top-right on mobile, aligned with crown/house/trophy row */
+  /* Profile menu (three dots) – top-right on mobile, aligned with icon row */
   .profile-menu-btn {
     position: absolute;
     right: 16px;
-    /* Align vertical center with icon row: padding-top + brand row (~38px) + gap (8px) + half icon height (18px) - half button height (20px) */
-    top: calc(max(12px, env(safe-area-inset-top, 0px)) + 38px + 8px + 18px - 20px);
+    top: calc(max(10px, env(safe-area-inset-top, 0px)) + 34px + 6px + 18px - 20px);
     margin-right: 0;
     z-index: 2;
     display: flex;
@@ -3121,25 +3121,69 @@ textarea {
     max-width: calc(100% - 48px);
   }
 
+  /* Trophy, Crown, House – centered with equal spacing */
+  .header-nav-icons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .header-nav-icons .leaderboard-btn {
+    margin-right: 0;
+    flex-shrink: 0;
+  }
+
+  #headerHomeBtn + #headerTrophyBtn {
+    margin-left: 0;
+  }
+
   .top-bar-right {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Welcome message – moved below header, above Let's go button */
+  .top-bar-right .status-message {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 12px 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+    order: 10;
+    min-height: 0;
+    display: block;
+    flex: none;
+    max-width: none;
+    white-space: normal;
+    text-overflow: clip;
   }
 
   .top-bar-metrics {
     width: auto;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    gap: 12px;
+    gap: 10px;
     flex: 0 0 auto;
     flex-shrink: 0;
+    margin-left: auto;
   }
 
-  /* XP bar narrower on mobile (15–20% reduction) so streak flame has room */
+  /* XP and Streak – breathing room on right now that theme is on left */
   .metric--xp {
-    flex: 0 1 82%;
-    max-width: 82%;
+    flex: 0 1 auto;
+    max-width: 90px;
     margin-right: 0;
   }
 
@@ -3173,6 +3217,11 @@ textarea {
 
   .logo-sub {
     font-size: 10px;
+  }
+
+  /* Space for welcome message below header, above Let's go button */
+  .layout {
+    padding-top: 44px;
   }
 
   .lesson-panel {
@@ -3440,14 +3489,14 @@ textarea {
   }
 
   .top-bar {
-    padding: max(12px, env(safe-area-inset-top, 0px)) max(56px, calc(14px + env(safe-area-inset-right, 0px))) 12px 14px;
-    gap: 10px;
+    padding: max(10px, env(safe-area-inset-top, 0px)) max(14px, env(safe-area-inset-right, 0px)) 10px max(48px, calc(12px + env(safe-area-inset-left, 0px)));
+    gap: 8px;
     border-radius: 14px;
     overflow: visible;
   }
 
   .theme-toggle {
-    right: max(14px, env(safe-area-inset-right, 0px));
+    left: max(10px, env(safe-area-inset-left, 0px));
   }
 
   .profile-menu-btn {
@@ -5264,6 +5313,11 @@ img {
 .leaderboard-btn:hover {
   background: rgba(184, 107, 255, 0.15);
   border-color: rgba(184, 107, 255, 0.3);
+}
+
+/* Wrapper for header icons – display:contents so desktop layout unchanged */
+.header-nav-icons {
+  display: contents;
 }
 
 /* Tighter spacing between home and trophy icons to free space for streak in header */

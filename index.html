@@ -91,9 +91,11 @@
       <div class="top-bar-right">
         <!-- Rotating status message: "Welcome back, {username} 🦔" or "You're #{rank} this week 👀🔥" -->
         <div class="status-message" id="statusMessage" aria-live="polite"></div>
-        <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">👑</button>
-        <button type="button" class="leaderboard-btn" id="headerHomeBtn" aria-label="Home">🏠</button>
-        <button type="button" class="leaderboard-btn" id="headerTrophyBtn" aria-label="Trophies / Journal">🏆</button>
+        <div class="header-nav-icons">
+          <button type="button" class="leaderboard-btn" id="leaderboardBtn" aria-label="Open leaderboard">👑</button>
+          <button type="button" class="leaderboard-btn" id="headerHomeBtn" aria-label="Home">🏠</button>
+          <button type="button" class="leaderboard-btn" id="headerTrophyBtn" aria-label="Trophies / Journal">🏆</button>
+        </div>
 
         <!-- Login button (logout moved to profile menu) -->
         <button type="button" class="auth-btn" id="loginBtn">Login</button>
