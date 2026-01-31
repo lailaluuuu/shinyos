@@ -5361,9 +5361,8 @@ img {
   display: contents;
 }
 
-/* Tighter spacing between home and trophy icons to free space for streak in header */
-#headerHomeBtn + #headerTrophyBtn {
-  margin-left: -12px;
+.header-nav-icons .leaderboard-btn {
+  margin-right: 0;
 }
 
 .leaderboard-modal {
