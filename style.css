@@ -2398,6 +2398,7 @@ body::after {
   content: '→';
   position: absolute;
   right: 16px;
+  display: none; /* no arrow on desktop */
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
@@ -3568,10 +3569,6 @@ textarea {
     justify-content: center;
     min-height: 52px;
     font-weight: 700;
-  }
-
-  .next-btn::after {
-    display: none;
   }
   
   .chip {
