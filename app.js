@@ -538,7 +538,7 @@ const subjectLessons = {
       subject: "mind",
       type: "lesson",
       title: "🧠 Brain Power",
-      subtitle: "Discover how your amazing brain works and unlock your mental superpowers! (Ages 9-14)",
+      subtitle: "Discover how your amazing brain works and unlock your mental superpowers!",
       imageUrl: "images/brainpower-intro.png",
       imageAlt: "Brain Power introduction",
       sections: [
