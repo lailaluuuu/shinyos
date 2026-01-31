@@ -3,7 +3,7 @@
 > Learn like it’s a game — an interactive, gamified learning platform for foundational subjects.
 
 ## Overview
-ShinyOS is a browser-based educational prototype that makes learning core subjects engaging and fun. It features a playful UI, XP and streak tracking, and interactive lessons with quizzes. Subjects include economics, investing basics, space history, and more.
+ShinyOS is a browser-based educational prototype that makes learning core subjects engaging and fun. It features a playful UI, XP and streak tracking, and interactive lessons with quizzes. Subjects include economics, investing basics, mind and psychology, space history, and more.
 
 ## Features
 - **Gamified learning:** Earn XP, keep streaks, and progress through eras.
@@ -31,3 +31,4 @@ ShinyOS is a browser-based educational prototype that makes learning core subjec
 
 ## License
 MIT License
+
