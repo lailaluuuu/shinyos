@@ -1969,6 +1969,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Challenge 1: Creating the Atmosphere",
+          imageUrl: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&h=400&fit=crop",
+          imageAlt: "Earth from space - atmosphere and heat",
           paragraphs: [
             "Here's the wild part: to fix Mars' atmosphere, we first need to make things much worse. We need to melt the entire surface into oceans of lava.",
             "The oxygen we need is locked in Martian rocks as iron oxides (Fe2O3) and carbonates. To free these gases, we use THERMOLYSIS - breaking down compounds using extreme heat. This requires temperatures as high as the surface of the Sun.",
@@ -2009,6 +2011,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Step 4: The Nitrogen Problem",
+          imageUrl: "https://images.unsplash.com/photo-1579972841827-6a7690395092?w=800&h=400&fit=crop",
+          imageAlt: "Planet representing Titan and Saturn",
           paragraphs: [
             "We have a breathable amount of oxygen, but we need to add 79% nitrogen to make it safe and Earth-like. Unfortunately, Mars is severely lacking in nitrogen. We have to import it... from Saturn.",
             "The plan: Titan (Saturn's largest moon) has a thick atmosphere that's almost entirely nitrogen. We need 3,000 trillion tons. Titan is ~1.2 billion km from Mars. Giant automated factories on Titan's surface: laser-powered factories suck in Titan's atmosphere, compress nitrogen into liquid form, pump into bullet-shaped tanks, mass driver shoots them to Mars, tanks explode in Mars orbit mixing with oxygen. Timeline: ~2 generations (~50 years) with enough resources. Would be easier if we terraformed Venus first and had leftover nitrogen!"
@@ -2047,6 +2051,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Challenge 2: Building a Biosphere",
+          imageUrl: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?w=800&h=400&fit=crop",
+          imageAlt: "Nature and life representing biosphere",
           paragraphs: [
             "Installing a biosphere on a new planet is extremely difficult. Unexpected interactions between species or diseases can destabilize it to the point of collapse. We need to be strategic.",
             "Phase 1 - Seed the Oceans: Start with phytoplankton (microscopic plants). Without competition, they bloom rapidly. Creates bottom of aquatic food chain. Add tiny zooplankton next, then fish, potentially sharks and whales. Ocean life should thrive relatively quickly.",
@@ -2128,6 +2134,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Step 8: The Magnetic Umbrella",
+          imageUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=400&fit=crop",
+          imageAlt: "Space representing magnetic shield protection",
           paragraphs: [
             "The final piece of the puzzle is elegant in its simplicity: a giant magnetic shield in space.",
             "Design: large superconducting ring, powered by nuclear facilities, placed at Mars-Sun L1 point. Lagrange point 1 is a special orbital position that stays constantly between the Sun and Mars. It deflects solar wind to the sides like an umbrella, protecting the entire planet and atmosphere.",
