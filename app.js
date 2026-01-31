@@ -2171,6 +2171,7 @@ let lessonCatalogBySubject = {};
         catalog.push({
           slug: slug,
           title: lesson.title || "Lesson",
+          subtitle: lesson.subtitle || "",
           difficulty: lesson.difficulty || "",
           estimatedTime: lesson.estimatedTime || "",
           xpReward: lesson.xpReward != null ? lesson.xpReward : 0,
@@ -2216,6 +2217,7 @@ let lessonCatalogBySubject = {};
       lessonCatalogBySubject[subjectKey] = [{
         slug: "main",
         title: typeof title === "string" ? title : (subjectNames[subjectKey] || subjectKey),
+        subtitle: (first.type === "intro" && first.subtitle) ? first.subtitle : "",
         difficulty: "",
         estimatedTime: "~15 min",
         xpReward: 50,
@@ -4079,13 +4081,13 @@ function updateMetaForSubject(subject) {
     const meta = subjectMetadata[subject];
     const category = categories.find((c) => c.subjects && c.subjects.includes(subject));
     subjectChip.textContent = (category ? category.name + " · " : "") + meta.name;
-    if (subject === "space" && activeLessonSlug) {
+    if (activeLessonSlug) {
       const catalog = getLessonCatalog(subject);
       const entry = catalog.find((e) => e.slug === activeLessonSlug);
       if (entry) {
-        unitChip.textContent = "Unit: " + entry.title;
+        unitChip.textContent = "Unit: " + (entry.title ? stripLeadingEmojiForDisplay(entry.title) : entry.title);
         lessonTitle.textContent = entry.title;
-        lessonSubtitle.textContent = (entry.difficulty ? entry.difficulty + " · " : "") + (entry.estimatedTime || "") + (entry.xpReward ? " · " + entry.xpReward + " XP" : "");
+        lessonSubtitle.textContent = (entry.subtitle && entry.subtitle.trim()) ? entry.subtitle : ((entry.difficulty ? entry.difficulty + " · " : "") + (entry.estimatedTime || "") + (entry.xpReward != null && entry.xpReward > 0 ? " · " + entry.xpReward + " XP" : ""));
       } else {
         unitChip.textContent = "Unit: " + (meta.subtitle || meta.name);
         lessonTitle.textContent = meta.name + " — " + (meta.subtitle || "");
