@@ -4152,6 +4152,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ---------- Login + Profile menu (Logout in modal) ----------
+const LOGOUT_BUTTON_PHRASES = [
+  "Leaving so soon??!",
+  "Already? Your neurons just warmed up…",
+  "Logging out or just pretending to be productive?",
+  "Hey—your thoughts were mid-sentence.",
+  "So soon? The hedgehog barely stretched. 🦔",
+  "Leaving already? I was enjoying your company.",
+  "Go gently. Your thoughts will be here when you're back.",
+  "Pause, not goodbye.",
+  "You can rest. I'll hold the lights. ✨",
+  "Suspending consciousness…",
+  "Saving mental state…",
+  "Background thoughts will continue running.",
+  "System idle. Curiosity preserved.",
+  "Enough for now. You did well.",
+  "Log off. Live a little. Come back shiny.",
+  "Take the insight with you.",
+  "Learning paused—not lost.",
+  "Escaping already?",
+  "This is where most people quit… just saying. 😏",
+  "Your future self says: see you soon.",
+];
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
   const profileMenuBtn = document.getElementById("profileMenuBtn");
@@ -4162,6 +4185,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openProfileModal() {
     if (profileModal) profileModal.classList.remove("is-hidden");
+    if (profileModalLogout && LOGOUT_BUTTON_PHRASES.length) {
+      const phrase = LOGOUT_BUTTON_PHRASES[Math.floor(Math.random() * LOGOUT_BUTTON_PHRASES.length)];
+      profileModalLogout.textContent = phrase;
+    }
   }
   function closeProfileModal() {
     if (profileModal) profileModal.classList.add("is-hidden");
@@ -4177,14 +4204,15 @@ document.addEventListener("DOMContentLoaded", () => {
     profileModalClose.addEventListener("click", closeProfileModal);
   }
   if (profileModalLogout) {
-    profileModalLogout.addEventListener("click", async () => {
+    profileModalLogout.addEventListener("click", async (e) => {
+      e.stopPropagation();
       try {
         if (typeof window.firebaseLogout === "function") {
           await window.firebaseLogout();
         }
         closeProfileModal();
-      } catch (e) {
-        console.error("Logout failed:", e);
+      } catch (err) {
+        console.error("Logout failed:", err);
       }
     });
   }

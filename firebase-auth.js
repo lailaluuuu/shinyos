@@ -6,6 +6,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import {
   getAuth,
   signInAnonymously,
+  signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import {
@@ -452,6 +453,14 @@ window.firebaseAddCompletedLesson = async function (lessonId) {
 
 window.firebaseIsLoggedIn = function () {
   return currentUser != null;
+};
+
+window.firebaseLogout = async function () {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error("[firebase] Logout failed:", e);
+  }
 };
 
 window.firebaseGetUsername = getUsername;

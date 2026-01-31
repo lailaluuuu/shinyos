@@ -5359,6 +5359,7 @@ img {
 }
 .profile-modal-content {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 280px;
   margin: 12px 0 0 12px;
