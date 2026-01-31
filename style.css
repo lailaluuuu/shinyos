@@ -151,6 +151,7 @@ body::after {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
   animation: shimmer 8s infinite;
+  pointer-events: none;
 }
 
 .brand {
@@ -5315,6 +5316,8 @@ img {
   cursor: pointer;
   transition: color 0.2s, background 0.2s;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 .profile-menu-btn:hover {
   color: var(--text);
