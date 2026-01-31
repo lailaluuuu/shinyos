@@ -352,6 +352,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Your brain hates randomness 🎲",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Patterns representing randomness and meaning",
           paragraphs: [
             "Your brain would rather believe a false pattern than accept randomness.",
             "This isn't a flaw. It's survival wiring.",
@@ -382,6 +384,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "🏀 The clustering illusion",
+          imageUrl: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&h=400&fit=crop",
+          imageAlt: "Basketball representing the hot hand illusion",
           paragraphs: [
             "In 1985, psychologist Thomas Gilovich studied basketball fans.",
             "Everyone believed in the 'hot hand' — the idea that players have streaks where they're more likely to make shots.",
@@ -396,6 +400,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Pattern hunger 🍽️",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Patterns and connections the brain seeks",
           paragraphs: [
             "This constant search for meaning is sometimes called pattern hunger.",
             "The mind feels uncomfortable with gaps.",
@@ -687,6 +693,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Your Brain's Gatekeeper 🚪",
+          imageUrl: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=400&fit=crop",
+          imageAlt: "Brain scan representing the brain's filter",
           paragraphs: [
             "**Meet Your Brain's Bouncer! 🕴️**",
             "",
@@ -1015,6 +1023,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Stroop Challenge 🎨",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Patterns and colors representing the Stroop effect",
           paragraphs: [
             "**Time to Put Your Brain to the TEST! 🧪**",
             "",
@@ -1222,6 +1232,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Ultimate Gaming Setup 🎮",
+          imageUrl: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop",
+          imageAlt: "Brain structure representing the command center",
           paragraphs: [
             "**Welcome to THE COMMAND CENTER! 🏰**",
             "",
@@ -1439,6 +1451,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "Building Brain Roads 🏗️",
+          imageUrl: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=400&fit=crop",
+          imageAlt: "Neural pathways representing neuroplasticity",
           paragraphs: [
             "**Coming Soon!**",
             "",
@@ -1518,6 +1532,8 @@ const subjectLessons = {
         {
           type: "content",
           title: "The Chemistry Lab ⚗️",
+          imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b2da0?w=800&h=400&fit=crop",
+          imageAlt: "Chemistry lab representing neurotransmitters",
           paragraphs: [
             "**The Brain Chemistry Lab ⚗️**",
             "",
