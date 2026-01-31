@@ -3204,6 +3204,9 @@ function escapeHtml(s) {
 }
 
 // ---- Subject modal (used by "Let's go" / intro flow) ----
+/** Which category is expanded in the subject modal (null = none). Only one at a time. */
+let subjectModalExpandedCategoryId = null;
+
 function openSubjectModal() {
   const modal = $("#subjectModal");
   if (modal) modal.classList.remove("is-hidden");
@@ -3232,31 +3235,106 @@ function renderSubjectModalList() {
   if (!list) return;
   list.innerHTML = "";
   categories.forEach((category) => {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "subject-modal-item" + (activeCategory === category.id ? " is-active" : "");
-    item.dataset.categoryId = category.id;
+    const subjectKey = getSubjectKeyForCategory(category.id);
+    const catalog = subjectKey ? getLessonCatalog(subjectKey) : [];
+    const isExpanded = subjectModalExpandedCategoryId === category.id;
+
+    const card = document.createElement("div");
+    card.className = "subject-modal-card" + (activeCategory === category.id ? " is-active" : "") + (isExpanded ? " is-expanded" : "");
+    card.dataset.categoryId = category.id;
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "subject-modal-card-header";
+    header.setAttribute("aria-expanded", isExpanded);
+    header.setAttribute("aria-controls", "subject-modal-card-body-" + category.id);
+    header.setAttribute("aria-label", isExpanded ? "Collapse " + category.name : "Expand " + category.name + " to see topics");
     const iconSpan = document.createElement("span");
     iconSpan.className = "subject-modal-item-icon";
     iconSpan.textContent = category.icon;
     const nameSpan = document.createElement("span");
+    nameSpan.className = "subject-modal-card-title";
     nameSpan.textContent = category.name;
-    item.appendChild(iconSpan);
-    item.appendChild(nameSpan);
-    const subjectKey = getSubjectKeyForCategory(category.id);
+    header.appendChild(iconSpan);
+    header.appendChild(nameSpan);
     if (subjectKey && isAnyLessonCompletedForSubject(subjectKey)) {
       const badge = document.createElement("span");
       badge.className = "lesson-completed-badge";
       badge.textContent = "Completed";
       badge.setAttribute("aria-label", "Lesson completed — no additional XP");
-      item.appendChild(badge);
+      header.appendChild(badge);
     }
-    item.addEventListener("click", () => selectSubjectFromModal(category));
-    item.addEventListener("touchend", function (e) {
+    const chevron = document.createElement("span");
+    chevron.className = "subject-modal-card-chevron";
+    chevron.setAttribute("aria-hidden", "true");
+    chevron.textContent = "▼";
+    header.appendChild(chevron);
+
+    header.addEventListener("click", function (e) {
+      e.stopPropagation();
+      subjectModalExpandedCategoryId = subjectModalExpandedCategoryId === category.id ? null : category.id;
+      renderSubjectModalList();
+    });
+    header.addEventListener("touchend", function (e) {
       e.preventDefault();
-      selectSubjectFromModal(category);
+      e.stopPropagation();
+      subjectModalExpandedCategoryId = subjectModalExpandedCategoryId === category.id ? null : category.id;
+      renderSubjectModalList();
     }, { passive: false });
-    list.appendChild(item);
+
+    const body = document.createElement("div");
+    body.id = "subject-modal-card-body-" + category.id;
+    body.className = "subject-modal-card-body";
+    body.setAttribute("role", "region");
+    body.setAttribute("aria-label", category.name + " topics");
+
+    const subtopicsWrap = document.createElement("div");
+    subtopicsWrap.className = "subject-modal-subtopics";
+    catalog.forEach(function (entry) {
+      let completed = false;
+      if (subjectKey && Array.isArray(completedLessonsForXp)) {
+        completed = completedLessonsForXp.includes(subjectKey + "/" + entry.slug) ||
+          (entry.slug === "main" && (completedLessonsForXp.includes(subjectKey) || completedLessonsForXp.includes(subjectKey + "/main")));
+      }
+      const sub = document.createElement("button");
+      sub.type = "button";
+      sub.className = "subject-modal-subtopic" + (completed ? " is-completed" : "");
+      sub.dataset.slug = entry.slug;
+      sub.setAttribute("aria-label", "Start: " + entry.title);
+      const subIcon = document.createElement("span");
+      subIcon.className = "subject-modal-subtopic-icon";
+      subIcon.textContent = entry.icon || "📚";
+      const subTitle = document.createElement("span");
+      subTitle.className = "subject-modal-subtopic-title";
+      subTitle.textContent = entry.title;
+      sub.appendChild(subIcon);
+      sub.appendChild(subTitle);
+      if (completed) {
+        const trophy = document.createElement("span");
+        trophy.className = "subject-modal-subtopic-trophy";
+        trophy.setAttribute("aria-label", "Completed");
+        trophy.textContent = "🏆";
+        sub.appendChild(trophy);
+      }
+      sub.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const slug = entry.slug === "main" ? null : entry.slug;
+        navigateToLessonFromDropdown(category.id, subjectKey, slug);
+        closeSubjectModal();
+      });
+      sub.addEventListener("touchend", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = entry.slug === "main" ? null : entry.slug;
+        navigateToLessonFromDropdown(category.id, subjectKey, slug);
+        closeSubjectModal();
+      }, { passive: false });
+      subtopicsWrap.appendChild(sub);
+    });
+    body.appendChild(subtopicsWrap);
+    card.appendChild(header);
+    card.appendChild(body);
+    list.appendChild(card);
   });
 }
 

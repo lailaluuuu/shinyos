@@ -614,6 +614,135 @@ body::after {
   gap: 8px;
 }
 
+/* Expandable subject card container */
+.subject-modal-card {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.subject-modal-card:hover {
+  border-color: rgba(184, 107, 255, 0.25);
+  background: rgba(184, 107, 255, 0.06);
+}
+
+.subject-modal-card.is-active {
+  border-color: rgba(184, 107, 255, 0.5);
+  background: linear-gradient(135deg, rgba(184, 107, 255, 0.12), rgba(30, 20, 50, 0.95));
+  box-shadow: 0 0 20px rgba(184, 107, 255, 0.15);
+}
+
+.subject-modal-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.subject-modal-card-header:hover {
+  background: rgba(184, 107, 255, 0.08);
+}
+
+.subject-modal-card-header .subject-modal-item-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.subject-modal-card-title {
+  flex: 1;
+  text-align: left;
+}
+
+.subject-modal-card-chevron {
+  font-size: 10px;
+  opacity: 0.8;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.subject-modal-card.is-expanded .subject-modal-card-chevron {
+  transform: rotate(180deg);
+}
+
+/* Collapsible body with smooth animation */
+.subject-modal-card-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+
+.subject-modal-card.is-expanded .subject-modal-card-body {
+  max-height: 320px;
+}
+
+.subject-modal-subtopics {
+  padding: 0 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.subject-modal-subtopic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  text-align: left;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.subject-modal-subtopic:hover {
+  background: rgba(184, 107, 255, 0.15);
+}
+
+.subject-modal-subtopic:active {
+  background: rgba(184, 107, 255, 0.2);
+}
+
+.subject-modal-subtopic.is-completed {
+  color: var(--text-soft);
+}
+
+.subject-modal-subtopic-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.subject-modal-subtopic-title {
+  flex: 1;
+  text-align: left;
+}
+
+.subject-modal-subtopic-trophy {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Legacy single-item style (kept for reference; list now uses cards) */
 .subject-modal-item {
   display: flex;
   align-items: center;
@@ -829,6 +958,23 @@ body::after {
   background: rgba(184, 107, 255, 0.08);
 }
 
+[data-theme="light"] .subject-modal-card {
+  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .subject-modal-card:hover {
+  background: rgba(184, 107, 255, 0.06);
+}
+
+[data-theme="light"] .subject-modal-subtopic {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .subject-modal-subtopic:hover {
+  background: rgba(184, 107, 255, 0.1);
+}
+
 /* ---- Subject dropdowns & modal: mobile (touch-friendly, scrollable) ---- */
 @media (max-width: 768px) {
   .subject-dropdowns-wrap {
@@ -917,6 +1063,28 @@ body::after {
   .subject-modal-item:active {
     border-color: rgba(184, 107, 255, 0.4);
     background: rgba(184, 107, 255, 0.12);
+  }
+
+  .subject-modal-card-header {
+    min-height: 44px;
+    padding: 14px 18px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .subject-modal-card-header:active {
+    background: rgba(184, 107, 255, 0.12);
+  }
+
+  .subject-modal-subtopic {
+    min-height: 44px;
+    padding: 12px 14px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .subject-modal-subtopic:active {
+    background: rgba(184, 107, 255, 0.2);
   }
 }
 
