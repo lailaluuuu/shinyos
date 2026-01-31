@@ -120,7 +120,7 @@ const subjectLessons = {
     {
       id: 10,
       type: "content",
-      title: "The Cheat Code They Hid: Compound Growth",
+      title: "⏰ The Cheat Code They Hid: Compound Growth",
       paragraphs: [
         "Compound growth deserved a 6-week school module, fireworks, and guest speakers.",
         "It's interest on your interest. Growth on growth. Time becoming exponential.",
@@ -245,7 +245,7 @@ const subjectLessons = {
     {
       id: 21,
       type: "content",
-      title: "Risk: It's Not a Monster, It's the Price",
+      title: "⚔️ Risk: It's Not a Monster, It's the Price",
       paragraphs: [
         "Risk is not danger. Risk is rent you pay to access return.",
         "Returns exist because uncertainty exists. If outcomes were guaranteed, returns would be zero. The return is compensation for taking risk.",
@@ -381,7 +381,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "The clustering illusion",
+          title: "🏀 The clustering illusion",
           paragraphs: [
             "In 1985, psychologist Thomas Gilovich studied basketball fans.",
             "Everyone believed in the 'hot hand' — the idea that players have streaks where they're more likely to make shots.",
@@ -461,7 +461,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "The quiet danger",
+          title: "⚠️ The quiet danger",
           paragraphs: [
             "Patterns feel comforting.",
             "Even false ones.",
@@ -832,7 +832,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "Step 1: Understanding the Problem",
+          title: "🔬 Step 1: Understanding the Problem",
           paragraphs: [
             "Before we can fix Mars, we need to understand exactly what's wrong with it. Mars today is a barren wasteland, but it wasn't always this way.",
             "About 4 billion years ago, Mars had a nice oxygen-rich atmosphere and vast oceans. It held onto this atmosphere for several hundred million years before losing it. Ultraviolet rays broke down atmospheric gases, and then solar wind swept them away into space.",
@@ -857,7 +857,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "Step 2: The Goal",
+          title: "🎯 Step 2: The Goal",
           paragraphs: [
             "To make Mars habitable, we need to recreate Earth-like conditions. But what exactly does that mean in numbers?",
             "Earth's atmosphere is a precisely balanced mixture: 21% oxygen for us to breathe, 79% nitrogen as a buffer gas, and a tiny bit of CO2 (about 0.04%) to regulate temperature through the greenhouse effect.",
@@ -1056,7 +1056,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "The Complete Vision",
+          title: "🌍 The Complete Vision",
           paragraphs: [
             "Let's review the complete timeline and what we've accomplished.",
             "Years 0–50: Continuous laser melting → Oxygen atmosphere created. Years 50–100: Nitrogen import from Titan → Breathable atmosphere complete. Years 100–150: Ocean seeding → Marine biosphere established. Years 150–300: Soil creation and plant introduction → Land biosphere growing. Years 300–1000: Ecosystem stabilization and expansion. Ongoing: Magnetic umbrella maintenance and biosphere management.",
@@ -1077,7 +1077,7 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "Final Reflection",
+          title: "💭 Final Reflection",
           paragraphs: [
             "Terraforming Mars isn't just about creating a second Earth. It's about what it represents for humanity.",
             "Significance: First time living in a home designed completely by us. Proof that we can shape entire worlds. Insurance against extinction events on Earth. First step toward becoming a multi-planetary species. Testing ground for eventual interstellar colonization. Ultimate expression of human ambition and engineering.",
@@ -1909,10 +1909,54 @@ function getFinanceQuizImage(quizIndex) {
   return financeImages[imageIndex];
 }
 
-// Add mini hedgehog overlay to finance images
+// Get space/astronomy related image for quizzes
+function getSpaceQuizImage(quizIndex) {
+  const spaceImages = [
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&h=400&fit=crop", // Galaxy
+    "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=400&fit=crop", // Space/stars
+    "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&h=400&fit=crop", // Earth from space
+    "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=800&h=400&fit=crop", // Mars
+    "https://images.unsplash.com/photo-1545156521-77bd85671d30?w=800&h=400&fit=crop", // Nebula
+    "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=800&h=400&fit=crop", // Moon
+    "https://images.unsplash.com/photo-1465101162946-4377e57745c3?w=800&h=400&fit=crop", // Aurora
+    "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&h=400&fit=crop", // Telescope/space
+    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&h=400&fit=crop", // Stars
+    "https://images.unsplash.com/photo-1579972841827-6a7690395092?w=800&h=400&fit=crop", // Planet
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1545156521-77bd85671d30?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=800&h=400&fit=crop&q=80&auto=format",
+  ];
+  const imageIndex = quizIndex % spaceImages.length;
+  return spaceImages[imageIndex];
+}
+
+// Get mind/psychology related image for quizzes
+function getMindQuizImage(quizIndex) {
+  const mindImages = [
+    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop", // Brain
+    "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=400&fit=crop", // Neural/abstract
+    "https://images.unsplash.com/photo-1516307365426-bea591f050c9?w=800&h=400&fit=crop", // Psychology
+    "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=400&fit=crop", // Brain scan
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=400&fit=crop", // Mind/meditation
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=400&fit=crop", // Thinking
+    "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop", // Pattern/abstract
+    "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=400&fit=crop", // Network/connections
+    "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop", // Brain structure
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop", // Psychology/thinking
+    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1516307365426-bea591f050c9?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=400&fit=crop&q=80&auto=format",
+    "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop&q=80&auto=format",
+  ];
+  const imageIndex = quizIndex % mindImages.length;
+  return mindImages[imageIndex];
+}
+
+// Add mini hedgehog overlay to subject images (finance, space, mind)
 function addHedgehogOverlay(imageContainer) {
-  if (activeSubject !== "finance") return;
-  
   const hedgehog = document.createElement("div");
   hedgehog.textContent = "🦔";
   hedgehog.style.position = "absolute";
@@ -2491,16 +2535,20 @@ function renderLesson() {
       imageContainer.style.position = "relative"; // For hedgehog positioning
       
       const img = document.createElement("img");
-      // Get finance/investing related image (money, graphs, etc.)
+      // Get subject-themed image
       let imageUrl;
       if (activeSubject === "finance") {
         imageUrl = getFinanceQuizImage(currentIndex);
+      } else if (activeSubject === "space") {
+        imageUrl = getSpaceQuizImage(currentIndex);
+      } else if (activeSubject === "mind") {
+        imageUrl = getMindQuizImage(currentIndex);
       } else {
-        // Fallback for other subjects
         imageUrl = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop";
       }
       
-      img.alt = "Finance and investing concept";
+      const altBySubject = { finance: "Finance and investing concept", space: "Space and astronomy", mind: "Mind and psychology" };
+      img.alt = altBySubject[activeSubject] || "Subject image";
       img.style.width = "100%";
       img.style.height = "auto";
       img.style.minHeight = "200px";
@@ -2513,13 +2561,12 @@ function renderLesson() {
       img.loading = "eager";
       img.crossOrigin = "anonymous"; // For external images
       
-      // Use the finance image URL directly
       img.src = imageUrl;
       
       img.onerror = function() {
         console.error("❌ Image failed to load:", this.src);
         this.style.display = "none";
-        const subjectIcon = activeSubject === "finance" ? "💰" : "📚";
+        const subjectIcon = activeSubject === "finance" ? "💰" : (activeSubject === "space" ? "🚀" : (activeSubject === "mind" ? "🧠" : "📚"));
         imageContainer.style.backgroundColor = "rgba(184, 107, 255, 0.2)";
         imageContainer.style.border = "2px dashed rgba(184, 107, 255, 0.4)";
         imageContainer.style.display = "flex";
@@ -2540,7 +2587,7 @@ function renderLesson() {
         this.style.opacity = "1";
         this.style.visibility = "visible";
         
-        // Add mini hedgehog overlay for finance images
+        // Add mini hedgehog overlay for all subjects
         addHedgehogOverlay(imageContainer);
       };
       
