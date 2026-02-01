@@ -2962,6 +2962,14 @@ body::after {
     padding: 16px 20px;
     font-size: 15px;
   }
+  .home-tree-leaf {
+    width: 11px;
+    height: 17px;
+  }
+  .home-tree-fruit {
+    width: 10px;
+    height: 11px;
+  }
 }
 
 /* ---- Mobile Optimizations ---- */
