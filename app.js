@@ -4811,8 +4811,6 @@ function renderTreeLeaves() {
     leaf.className = "home-tree-leaf";
     leaf.style.left = pos.left + "%";
     leaf.style.top = pos.top + "%";
-    leaf.style.marginLeft = "-6px";
-    leaf.style.marginTop = "-6px";
     if (i === animateIndex) {
       leaf.classList.add("leaf-animate-in");
     } else {
