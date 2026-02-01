@@ -2811,6 +2811,8 @@ function showStreakScreen() {
     // Animate in
     setTimeout(() => {
       streakScreen.classList.add('streak-screen--visible');
+      // Auto-close and navigate home after 2.5 seconds
+      setTimeout(() => closeStreakScreen(), 2500);
     }, 100);
   }, 2000); // Wait 2 seconds for creature to appear first
 }
@@ -2847,6 +2849,12 @@ function closeStreakScreen() {
   sessionXpGained = 0;
   sessionStartTime = Date.now();
   sessionTimeSpent = 0;
+
+  // Navigate back to home so user sees the tree
+  showHomeState();
+  closeAllSubjectDropdowns();
+  try { window.location.hash = ""; } catch (e) {}
+  renderSubjectDropdownsActiveState();
 }
 
 // Expose close function globally
