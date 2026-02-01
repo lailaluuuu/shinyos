@@ -2844,58 +2844,42 @@ body::after {
   overflow: hidden;
 }
 
+/* Realistic leaf container with SVG */
 .home-tree-leaf {
   position: absolute;
-  width: 10px;
-  height: 16px;
-  border-radius: 50% 50% 50% 0;
-  transform: translate(-50%, -50%) rotate(-45deg) scale(0.5);
+  width: 18px;
+  height: 28px;
+  transform: translate(-50%, -50%) rotate(var(--leaf-rotation, -30deg)) scale(0.3);
   opacity: 0;
-  background: radial-gradient(ellipse 70% 70% at 30% 30%, #f0d878, #c9972a 50%, #a67c1e);
-  box-shadow: 0 0 6px rgba(212, 168, 75, 0.9), 0 0 12px rgba(201, 151, 42, 0.5);
-}
-
-/* Center vein */
-.home-tree-leaf::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 12%;
-  width: 1px;
-  height: 70%;
-  transform: translateX(-50%);
-  background: linear-gradient(to bottom, transparent, rgba(139, 105, 20, 0.5), transparent);
-  opacity: 0.6;
+  filter: drop-shadow(0 0 3px rgba(144, 238, 144, 0.7))
+          drop-shadow(0 0 6px rgba(124, 179, 66, 0.5))
+          drop-shadow(0 0 10px rgba(100, 160, 60, 0.3));
   pointer-events: none;
 }
 
-/* Small stem at base */
-.home-tree-leaf::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 8%;
-  width: 1px;
-  height: 4px;
-  transform: translateX(-50%);
-  background: #6b4a0f;
-  opacity: 0.8;
-  pointer-events: none;
+.home-tree-leaf-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .home-tree-leaf.leaf-visible {
   opacity: 1;
-  transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+  transform: translate(-50%, -50%) rotate(var(--leaf-rotation, -30deg)) scale(1);
 }
 
 @keyframes leaf-grow-in {
-  from {
+  0% {
     opacity: 0;
-    transform: translate(-50%, -50%) rotate(-45deg) scale(0.5);
+    transform: translate(-50%, -50%) rotate(var(--leaf-rotation, -30deg)) scale(0.3);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    transform: translate(-50%, -50%) rotate(var(--leaf-rotation, -30deg)) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--leaf-rotation, -30deg)) scale(1);
   }
 }
 
@@ -2903,17 +2887,23 @@ body::after {
   animation: leaf-grow-in 0.8s ease-out forwards;
 }
 
-/* Fruit: one per every 3rd lesson completion; round, on-branch */
+/* Realistic golden apple/fruit container with SVG */
 .home-tree-fruit {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: 16px;
+  height: 18px;
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  background: radial-gradient(ellipse 60% 60% at 35% 35%, #e8a060, #c04020 50%, #8b2810);
-  box-shadow: 0 0 4px rgba(180, 60, 30, 0.6), inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8))
+          drop-shadow(0 0 8px rgba(255, 200, 100, 0.6))
+          drop-shadow(0 0 12px rgba(255, 180, 60, 0.4));
   pointer-events: none;
+}
+
+.home-tree-fruit-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .home-tree-fruit.fruit-visible {
@@ -2922,18 +2912,25 @@ body::after {
 }
 
 @keyframes fruit-grow-in {
-  from {
+  0% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0);
   }
-  to {
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 }
 
 .home-tree-fruit.fruit-animate-in {
-  animation: fruit-grow-in 0.6s ease-out forwards;
+  animation: fruit-grow-in 0.7s ease-out forwards;
 }
 
 @media (max-width: 768px) {

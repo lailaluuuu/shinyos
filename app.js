@@ -4808,6 +4808,172 @@ var TREE_FRUIT_POSITIONS = [
 var treeLeafPreviousCount = -1;
 var treeFruitPreviousCount = -1;
 
+/** Create realistic SVG leaf element with pointed oval shape and veins */
+function createLeafSVG() {
+  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 24 40");
+  svg.setAttribute("class", "home-tree-leaf-svg");
+  
+  // Create gradient definition
+  var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  var gradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+  gradient.setAttribute("id", "leafGrad" + Math.random().toString(36).substr(2, 9));
+  gradient.setAttribute("x1", "0%");
+  gradient.setAttribute("y1", "0%");
+  gradient.setAttribute("x2", "100%");
+  gradient.setAttribute("y2", "100%");
+  
+  var stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop1.setAttribute("offset", "0%");
+  stop1.setAttribute("stop-color", "#a8e6a8");
+  
+  var stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop2.setAttribute("offset", "50%");
+  stop2.setAttribute("stop-color", "#7cb342");
+  
+  var stop3 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop3.setAttribute("offset", "100%");
+  stop3.setAttribute("stop-color", "#5a8a3a");
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  gradient.appendChild(stop3);
+  defs.appendChild(gradient);
+  svg.appendChild(defs);
+  
+  // Leaf body - pointed oval shape
+  var leafBody = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  leafBody.setAttribute("d", "M12 2 Q20 10 20 22 Q20 34 12 38 Q4 34 4 22 Q4 10 12 2 Z");
+  leafBody.setAttribute("fill", "url(#" + gradient.getAttribute("id") + ")");
+  svg.appendChild(leafBody);
+  
+  // Center vein
+  var centerVein = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  centerVein.setAttribute("d", "M12 6 L12 34");
+  centerVein.setAttribute("stroke", "#4a7a2a");
+  centerVein.setAttribute("stroke-width", "1");
+  centerVein.setAttribute("fill", "none");
+  centerVein.setAttribute("opacity", "0.7");
+  svg.appendChild(centerVein);
+  
+  // Side veins (left)
+  var veinL1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinL1.setAttribute("d", "M12 12 Q8 14 6 13");
+  veinL1.setAttribute("stroke", "#4a7a2a");
+  veinL1.setAttribute("stroke-width", "0.6");
+  veinL1.setAttribute("fill", "none");
+  veinL1.setAttribute("opacity", "0.5");
+  svg.appendChild(veinL1);
+  
+  var veinL2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinL2.setAttribute("d", "M12 18 Q7 21 5 20");
+  veinL2.setAttribute("stroke", "#4a7a2a");
+  veinL2.setAttribute("stroke-width", "0.6");
+  veinL2.setAttribute("fill", "none");
+  veinL2.setAttribute("opacity", "0.5");
+  svg.appendChild(veinL2);
+  
+  var veinL3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinL3.setAttribute("d", "M12 24 Q8 27 6 26");
+  veinL3.setAttribute("stroke", "#4a7a2a");
+  veinL3.setAttribute("stroke-width", "0.6");
+  veinL3.setAttribute("fill", "none");
+  veinL3.setAttribute("opacity", "0.5");
+  svg.appendChild(veinL3);
+  
+  // Side veins (right)
+  var veinR1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinR1.setAttribute("d", "M12 12 Q16 14 18 13");
+  veinR1.setAttribute("stroke", "#4a7a2a");
+  veinR1.setAttribute("stroke-width", "0.6");
+  veinR1.setAttribute("fill", "none");
+  veinR1.setAttribute("opacity", "0.5");
+  svg.appendChild(veinR1);
+  
+  var veinR2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinR2.setAttribute("d", "M12 18 Q17 21 19 20");
+  veinR2.setAttribute("stroke", "#4a7a2a");
+  veinR2.setAttribute("stroke-width", "0.6");
+  veinR2.setAttribute("fill", "none");
+  veinR2.setAttribute("opacity", "0.5");
+  svg.appendChild(veinR2);
+  
+  var veinR3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  veinR3.setAttribute("d", "M12 24 Q16 27 18 26");
+  veinR3.setAttribute("stroke", "#4a7a2a");
+  veinR3.setAttribute("stroke-width", "0.6");
+  veinR3.setAttribute("fill", "none");
+  veinR3.setAttribute("opacity", "0.5");
+  svg.appendChild(veinR3);
+  
+  return svg;
+}
+
+/** Create realistic SVG golden apple/fruit element with highlight */
+function createFruitSVG() {
+  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 28 32");
+  svg.setAttribute("class", "home-tree-fruit-svg");
+  
+  // Create gradient definition
+  var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  var gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+  gradient.setAttribute("id", "fruitGrad" + Math.random().toString(36).substr(2, 9));
+  gradient.setAttribute("cx", "35%");
+  gradient.setAttribute("cy", "30%");
+  gradient.setAttribute("r", "60%");
+  
+  var stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop1.setAttribute("offset", "0%");
+  stop1.setAttribute("stop-color", "#ffe066");
+  
+  var stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop2.setAttribute("offset", "50%");
+  stop2.setAttribute("stop-color", "#ffd700");
+  
+  var stop3 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+  stop3.setAttribute("offset", "100%");
+  stop3.setAttribute("stop-color", "#b8860b");
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  gradient.appendChild(stop3);
+  defs.appendChild(gradient);
+  svg.appendChild(defs);
+  
+  // Apple body - rounded apple shape with indent at top
+  var appleBody = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  appleBody.setAttribute("d", "M14 8 Q8 6 6 10 Q2 16 4 24 Q6 30 14 30 Q22 30 24 24 Q26 16 22 10 Q20 6 14 8 Z");
+  appleBody.setAttribute("fill", "url(#" + gradient.getAttribute("id") + ")");
+  svg.appendChild(appleBody);
+  
+  // Stem
+  var stem = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  stem.setAttribute("d", "M14 8 Q14 4 16 2");
+  stem.setAttribute("stroke", "#8b4513");
+  stem.setAttribute("stroke-width", "1.5");
+  stem.setAttribute("fill", "none");
+  stem.setAttribute("stroke-linecap", "round");
+  svg.appendChild(stem);
+  
+  // Small leaf on stem
+  var stemLeaf = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  stemLeaf.setAttribute("d", "M15 5 Q18 3 20 5 Q18 6 15 5 Z");
+  stemLeaf.setAttribute("fill", "#7cb342");
+  svg.appendChild(stemLeaf);
+  
+  // Highlight/shine
+  var highlight = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+  highlight.setAttribute("cx", "10");
+  highlight.setAttribute("cy", "14");
+  highlight.setAttribute("rx", "3");
+  highlight.setAttribute("ry", "4");
+  highlight.setAttribute("fill", "rgba(255, 255, 255, 0.4)");
+  svg.appendChild(highlight);
+  
+  return svg;
+}
+
 function renderTreeLeaves() {
   var overlay = document.getElementById("homeTreeLeafOverlay");
   if (!overlay) return;
@@ -4820,21 +4986,32 @@ function renderTreeLeaves() {
   }
   if (treeLeafPreviousCount < 0) treeLeafPreviousCount = visibleLeaves;
   overlay.innerHTML = "";
+  
+  // Render leaves with realistic SVG
   for (var i = 0; i < visibleLeaves; i++) {
     var pos = TREE_LEAF_POSITIONS[i];
-    var leaf = document.createElement("div");
-    leaf.className = "home-tree-leaf";
-    leaf.style.left = pos.left + "%";
-    leaf.style.top = pos.top + "%";
+    var leafContainer = document.createElement("div");
+    leafContainer.className = "home-tree-leaf";
+    leafContainer.style.left = pos.left + "%";
+    leafContainer.style.top = pos.top + "%";
+    
+    // Add slight rotation variation for natural look
+    var rotation = -30 + (i % 5) * 15;
+    leafContainer.style.setProperty("--leaf-rotation", rotation + "deg");
+    
+    var leafSvg = createLeafSVG();
+    leafContainer.appendChild(leafSvg);
+    
     if (i === animateIndex) {
-      leaf.classList.add("leaf-animate-in");
+      leafContainer.classList.add("leaf-animate-in");
     } else {
-      leaf.classList.add("leaf-visible");
+      leafContainer.classList.add("leaf-visible");
     }
-    overlay.appendChild(leaf);
+    overlay.appendChild(leafContainer);
   }
   treeLeafPreviousCount = visibleLeaves;
 
+  // Render fruit with realistic SVG
   var fruitTotal = TREE_FRUIT_POSITIONS.length;
   var visibleFruit = Math.min(Math.floor(completedCount / 3), fruitTotal);
   var animateFruitIndex = -1;
@@ -4844,16 +5021,20 @@ function renderTreeLeaves() {
   if (treeFruitPreviousCount < 0) treeFruitPreviousCount = visibleFruit;
   for (var j = 0; j < visibleFruit; j++) {
     var fpos = TREE_FRUIT_POSITIONS[j];
-    var fruit = document.createElement("div");
-    fruit.className = "home-tree-fruit";
-    fruit.style.left = fpos.left + "%";
-    fruit.style.top = fpos.top + "%";
+    var fruitContainer = document.createElement("div");
+    fruitContainer.className = "home-tree-fruit";
+    fruitContainer.style.left = fpos.left + "%";
+    fruitContainer.style.top = fpos.top + "%";
+    
+    var fruitSvg = createFruitSVG();
+    fruitContainer.appendChild(fruitSvg);
+    
     if (j === animateFruitIndex) {
-      fruit.classList.add("fruit-animate-in");
+      fruitContainer.classList.add("fruit-animate-in");
     } else {
-      fruit.classList.add("fruit-visible");
+      fruitContainer.classList.add("fruit-visible");
     }
-    overlay.appendChild(fruit);
+    overlay.appendChild(fruitContainer);
   }
   treeFruitPreviousCount = visibleFruit;
 }
