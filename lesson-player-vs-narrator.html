@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player vs. Narrator - Yuno Lesson</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      line-height: 1.6;
+      font-size: 1em;
+    }
+
+    /* Progress bar - fixed at top */
+    .progress-bar-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: opacity 0.3s;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #fd79a8 100%);
+      border-radius: 0 4px 4px 0;
+      transition: width 0.15s ease-out;
+    }
+
+    .lesson-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      padding-top: 28px;
+    }
+
+    .slide {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin: 30px 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: #764ba2;
+      margin: 30px 0 20px 0;
+      border-left: 5px solid #667eea;
+      padding-left: 15px;
+    }
+
+    h3 {
+      font-size: 1.5em;
+      color: #667eea;
+      margin: 25px 0 15px 0;
+    }
+
+    h4 {
+      font-size: 1.2em;
+      color: #636e72;
+      margin: 15px 0 10px 0;
+    }
+
+    .emoji-text {
+      font-size: 1.1em;
+      line-height: 1.8;
+    }
+
+    /* Introduction hook */
+    .intro-hook {
+      background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+      padding: 30px;
+      border-radius: 15px;
+      font-size: 1.2em;
+      margin: 20px 0;
+      border-left: 6px solid #e17055;
+    }
+
+    .intro-hook p {
+      margin-bottom: 12px;
+    }
+
+    .intro-hook p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Split container - Loadout vs Upgrades */
+    .split-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .loadout-box {
+      background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+      padding: 25px;
+      border-radius: 15px;
+      color: white;
+    }
+
+    .upgrades-box {
+      background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+      padding: 25px;
+      border-radius: 15px;
+      color: white;
+    }
+
+    .loadout-box h3, .upgrades-box h3 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .loadout-box ul, .upgrades-box ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .loadout-box li, .upgrades-box li {
+      padding: 8px 0;
+      font-size: 1.1em;
+    }
+
+    /* Key insight boxes */
+    .key-insight {
+      background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 25px 0;
+      font-weight: bold;
+      font-size: 1.15em;
+      color: white;
+      text-align: center;
+    }
+
+    .key-insight p {
+      margin: 8px 0;
+    }
+
+    /* Exercise boxes */
+    .exercise-box {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 15px;
+      margin: 20px 0;
+      border: 3px solid #667eea;
+    }
+
+    .exercise-box input[type="text"],
+    .exercise-box textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #dfe6e9;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: inherit;
+      min-height: 44px;
+    }
+
+    .exercise-box textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .exercise-box label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    /* Narrator example - dark container */
+    .narrator-example {
+      background: #2d3436;
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+    }
+
+    .camera-mode {
+      background: #636e72;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+
+    .narrator-option {
+      background: #74b9ff;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+
+    .narrator-option.narrator-pink {
+      background: #fd79a8;
+    }
+
+    /* Proof box */
+    .proof-box {
+      background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+      padding: 30px;
+      border-radius: 15px;
+      color: white;
+      margin: 25px 0;
+      text-align: center;
+    }
+
+    /* Detective mode worksheet */
+    .detective-mode {
+      background: #fff5e6;
+      padding: 25px;
+      border-radius: 15px;
+      margin: 25px 0;
+      border: 3px dashed #fdcb6e;
+    }
+
+    .detective-section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .detective-section h4 {
+      margin-top: 0;
+    }
+
+    /* Checkbox group */
+    .checkbox-group {
+      margin: 15px 0;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-height: 44px;
+    }
+
+    .checkbox-group label:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    /* Truth meter slider */
+    .truth-meter {
+      margin: 20px 0;
+    }
+
+    .truth-meter input[type="range"] {
+      width: 100%;
+      height: 12px;
+      border-radius: 6px;
+      background: linear-gradient(to right, #fd79a8, #00b894);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .truth-meter input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .truth-meter-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #636e72;
+    }
+
+    /* Scenario cards */
+    .scenario-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      border-left: 5px solid #00b894;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .scenario-card .camera-mode {
+      background: #636e72;
+      color: white;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    .scenario-card .narrator-option {
+      margin: 8px 0;
+    }
+
+    .scenario-card input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 2px solid #dfe6e9;
+      border-radius: 8px;
+      font-size: 1em;
+      min-height: 44px;
+    }
+
+    /* Takeaway boxes */
+    .takeaway-box {
+      background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 30px 0;
+    }
+
+    .takeaway-box.takeaway-purple {
+      background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+      color: white;
+    }
+
+    .takeaway-box.takeaway-purple h3 {
+      color: white;
+    }
+
+    .takeaway-box ul {
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin: 15px 0 0 20px;
+    }
+
+    /* Challenge cards */
+    .challenge-card {
+      background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 15px 0;
+    }
+
+    .challenge-card.challenge-blue {
+      background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    }
+
+    .challenge-card.challenge-pink {
+      background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+    }
+
+    .challenge-card h3 {
+      color: white;
+      margin-top: 0;
+    }
+
+    /* Final mind-blow */
+    .final-mindblow {
+      background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.2em;
+      margin: 30px 0;
+    }
+
+    .final-mindblow h2 {
+      color: white;
+      margin-top: 0;
+      border: none;
+      padding: 0;
+    }
+
+    .final-mindblow-inner {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 15px;
+      margin: 30px 0;
+    }
+
+    /* Complete button */
+    .complete-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 18px 36px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 20px auto;
+      display: block;
+      min-height: 52px;
+      min-width: 280px;
+    }
+
+    .complete-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .complete-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .complete-btn:focus {
+      outline: 3px solid rgba(102, 126, 234, 0.5);
+      outline-offset: 2px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .split-container {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      h3 {
+        font-size: 1.3em;
+      }
+
+      .lesson-container {
+        padding: 15px;
+        padding-top: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress bar -->
+  <div class="progress-bar-wrap" role="progressbar" aria-label="Lesson progress">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <div class="lesson-container">
+    <!-- 1. Title slide -->
+    <div class="slide">
+      <h1>🎮 Player vs. Narrator 🧠</h1>
+      <p style="text-align: center; font-size: 1.3em; color: #764ba2;">Identity & Perception</p>
+      <p style="text-align: center; margin-top: 15px; color: #636e72;">Ages 9–14 · Learn the difference between who you choose to be and how your brain sees the world</p>
+    </div>
+
+    <!-- 2. Introduction hook -->
+    <div class="slide">
+      <div class="intro-hook">
+        <p><strong>Ever wonder why two people can be in the exact same situation and tell completely different stories about what happened? 🤔</strong></p>
+        <p>Or why you can feel like a totally different person depending on your mood?</p>
+        <p><strong>Your brain is constantly running two programs:</strong></p>
+        <p>1. 🎮 <strong>The Player</strong> — Who you're choosing to be</p>
+        <p>2. 🎬 <strong>The Narrator</strong> — The story your brain tells you about reality</p>
+        <p style="margin-top: 15px; font-size: 1.2em; color: #d63031;"><strong>Here's the wild part: The Narrator often lies to you. And most people never realize it. 😱</strong></p>
+      </div>
+    </div>
+
+    <!-- 3. Part 1: The Player -->
+    <div class="slide">
+      <h2>🎮 Part 1: The Player — Building Your Character</h2>
+
+      <h3>The Truth About Identity</h3>
+      <p class="emoji-text">Right now, you might think of yourself as:</p>
+      <p class="emoji-text">⚽ "I'm a football player" (ﾉ◕ヮ◕)ﾉ⚽✨</p>
+      <p class="emoji-text">📐 "I'm bad at math"</p>
+      <p class="emoji-text">😄 "I'm the funny one"</p>
+
+      <p style="margin-top: 20px; font-size: 1.2em; color: #d63031;"><strong>But here's the problem: Those are all just your current loadout 🎮.</strong></p>
+      <p class="emoji-text">They're things you <em>do</em> or things that happened <em>to</em> you. They can change tomorrow.</p>
+
+      <p style="margin-top: 20px; font-size: 1.3em; font-weight: bold; color: #667eea;">The real question is: Who are you choosing to <em>be</em>? (ಠ_ಠ)</p>
+    </div>
+
+    <!-- 4. Loadout vs Permanent Upgrades -->
+    <div class="slide">
+      <h3>⚡ Loadout vs. Permanent Upgrades</h3>
+      <p class="emoji-text" style="margin-bottom: 20px;">Think of life like a video game:</p>
+
+      <div class="split-container">
+        <div class="loadout-box">
+          <h3>🎒 YOUR LOADOUT</h3>
+          <p style="margin-bottom: 15px;">(ﾉ◕ヮ◕)ﾉ🎒🎨🎮🎸 (Can change anytime):</p>
+          <ul>
+            <li>⚽ What sports you play</li>
+            <li>📊 Your grades</li>
+            <li>👕 Your style/clothes 👕👟🧢</li>
+            <li>🎨 Your hobbies</li>
+            <li>👥 Your friend group 👥💬</li>
+          </ul>
+        </div>
+
+        <div class="upgrades-box">
+          <h3>⭐ YOUR PERMANENT UPGRADES</h3>
+          <p style="margin-bottom: 15px;">(Who you actually are):</p>
+          <ul>
+            <li>💖 Kindness</li>
+            <li>🦁 Bravery</li>
+            <li>🪞 Honesty</li>
+            <li>🤝 Loyalty</li>
+            <li>🎨 Creativity</li>
+            <li>⏳ Patience</li>
+            <li>😄 Humor</li>
+            <li>🌱 Resilience</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="key-insight">
+        <p><strong>The difference? (￣︶￣)</strong></p>
+        <p style="margin-top: 10px;">✅ You can quit football → Your loadout changes</p>
+        <p>❌ You can't "quit" being kind → That's part of your core (｡•̀ᴗ-)✧🌱</p>
+        <p style="margin-top: 15px; font-size: 1.2em;">The best players focus on leveling up their permanent upgrades, not just changing their loadout. ᕦ(ò_óˇ)ᕤ</p>
+      </div>
+    </div>
+
+    <!-- 5. Character Core Exercise -->
+    <div class="slide">
+      <h3>⚡ The Character Core Exercise</h3>
+
+      <div class="exercise-box">
+        <h4 style="color: #667eea; margin-bottom: 15px;">🎯 Question 1: Equip Your Core</h4>
+        <p style="margin-bottom: 20px;">Pick 3 permanent upgrades you want to level up:</p>
+
+        <div style="margin: 20px 0;">
+          <label for="upgrade1"><strong>1. Permanent upgrade:</strong></label>
+          <input type="text" id="upgrade1" placeholder="e.g. Kindness" aria-label="First permanent upgrade">
+          <label for="quest1"><strong>One small quest to grind XP this week:</strong></label>
+          <textarea id="quest1" placeholder="What action will you take?" aria-label="First quest"></textarea>
+        </div>
+
+        <div style="margin: 20px 0;">
+          <label for="upgrade2"><strong>2. Permanent upgrade:</strong></label>
+          <input type="text" id="upgrade2" placeholder="e.g. Bravery" aria-label="Second permanent upgrade">
+          <label for="quest2"><strong>One small quest to grind XP this week:</strong></label>
+          <textarea id="quest2" placeholder="What action will you take?" aria-label="Second quest"></textarea>
+        </div>
+
+        <div style="margin: 20px 0;">
+          <label for="upgrade3"><strong>3. Permanent upgrade:</strong></label>
+          <input type="text" id="upgrade3" placeholder="e.g. Honesty" aria-label="Third permanent upgrade">
+          <label for="quest3"><strong>One small quest to grind XP this week:</strong></label>
+          <textarea id="quest3" placeholder="What action will you take?" aria-label="Third quest"></textarea>
+        </div>
+      </div>
+
+      <div class="exercise-box">
+        <h4 style="color: #667eea; margin-bottom: 15px;">🔮 Question 2: Legacy Mode</h4>
+        <p style="margin-bottom: 15px;">Imagine someone makes a documentary about you 10 years from now. What do you want them to say you were known for?</p>
+        <textarea id="legacy" placeholder="Your legacy..." style="min-height: 100px;" aria-label="Your legacy in 10 years"></textarea>
+      </div>
+
+      <div class="key-insight">
+        <p><strong>💡 The Key Insight:</strong></p>
+        <p style="margin-top: 10px;">Your loadout is what you <em>do</em>. Your core is who you <em>are</em>. You get to choose your core. ✨</p>
+      </div>
+    </div>
+
+    <!-- 6. Part 2: The Narrator -->
+    <div class="slide">
+      <h2>🎬 Part 2: The Narrator — Your Brain's Storyteller</h2>
+
+      <h3>📸 The Camera vs. The Narrator</h3>
+      <p class="emoji-text">Here's something weird about your brain: <strong>It doesn't show you reality. It tells you a story about reality.</strong></p>
+      <p class="emoji-text" style="margin-top: 15px;">Let me prove it. 🧪</p>
+
+      <div class="narrator-example">
+        <div class="camera-mode">
+          <strong>📸 What Really Happened (Camera Mode):</strong>
+          <p>Your friend walks past you in the hallway without saying hi.</p>
+        </div>
+
+        <p style="margin: 20px 0; text-align: center;"><strong>🎬 What Your Narrator Might Say:</strong></p>
+
+        <div class="narrator-option">
+          <strong>😟 Anxious Narrator:</strong> "They're ignoring me because I did something wrong"
+        </div>
+
+        <div class="narrator-option narrator-pink">
+          <strong>😤 Angry Narrator:</strong> "They're being rude and fake"
+        </div>
+
+        <div class="narrator-option">
+          <strong>😎 Confident Narrator:</strong> "They probably didn't see me or were distracted"
+        </div>
+
+        <p style="margin-top: 20px; text-align: center; font-size: 1.2em;"><strong>Same event. Three completely different stories. 🤯</strong></p>
+        <p style="text-align: center; margin-top: 10px;">Which one is true? <strong style="color: #fdcb6e;">None of them.</strong> The camera just saw: "Person walked by without waving."</p>
+        <p style="text-align: center; margin-top: 10px; font-size: 1.3em; color: #fd79a8;"><strong>Your narrator filled in the rest.</strong></p>
+      </div>
+    </div>
+
+    <!-- 7. Why does the brain do this -->
+    <div class="slide">
+      <h3>🧠 Why Does Your Brain Do This?</h3>
+
+      <h4 style="color: #667eea; margin: 20px 0;">The Autocorrect Problem 📱</h4>
+      <p class="emoji-text">Your brain is lazy. It wants to save energy. So instead of investigating every little thing, it <em>guesses</em> based on:</p>
+      <ul style="margin: 20px 0; font-size: 1.1em;">
+        <li>😢 Your current mood</li>
+        <li>📚 Past experiences</li>
+        <li>😰 What you're afraid of</li>
+        <li>🤞 What you're hoping for</li>
+      </ul>
+
+      <p class="emoji-text">It's like texting: You type "H-e-l..." and your phone guesses "Hello" or "Help."</p>
+
+      <div class="key-insight" style="margin-top: 25px;">
+        <p><strong>Sometimes your phone guesses wrong. 📱❌</strong></p>
+        <p style="margin-top: 10px; font-size: 1.2em;"><strong>Your brain does this too — except with reality. 🧠💭</strong></p>
+      </div>
+    </div>
+
+    <!-- 8. The Gap -->
+    <div class="slide">
+      <h3>⚡ The Gap</h3>
+      <p class="emoji-text">The trouble happens in <strong>the gap</strong> between:</p>
+
+      <div style="margin: 30px 0;">
+        <div style="background: #636e72; color: white; padding: 20px; border-radius: 10px; margin: 15px 0;">
+          <strong>📸 THE FACT</strong> → What literally happened
+        </div>
+
+        <div style="text-align: center; font-size: 2em; margin: 15px 0;">⬇️</div>
+
+        <div style="background: #fd79a8; color: white; padding: 20px; border-radius: 10px; margin: 15px 0;">
+          <strong>🎬 THE STORY</strong> → What your narrator says it means
+        </div>
+      </div>
+
+      <div class="narrator-example">
+        <p><strong>Example:</strong></p>
+        <div class="camera-mode" style="margin: 15px 0;">
+          <strong>📸 Fact:</strong> Teacher says "Can you stay after class?"
+        </div>
+        <div class="narrator-option">
+          <strong>🎬 Story 1:</strong> "I'm in trouble"
+        </div>
+        <div class="narrator-option">
+          <strong>🎬 Story 2:</strong> "They want to ask me something"
+        </div>
+        <div class="narrator-option">
+          <strong>🎬 Story 3:</strong> "They need help with something"
+        </div>
+        <p style="margin-top: 20px; text-align: center; font-size: 1.2em;"><strong>The fact is 4 words. Your narrator added everything else. 💭</strong></p>
+      </div>
+    </div>
+
+    <!-- 9. The Dress proof -->
+    <div class="slide">
+      <h3>🎨 Proof: The Dress</h3>
+
+      <div class="proof-box">
+        <p style="font-size: 1.3em; margin-bottom: 20px;"><strong>Remember the famous dress that broke the internet? 👗</strong></p>
+        <p>Some people saw it as <strong style="font-size: 1.2em;">Blue and Black</strong> 🔵⚫</p>
+        <p>Others saw <strong style="font-size: 1.2em;">Gold and White</strong> 🟡⚪</p>
+        <p style="margin-top: 25px; font-size: 1.4em;"><strong>Same dress. Same photo. Different brains processing it differently. 🧠✨</strong></p>
+      </div>
+
+      <div class="key-insight">
+        <p><strong>💡 The lesson:</strong></p>
+        <p style="margin-top: 10px;">If we can't even agree on a color, imagine how different your narrator and your friend's narrator might be in the same situation 🤯</p>
+        <p style="margin-top: 15px; font-size: 1.2em;"><strong>Your narrator isn't showing you the truth. It's showing you ONE interpretation. 🎭</strong></p>
+      </div>
+    </div>
+
+    <!-- 10. Detective Mode -->
+    <div class="slide">
+      <h2>🕵️ Part 3: Detective Mode — Catching Your Narrator</h2>
+
+      <p class="emoji-text" style="font-size: 1.2em;">The superpower isn't stopping your narrator (you can't). <strong style="color: #667eea;">The superpower is noticing when it's probably wrong.</strong> ✨</p>
+
+      <div class="detective-mode">
+        <h3 style="color: #e17055; margin-top: 0;">🔍 The Narrator Check</h3>
+        <p style="margin-bottom: 25px;">Use this anytime you feel upset, angry, or worried about something someone did:</p>
+
+        <div class="detective-section">
+          <h4 style="color: #636e72;">📸 CAMERA MODE</h4>
+          <p>What literally happened? (Facts only — no "because" or "probably")</p>
+          <p style="margin: 10px 0; font-style: italic; color: #636e72;">Example: "Mom walked into my room and looked at the floor"</p>
+          <textarea id="cameraMode" placeholder="Your turn..." style="min-height: 80px; width: 100%;" aria-label="Camera mode - facts only"></textarea>
+        </div>
+
+        <div class="detective-section">
+          <h4 style="color: #fd79a8;">🎬 MY NARRATOR'S VERSION</h4>
+          <p>What story is your brain telling you?</p>
+          <p style="margin: 10px 0; font-style: italic; color: #636e72;">Example: "She came in here just to yell at me because she thinks I'm lazy"</p>
+          <textarea id="narratorVersion" placeholder="Your turn..." style="min-height: 80px; width: 100%;" aria-label="Your narrator's version"></textarea>
+        </div>
+
+        <div class="detective-section">
+          <h4 style="color: #0984e3;">🔍 NARRATOR BIAS CHECK</h4>
+          <p style="margin-bottom: 15px;">Before this happened, was I:</p>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="tired" aria-label="Tired"> 😴 Tired</label>
+            <label><input type="checkbox" id="hungry" aria-label="Hungry"> 🍔 Hungry</label>
+            <label><input type="checkbox" id="stressed" aria-label="Stressed"> 😰 Already stressed/upset</label>
+            <label><input type="checkbox" id="good" aria-label="Feeling good"> 😊 Feeling good</label>
+          </div>
+          <p style="margin-top: 15px; font-style: italic; color: #636e72; font-size: 0.95em;">(Hint: If you were tired/hungry/stressed, your narrator is probably in "threat mode" and seeing danger that isn't there)</p>
+        </div>
+
+        <div class="detective-section">
+          <h4 style="color: #00b894;">🎭 ALTERNATE NARRATOR</h4>
+          <p>Can you think of ONE other explanation?</p>
+          <p style="margin: 10px 0; font-style: italic; color: #636e72;">Example: "Maybe she came in to ask what I wanted for dinner and got distracted by the mess"</p>
+          <textarea id="alternateNarrator" placeholder="Your turn..." style="min-height: 80px; width: 100%;" aria-label="Alternate narrator explanation"></textarea>
+        </div>
+
+        <div class="detective-section">
+          <h4 style="color: #6c5ce7;">⚖️ TRUTH METER</h4>
+          <p style="margin-bottom: 15px;">Which narrator is probably closest to what the camera saw? (1 = definitely my first story, 5 = definitely the alternate)</p>
+          <div class="truth-meter">
+            <input type="range" id="truthMeter" min="1" max="5" value="3" aria-label="Truth meter - rate how accurate your narrator is">
+            <div class="truth-meter-labels">
+              <span>Definitely my first story</span>
+              <span>Could be either</span>
+              <span>Definitely the alternate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. Real-World Scenarios -->
+    <div class="slide">
+      <h2>🌍 Part 4: Real-World Scenarios</h2>
+      <p class="emoji-text" style="margin-bottom: 25px;"><strong>Let's practice catching the narrator:</strong></p>
+
+      <div class="scenario-card">
+        <h3 style="color: #667eea; margin-top: 0;">📱 Scenario 1: The Unread Text</h3>
+        <div class="camera-mode">
+          <strong>📸 Camera:</strong> You sent a text at 3:47pm. It shows "Read" but no response yet. It's now 4:15pm.
+        </div>
+        <p style="margin: 20px 0;"><strong>🎬 Possible Narrators:</strong></p>
+        <div class="narrator-option"><strong>A:</strong> "They're ignoring me because they're mad at me"</div>
+        <div class="narrator-option"><strong>B:</strong> "They read it but got distracted and forgot to respond"</div>
+        <div class="narrator-option"><strong>C:</strong> "They're thinking about their response"</div>
+        <p style="margin-top: 20px;"><strong>❓ Question:</strong> Which narrator has the least amount of story added to the facts?</p>
+        <input type="text" id="scenario1" placeholder="Your answer..." aria-label="Scenario 1 answer">
+      </div>
+
+      <div class="scenario-card">
+        <h3 style="color: #667eea; margin-top: 0;">😂 Scenario 2: The Group Laugh</h3>
+        <div class="camera-mode">
+          <strong>📸 Camera:</strong> You walk up to a group of friends. They're laughing. When you approach, they stop and say hi.
+        </div>
+        <p style="margin: 20px 0;"><strong>🎬 Possible Narrators:</strong></p>
+        <div class="narrator-option"><strong>A:</strong> "They were laughing at me"</div>
+        <div class="narrator-option"><strong>B:</strong> "They finished their joke right when I walked up"</div>
+        <div class="narrator-option"><strong>C:</strong> "They stopped because they didn't want to make me feel left out"</div>
+        <p style="margin-top: 20px;"><strong>❓ Question:</strong> Which narrator adds the most assumptions?</p>
+        <input type="text" id="scenario2" placeholder="Your answer..." aria-label="Scenario 2 answer">
+      </div>
+
+      <div class="scenario-card">
+        <h3 style="color: #667eea; margin-top: 0;">📝 Scenario 3: The Grade</h3>
+        <div class="camera-mode">
+          <strong>📸 Camera:</strong> You got a 73% on a test. Last test you got an 89%.
+        </div>
+        <p style="margin: 20px 0;"><strong>🎬 Possible Narrators:</strong></p>
+        <div class="narrator-option"><strong>A:</strong> "I'm getting dumber"</div>
+        <div class="narrator-option"><strong>B:</strong> "This test was harder material"</div>
+        <div class="narrator-option"><strong>C:</strong> "I didn't study as much this time"</div>
+        <div class="narrator-option"><strong>D:</strong> "The teacher doesn't like me"</div>
+        <p style="margin-top: 20px;"><strong>❓ Question:</strong> Which narrators are focusing on facts you can verify vs. stories?</p>
+        <input type="text" id="scenario3" placeholder="Your answer..." aria-label="Scenario 3 answer">
+      </div>
+    </div>
+
+    <!-- 12. The Big Takeaways -->
+    <div class="slide">
+      <h2>💡 The Big Takeaways</h2>
+
+      <div class="takeaway-box">
+        <h3 style="color: #667eea;">🎮 On Identity (The Player):</h3>
+        <ul>
+          <li>✅ You are not your grades, your hobbies, or your current situation</li>
+          <li>✅ Those are just your loadout — they can change</li>
+          <li>✅ <strong>Who you ARE is who you're choosing to BE</strong></li>
+          <li>✅ Focus on leveling up your permanent upgrades (your values) ⭐</li>
+        </ul>
+      </div>
+
+      <div class="takeaway-box takeaway-purple">
+        <h3>🎬 On Perception (The Narrator):</h3>
+        <ul>
+          <li>✅ Your brain doesn't show you reality — it tells you a story about reality</li>
+          <li>✅ That story is influenced by your mood, fears, and past experiences</li>
+          <li>✅ <strong>There's always a gap between what happened and what you think it means</strong></li>
+          <li>✅ The superpower is learning to catch your narrator and ask: "Is this the camera talking, or just my narrator?" 🕵️</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 13. Weekly Challenge -->
+    <div class="slide">
+      <h2>🎯 Weekly Challenge</h2>
+
+      <div class="challenge-card">
+        <h3>Level 1 🌱</h3>
+        <p>Pick 3 permanent upgrades and do one small action for each this week</p>
+      </div>
+
+      <div class="challenge-card challenge-blue">
+        <h3>Level 2 🔥</h3>
+        <p>Use the Narrator Check on one situation that upsets you</p>
+      </div>
+
+      <div class="challenge-card challenge-pink">
+        <h3>Level 3 ⚡</h3>
+        <p>Catch your narrator being wrong and write down what the camera actually saw</p>
+      </div>
+    </div>
+
+    <!-- 14. Final Mind-Blow -->
+    <div class="slide">
+      <div class="final-mindblow">
+        <h2>🤯 Final Mind-Blow</h2>
+        <p style="margin: 25px 0;">Here's the truth they don't teach you in school:</p>
+        <p style="font-size: 1.5em; margin: 30px 0;"><strong>90% of your suffering comes from your narrator, not from reality. 🎬💔</strong></p>
+
+        <div class="final-mindblow-inner">
+          <p style="margin: 10px 0;">The camera sees: "No text back yet" 📸</p>
+          <p style="margin: 10px 0;">Your narrator says: "They hate me" 🎬 → You feel terrible 😢</p>
+          <p style="margin: 20px 0; font-size: 1.3em;"><strong>The event didn't hurt you. The story did. 💭</strong></p>
+        </div>
+
+        <p style="margin: 30px 0; font-size: 1.2em;">When you learn to separate the camera from the narrator, you gain a superpower:</p>
+        <p style="font-size: 1.5em; margin: 25px 0;"><strong>You stop being controlled by stories your brain makes up. ⚡</strong></p>
+        <p style="margin-top: 30px; font-size: 1.3em;">You become the player, not the narrator's puppet. 🎮👑</p>
+      </div>
+
+      <!-- 15. Completion button -->
+      <div style="text-align: center; margin: 40px 0;">
+        <button class="complete-btn" id="completeBtn" type="button">
+          Complete Lesson & Earn XP! 🎉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'yuno_player_vs_narrator';
+
+      // Progress bar
+      const progressBar = document.getElementById('progressBar');
+      function updateProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+        progressBar.style.width = percent + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      // Fields to persist
+      const textFields = [
+        'upgrade1', 'quest1', 'upgrade2', 'quest2', 'upgrade3', 'quest3',
+        'legacy', 'cameraMode', 'narratorVersion', 'alternateNarrator',
+        'scenario1', 'scenario2', 'scenario3'
+      ];
+      const checkboxFields = ['tired', 'hungry', 'stressed', 'good'];
+      const rangeFields = ['truthMeter'];
+
+      function load() {
+        try {
+          const data = localStorage.getItem(STORAGE_KEY);
+          if (data) {
+            const saved = JSON.parse(data);
+            textFields.forEach(function (id) {
+              const el = document.getElementById(id);
+              if (el && saved[id] !== undefined) el.value = saved[id];
+            });
+            checkboxFields.forEach(function (id) {
+              const el = document.getElementById(id);
+              if (el && saved[id] === true) el.checked = true;
+            });
+            rangeFields.forEach(function (id) {
+              const el = document.getElementById(id);
+              if (el && saved[id] !== undefined) el.value = saved[id];
+            });
+          }
+        } catch (e) {}
+      }
+
+      function save() {
+        const data = {};
+        textFields.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) data[id] = el.value;
+        });
+        checkboxFields.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) data[id] = el.checked;
+        });
+        rangeFields.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) data[id] = el.value;
+        });
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {}
+      }
+
+      textFields.forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', save);
+          el.addEventListener('change', save);
+        }
+      });
+      checkboxFields.forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', save);
+      });
+      rangeFields.forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', save);
+      });
+
+      load();
+
+      // Complete button
+      document.getElementById('completeBtn').addEventListener('click', function () {
+        alert('🎉 Congratulations! You earned 100 XP!\n\n🏆 New Badge Unlocked: "The Observer"\n\nYou\'ve learned to separate the Player from the Narrator!\n\nKeep practicing your Narrator Checks this week! 🎮🧠');
+      });
+    })();
+  </script>
+</body>
+</html>

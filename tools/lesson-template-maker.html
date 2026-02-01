@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ShinyOS – Lesson Template Maker</title>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+      background: #0f0f14;
+      color: #f5f5f7;
+      padding: 24px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 4px;
+    }
+
+    input, textarea, button, select {
+      width: 100%;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    select {
+      background: #1b1b22;
+      color: #f5f5f7;
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 120px;
+      font-family: inherit;
+    }
+
+    button {
+      background: #7c7cff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6b6bef;
+    }
+
+    pre {
+      background: #1b1b22;
+      padding: 16px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .hint {
+      opacity: 0.7;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #7c7cff;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🦔 Lesson Template Maker</h1>
+  <p class="hint">Fill this in calmly. Copy the output into <code>data.js</code> in the appropriate subject array.</p>
+
+  <div class="section">
+    <div class="section-title">Basic Info</div>
+    
+    <label>Subject</label>
+    <input id="subject" placeholder="finance" />
+
+    <label>Lesson ID</label>
+    <input id="lessonId" placeholder="pattern-hunger" />
+
+    <label>Title</label>
+    <input id="title" placeholder="The Pattern Hunger" />
+
+    <label>Subtitle</label>
+    <input id="subtitle" placeholder="Why your brain hates randomness" />
+
+    <label>Image URL (optional)</label>
+    <input id="imageUrl" placeholder="images/pattern-hunger-intro.png" />
+
+    <label>Image Alt Text (optional)</label>
+    <input id="imageAlt" placeholder="Pattern Hunger introduction" />
+  </div>
+
+  <div class="section">
+    <div class="section-title">Content Slides</div>
+    <p class="hint">Each content slide needs a title and paragraphs. Add one per section.</p>
+    
+    <label>Slide 1 Title</label>
+    <input id="slide1Title" placeholder="Your brain hates randomness 🎲" />
+
+    <label>Slide 1 Paragraphs (one per line)</label>
+    <textarea id="slide1Paragraphs" placeholder="Your brain would rather believe a false pattern than accept randomness.
+This isn't a flaw. It's survival wiring.
+Your visual cortex processes 10 million bits of information per second."></textarea>
+
+    <label>Slide 1 Image URL (optional)</label>
+    <input id="slide1ImageUrl" placeholder="https://images.unsplash.com/photo-..." />
+
+    <label>Slide 1 Image Alt (optional)</label>
+    <input id="slide1ImageAlt" placeholder="Patterns representing randomness" />
+
+    <button onclick="addSlide()" style="margin-top: 20px; background: #4a4aaa;">+ Add Another Slide</button>
+    <div id="additionalSlides"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quiz (optional)</div>
+    
+    <label>Quiz Question</label>
+    <input id="quizQuestion" placeholder="Why does the brain prefer a false pattern over no pattern?" />
+
+    <label>Option A</label>
+    <input id="optionA" placeholder="Because it likes drama" />
+
+    <label>Option B</label>
+    <input id="optionB" placeholder="Because humans are irrational" />
+
+    <label>Option C</label>
+    <input id="optionC" placeholder="Because it evolved for survival, not accuracy" />
+
+    <label>Option D</label>
+    <input id="optionD" placeholder="Because emotions override logic" />
+
+    <label>Correct Answer</label>
+    <select id="correctAnswer">
+      <option value="">-- Select --</option>
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+      <option value="d">D</option>
+    </select>
+
+    <label>Explanation</label>
+    <textarea id="explanation" placeholder="Missing a real threat once = death. Seeing a fake threat = just embarrassing..."></textarea>
+  </div>
+
+  <button onclick="generate()">Generate Lesson</button>
+
+  <h2>Output</h2>
+  <pre id="output"></pre>
+
+  <script>
+    let slideCount = 1;
+
+    function addSlide() {
+      slideCount++;
+      const container = document.getElementById("additionalSlides");
+      
+      const slideDiv = document.createElement("div");
+      slideDiv.style.marginTop = "20px";
+      slideDiv.style.paddingTop = "20px";
+      slideDiv.style.borderTop = "1px solid rgba(255,255,255,0.1)";
+      
+      slideDiv.innerHTML = `
+        <label>Slide ${slideCount} Title</label>
+        <input id="slide${slideCount}Title" placeholder="Slide ${slideCount} title" />
+
+        <label>Slide ${slideCount} Paragraphs (one per line)</label>
+        <textarea id="slide${slideCount}Paragraphs" placeholder="Paragraph 1
+Paragraph 2
+Paragraph 3"></textarea>
+
+        <label>Slide ${slideCount} Image URL (optional)</label>
+        <input id="slide${slideCount}ImageUrl" placeholder="https://images.unsplash.com/photo-..." />
+
+        <label>Slide ${slideCount} Image Alt (optional)</label>
+        <input id="slide${slideCount}ImageAlt" placeholder="Image description" />
+      `;
+      
+      container.appendChild(slideDiv);
+    }
+
+    function generate() {
+      const subject = document.getElementById("subject").value.trim();
+      const lessonId = document.getElementById("lessonId").value.trim();
+      const title = document.getElementById("title").value.trim();
+      const subtitle = document.getElementById("subtitle").value.trim();
+      const imageUrl = document.getElementById("imageUrl").value.trim();
+      const imageAlt = document.getElementById("imageAlt").value.trim();
+
+      if (!subject || !lessonId || !title) {
+        alert("Please fill in at least: Subject, Lesson ID, and Title");
+        return;
+      }
+
+      const sections = [];
+
+      // Add intro slide if image provided
+      if (imageUrl) {
+        sections.push({
+          type: "intro",
+          subject: subject,
+          title: title,
+          subtitle: subtitle || "",
+          imageUrl: imageUrl,
+          imageAlt: imageAlt || title + " introduction"
+        });
+      }
+
+      // Add content slides
+      for (let i = 1; i <= slideCount; i++) {
+        const slideTitle = document.getElementById(`slide${i}Title`)?.value.trim();
+        const slideParagraphs = document.getElementById(`slide${i}Paragraphs`)?.value.trim();
+        const slideImageUrl = document.getElementById(`slide${i}ImageUrl`)?.value.trim();
+        const slideImageAlt = document.getElementById(`slide${i}ImageAlt`)?.value.trim();
+
+        if (slideTitle && slideParagraphs) {
+          const contentSlide = {
+            type: "content",
+            title: slideTitle,
+            paragraphs: slideParagraphs
+              .split("\n")
+              .map(p => p.trim())
+              .filter(p => p.length > 0)
+          };
+
+          if (slideImageUrl) {
+            contentSlide.imageUrl = slideImageUrl;
+            contentSlide.imageAlt = slideImageAlt || slideTitle;
+          }
+
+          sections.push(contentSlide);
+        }
+      }
+
+      // Add quiz if provided
+      const quizQuestion = document.getElementById("quizQuestion").value.trim();
+      const optionA = document.getElementById("optionA").value.trim();
+      const optionB = document.getElementById("optionB").value.trim();
+      const optionC = document.getElementById("optionC").value.trim();
+      const optionD = document.getElementById("optionD").value.trim();
+      const correctAnswer = document.getElementById("correctAnswer").value;
+      const explanation = document.getElementById("explanation").value.trim();
+
+      if (quizQuestion && optionA && optionB && optionC && optionD && correctAnswer) {
+        const options = [
+          { id: "a", text: optionA, correct: correctAnswer === "a" },
+          { id: "b", text: optionB, correct: correctAnswer === "b" },
+          { id: "c", text: optionC, correct: correctAnswer === "c" },
+          { id: "d", text: optionD, correct: correctAnswer === "d" }
+        ];
+
+        sections.push({
+          type: "quiz",
+          question: quizQuestion,
+          options: options,
+          explanation: explanation || ""
+        });
+      }
+
+      // Build final lesson object
+      const lesson = {
+        id: lessonId,
+        subject: subject,
+        type: "lesson",
+        title: title,
+        subtitle: subtitle || "",
+        imageUrl: imageUrl || undefined,
+        imageAlt: imageAlt || undefined,
+        sections: sections
+      };
+
+      // Clean up undefined values
+      Object.keys(lesson).forEach(key => {
+        if (lesson[key] === undefined || lesson[key] === "") {
+          delete lesson[key];
+        }
+      });
+
+      const code = JSON.stringify(lesson, null, 2);
+
+      document.getElementById("output").textContent = code;
+    }
+  </script>
+
+</body>
+</html>
