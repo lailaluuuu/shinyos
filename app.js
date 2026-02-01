@@ -4776,13 +4776,20 @@ function showLessonCard() {
   if (journalPanel) journalPanel.classList.add("is-hidden");
 }
 
-/** Leaf growth: positions on tree overlay (percent of container). */
+/** Leaf growth: positions on tree overlay (percent of container). On-branch only; no sky (top >= 28%) or ground. */
 var TREE_LEAF_POSITIONS = [
-  { left: 18, top: 22 }, { left: 28, top: 18 }, { left: 38, top: 24 }, { left: 52, top: 20 }, { left: 62, top: 26 },
-  { left: 72, top: 22 }, { left: 82, top: 28 }, { left: 22, top: 34 }, { left: 32, top: 38 }, { left: 48, top: 36 },
-  { left: 58, top: 42 }, { left: 68, top: 38 }, { left: 78, top: 44 }, { left: 26, top: 50 }, { left: 42, top: 48 },
-  { left: 54, top: 52 }, { left: 64, top: 50 }, { left: 76, top: 54 }, { left: 34, top: 58 }, { left: 46, top: 62 },
-  { left: 56, top: 60 }, { left: 70, top: 64 }, { left: 40, top: 70 }, { left: 52, top: 72 }, { left: 62, top: 68 }
+  /* Right side / lower-right first (matches the 2 golden leaves in intro.png) */
+  { left: 62, top: 52 }, { left: 58, top: 48 }, { left: 68, top: 55 }, { left: 72, top: 50 }, { left: 65, top: 58 },
+  /* Center-right and center */
+  { left: 52, top: 42 }, { left: 48, top: 48 }, { left: 55, top: 52 }, { left: 50, top: 38 }, { left: 58, top: 62 },
+  { left: 42, top: 45 }, { left: 45, top: 52 }, { left: 38, top: 48 }, { left: 48, top: 58 },
+  /* Center-left */
+  { left: 32, top: 42 }, { left: 28, top: 48 }, { left: 35, top: 55 }, { left: 30, top: 52 },
+  /* Left branches */
+  { left: 22, top: 45 }, { left: 25, top: 52 }, { left: 28, top: 58 }, { left: 32, top: 62 },
+  /* Additional branch spots */
+  { left: 75, top: 62 }, { left: 70, top: 48 }, { left: 40, top: 62 }, { left: 36, top: 38 }, { left: 60, top: 38 },
+  { left: 54, top: 65 }, { left: 44, top: 68 }, { left: 26, top: 42 }
 ];
 var treeLeafPreviousCount = -1;
 
