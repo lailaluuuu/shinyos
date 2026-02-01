@@ -4791,7 +4791,14 @@ var TREE_LEAF_POSITIONS = [
   { left: 75, top: 62 }, { left: 70, top: 48 }, { left: 40, top: 62 }, { left: 36, top: 38 }, { left: 60, top: 38 },
   { left: 54, top: 65 }, { left: 44, top: 68 }, { left: 26, top: 42 }
 ];
+
+/** Fruit: one per every 3rd lesson completion; positions on tree overlay (percent). */
+var TREE_FRUIT_POSITIONS = [
+  { left: 40, top: 50 }, { left: 56, top: 45 }, { left: 34, top: 55 }, { left: 70, top: 55 },
+  { left: 46, top: 40 }, { left: 28, top: 55 }, { left: 64, top: 42 }, { left: 50, top: 58 }
+];
 var treeLeafPreviousCount = -1;
+var treeFruitPreviousCount = -1;
 
 function renderTreeLeaves() {
   var overlay = document.getElementById("homeTreeLeafOverlay");
@@ -4819,6 +4826,28 @@ function renderTreeLeaves() {
     overlay.appendChild(leaf);
   }
   treeLeafPreviousCount = visibleLeaves;
+
+  var fruitTotal = TREE_FRUIT_POSITIONS.length;
+  var visibleFruit = Math.min(Math.floor(completedCount / 3), fruitTotal);
+  var animateFruitIndex = -1;
+  if (visibleFruit > treeFruitPreviousCount && treeFruitPreviousCount >= 0) {
+    animateFruitIndex = treeFruitPreviousCount;
+  }
+  if (treeFruitPreviousCount < 0) treeFruitPreviousCount = visibleFruit;
+  for (var j = 0; j < visibleFruit; j++) {
+    var fpos = TREE_FRUIT_POSITIONS[j];
+    var fruit = document.createElement("div");
+    fruit.className = "home-tree-fruit";
+    fruit.style.left = fpos.left + "%";
+    fruit.style.top = fpos.top + "%";
+    if (j === animateFruitIndex) {
+      fruit.classList.add("fruit-animate-in");
+    } else {
+      fruit.classList.add("fruit-visible");
+    }
+    overlay.appendChild(fruit);
+  }
+  treeFruitPreviousCount = visibleFruit;
 }
 
 /** Show home state: header + illustration. Let's go button remains visible (persistent nav). Subject dropdowns hidden. */

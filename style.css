@@ -2903,6 +2903,39 @@ body::after {
   animation: leaf-grow-in 0.8s ease-out forwards;
 }
 
+/* Fruit: one per every 3rd lesson completion; round, on-branch */
+.home-tree-fruit {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  background: radial-gradient(ellipse 60% 60% at 35% 35%, #e8a060, #c04020 50%, #8b2810);
+  box-shadow: 0 0 4px rgba(180, 60, 30, 0.6), inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.home-tree-fruit.fruit-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes fruit-grow-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.home-tree-fruit.fruit-animate-in {
+  animation: fruit-grow-in 0.6s ease-out forwards;
+}
+
 @media (max-width: 768px) {
   .home-empty-state {
     margin-top: 0;
