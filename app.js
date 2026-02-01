@@ -1611,7 +1611,7 @@ const subjectLessons = {
       type: "lesson",
       title: "🧠 Player vs. Narrator",
       subtitle: "Separate who you choose to be from the stories your brain tells you",
-      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
+      imageUrl: "images/payervintro.png",
       imageAlt: "Player vs. Narrator introduction",
       sections: [
         {
