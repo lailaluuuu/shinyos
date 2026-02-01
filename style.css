@@ -772,9 +772,22 @@ body::after {
   flex-shrink: 0;
 }
 
-.subject-modal-subtopic-title {
+.subject-modal-subtopic-title-wrap {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   text-align: left;
+}
+
+.subject-modal-subtopic-title {
+  text-align: left;
+}
+
+.subject-modal-subtopic-topic {
+  font-size: 11px;
+  color: var(--text-soft);
+  font-weight: normal;
 }
 
 .subject-modal-subtopic-trophy {

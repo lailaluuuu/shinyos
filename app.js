@@ -1603,6 +1603,195 @@ const subjectLessons = {
           ]
         }
       ]
+    },
+    {
+      id: "mind-player-vs-narrator",
+      subject: "mind",
+      topic: "Identity & Perception",
+      type: "lesson",
+      title: "🧠 Player vs. Narrator",
+      subtitle: "Separate who you choose to be from the stories your brain tells you",
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
+      imageAlt: "Player vs. Narrator introduction",
+      sections: [
+        {
+          type: "content",
+          title: "Ever wonder why? 🤔",
+          paragraphs: [
+            "Ever wonder why two people can be in the exact same situation and tell completely different stories about what happened?",
+            "Or why you can feel like a totally different person depending on your mood?",
+            "**Your brain is constantly running two programs:**",
+            "1. 🎮 **The Player** — Who you're choosing to be",
+            "2. 🎬 **The Narrator** — The story your brain tells you about reality",
+            "**Here's the wild part: The Narrator often lies to you. And most people never realize it.**"
+          ]
+        },
+        {
+          type: "content",
+          title: "🎮 Part 1: The Player — Building Your Character",
+          paragraphs: [
+            "**The Truth About Identity**",
+            "Right now, you might think of yourself as:",
+            "⚽ \"I'm a football player\"",
+            "📐 \"I'm bad at math\"",
+            "😄 \"I'm the funny one\"",
+            "**But here's the problem: Those are all just your current loadout.**",
+            "They're things you *do* or things that happened *to* you. They can change tomorrow.",
+            "**The real question is: Who are you choosing to *be*?**"
+          ]
+        },
+        {
+          type: "content",
+          title: "⚡ Loadout vs. Permanent Upgrades",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Loadout vs upgrades",
+          paragraphs: [
+            "Think of life like a video game:",
+            "**🎒 YOUR LOADOUT** (Can change anytime):",
+            "• What sports you play",
+            "• Your grades",
+            "• Your style and clothes",
+            "• Your hobbies",
+            "• Your friend group",
+            "**⭐ YOUR PERMANENT UPGRADES** (Who you actually are):",
+            "• Kindness • Bravery • Honesty • Loyalty",
+            "• Creativity • Patience • Humor • Resilience",
+            "**The difference?**",
+            "✅ You can quit football → Your loadout changes",
+            "❌ You can't \"quit\" being kind → That's part of your core",
+            "The best players focus on leveling up their permanent upgrades, not just changing their loadout."
+          ]
+        },
+        {
+          type: "reflection",
+          title: "⚡ The Character Core Exercise",
+          prompt: "**Equip Your Core:** Pick 3 permanent upgrades you want to level up, and one small quest to \"grind XP\" for each this week.\n\n**Legacy Mode:** Imagine someone makes a documentary about you 10 years from now. What do you want them to say you were known for?\n\n💡 Your loadout is what you *do*. Your core is who you *are*. You get to choose your core."
+        },
+        {
+          type: "content",
+          title: "🎬 Part 2: The Narrator — Your Brain's Storyteller",
+          paragraphs: [
+            "**📸 The Camera vs. The Narrator**",
+            "Here's something weird about your brain: **It doesn't show you reality. It tells you a story about reality.**",
+            "**What Really Happened (Camera Mode):** Your friend walks past you in the hallway without saying hi.",
+            "**What Your Narrator Might Say:**",
+            "😟 Anxious: \"They're ignoring me because I did something wrong\"",
+            "😤 Angry: \"They're being rude and fake\"",
+            "😎 Confident: \"They probably didn't see me or were distracted\"",
+            "**Same event. Three completely different stories.**",
+            "Which one is true? **None of them.** The camera just saw: \"Person walked by without waving.\"",
+            "**Your narrator filled in the rest.**"
+          ]
+        },
+        {
+          type: "content",
+          title: "🧠 Why Does Your Brain Do This?",
+          paragraphs: [
+            "**The Autocorrect Problem 📱**",
+            "Your brain is lazy. It wants to save energy. So instead of investigating every little thing, it *guesses* based on:",
+            "• 😢 Your current mood",
+            "• 📚 Past experiences",
+            "• 😰 What you're afraid of",
+            "• 🤞 What you're hoping for",
+            "It's like texting: You type \"H-e-l...\" and your phone guesses \"Hello\" or \"Help.\"",
+            "**Sometimes your phone guesses wrong.**",
+            "**Your brain does this too — except with reality.**"
+          ]
+        },
+        {
+          type: "content",
+          title: "⚡ The Gap",
+          paragraphs: [
+            "The trouble happens in **the gap** between:",
+            "**📸 THE FACT** → What literally happened",
+            "⬇️",
+            "**🎬 THE STORY** → What your narrator says it means",
+            "**Example:** Teacher says \"Can you stay after class?\"",
+            "🎬 Story 1: \"I'm in trouble\"",
+            "🎬 Story 2: \"They want to ask me something\"",
+            "🎬 Story 3: \"They need help with something\"",
+            "The fact is 4 words. Your narrator added everything else."
+          ]
+        },
+        {
+          type: "content",
+          title: "🎨 Proof: The Dress",
+          imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=400&fit=crop",
+          imageAlt: "Perception and interpretation",
+          paragraphs: [
+            "Remember the famous dress that broke the internet?",
+            "Some people saw it as **Blue and Black** 🔵⚫",
+            "Others saw **Gold and White** 🟡⚪",
+            "**Same dress. Same photo. Different brains processing it differently.**",
+            "**The lesson:** If we can't even agree on a color, imagine how different your narrator and your friend's narrator might be in the same situation.",
+            "**Your narrator isn't showing you the truth. It's showing you ONE interpretation.**"
+          ]
+        },
+        {
+          type: "content",
+          title: "🕵️ Part 3: Detective Mode — Catching Your Narrator",
+          paragraphs: [
+            "The superpower isn't stopping your narrator (you can't). **The superpower is noticing when it's probably wrong.**",
+            "**🔍 The Narrator Check** — Use this anytime you feel upset, angry, or worried:",
+            "**📸 CAMERA MODE:** What literally happened? (Facts only — no \"because\" or \"probably\")",
+            "**🎬 MY NARRATOR'S VERSION:** What story is your brain telling you?",
+            "**🔍 NARRATOR BIAS CHECK:** Before this happened, was I tired? Hungry? Already stressed? (If yes, your narrator is probably in \"threat mode.\")",
+            "**🎭 ALTERNATE NARRATOR:** Can you think of ONE other explanation?",
+            "**⚖️ TRUTH METER:** Which narrator is probably closest to what the camera saw?"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Your friend walks past without saying hi. You think \"They're ignoring me because they're mad.\" Which part is the camera, and which is the narrator?",
+          options: [
+            { id: "a", text: "Both are the camera (facts)", correct: false },
+            { id: "b", text: "\"Walked past\" = camera; \"ignoring me / mad\" = narrator", correct: true },
+            { id: "c", text: "Both are the narrator (stories)", correct: false },
+            { id: "d", text: "The whole thing is the camera", correct: false }
+          ],
+          explanation: "The camera only captures facts: a person walked by without saying hi. Everything about *why* — ignoring, mad, etc. — is your narrator filling in the gap with a story."
+        },
+        {
+          type: "quiz",
+          question: "In the Group Laugh scenario: You walk up, friends are laughing, they stop when you approach. Which narrator adds the MOST assumptions?",
+          options: [
+            { id: "a", text: "\"They were laughing at me\"", correct: true },
+            { id: "b", text: "\"They finished their joke right when I walked up\"", correct: false },
+            { id: "c", text: "\"They stopped because they didn't want to make me feel left out\"", correct: false }
+          ],
+          explanation: "Option A assumes intent (at me), malice (laughing at), and mind-reading (they were thinking about you). B and C add fewer assumptions about others' motives."
+        },
+        {
+          type: "content",
+          title: "💡 The Big Takeaways",
+          paragraphs: [
+            "**🎮 On Identity (The Player):**",
+            "✅ You are not your grades, hobbies, or current situation",
+            "✅ Those are just your loadout — they can change",
+            "✅ **Who you ARE is who you're choosing to BE**",
+            "✅ Focus on leveling up your permanent upgrades (your values)",
+            "**🎬 On Perception (The Narrator):**",
+            "✅ Your brain doesn't show you reality — it tells you a story about reality",
+            "✅ That story is influenced by your mood, fears, and past experiences",
+            "✅ **There's always a gap between what happened and what you think it means**",
+            "✅ The superpower is catching your narrator and asking: \"Is this the camera talking, or just my narrator?\""
+          ]
+        },
+        {
+          type: "content",
+          title: "🎯 Weekly Challenge",
+          paragraphs: [
+            "**Level 1 🌱** — Pick 3 permanent upgrades and do one small action for each this week",
+            "**Level 2 🔥** — Use the Narrator Check on one situation that upsets you",
+            "**Level 3 ⚡** — Catch your narrator being wrong and write down what the camera actually saw"
+          ]
+        },
+        {
+          type: "reflection",
+          title: "🤯 Final Mind-Blow",
+          prompt: "**90% of your suffering comes from your narrator, not from reality.**\n\nThe camera sees: \"No text back yet\" 📸\nYour narrator says: \"They hate me\" 🎬 → You feel terrible 😢\n\n**The event didn't hurt you. The story did.**\n\nWhen you learn to separate the camera from the narrator, you gain a superpower: **You stop being controlled by stories your brain makes up.**\n\nYou become the player, not the narrator's puppet. 🎮👑"
+        }
+      ]
     }
   ],
   space: [
@@ -2220,6 +2409,7 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
           slug: slug,
           title: lesson.title || "Lesson",
           subtitle: lesson.subtitle || "",
+          topic: lesson.topic || "",
           difficulty: lesson.difficulty || "",
           estimatedTime: lesson.estimatedTime || "",
           xpReward: lesson.xpReward != null ? lesson.xpReward : 0,
@@ -4277,6 +4467,7 @@ function refreshSubjectDropdownLessons(categoryId) {
     item.setAttribute("aria-label", "Start lesson: " + entry.title);
     item.dataset.slug = entry.slug;
     const metaParts = [];
+    if (entry.topic) metaParts.push(entry.topic);
     if (entry.difficulty) metaParts.push(entry.difficulty);
     if (entry.estimatedTime) metaParts.push(entry.estimatedTime);
     if (entry.xpReward != null && entry.xpReward > 0) metaParts.push(entry.xpReward + " XP");
@@ -4362,6 +4553,7 @@ function renderSubjectDropdowns() {
       item.setAttribute("aria-label", "Start lesson: " + entry.title);
       item.dataset.slug = entry.slug;
       const metaParts = [];
+      if (entry.topic) metaParts.push(entry.topic);
       if (entry.difficulty) metaParts.push(entry.difficulty);
       if (entry.estimatedTime) metaParts.push(entry.estimatedTime);
       if (entry.xpReward != null && entry.xpReward > 0) metaParts.push(entry.xpReward + " XP");
@@ -4520,11 +4712,20 @@ function renderSubjectModalList() {
       const subIcon = document.createElement("span");
       subIcon.className = "subject-modal-subtopic-icon";
       subIcon.textContent = entry.icon || "📚";
+      const subTitleWrap = document.createElement("span");
+      subTitleWrap.className = "subject-modal-subtopic-title-wrap";
       const subTitle = document.createElement("span");
       subTitle.className = "subject-modal-subtopic-title";
       subTitle.textContent = stripLeadingEmojiForDisplay(entry.title);
+      subTitleWrap.appendChild(subTitle);
+      if (entry.topic) {
+        const subTopic = document.createElement("span");
+        subTopic.className = "subject-modal-subtopic-topic";
+        subTopic.textContent = entry.topic;
+        subTitleWrap.appendChild(subTopic);
+      }
       sub.appendChild(subIcon);
-      sub.appendChild(subTitle);
+      sub.appendChild(subTitleWrap);
       if (completed) {
         const trophy = document.createElement("span");
         trophy.className = "subject-modal-subtopic-trophy";
@@ -4642,9 +4843,10 @@ function renderLessonPicker() {
     const meta = document.createElement("div");
     meta.className = "lesson-picker-card-meta";
     const parts = [];
-    if (entry.difficulty) parts.push(`<span>${entry.difficulty}</span>`);
-    if (entry.estimatedTime) parts.push(`<span>${entry.estimatedTime}</span>`);
-    if (entry.xpReward != null && entry.xpReward > 0) parts.push(`<span>${entry.xpReward} XP</span>`);
+    if (entry.topic) parts.push("<span>" + escapeHtml(entry.topic) + "</span>");
+    if (entry.difficulty) parts.push("<span>" + escapeHtml(entry.difficulty) + "</span>");
+    if (entry.estimatedTime) parts.push("<span>" + escapeHtml(entry.estimatedTime) + "</span>");
+    if (entry.xpReward != null && entry.xpReward > 0) parts.push("<span>" + entry.xpReward + " XP</span>");
     meta.innerHTML = parts.join("");
     card.appendChild(icon);
     card.appendChild(title);
