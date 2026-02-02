@@ -350,6 +350,14 @@ const subjectLessons = {
       imageAlt: "The Money Machine introduction",
       sections: [
         {
+          type: "intro",
+          subject: "finance",
+          title: "The Money Machine",
+          subtitle: "Your money isn't where you think it is 💰",
+          imageUrl: "images/themoneymachine-intro.png",
+          imageAlt: "The Money Machine introduction"
+        },
+        {
           type: "content",
           title: "The Big Lie. The vault is a lie 🏦",
           paragraphs: [
@@ -2555,7 +2563,8 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
           xpReward: lesson.xpReward != null ? lesson.xpReward : 0,
           icon: lesson.icon || (subjectKey === "space" ? "🔴" : subjectKey === "mind" ? "🧠" : subjectKey === "finance" ? "💰" : "📚")
         });
-        if (lesson.imageUrl) {
+        const firstSectionIsIntro = lesson.sections[0] && lesson.sections[0].type === "intro";
+        if (lesson.imageUrl && !firstSectionIsIntro) {
           result.push({
             type: "intro",
             subject: subject,
@@ -2566,7 +2575,16 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
           });
         }
         lesson.sections.forEach(function (section) {
-          if (section.type === "content") {
+          if (section.type === "intro") {
+            result.push({
+              type: "intro",
+              subject: subject,
+              title: section.title || lesson.title,
+              subtitle: section.subtitle || lesson.subtitle || "",
+              imageUrl: section.imageUrl || lesson.imageUrl,
+              imageAlt: section.imageAlt || (lesson.title + " introduction")
+            });
+          } else if (section.type === "content") {
             const paras = section.paragraphs || [];
             if (paras.length <= MAX_PARAGRAPHS_PER_SLIDE) {
               result.push({ type: "content", subject: subject, title: section.title, paragraphs: paras, imageUrl: section.imageUrl, imageAlt: section.imageAlt });
