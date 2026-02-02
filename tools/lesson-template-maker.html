@@ -50,6 +50,22 @@
       background: #6b6bef;
     }
 
+    button.secondary {
+      background: #4a4aaa;
+    }
+
+    button.secondary:hover {
+      background: #3a3a99;
+    }
+
+    button.danger {
+      background: #e74c3c;
+    }
+
+    button.danger:hover {
+      background: #c0392b;
+    }
+
     pre {
       background: #1b1b22;
       padding: 16px;
@@ -86,6 +102,81 @@
       font-size: 13px;
       font-weight: 500;
     }
+
+    .slide-item {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 2px solid rgba(124, 124, 255, 0.3);
+      cursor: move;
+      position: relative;
+    }
+
+    .slide-item.dragging {
+      opacity: 0.5;
+      border-color: #7c7cff;
+    }
+
+    .slide-item.drag-over {
+      border-color: #7c7cff;
+      background: rgba(124, 124, 255, 0.15);
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .slide-type-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(124, 124, 255, 0.3);
+    }
+
+    .slide-type-badge.quiz {
+      background: rgba(255, 107, 107, 0.3);
+    }
+
+    .slide-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .slide-controls button {
+      width: auto;
+      padding: 6px 12px;
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .drag-handle {
+      cursor: move;
+      font-size: 18px;
+      opacity: 0.5;
+      padding: 0 8px;
+    }
+
+    .drag-handle:hover {
+      opacity: 1;
+    }
+
+    .add-slide-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .add-slide-buttons button {
+      flex: 1;
+    }
   </style>
 </head>
 
@@ -117,56 +208,15 @@
   </div>
 
   <div class="section">
-    <div class="section-title">Content Slides</div>
-    <p class="hint">Each content slide needs a title and paragraphs. Add one per section.</p>
+    <div class="section-title">Slides (Drag to Reorder)</div>
+    <p class="hint">Add content slides and quizzes in any order. Drag to rearrange!</p>
     
-    <label>Slide 1 Title</label>
-    <input id="slide1Title" placeholder="Your brain hates randomness 🎲" />
+    <div id="slidesContainer"></div>
 
-    <label>Slide 1 Paragraphs (one per line)</label>
-    <textarea id="slide1Paragraphs" placeholder="Your brain would rather believe a false pattern than accept randomness.
-This isn't a flaw. It's survival wiring.
-Your visual cortex processes 10 million bits of information per second."></textarea>
-
-    <label>Slide 1 Image URL (optional)</label>
-    <input id="slide1ImageUrl" placeholder="https://images.unsplash.com/photo-..." />
-
-    <label>Slide 1 Image Alt (optional)</label>
-    <input id="slide1ImageAlt" placeholder="Patterns representing randomness" />
-
-    <button onclick="addSlide()" style="margin-top: 20px; background: #4a4aaa;">+ Add Another Slide</button>
-    <div id="additionalSlides"></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Quiz (optional)</div>
-    
-    <label>Quiz Question</label>
-    <input id="quizQuestion" placeholder="Why does the brain prefer a false pattern over no pattern?" />
-
-    <label>Option A</label>
-    <input id="optionA" placeholder="Because it likes drama" />
-
-    <label>Option B</label>
-    <input id="optionB" placeholder="Because humans are irrational" />
-
-    <label>Option C</label>
-    <input id="optionC" placeholder="Because it evolved for survival, not accuracy" />
-
-    <label>Option D</label>
-    <input id="optionD" placeholder="Because emotions override logic" />
-
-    <label>Correct Answer</label>
-    <select id="correctAnswer">
-      <option value="">-- Select --</option>
-      <option value="a">A</option>
-      <option value="b">B</option>
-      <option value="c">C</option>
-      <option value="d">D</option>
-    </select>
-
-    <label>Explanation</label>
-    <textarea id="explanation" placeholder="Missing a real threat once = death. Seeing a fake threat = just embarrassing..."></textarea>
+    <div class="add-slide-buttons">
+      <button onclick="addContentSlide()" class="secondary">+ Add Content Slide</button>
+      <button onclick="addQuizSlide()" class="secondary">+ Add Quiz</button>
+    </div>
   </div>
 
   <button onclick="generate()">Generate Lesson</button>
@@ -175,34 +225,218 @@ Your visual cortex processes 10 million bits of information per second."></texta
   <pre id="output"></pre>
 
   <script>
-    let slideCount = 1;
+    let slides = [];
+    let slideIdCounter = 0;
+    let draggedElement = null;
 
-    function addSlide() {
-      slideCount++;
-      const container = document.getElementById("additionalSlides");
-      
-      const slideDiv = document.createElement("div");
-      slideDiv.style.marginTop = "20px";
-      slideDiv.style.paddingTop = "20px";
-      slideDiv.style.borderTop = "1px solid rgba(255,255,255,0.1)";
-      
-      slideDiv.innerHTML = `
-        <label>Slide ${slideCount} Title</label>
-        <input id="slide${slideCount}Title" placeholder="Slide ${slideCount} title" />
+    function createSlideId() {
+      return `slide-${slideIdCounter++}`;
+    }
 
-        <label>Slide ${slideCount} Paragraphs (one per line)</label>
-        <textarea id="slide${slideCount}Paragraphs" placeholder="Paragraph 1
-Paragraph 2
-Paragraph 3"></textarea>
+    function addContentSlide() {
+      const slide = {
+        id: createSlideId(),
+        type: 'content',
+        title: '',
+        paragraphs: '',
+        imageUrl: '',
+        imageAlt: ''
+      };
+      slides.push(slide);
+      renderSlides();
+    }
 
-        <label>Slide ${slideCount} Image URL (optional)</label>
-        <input id="slide${slideCount}ImageUrl" placeholder="https://images.unsplash.com/photo-..." />
+    function addQuizSlide() {
+      const slide = {
+        id: createSlideId(),
+        type: 'quiz',
+        question: '',
+        optionA: '',
+        optionB: '',
+        optionC: '',
+        optionD: '',
+        correctAnswer: '',
+        explanation: ''
+      };
+      slides.push(slide);
+      renderSlides();
+    }
 
-        <label>Slide ${slideCount} Image Alt (optional)</label>
-        <input id="slide${slideCount}ImageAlt" placeholder="Image description" />
-      `;
-      
-      container.appendChild(slideDiv);
+    function removeSlide(id) {
+      slides = slides.filter(s => s.id !== id);
+      renderSlides();
+    }
+
+    function updateSlideData(id, field, value) {
+      const slide = slides.find(s => s.id === id);
+      if (slide) {
+        slide[field] = value;
+      }
+    }
+
+    function renderSlides() {
+      const container = document.getElementById('slidesContainer');
+      container.innerHTML = '';
+
+      slides.forEach((slide, index) => {
+        const slideEl = document.createElement('div');
+        slideEl.className = 'slide-item';
+        slideEl.draggable = true;
+        slideEl.dataset.slideId = slide.id;
+
+        slideEl.addEventListener('dragstart', handleDragStart);
+        slideEl.addEventListener('dragend', handleDragEnd);
+        slideEl.addEventListener('dragover', handleDragOver);
+        slideEl.addEventListener('drop', handleDrop);
+        slideEl.addEventListener('dragenter', handleDragEnter);
+        slideEl.addEventListener('dragleave', handleDragLeave);
+
+        if (slide.type === 'content') {
+          slideEl.innerHTML = `
+            <div class="slide-header">
+              <div>
+                <span class="drag-handle">⋮⋮</span>
+                <span class="slide-type-badge">Content Slide ${index + 1}</span>
+              </div>
+              <div class="slide-controls">
+                <button onclick="removeSlide('${slide.id}')" class="danger">Delete</button>
+              </div>
+            </div>
+            
+            <label>Title</label>
+            <input value="${escapeHtml(slide.title)}" 
+                   onchange="updateSlideData('${slide.id}', 'title', this.value)"
+                   placeholder="Your brain hates randomness 🎲" />
+
+            <label>Paragraphs (one per line)</label>
+            <textarea onchange="updateSlideData('${slide.id}', 'paragraphs', this.value)"
+                      placeholder="Your brain would rather believe a false pattern...
+This isn't a flaw. It's survival wiring.
+Your visual cortex processes information...">${escapeHtml(slide.paragraphs)}</textarea>
+
+            <label>Image URL (optional)</label>
+            <input value="${escapeHtml(slide.imageUrl)}"
+                   onchange="updateSlideData('${slide.id}', 'imageUrl', this.value)"
+                   placeholder="https://images.unsplash.com/photo-..." />
+
+            <label>Image Alt (optional)</label>
+            <input value="${escapeHtml(slide.imageAlt)}"
+                   onchange="updateSlideData('${slide.id}', 'imageAlt', this.value)"
+                   placeholder="Image description" />
+          `;
+        } else if (slide.type === 'quiz') {
+          slideEl.innerHTML = `
+            <div class="slide-header">
+              <div>
+                <span class="drag-handle">⋮⋮</span>
+                <span class="slide-type-badge quiz">Quiz ${index + 1}</span>
+              </div>
+              <div class="slide-controls">
+                <button onclick="removeSlide('${slide.id}')" class="danger">Delete</button>
+              </div>
+            </div>
+            
+            <label>Question</label>
+            <input value="${escapeHtml(slide.question)}"
+                   onchange="updateSlideData('${slide.id}', 'question', this.value)"
+                   placeholder="Why does the brain prefer a false pattern over no pattern?" />
+
+            <label>Option A</label>
+            <input value="${escapeHtml(slide.optionA)}"
+                   onchange="updateSlideData('${slide.id}', 'optionA', this.value)"
+                   placeholder="Because it likes drama" />
+
+            <label>Option B</label>
+            <input value="${escapeHtml(slide.optionB)}"
+                   onchange="updateSlideData('${slide.id}', 'optionB', this.value)"
+                   placeholder="Because humans are irrational" />
+
+            <label>Option C</label>
+            <input value="${escapeHtml(slide.optionC)}"
+                   onchange="updateSlideData('${slide.id}', 'optionC', this.value)"
+                   placeholder="Because it evolved for survival, not accuracy" />
+
+            <label>Option D</label>
+            <input value="${escapeHtml(slide.optionD)}"
+                   onchange="updateSlideData('${slide.id}', 'optionD', this.value)"
+                   placeholder="Because emotions override logic" />
+
+            <label>Correct Answer</label>
+            <select onchange="updateSlideData('${slide.id}', 'correctAnswer', this.value)">
+              <option value="">-- Select --</option>
+              <option value="a" ${slide.correctAnswer === 'a' ? 'selected' : ''}>A</option>
+              <option value="b" ${slide.correctAnswer === 'b' ? 'selected' : ''}>B</option>
+              <option value="c" ${slide.correctAnswer === 'c' ? 'selected' : ''}>C</option>
+              <option value="d" ${slide.correctAnswer === 'd' ? 'selected' : ''}>D</option>
+            </select>
+
+            <label>Explanation</label>
+            <textarea onchange="updateSlideData('${slide.id}', 'explanation', this.value)"
+                      placeholder="Missing a real threat once = death...">${escapeHtml(slide.explanation)}</textarea>
+          `;
+        }
+
+        container.appendChild(slideEl);
+      });
+    }
+
+    function handleDragStart(e) {
+      draggedElement = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.slide-item').forEach(item => {
+        item.classList.remove('drag-over');
+      });
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      if (this !== draggedElement) {
+        this.classList.add('drag-over');
+      }
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      if (draggedElement !== this) {
+        const draggedId = draggedElement.dataset.slideId;
+        const targetId = this.dataset.slideId;
+        
+        const draggedIndex = slides.findIndex(s => s.id === draggedId);
+        const targetIndex = slides.findIndex(s => s.id === targetId);
+        
+        const [draggedSlide] = slides.splice(draggedIndex, 1);
+        slides.splice(targetIndex, 0, draggedSlide);
+        
+        renderSlides();
+      }
+
+      return false;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
     }
 
     function generate() {
@@ -232,56 +466,44 @@ Paragraph 3"></textarea>
         });
       }
 
-      // Add content slides
-      for (let i = 1; i <= slideCount; i++) {
-        const slideTitle = document.getElementById(`slide${i}Title`)?.value.trim();
-        const slideParagraphs = document.getElementById(`slide${i}Paragraphs`)?.value.trim();
-        const slideImageUrl = document.getElementById(`slide${i}ImageUrl`)?.value.trim();
-        const slideImageAlt = document.getElementById(`slide${i}ImageAlt`)?.value.trim();
+      // Add all slides in order
+      slides.forEach(slide => {
+        if (slide.type === 'content') {
+          if (slide.title && slide.paragraphs) {
+            const contentSlide = {
+              type: "content",
+              title: slide.title,
+              paragraphs: slide.paragraphs
+                .split("\n")
+                .map(p => p.trim())
+                .filter(p => p.length > 0)
+            };
 
-        if (slideTitle && slideParagraphs) {
-          const contentSlide = {
-            type: "content",
-            title: slideTitle,
-            paragraphs: slideParagraphs
-              .split("\n")
-              .map(p => p.trim())
-              .filter(p => p.length > 0)
-          };
+            if (slide.imageUrl) {
+              contentSlide.imageUrl = slide.imageUrl;
+              contentSlide.imageAlt = slide.imageAlt || slide.title;
+            }
 
-          if (slideImageUrl) {
-            contentSlide.imageUrl = slideImageUrl;
-            contentSlide.imageAlt = slideImageAlt || slideTitle;
+            sections.push(contentSlide);
           }
+        } else if (slide.type === 'quiz') {
+          if (slide.question && slide.optionA && slide.optionB && slide.optionC && slide.optionD && slide.correctAnswer) {
+            const options = [
+              { id: "a", text: slide.optionA, correct: slide.correctAnswer === "a" },
+              { id: "b", text: slide.optionB, correct: slide.correctAnswer === "b" },
+              { id: "c", text: slide.optionC, correct: slide.correctAnswer === "c" },
+              { id: "d", text: slide.optionD, correct: slide.correctAnswer === "d" }
+            ];
 
-          sections.push(contentSlide);
+            sections.push({
+              type: "quiz",
+              question: slide.question,
+              options: options,
+              explanation: slide.explanation || ""
+            });
+          }
         }
-      }
-
-      // Add quiz if provided
-      const quizQuestion = document.getElementById("quizQuestion").value.trim();
-      const optionA = document.getElementById("optionA").value.trim();
-      const optionB = document.getElementById("optionB").value.trim();
-      const optionC = document.getElementById("optionC").value.trim();
-      const optionD = document.getElementById("optionD").value.trim();
-      const correctAnswer = document.getElementById("correctAnswer").value;
-      const explanation = document.getElementById("explanation").value.trim();
-
-      if (quizQuestion && optionA && optionB && optionC && optionD && correctAnswer) {
-        const options = [
-          { id: "a", text: optionA, correct: correctAnswer === "a" },
-          { id: "b", text: optionB, correct: correctAnswer === "b" },
-          { id: "c", text: optionC, correct: correctAnswer === "c" },
-          { id: "d", text: optionD, correct: correctAnswer === "d" }
-        ];
-
-        sections.push({
-          type: "quiz",
-          question: quizQuestion,
-          options: options,
-          explanation: explanation || ""
-        });
-      }
+      });
 
       // Build final lesson object
       const lesson = {
@@ -306,6 +528,9 @@ Paragraph 3"></textarea>
 
       document.getElementById("output").textContent = code;
     }
+
+    // Initialize with one content slide
+    addContentSlide();
   </script>
 
 </body>
