@@ -3230,7 +3230,7 @@ function closeStreakScreen() {
   // Navigate back to home so user sees the tree
   showHomeState();
   closeAllSubjectDropdowns();
-  try { window.location.hash = ""; } catch (e) {}
+  clearHashFromUrl();
   renderSubjectDropdownsActiveState();
 }
 
@@ -4326,7 +4326,7 @@ function goBack() {
   if (slugAt && currentIndex === getLessonStartIndex(activeSubject, slugAt)) {
     showHomeState();
     closeAllSubjectDropdowns();
-    try { window.location.hash = ""; } catch (e) {}
+    clearHashFromUrl();
     renderSubjectDropdownsActiveState();
     return;
   }
@@ -5060,12 +5060,17 @@ function selectLessonFromPicker(slug) {
   updateHashForView();
 }
 
+function clearHashFromUrl() {
+  try {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  } catch (e) {}
+}
+
 function updateHashForView() {
-  if (activeCategory !== "space") return;
   if (activeLessonSlug) {
-    try { window.location.hash = "space/" + activeLessonSlug; } catch (e) {}
+    try { window.location.hash = activeCategory + "/" + activeLessonSlug; } catch (e) {}
   } else {
-    try { window.location.hash = "space"; } catch (e) {}
+    try { window.location.hash = activeCategory; } catch (e) {}
   }
 }
 
@@ -5076,7 +5081,7 @@ function applyHash() {
   const categoryId = parts[0];
   const lessonSlug = parts[1];
   const category = categories.find((c) => c.id === categoryId);
-  if (!category || categoryId !== "space") return;
+  if (!category) return;
   activeCategory = category.id;
   const subjectKey = getSubjectKeyForCategory(category.id);
   if (!subjectKey || !subjectLessons[subjectKey]) return;
@@ -5841,20 +5846,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (lessonPickerBackBtn) {
       lessonPickerBackBtn.addEventListener("click", function () {
         showHomeState();
-        try { window.location.hash = ""; } catch (e) {}
+        clearHashFromUrl();
         renderSubjectDropdownsActiveState();
       });
       lessonPickerBackBtn.addEventListener("touchend", function (e) {
         e.preventDefault();
         showHomeState();
-        try { window.location.hash = ""; } catch (e) {}
+        clearHashFromUrl();
         renderSubjectDropdownsActiveState();
       }, { passive: false });
     }
     window.addEventListener("hashchange", applyHash);
-    // Always show home page as default landing when opening the app (do not apply hash or restore last subject on init)
-    showHomeState();
-    try { window.location.hash = ""; } catch (e) {}
+    // Apply hash on load for direct links; otherwise show home and clean URL
+    const hashForInit = (window.location.hash || "").replace(/^#/, "").trim();
+    if (hashForInit) {
+      applyHash();
+    } else {
+      showHomeState();
+      clearHashFromUrl();
+    }
     renderSubjectDropdownsActiveState();
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
