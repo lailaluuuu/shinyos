@@ -344,6 +344,8 @@ const subjectLessons = {
       id: "money-machine",
       subject: "finance",
       type: "lesson",
+      slug: "money-machine",
+      icon: "💰",
       title: "The Money Machine",
       subtitle: "Your money isn't where you think it is 💰",
       imageUrl: "images/themoneymachine-intro.png",
@@ -2640,7 +2642,7 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
     const boundaries = lessonBoundariesBySubject[subjectKey];
     const slides = subjectLessons[subjectKey];
     const shouldPrependMain = (catalog.length >= 1 && boundaries.length >= 1 && boundaries[0].startIndex > 0 && slides.length > 0) ||
-      (subjectKey === "finance" && catalog.length === 1 && catalog[0].slug === "machine" && slides.length > 0 &&
+      (subjectKey === "finance" && catalog.length === 1 && (catalog[0].slug === "machine" || catalog[0].slug === "money-machine") && slides.length > 0 &&
        slides[0].type === "intro" && typeof slides[0].title === "string" && slides[0].title.indexOf("Investing") !== -1);
     if (shouldPrependMain) {
       const first = slides[0];
