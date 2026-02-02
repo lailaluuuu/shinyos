@@ -1,9 +1,10 @@
 // ShinyOS learning platform - Subject dropdowns with home page
-// Updated: Player vs. Narrator lesson
+// Updated: Organized lessons with template structure
 // Subject lessons data
 // Note: Lesson order is determined by array position, not the 'id' field
 // Username: 3–20 characters (lowercase, numbers, underscore)
-// Lessons can be added or modified in the finance array below
+// Lessons can be added or modified in the arrays below
+
 const subjectLessons = {
   finance: [
     {
@@ -30,8 +31,8 @@ const subjectLessons = {
       type: "quiz",
       question: "🤔 School skipped investing because:",
       options: [
-        { id: "a", text: "You can’t grade compounding in 45 minutes", correct: false },
-        { id: "b", text: "It wasn’t a curriculum priority", correct: false },
+        { id: "a", text: "You can't grade compounding in 45 minutes", correct: false },
+        { id: "b", text: "It wasn't a curriculum priority", correct: false },
         { id: "c", text: "A combination of factors", correct: true },
         { id: "d", text: "It was assumed to be handled at home 🏠", correct: false }
       ],
@@ -44,15 +45,15 @@ const subjectLessons = {
       paragraphs: [
         "Most people think investing is guessing 🎲, gambling 🎰, or day-trading on a spaceship-looking app 🚀.",
         "Others think it's only for rich people 💰 or finance professionals 👔.",
-        "School rarely explains it. Families often assume it’s 'too risky' or 'not for us.'",
-        "Investing isn’t day-trading, gambling, or a secret club for the £100k+ crowd.",
-        "It’s just owning a slice of something productive — a company, a piece of land, an energy grid, a solar farm, etc.",
+        "School rarely explains it. Families often assume it's 'too risky' or 'not for us.'",
+        "Investing isn't day-trading, gambling, or a secret club for the £100k+ crowd.",
+        "It's just owning a slice of something productive — a company, a piece of land, an energy grid, a solar farm, etc.",
         "These things create value in the real world: they sell products 📦, pay dividends 💵, rent land 🏘️, or power homes 🏡.",
         "Investing = putting money into productive assets that (hopefully) grow in value 📈 or generate income over time 💰.",
         "It isn't gambling, and it isn't magic ✨.",
         "It's allocating capital into things that produce returns 📊.",
-        "Think of it like hiring employees. Your money doesn’t sit still — it goes to work.",
-        "Some assets become star performers, others do ‘meh,’ but the aim is simple: growth over time."
+        "Think of it like hiring employees. Your money doesn't sit still — it goes to work.",
+        "Some assets become star performers, others do 'meh,' but the aim is simple: growth over time."
       ]
     },
     {
@@ -127,10 +128,10 @@ const subjectLessons = {
         "It's interest on your interest. Growth on growth. Time becoming exponential.",
         "Albert Einstein called it 'the 8th wonder of the world.' School gave it 4 lines in maths and moved on like it wasn't the formula that shapes wealth.",
         "The earlier you start, the less money you need.",
-        "Here’s the important bit: simple interest grows in a straight line. Compound growth curves upward because past growth becomes the engine for future growth.",
+        "Here's the important bit: simple interest grows in a straight line. Compound growth curves upward because past growth becomes the engine for future growth.",
         "At first the curve looks slow — almost boring. Then time tilts it upward and the numbers get weird (in a good way).",
         "This is why £50/month at 18 can beat £200/month starting at 30. Time is doing most of the work.",
-        "Compound growth doesn’t reward brilliance. It rewards patience."
+        "Compound growth doesn't reward brilliance. It rewards patience."
       ]
     },
     {
@@ -205,12 +206,12 @@ const subjectLessons = {
       type: "content",
       title: "📰 Why Markets Move: News, Fear, and Hype",
       paragraphs: [
-        "Stock prices don’t move in a vacuum. They react to what’s happening in the world.",
+        "Stock prices don't move in a vacuum. They react to what's happening in the world.",
         "Earnings reports 📊, interest rates 💰, elections 🗳️, wars ⚔️, new products 🆕, and regulation 📜 all change what investors think a business is worth 💎.",
         "In the short term, prices are heavily influenced by mood: fear 😨, greed 💰, hype 🔥, and headlines 📰.",
         "In the long term, prices are pulled toward reality: profits, cashflow, and how well the business actually performs.",
         "This is why markets can look chaotic day-to-day 🌪️ but more logical decade-to-decade 📊.",
-        "You can’t control the noise, but you can choose to focus on the signal: real businesses, real earnings, real value over time."
+        "You can't control the noise, but you can choose to focus on the signal: real businesses, real earnings, real value over time."
       ]
     },
     {
@@ -316,7 +317,7 @@ const subjectLessons = {
       question: "🤔 If compounding is a cheat code 🎮, what is time?",
       options: [
         { id: "a", text: "The multiplier ✖️", correct: true },
-        { id: "b", text: "The enemy 👹", correct: false }, // Quiz option
+        { id: "b", text: "The enemy 👹", correct: false },
         { id: "c", text: "The tax collector 💼", correct: false },
         { id: "d", text: "Irrelevant ❌", correct: false }
       ],
@@ -337,6 +338,145 @@ const subjectLessons = {
         "✔ Why compounding is seismic",
         "This is the baseline for building portfolios, choosing assets, and not getting eaten by a system you're already living inside.",
         "🎉 Congratulations! You've completed Investing 101!"
+      ]
+    },
+    {
+      id: "money-machine",
+      subject: "finance",
+      type: "lesson",
+      title: "The Money Machine",
+      subtitle: "Your money isn't where you think it is 💰",
+      imageUrl: "images/themoneymachine-intro.png",
+      imageAlt: "The Money Machine introduction",
+      sections: [
+        {
+          type: "content",
+          title: "The Big Lie. The vault is a lie 🏦",
+          paragraphs: [
+            "Here's something wild: when you put £100🤑 in the bank, it doesn't sit in a vault with your name on it.",
+            "Most of it gets lent to someone else within hours.🤨",
+            "Banks only keep about £10 of your £100. The other £90? Gone. Out the door. Working.",
+            "This isn't a scam. It's literally how the whole system works. And it's completely legal.🤔"
+          ],
+          imageUrl: "images/gonefishing.png",
+          imageAlt: "The Big Lie. The vault is a lie 🏦"
+        },
+        {
+          type: "quiz",
+          question: "If you deposit £100 and the bank keeps 10%, how much do they lend out?",
+          options: [
+            { id: "a", text: " £10 (Because they're being careful)", correct: false },
+            { id: "b", text: " £50 (Split it down the middle)", correct: false },
+            { id: "c", text: "£90 (Most of your money immediately leaves)", correct: true },
+            { id: "d", text: "£0 (They keep it all safe)", correct: false }
+          ],
+          explanation: "Banks keep only a small fraction (usually 10%) and lend out the rest. This is called fractional reserve banking. It sounds sketchy, but it's how money multiplies through the economy.🤑"
+        },
+        {
+          type: "content",
+          title: "The Money Multiplier. One pound becomes ten 🪄",
+          paragraphs: [
+            "Here's where it gets trippy.😵‍💫 That £90 the bank lent out? It gets deposited in another bank.",
+            "That bank keeps £9 and lends out £81.",
+            "That £81 gets deposited, and the cycle continues.🌀",
+            "Your original £100 has now created nearly £1,000 in the economy. From thin air. This is money multiplication."
+          ],
+          imageUrl: "images/Cellular-currency-multiplication.png",
+          imageAlt: "The Money Multiplier. One pound becomes ten 🪄"
+        },
+        {
+          type: "content",
+          title: "The Nightmare Scenario😱 What if everyone wants their money? 😰",
+          paragraphs: [
+            "Remember, banks only have 10% of deposits on hand.",
+            "If rumors spread that a bank is failing, people panic. 🔥",
+            "Everyone rushes to withdraw at once. This is called a \"bank run.\"",
+            "The bank literally doesn't have the cash. First 10% of people get their money. The rest get... nothing. 😵",
+            "This is why banks sometimes close their doors during crises. Not because they're mean. Because the money isn't there. 💨"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Why do bank runs happen?",
+          options: [
+            { id: "a", text: "People suddenly need cash for emergencies", correct: false },
+            { id: "b", text: "Banks announce they're closing", correct: false },
+            { id: "c", text: "Fear spreads that the bank might fail, so everyone withdraws at once", correct: true },
+            { id: "d", text: "Interest rates drop too low", correct: false }
+          ],
+          explanation: "Bank runs are pure panic. Once people fear a bank is unstable, it becomes a self-fulfilling prophecy. Even healthy banks can collapse if enough people withdraw simultaneously. This is why deposit insurance (FDIC) exists—to stop the panic.🫨"
+        },
+        {
+          type: "content",
+          title: "How Banks Actually Make Money - The spread is everything 📊",
+          paragraphs: [
+            "Banks pay you maybe 0.5% interest on your savings. 💰",
+            "They lend your money to others at 5-7% (or 20%+ on credit cards).",
+            "That difference is called \"the spread.\" That's their profit.",
+            "Example: They borrow from you at 0.5%, lend at 6%. That 5.5% gap? Pure profit on YOUR money.",
+            "Oh, and fees. Overdraft fees. ATM fees. Account fees. Monthly fees. They LOVE fees. 😕"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "If a bank pays you 1% on savings and charges borrowers 6% on loans, what's their profit margin on each pound?",
+          options: [
+            { id: "a", text: "5% (The spread between what they pay and charge)", correct: true },
+            { id: "b", text: "6% (Just the lending rate)", correct: false },
+            { id: "c", text: "1% (Just the savings rate)", correct: false },
+            { id: "d", text: "7% (Adding them together)", correct: false }
+          ],
+          explanation: "The spread is 6% - 1% = 5% profit. Banks make money on the difference between cheap deposits and expensive loans. It's their entire business model."
+        },
+        {
+          type: "content",
+          title: "The Credit Card Trap - The 20% hamster wheel 🐹",
+          paragraphs: [
+            "Credit card interest is usually 15-25% APR (annual percentage rate).",
+            "Banks LOVE 😍 when you only pay the minimum payment.",
+            "Example: $1,000 debt at 20% APR. Minimum payments? You'll pay for 5+ years and spend $600+ in interest.",
+            "That $1,000 TV actually cost you $1,600. 😵‍💫",
+            "They're not hoping you pay it off. They're hoping you don't. 😈"
+          ],
+          imageUrl: "images/hamster-wheel.png",
+          imageAlt: "The Credit Card Trap - The 20% hamster wheel 🐹"
+        },
+        {
+          type: "quiz",
+          question: "Why do banks offer you credit cards when you're young?🐣",
+          options: [
+            { id: "a", text: "To help you build credit history", correct: false },
+            { id: "b", text: "Because they're generous", correct: false },
+            { id: "c", text: "To get you comfortable with debt early, when habits form", correct: true },
+            { id: "d", text: "Because young people are financially responsible 🤣", correct: false }
+          ],
+          explanation: "Banks know that habits formed young stick for life. Get someone comfortable carrying a balance at 18, and they'll likely do it for decades. That's decades of interest payments. It's not generosity—it's strategy. "
+        },
+        {
+          type: "content",
+          title: "Where Your Money Really Is - Follow the money 🔍",
+          paragraphs: [
+            "Your £100 deposit is now split into pieces: 🧩",
+            "£10 sits in the bank's reserves (the only \"real\" part)",
+            "£30 is someone's car loan 🚗",
+            "£25 is someone's mortgage payment",
+            "£20 is someone's credit card debt 💳",
+            "£15 is a business loan",
+            "Your money is everywhere, earning the bank profit, while you get 0.5% interest.",
+            "This is why banking is one of the most profitable industries on Earth. 🤑"
+          ]
+        },
+        {
+          type: "content",
+          title: "Final Reflection - Now you know the game 🎮",
+          paragraphs: [
+            "Banks aren't evil. 🙊 But they ARE playing a different game than you think.",
+            "Your deposits are their raw material. Their product is loans.",
+            "Understanding this changes how you see money.",
+            "Next time someone says \"put it in the bank where it's safe,\" you'll know what that REALLY means. 😉",
+            "The money machine runs on your pound. Now you know how to use it—instead of being used by it. 😍"
+          ]
+        }
       ]
     }
   ],
@@ -2366,7 +2506,6 @@ const subjectLessons = {
     }
   ]
 };
-
 // Lesson boundaries per subject (slug -> { startIndex, endIndex }) for categories with multiple lessons
 let lessonBoundariesBySubject = {};
 
