@@ -2615,6 +2615,28 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
       lessonBoundariesBySubject[subjectKey] = [{ slug: "main", startIndex: 0, endIndex: slides.length }];
     }
   });
+  // If subject has catalog entries but first lesson starts after index 0, prepend "main" for the leading flat slides (e.g. Finance: Investing 101 + Money Machine)
+  Object.keys(subjectLessons).forEach(function (subjectKey) {
+    const catalog = lessonCatalogBySubject[subjectKey];
+    const boundaries = lessonBoundariesBySubject[subjectKey];
+    const slides = subjectLessons[subjectKey];
+    if (catalog.length >= 1 && boundaries.length >= 1 && boundaries[0].startIndex > 0 && slides.length > 0) {
+      const first = slides[0];
+      const mainTitle = (first.type === "intro" && first.title) ? first.title : (subjectNames[subjectKey] || subjectKey);
+      lessonCatalogBySubject[subjectKey] = [{
+        slug: "main",
+        title: typeof mainTitle === "string" ? mainTitle : (subjectNames[subjectKey] || subjectKey),
+        subtitle: (first.type === "intro" && first.subtitle) ? first.subtitle : "",
+        difficulty: "",
+        estimatedTime: "~15 min",
+        xpReward: 50,
+        icon: subjectIcons[subjectKey] || "📚"
+      }].concat(catalog);
+      lessonBoundariesBySubject[subjectKey] = [
+        { slug: "main", startIndex: 0, endIndex: boundaries[0].startIndex }
+      ].concat(boundaries);
+    }
+  });
 })();
 
 // Categories structure (used by world grid + horizontal category picker)
