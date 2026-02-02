@@ -2549,7 +2549,8 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
     const boundaries = [];
     const catalog = [];
     lessons.forEach(function (lesson) {
-      if (lesson.type === "lesson" && lesson.sections && Array.isArray(lesson.sections)) {
+      if ((lesson.type === "lesson" && lesson.sections && Array.isArray(lesson.sections)) ||
+          (subjectKey === "finance" && lesson.id === "money-machine" && lesson.sections && Array.isArray(lesson.sections))) {
         const subject = lesson.subject || subjectKey;
         const slug = lesson.slug || (lesson.id && String(lesson.id).replace(/^[^-]+-/, "")) || "lesson";
         const startIndex = result.length;
@@ -2638,9 +2639,13 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
     const catalog = lessonCatalogBySubject[subjectKey];
     const boundaries = lessonBoundariesBySubject[subjectKey];
     const slides = subjectLessons[subjectKey];
-    if (catalog.length >= 1 && boundaries.length >= 1 && boundaries[0].startIndex > 0 && slides.length > 0) {
+    const shouldPrependMain = (catalog.length >= 1 && boundaries.length >= 1 && boundaries[0].startIndex > 0 && slides.length > 0) ||
+      (subjectKey === "finance" && catalog.length === 1 && catalog[0].slug === "machine" && slides.length > 0 &&
+       slides[0].type === "intro" && typeof slides[0].title === "string" && slides[0].title.indexOf("Investing") !== -1);
+    if (shouldPrependMain) {
       const first = slides[0];
       const mainTitle = (first.type === "intro" && first.title) ? first.title : (subjectNames[subjectKey] || subjectKey);
+      const mainEndIndex = boundaries.length >= 1 ? boundaries[0].startIndex : slides.length;
       lessonCatalogBySubject[subjectKey] = [{
         slug: "main",
         title: typeof mainTitle === "string" ? mainTitle : (subjectNames[subjectKey] || subjectKey),
@@ -2651,7 +2656,7 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
         icon: subjectIcons[subjectKey] || "📚"
       }].concat(catalog);
       lessonBoundariesBySubject[subjectKey] = [
-        { slug: "main", startIndex: 0, endIndex: boundaries[0].startIndex }
+        { slug: "main", startIndex: 0, endIndex: mainEndIndex }
       ].concat(boundaries);
     }
   });
