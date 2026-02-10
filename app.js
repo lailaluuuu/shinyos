@@ -4337,9 +4337,9 @@ function renderLesson() {
         const colors = ["#ef4444", "#3b82f6", "#fbbf24", "#10b981", "#8b5cf6"];
         const colorNames = ["red", "blue", "yellow", "green", "purple"];
 
-        const totalCircles = round === 1 ? 8 : round === 2 ? 12 : 16;
-        const minRed = round === 1 ? 2 : round === 2 ? 3 : 4;
-        const maxRed = round === 1 ? 4 : round === 2 ? 6 : 8;
+        const totalCircles = round === 1 ? 15 : round === 2 ? 20 : 25;
+        const minRed = round === 1 ? 4 : round === 2 ? 6 : 8;
+        const maxRed = round === 1 ? 7 : round === 2 ? 10 : 12;
 
         redCount = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed;
 
