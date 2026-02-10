@@ -13,7 +13,7 @@ const subjectLessons = {
       type: "content",
       title: "🎓 Why School Skipped This",
       paragraphs: [
-        "The system taught: budgeting 💰, saving 💵, compound interest (4 lines in maths), and how to fill in forms 📝.",
+        "The system taught: budgeting 💰, saving 💵, compound interest (explained through 4 lines), and how to fill in forms 📝.",
         "The system skipped: how wealth actually forms 💎, why assets exist, what investing is, what it funds, how to allocate capital, and why time is the cheat code ⏰.",
         "Most people leave school knowing how to analyse a poem 📖, but not how to read a pension statement or a stock chart 📈.",
         "This course fixes that. You'll understand the mechanics, not just the buzzwords. 🎯"
@@ -22,11 +22,11 @@ const subjectLessons = {
     {
       id: 3,
       type: "quiz",
-      question: "🤔 School skipped investing because:",
+      question: "🤔 What's the MAIN reason most people weren't taught money skills at school?:",
       options: [
-        { id: "a", text: "You can't grade compounding in 45 minutes", correct: false },
-        { id: "b", text: "It wasn't a curriculum priority", correct: false },
-        { id: "c", text: "A combination of factors", correct: true },
+        { id: "a", text: "Schools focused on traditional academic subjects", correct: true },
+        { id: "b", text: "Teachers didn't understand finance themselves", correct: false },
+        { id: "c", text: "Financial literacy wasn't valued by society", correct: false },
         { id: "d", text: "It was assumed to be handled at home 🏠", correct: false }
       ],
       explanation: "All of these reasons contributed to schools skipping investing education. The system prioritized testable, academic subjects over practical financial skills that require time to demonstrate value, leaving a knowledge gap that affects millions."
@@ -41,12 +41,12 @@ const subjectLessons = {
         "School rarely explains it. Families often assume it's 'too risky' or 'not for us.'",
         "Investing isn't day-trading, gambling, or a secret club for the £100k+ crowd.",
         "It's just owning a slice of something productive — a company, a piece of land, an energy grid, a solar farm, etc.",
-        "These things create value in the real world: they sell products 📦, pay dividends 💵, rent land 🏘️, or power homes 🏡.",
-        "Investing = putting money into productive assets that (hopefully) grow in value 📈 or generate income over time 💰.",
+        "These things create value in the real world: they sell products 📦, pay dividends 💵 (You own part of a company, and it pays you money 💰), rent land 🏘️, or power homes 🏡.",
+        "Investing = putting money into productive things that (hopefully) grow in value 📈 or generate income over time 💰.",
         "It isn't gambling, and it isn't magic ✨.",
-        "It's allocating capital into things that produce returns 📊.",
+        "It's allocating money into things that produce returns 📊.",
         "Think of it like hiring employees. Your money doesn't sit still — it goes to work.",
-        "Some assets become star performers, others do 'meh,' but the aim is simple: growth over time."
+        "Some investments become star performers, others do 'meh,' but the aim is simple: growth over time."
       ]
     },
     {
@@ -59,35 +59,35 @@ const subjectLessons = {
         { id: "c", text: "Buying a lottery ticket 🎫", correct: false },
         { id: "d", text: "Guessing which emoji your friend will send 😂", correct: false }
       ],
-      explanation: "Investing is about owning productive assets—like a bakery—that create value again and again over time, not one-off bets like horse racing or lottery tickets."
+      explanation: "Investing means owning something productive—like a bakery—that can make money again and again over time, not relying on one lucky guess or bet."
     },
     {
       id: 6,
       type: "content",
       title: "🌍 Why Investing Exists",
       paragraphs: [
-        "Human economies expand because we invent 🔬, build 🏗️, innovate 💡, and demand new things 🆕.",
-        "Investing is simply how we: fund innovation 🚀, fund growth 📈, fund risk ⚠️, fund long-term progress 🌟.",
-        "Without investing → no tech 💻, no medicine 💊, no bridges 🌉, no chips 🖥️, no rockets 🚀, no progress.",
-        "Investing is how progress is financed 💰.",
+        "Human economies grow because we invent 🔬, build 🏗️, innovate 💡, and want new things 🆕.",
+        "Investing is simply how we fund innovation 🚀, growth 📈, risk ⚠️, and long-term progress 🌟.",
+        "Without investing → no tech 💻, no medicine 💊, no bridges 🌉, no computer chips 🖥️, no rockets 🚀 — no progress.",
+        "Investing is how progress gets paid for 💰.",
         "Money has three main paths:",
-        "• Spending → gone immediately 💸",
-        "• Saving → safe but static 🏦",
+        "• Spending → gone straight away 💸",
+        "• Saving → safe, but doesn’t grow 🏦",
         "• Investing → used to build things and grow 📊",
-        "Most adults only ever get taught the first two. 📚"
+        "Most adults are only ever taught the first two 📚"
       ]
     },
     {
       id: 7,
       type: "quiz",
-      question: "💭 Investing is essential because it finances:",
+      question: "💭 Investing is essential because it pays for.💡📈:",
       options: [
         { id: "a", text: "Progress and growth 📈", correct: true },
         { id: "b", text: "Only cool inventions 🛸", correct: false },
         { id: "c", text: "Only companies 🏢", correct: false },
         { id: "d", text: "Only roads and bridges 🌉", correct: false }
       ],
-      explanation: "Investing finances economic progress—innovation, businesses, and infrastructure all sit under that umbrella."
+      explanation: "Investing pays for progress — new ideas, businesses, and important things like roads and technology."
     },
     {
       id: 8,
@@ -117,15 +117,16 @@ const subjectLessons = {
       type: "content",
       title: "⏰ The Cheat Code They Hid: Compound Growth",
       paragraphs: [
-        "Compound growth deserved a 6-week school module, fireworks, and guest speakers.",
-        "It's interest on your interest. Growth on growth. Time becoming exponential.",
-        "Albert Einstein called it 'the 8th wonder of the world.' School gave it 4 lines in maths and moved on like it wasn't the formula that shapes wealth.",
-        "The earlier you start, the less money you need.",
-        "Here's the important bit: simple interest grows in a straight line. Compound growth curves upward because past growth becomes the engine for future growth.",
-        "At first the curve looks slow — almost boring. Then time tilts it upward and the numbers get weird (in a good way).",
-        "This is why £50/month at 18 can beat £200/month starting at 30. Time is doing most of the work.",
-        "Compound growth doesn't reward brilliance. It rewards patience."
+        "Compound growth deserved a 6-week school module 📚, fireworks 🎆, and guest speakers 🎤.",
+        "It’s growth on growth 📈. Your money earns money 💰, then that money earns money too 🔁.",
+        "Albert Einstein called it “the 8th wonder of the world” 🧠✨. School gave it four lines in maths ➗ and moved on — like it isn’t the formula that shapes wealth 🏗️.",
+        "The earlier you start 🚀, the less money you need 💸.",
+        "Here’s the key idea 🔑: simple interest grows in a straight line ➖. Compound growth curves upward 📈 because past growth helps create future growth 🔄.",
+        "At first, the curve looks slow 🐢 — almost boring 😴. Then time tilts it upward ⏳ and the numbers get weird 🤯 (in a good way 😄).",
+        "That’s why £50 a month starting at 18 🧒 can beat £200 a month starting at 30 🧑. Time does most of the work ⏰💪.",
+        "Compound growth doesn’t reward brilliance 🧠. It rewards patience 🌱⏳."
       ]
+      
     },
     {
       id: 11,
@@ -147,35 +148,37 @@ const subjectLessons = {
         { id: "c", text: "Spreadsheets", correct: false },
         { id: "d", text: "Panic", correct: false }
       ],
-      explanation: "Compounding rewards patience and time. The longer your money compounds, the more powerful the effect becomes."
+      explanation: "Compounding rewards patience and time. The longer your money grows, the more powerful it becomes."
     },
     {
       id: 13,
       type: "content",
       title: "📍 Where Investing Happens (Finally Explained)",
       paragraphs: [
-        "Real assets people grow wealth with:",
-        "Stocks 📈 → partial ownership of businesses",
-        "ETFs 📊 → many stocks at once (cheat mode) 🎮",
-        "Bonds 💼 → lending",
-        "Real Estate 🏘️ → physical assets",
-        "Crypto ₿ → tech + speculation + volatility",
-        "Businesses 🏢 → asymmetric upside",
-        "Most adults never hear these words until they're 30+ and then panic google it at 1am 😅.",
-        "Owning the economy is easier than beating it. 🎯"
+        "Here are the main places people invest to grow money:",
+        "Stocks 📈 → owning a small part of a business",
+        "ETFs 📊 → lots of stocks bundled together (cheat mode 🎮)",
+        "Bonds 💼 → lending money and getting paid back",
+        "Real estate 🏘️ → buildings and land",
+        "Crypto ₿ → new tech with big ups and downs 🎢",
+        "Businesses 🏢 → owning something you help build",
+        "Most adults don’t hear these words until they’re 30+ — then frantically look them up late at night 😅.",
+        "Owning a piece of the economy is easier than trying to beat it 🎯."
       ]
+      
     },
     {
       id: 13.5,
       type: "quiz",
-      question: "🤔 You have £1,000 to invest. Which strategy gives you the MOST diversification?",
+      question: "🤔 You have £1,000 to invest. Which choice gives you the MOST diversification?",
       options: [
         { id: "a", text: "Buy stock in one great company", correct: false },
         { id: "b", text: "Buy an ETF that owns 500 companies", correct: true },
         { id: "c", text: "Keep it in cash", correct: false },
-        { id: "d", text: "Buy cryptocurrency only", correct: false }
+        { id: "d", text: "Buy only cryptocurrency", correct: false }
       ],
-      explanation: "An ETF that owns 500 companies gives you instant diversification. If one company fails, you still own 499 others. Single stocks = all eggs in one basket."
+      explanation: "An ETF that owns 500 companies gives you instant diversification. If one company struggles, you still own 499 others. One stock = all your eggs in one basket 🥚🧺."
+      
     },
     {
       id: 14,
@@ -264,21 +267,22 @@ const subjectLessons = {
     {
       id: 21,
       type: "content",
-      title: "⚔️ Risk: It's Not a Monster, It's the Price",
+      title: "⚔️ Risk: It’s Not a Monster, It’s the Price",
       paragraphs: [
-        "Risk is not danger. Risk is rent you pay to access return.",
-        "Returns exist because uncertainty exists. If outcomes were guaranteed, returns would be zero. The return is compensation for taking risk.",
-        "School teaches 'avoid risk.' Real life requires understanding it, pricing it, and using it wisely.",
-        "Different assets have different jobs:",
-        "→ Bonds = stability + income",
-        "→ Stock markets = compounding over time",
-        "→ Venture/crypto/startups = asymmetric moonshots",
-        "Time reduces risk. Short horizons look volatile, long horizons look smoother. Volatility ≠ permanent loss.",
-        "Low risk = low returns",
-        "Medium risk = compounding engine",
-        "High risk = moonshot or crater",
-        "Risk isn't bad — mispriced risk is."
+        "Risk isn’t danger 😱. Risk is the price you pay to earn returns 💰.",
+        "Returns exist because the future is uncertain 🔮. If outcomes were guaranteed, returns would be tiny — or zero. You get paid for taking risk.",
+        "School teaches ‘avoid risk.’ Real life is about understanding it, judging it, and using it wisely 🧠.",
+        "Different investments have different jobs:",
+        "→ Bonds 💼 = stability + income",
+        "→ Stock markets 📈 = growth and compounding over time",
+        "→ Startups / crypto 🚀 = big wins or big losses (moonshots 🌕)",
+        "Time changes risk ⏳. Short timeframes look jumpy 🎢, long timeframes look smoother 🌊. Volatility ≠ permanent loss.",
+        "Low risk = low returns 🐢",
+        "Medium risk = steady growth 📈",
+        "High risk = moonshot 🚀 or crater 💥",
+        "Risk isn’t bad — taking the *wrong* risk is ⚠️."
       ]
+      
     },
     {
       id: 22,
@@ -475,8 +479,8 @@ const subjectLessons = {
           paragraphs: [
             "Credit card interest is usually 15-25% APR (annual percentage rate).",
             "Banks LOVE 😍 when you only pay the minimum payment.",
-            "Example: $1,000 debt at 20% APR. Minimum payments? You'll pay for 5+ years and spend $600+ in interest.",
-            "That $1,000 TV actually cost you $1,600. 😵‍💫",
+            "Example: £1,000 debt at 20% APR. Minimum payments? You'll pay for 5+ years and spend $600+ in interest.",
+            "That £1,000 TV actually cost you £1,600. 😵‍💫",
             "They're not hoping you pay it off. They're hoping you don't. 😈"
           ],
           imageUrl: "images/hamster-wheel.png",
@@ -533,51 +537,54 @@ const subjectLessons = {
       sections: [
         {
           type: "content",
-          title: "Your brain hates randomness 🎲",
+          title: "🧠 Your Brain Hates Randomness 🎲",
           imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
           imageAlt: "Patterns representing randomness and meaning",
           paragraphs: [
-            "Your brain would rather believe a false pattern than accept randomness.",
-            "This isn't a flaw. It's survival wiring.",
-            "Your visual cortex processes 10 million bits of information per second. Most of it gets thrown away. What stays? Patterns.",
-            "For most of human history, missing a real pattern once could mean danger. Seeing a fake one usually meant nothing.",
-            "A rustle in the grass could be wind — or a predator. Our ancestors who assumed 'just wind' didn't become ancestors.",
-            "So the brain learned a rule:",
+            "Your brain would rather believe a false pattern than accept pure randomness.",
+            "That isn’t a flaw — it’s survival wiring 🧬.",
+            "Your brain takes in millions of bits of information every second. Most of it gets thrown away. What stays? Patterns 🔍.",
+            "For most of human history, missing a real pattern even once could mean danger ⚠️. Seeing a fake one usually meant nothing.",
+            "A rustle in the grass could be wind 🌬️ — or a predator 🐅. Our ancestors who assumed ‘just wind’ didn’t last long.",
+            "So the brain learned a simple rule:",
             "When in doubt — assume meaning."
           ]
+          
         },
         {
           type: "content",
-          title: "The pattern machine 🔗",
+          title: "🔗 The Pattern Machine",
           paragraphs: [
-            "Humans are not neutral observers.",
+            "Humans are not neutral observers 🧠.",
             "Your brain is constantly connecting dots:",
-            "• Faces in clouds (pareidolia — even happens in 12-week-old infants)",
-            "• Signals in silence",
-            "• Meaning in coincidence",
-            "• Stories from incomplete information",
-            "This happens in your fusiform gyrus — a brain region so sensitive to patterns that it fires when you see three dots arranged like a face.",
+            "• Faces in clouds ☁️🙂 (called pareidolia — it even happens in 12-week-old infants 👶)",
+            "• Signals in silence 🤫",
+            "• Meaning in coincidence 🎯",
+            "• Stories from incomplete information 📖",
+            "This happens in your fusiform gyrus — a part of the brain so sensitive to patterns that it fires when you see just three dots arranged like a face.",
             ": )",
-            "Your brain just did it.",
-            "That wasn't a face. But for a split second, your fusiform gyrus treated it like one.",
-            "This happens automatically. Before logic. Before choice."
+            "Your brain just did it 😄.",
+            "That wasn’t really a face. But for a split second, your brain treated it like one.",
+            "This happens automatically ⚡ — before logic, before thinking, before choice."
           ]
+          
         },
         {
           type: "content",
-          title: "🏀 The clustering illusion",
+          title: "🏀 The Clustering Illusion",
           imageUrl: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&h=400&fit=crop",
           imageAlt: "Basketball representing the hot hand illusion",
           paragraphs: [
-            "In 1985, psychologist Thomas Gilovich studied basketball fans.",
-            "Everyone believed in the 'hot hand' — the idea that players have streaks where they're more likely to make shots.",
-            "Gilovich analyzed thousands of shots.",
-            "Result? No hot hand. Just randomness.",
-            "But here's what's wild: when people were shown random sequences of makes and misses, they still saw streaks.",
-            "Even pure noise looks like a pattern to the human brain.",
-            "Three heads in a row? Feels meaningful. But flip a coin 100 times and you'll get several streaks of 3+ in a row.",
-            "That's just math being math."
+            "In 1985, psychologist Thomas Gilovich studied basketball fans 🧠🏀.",
+            "Everyone believed in the ‘hot hand’ — the idea that players go on special streaks where they’re more likely to score 🔥.",
+            "Gilovich analysed thousands of shots 📊.",
+            "The result? No hot hand. Just randomness 🎲.",
+            "Here’s the surprising part: when people were shown *random* sequences of makes and misses, they still saw streaks.",
+            "Even pure noise can look like a pattern to the human brain 👀.",
+            "Three heads in a row feels meaningful 🪙. But flip a coin 100 times and you’ll see lots of streaks of 3 or more.",
+            "That’s not magic — that’s just math being math ➗."
           ]
+          
         },
         {
           type: "interactive",
@@ -604,113 +611,121 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "Pattern hunger 🍽️",
+          title: "🍽️ Pattern Hunger",
           imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
           imageAlt: "Patterns and connections the brain seeks",
           paragraphs: [
-            "This constant search for meaning is sometimes called pattern hunger.",
-            "The mind feels uncomfortable with gaps.",
-            "In one study, researchers showed people random dot movements. When asked what they saw, most created elaborate explanations.",
-            "The dots were random. But the brain demanded a story.",
+            "This constant search for meaning is sometimes called *pattern hunger*.",
+            "Your brain doesn’t like gaps 🧩.",
+            "In one study, researchers showed people random moving dots. When asked what they saw, most people created detailed stories.",
+            "The dots were random 🎲. But the brain demanded a story 📖.",
             "Uncertainty feels worse than a bad explanation — so the brain fills in the blanks.",
-            "Even if the story isn't true.",
-            "Especially if the story feels familiar."
+            "Even when the story isn’t true.",
+            "Especially when the story feels familiar 😌."
           ]
+          
         },
         {
           type: "content",
-          title: "Your brain on anxiety",
+          title: "😰 Your Brain on Anxiety",
           paragraphs: [
-            "Pattern detection goes into overdrive when you're stressed.",
+            "When you’re stressed, your brain’s pattern detector goes into overdrive ⚡.",
             "Cortisol — your stress hormone — makes the pattern-seeking parts of your brain more active.",
-            "This made sense for survival: when there's danger, you need to spot threats quickly.",
-            "But in modern life it means:",
-            "Anxious people see more patterns in random data.",
-            "Stressed brains connect dots faster — and less accurately.",
-            "When you're worried, your brain doesn't just find patterns. It finds threats."
+            "This once helped humans survive 🏹. In danger, spotting possible threats quickly mattered.",
+            "In modern life, it often means this instead:",
+            "Anxious brains see patterns in random data 🎲.",
+            "Stressed brains connect dots faster — but less accurately ⚠️.",
+            "When you’re worried, your brain doesn’t just look for patterns. It looks for threats 👀."
           ]
+          
         },
         {
           type: "content",
-          title: "The gambler's fallacy 🎰",
+          title: "🎰 The Gambler’s Fallacy",
           paragraphs: [
-            "A roulette wheel hits black five times in a row.",
-            "People start betting on red. 'It's due.'",
-            "But the wheel has no memory. Each spin is independent. The odds haven't changed.",
-            "Yet the pattern feels undeniable.",
-            "This is called the gambler's fallacy — and it costs people millions every year.",
+            "A roulette wheel lands on black five times in a row ⚫⚫⚫⚫⚫.",
+            "People start betting on red 🔴. “It’s due.”",
+            "But the wheel has no memory 🧠🚫. Each spin is independent. The odds haven’t changed.",
+            "Still, the pattern *feels* undeniable.",
+            "This mistake is called the gambler’s fallacy — and it costs people millions every year 💸.",
             "Your brain sees: black, black, black, black, black.",
-            "Your brain thinks: RED must be next.",
-            "Reality: the wheel doesn't care about patterns. Only humans do."
+            "Your brain thinks: RED must be next 🤔.",
+            "Reality: the wheel doesn’t care about patterns. Only humans do 🎲."
           ]
+          
         },
         {
           type: "content",
-          title: "Where it shows up in real life",
+          title: "📍 Where It Shows Up in Real Life",
           paragraphs: [
-            "You've experienced this when:",
-            "• Someone doesn't reply and your mind writes a story",
-            "• Two bad events happen and it becomes a pattern",
-            "• You check your phone at 11:11 three times and think the universe is sending signs",
-            "• Silence feels like a message",
-            "• A coincidence feels intentional",
-            "• Your Spotify shuffle plays two sad songs and you think it 'knows'",
-            "The brain connects dots automatically — whether they belong together or not."
+            "You’ve probably felt this before:",
+            "• Someone doesn’t reply, and your mind writes a whole story 💭",
+            "• Two bad things happen, and suddenly it feels like a pattern 😕",
+            "• You notice 11:11 a few times and think the universe is sending signs ✨",
+            "• Silence starts to feel like a message 🤐",
+            "• A coincidence feels intentional 🎯",
+            "• Your Spotify shuffle plays two sad songs and you think it *knows* 🎧",
+            "Your brain connects dots automatically — whether they belong together or not 🧠."
           ]
+          
         },
         {
           type: "content",
-          title: "Apophenia and conspiracy thinking 🕵️",
+          title: "🕵️ Apophenia and Conspiracy Thinking",
           paragraphs: [
-            "Apophenia is the tendency to see connections between unrelated things.",
-            "Everyone does this sometimes. But when it becomes extreme, it can lead to conspiracy theories.",
-            "Why? Because conspiracy theories are just pattern recognition in overdrive.",
-            "Nothing is random. Everything connects. Every detail has meaning.",
-            "In one study, people who felt less control over their lives were more likely to see patterns in random images.",
-            "When life feels chaotic, the brain compensates by finding order — even if it has to invent it."
+            "Apophenia is the tendency to see connections between things that aren’t actually related.",
+            "Everyone does this sometimes — it’s part of being human 🧠.",
+            "But when this pattern-seeking goes into overdrive, it can lead to conspiracy thinking.",
+            "The story starts to sound like this: nothing is random, everything connects, every detail must matter.",
+            "In one study, people who felt less control over their lives were more likely to see patterns in random images 📊.",
+            "When life feels chaotic 🌪️, the brain tries to regain control by creating order — even if it has to invent it."
           ]
+          
         },
         {
           type: "content",
-          title: "⚠️ The quiet danger",
+          title: "⚠️ The Quiet Danger",
           paragraphs: [
             "Patterns feel comforting.",
-            "Even false ones.",
+            "Even when they’re false.",
             "A bad explanation can feel safer than uncertainty.",
-            "But mistaking noise for signal can lead to unnecessary fear, bad decisions, and emotional exhaustion.",
-            "Real example:",
-            "Someone checks their phone twice during lunch → you assume they're upset with you → you act distant → they notice and now they're actually confused.",
+            "But mistaking noise for signal can lead to unnecessary fear, poor decisions, and emotional exhaustion 😮‍💨.",
+            "A real-life example:",
+            "Someone checks their phone twice during lunch 📱 → you assume they’re upset with you → you act distant → they notice and feel confused.",
             "You created the pattern you feared.",
-            "Not everything means something."
+            "Not everything means something 🌫️."
           ]
+          
         },
         {
           type: "quiz",
-          question: "Your friend doesn't text back for 3 hours. Your brain creates a story. What's the CAMERA view?",
+          question: "📷 Your friend doesn’t text back for 3 hours. What’s the CAMERA view?",
           options: [
-            { id: "a", text: "They're mad at me", correct: false },
-            { id: "b", text: "They're busy with someone more interesting", correct: false },
+            { id: "a", text: "They’re mad at me", correct: false },
+            { id: "b", text: "They’re busy with someone more interesting", correct: false },
             { id: "c", text: "No text received in 3 hours", correct: true },
-            { id: "d", text: "They're ignoring me on purpose", correct: false }
+            { id: "d", text: "They’re ignoring me on purpose", correct: false }
           ],
-          explanation: "The camera only sees: 'No text received in 3 hours.' Everything else is your narrator adding story. Your brain filled the silence with meaning that might not exist."
+          explanation: "The camera only records facts: ‘No text received in 3 hours.’ Everything else is your narrator adding a story. Silence doesn’t automatically mean anything."
+          
         },
         {
           type: "content",
-          title: "The skill: noticing the pattern 👁️",
+          title: "👁️ The Skill: Noticing the Pattern",
           paragraphs: [
-            "The goal is not to stop your brain from finding patterns.",
-            "That's impossible. And actually, you don't want to.",
+            "The goal isn’t to stop your brain from finding patterns.",
+            "That’s impossible — and you wouldn’t want to anyway.",
             "Pattern recognition helps you:",
-            "• Learn from experience",
-            "• Predict danger",
-            "• Understand people",
-            "• Navigate complexity",
-            "The skill is noticing when it happens — and asking if it's signal or noise.",
-            "One useful question:",
-            "Is this a real signal — or my brain filling silence?",
-            "That pause creates space."
+            "• Learn from experience 📚",
+            "• Predict danger ⚠️",
+            "• Understand people 🧑‍🤝‍🧑",
+            "• Navigate complexity 🧭",
+            "The skill is noticing *when* it happens — and asking whether it’s signal or noise.",
+            "One helpful question to pause and ask:",
+            "Is this a real signal — or is my brain filling in silence?",
+            "That pause creates space 🕊️."
           ]
+          
         },
         {
           type: "reflection",
@@ -741,17 +756,18 @@ const subjectLessons = {
         },
         {
           type: "content",
-          title: "Closing thought 💭",
+          title: "💭 Closing Thought",
           paragraphs: [
-            "The brain is a storyteller.",
-            "It's been writing fiction for 200,000 years — and it's very good at it.",
-            "Wisdom is knowing when the story is useful — and when it's just noise.",
-            "You don't need to stop the pattern.",
-            "You just need to see it.",
+            "The brain is a storyteller 📖.",
+            "It’s been writing stories for over 200,000 years — and it’s very good at it.",
+            "Wisdom is knowing when a story is helpful — and when it’s just noise 🌫️.",
+            "You don’t need to stop the pattern.",
+            "You just need to notice it 👁️.",
             "And remember:",
             "Sometimes three dots are just three dots.",
-            "Even if they briefly looked like a face."
+            "Even if they briefly looked like a face 🙂."
           ]
+          
         }
       ]
     },
@@ -766,304 +782,85 @@ const subjectLessons = {
       sections: [
         {
           type: "content",
-          title: "The Flashlight in the Dark 🔦",
+          title: "🔦 The Torch in the Dark",
           imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
-          imageAlt: "Flashlight in darkness representing attention",
+          imageAlt: "Torch in darkness representing attention",
           paragraphs: [
-            "**Welcome to Your First Superpower! ⚡**",
+            "✨ **Welcome to Your First Superpower!** ✨",
             "",
-            "Did you know you have an incredible superpower? It's called ATTENTION, and you use it every single day!",
+            "You already have an incredible superpower. You use it every day.",
+            "It’s called **ATTENTION** 🧠.",
             "",
-            "But here's the thing... most people don't know they can CONTROL this superpower. Today, you're going to learn exactly how it works. 🧠✨",
+            "Most people never realise they can *control* it.",
+            "Today, you’re going to learn how it actually works — and how to aim it on purpose 🎯.",
             "",
-            "Ready to unlock your potential? Let's dive in!",
+            "Ready? Let’s switch it on 🔦",
             "",
-            "**Imagine This... 🌑**",
+            "**Picture this… 🌑**",
             "",
-            "You're standing in a completely dark room. It's pitch black. You can't see anything.",
+            "You’re standing in a completely dark room.",
+            "Pitch black. You can’t see a thing.",
             "",
             "The room is full of stuff:",
-            "• Your favorite toys 🎮",
-            "• Scattered clothes 👕",
-            "• Books and notebooks 📚",
+            "• Your favourite games 🎮",
+            "• Clothes on the floor 👕",
+            "• Books and homework 📚",
             "• A desk and chair 🪑",
-            "• Maybe even some snacks 🍪",
+            "• Maybe even snacks 🍪",
             "",
-            "But you can't see ANY of it because it's so dark.",
+            "But right now?",
+            "You can’t see *any* of it.",
             "",
-            "Now... someone hands you a flashlight. 🔦",
+            "Then someone hands you a **torch** 🔦.",
             "",
-            "Suddenly, you can see! But here's the catch: you can only see whatever you point the flashlight at.",
+            "Suddenly — you can see.",
+            "But only what you point the torch at.",
             "",
-            "Everything else? Still in the dark.",
+            "Everything else stays in the dark.",
             "",
-            "**That Flashlight? That's Your ATTENTION! 💡**",
+            "**That torch? That’s your ATTENTION 💡**",
             "",
-            "Your attention works EXACTLY like that flashlight!",
+            "🔦 Torch = your attention",
+            "🌑 Dark room = everything happening around you",
+            "✨ Lighted spot = what you’re focused on",
             "",
-            "🔦 The Flashlight = Your Attention",
-            "🌑 The Dark Room = All the information around you",
-            "✨ What the light touches = What you're focused on",
+            "Right now, loads of things are happening:",
+            "• The hum of the room",
+            "• The feel of your clothes",
+            "• Sounds outside 🚗",
+            "• The temperature 🌡️",
+            "• Your breathing 😮‍💨",
+            "• These words you’re reading 👀",
             "",
-            "Right now, there are MILLIONS of things happening around you:",
-            "• The hum of the air conditioner",
-            "• The feeling of your clothes on your skin",
-            "• The smell in the room",
-            "• Sounds outside",
-            "• The temperature",
-            "• Your breathing",
-            "• These words you're reading!",
+            "You *can’t* focus on all of them at once.",
+            "If you tried, your brain would melt 🤯.",
             "",
-            "But you can't focus on ALL of them at once. Your brain would explode! 🤯",
+            "So your brain does something clever:",
+            "It points the torch at **one thing at a time**.",
             "",
-            "So your brain does something GENIUS: It points the flashlight (your attention) at just ONE thing at a time.",
+            "**You use this all day long 🌅**",
             "",
-            "**This Happens ALL Day Long! 🌅**",
+            "**In class 📝**",
+            "Teacher talking → torch on teacher.",
+            "Someone drops a book → BANG! Torch jumps!",
+            "You bring it back → that’s you in control 👑.",
             "",
-            "Let's see when YOU use this superpower:",
+            "**Gaming 🎮**",
+            "Torch glued to the screen.",
+            "Mum calls your name… you don’t hear it 😅.",
+            "Torch wasn’t pointed there!",
             "",
-            "**In Class 📝**",
-            "Your teacher is talking (flashlight on teacher). Someone drops a book - BANG! (flashlight automatically jumps to the sound!) You force it back to the teacher (you're in control!)",
+            "**At dinner 🍽️**",
+            "You’re thinking about a test tomorrow.",
+            "Someone asks you a question.",
+            "You miss it — torch stuck in your thoughts 💭.",
             "",
-            "**Playing Video Games 🎮**",
-            "Your flashlight is GLUED to the screen. Your mom calls your name... but you don't hear her! Why? Your flashlight isn't pointed at her voice!",
+            "This is normal.",
+            "Everyone’s torch works this way.",
             "",
-            "**At Dinner 🍽️**",
-            "You're thinking about a test tomorrow (flashlight in your thoughts). Someone asks you to pass the salt. You don't hear them! Your flashlight is stuck in your head!",
-            "",
-            "This is NORMAL! Everyone's flashlight works this way. The question is: can you CONTROL where you point it?",
-            "",
-            "**Why Does This Happen? 🧪**",
-            "",
-            "Your brain is the most powerful computer on Earth! 🖥️✨",
-            "",
-            "Every single second, your brain receives about 11 MILLION bits of information:",
-            "• What you see 👀",
-            "• What you hear 👂",
-            "• What you smell 👃",
-            "• What you touch 🖐️",
-            "• What you taste 👅",
-            "• Your body position",
-            "• Your emotions",
-            "• Your memories",
-            "• And SO much more!",
-            "",
-            "If your brain tried to process ALL of that? It would CRASH like an old computer! 💥",
-            "",
-            "So your brain has a genius solution: a FILTER! 🧹",
-            "",
-            "**Your brain's filter:**",
-            "✅ Lets in: Important stuff (teacher talking, car horn, your name)",
-            "❌ Blocks out: Background noise (air conditioner, clothes feeling, random sounds)",
-            "",
-            "This filter is your attention working automatically to keep you safe and focused!",
-            "",
-            "**You Have TWO Kinds of Flashlight Control! 🎮🚨**",
-            "",
-            "**Type 1: Top-Down (You're The Boss) 👑**",
-            "",
-            "This is when YOU decide where to point your flashlight.",
-            "• You choose to read this lesson",
-            "• You decide to do your homework",
-            "• You pick which friend to listen to",
-            "",
-            "You're in CONTROL! This takes willpower and practice.",
-            "",
-            "**Type 2: Bottom-Up (Auto-Pilot) ⚡**",
-            "",
-            "This is when your brain AUTOMATICALLY moves your flashlight to keep you safe!",
-            "• A loud BANG! → Flashlight jumps to the sound",
-            "• Someone yells your name → Flashlight turns to them",
-            "• A ball flies at your face → Flashlight locks on!",
-            "",
-            "Your brain evolved this over millions of years to protect you from danger! 🦕→🧍",
-            "",
-            "The BEST part? You can train your brain to be better at Type 1 (staying focused) while still keeping Type 2 (staying safe)!"
+            "The real skill is learning **where to point it**."
           ]
-        },
-        {
-          type: "interactive",
-          title: "🔦 Point Your Flashlight",
-          subtitle: "Where are you pointing your attention? Tap one to see — that's you choosing (Top-Down)!",
-          interactiveType: "flashlight",
-          items: ["Teacher talking", "Phone buzz", "Window", "Your thoughts"]
-        },
-        {
-          type: "quiz",
-          question: "About how many bits of information does your brain receive per second?",
-          options: [
-            { id: "a", text: "~11 million", correct: true },
-            { id: "b", text: "~1 million", correct: false },
-            { id: "c", text: "~100 thousand", correct: false },
-            { id: "d", text: "~1 billion", correct: false }
-          ],
-          explanation: "Your brain receives about 11 million bits per second! That's why it needs a filter - otherwise it would overload. The Gatekeeper lets only a tiny fraction through so you can focus."
-        },
-        {
-          type: "quiz",
-          question: "What is Top-Down attention?",
-          options: [
-            { id: "a", text: "When YOUR brain automatically focuses on a loud sound", correct: false },
-            { id: "b", text: "When YOU choose where to focus (e.g. reading this lesson)", correct: true },
-            { id: "c", text: "When your flashlight is off", correct: false },
-            { id: "d", text: "When you're in hyperfocus mode only", correct: false }
-          ],
-          explanation: "Top-Down means you're the boss - you decide where to point your attention. It takes willpower. Bottom-Up is when your brain automatically grabs your attention (like a loud bang)."
-        },
-        {
-          type: "content",
-          title: "The Flashlight in the Dark — Key Takeaways 🔦",
-          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
-          imageAlt: "Flashlight in darkness representing attention",
-          paragraphs: [
-            "**Key Takeaways 🎓**",
-            "",
-            "🔦 **Attention is like a flashlight** - you can only focus on one thing at a time",
-            "",
-            "🧠 **Your brain filters information** - it blocks out millions of things so you don't crash!",
-            "",
-            "👑 **Top-Down Attention** - When YOU choose where to focus (takes willpower)",
-            "",
-            "⚡ **Bottom-Up Attention** - When your brain automatically focuses on something (keeps you safe)",
-            "",
-            "💪 **You can train your focus** - Just like a muscle, practice makes you stronger!",
-            "",
-            "Remember: Everyone's flashlight works this way. You're not broken if you get distracted - you're human! The trick is learning to control your superpower. 🦸"
-          ]
-        },
-        {
-          type: "quiz",
-          question: "What is attention like?",
-          options: [
-            { id: "a", text: "A flashlight in a dark room", correct: true },
-            { id: "b", text: "A bucket of water", correct: false },
-            { id: "c", text: "A flying bird", correct: false },
-            { id: "d", text: "A math problem", correct: false }
-          ],
-          explanation: "Correct! Attention works just like a flashlight - you can only focus on what you 'shine' it on!"
-        },
-        {
-          type: "content",
-          title: "Your Brain's Gatekeeper 🚪",
-          imageUrl: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=400&fit=crop",
-          imageAlt: "Brain scan representing the brain's filter",
-          paragraphs: [
-            "**Meet Your Brain's Bouncer! 🕴️**",
-            "",
-            "Remember that filter we talked about? The one that keeps your brain from exploding with too much information?",
-            "",
-            "Well, it has a name: THE GATEKEEPER! 🚪🧠",
-            "",
-            "Today you'll learn exactly how this bouncer decides what gets into your brain's VIP club (your attention) and what gets left outside in the cold.",
-            "",
-            "**Your Brain is Like the Coolest Club in Town 🎉**",
-            "",
-            "Imagine your brain is the hottest nightclub in the world. Everyone wants to get in!",
-            "",
-            "Standing at the door? THE GATEKEEPER - a massive, no-nonsense bouncer. 💪",
-            "",
-            "Every second, MILLIONS of things are trying to get into your brain:",
-            "",
-            "• \"Let me in! I'm the sound of the fridge humming!\" 🔊",
-            "• \"Pick me! I'm the itch on your ankle!\" 🦟",
-            "• \"Notice me! I'm your teacher talking about math!\" 📐",
-            "• \"Choose me! I'm that funny meme you saw yesterday!\" 😂",
-            "",
-            "But here's the thing: Your brain can only let a FEW things in at a time.",
-            "",
-            "So the Gatekeeper has to make FAST decisions: Who gets in? Who gets kicked out?",
-            "",
-            "**How Does the Gatekeeper Decide? 🤔**",
-            "",
-            "The Gatekeeper follows some pretty strict rules:",
-            "",
-            "**Rule #1: Keep You Alive! ☠️→✅**",
-            "Anything that might hurt you IMMEDIATELY gets in!",
-            "• A car horn? BOOM! Instant entry!",
-            "• Something moving fast toward your face? IN!",
-            "• A fire alarm? Welcome to the VIP section!",
-            "",
-            "**Rule #2: What You Care About 💖**",
-            "Things you're interested in get priority access",
-            "• Your crush's name? Instant admission!",
-            "• Your favorite game? Red carpet treatment!",
-            "• Boring lecture you don't care about? Sorry, not on the list!",
-            "",
-            "**Rule #3: What's New and Different ✨**",
-            "Novel stuff gets noticed faster than boring, repetitive stuff",
-            "• A new sound? Let's check it out!",
-            "• The same clock ticking for hours? Ignored!",
-            "• Someone wearing a crazy outfit? All eyes on them!",
-            "",
-            "**Rule #4: Your Goals Matter 🎯**",
-            "If you're looking for something specific, the Gatekeeper watches for it",
-            "• Lost your phone? Your brain is SCANNING for it!",
-            "• Waiting for your friend? You'll spot them in a crowd!",
-            "• Hungry? You'll notice every food sign!",
-            "",
-            "**When the Gatekeeper Makes Mistakes 😅**",
-            "",
-            "Sometimes your Gatekeeper lets the WRONG things in:",
-            "",
-            "**Mistake #1: The Shiny Object Problem ✨**",
-            "Your Gatekeeper LOVES new and exciting things!",
-            "• You're studying... but a notification pops up",
-            "• The Gatekeeper thinks: 'Ooh! New! Exciting! Let it in!'",
-            "• Suddenly you've lost 30 minutes on TikTok 📱",
-            "",
-            "**Mistake #2: The Worry Loop 😰**",
-            "Your Gatekeeper thinks worries are important (trying to keep you safe!)",
-            "• You're trying to sleep...",
-            "• But your Gatekeeper keeps letting in thoughts about tomorrow's test",
-            "• Now you're awake at 2 AM thinking about school!",
-            "",
-            "**Mistake #3: The Selective Hearing 🙉**",
-            "When you're focused on something you love, the Gatekeeper blocks EVERYTHING else",
-            "• You're gaming...",
-            "• Mom calls you 5 times...",
-            "• Your Gatekeeper blocked it all! (Now you're in trouble!)",
-            "",
-            "The good news? You can TRAIN your Gatekeeper to make better decisions! 💪",
-            "",
-            "**What's Really Happening in There? 🧬**",
-            "",
-            "Your Gatekeeper isn't actually a tiny person in your brain (surprise! 😄)",
-            "",
-            "It's a complex system involving several brain parts:",
-            "",
-            "**The Thalamus (The Main Bouncer) 🧠**",
-            "• Located in the center of your brain",
-            "• Routes all incoming information (except smell)",
-            "• Decides what goes to consciousness and what doesn't",
-            "",
-            "**The Reticular Activating System (RAS) 📡**",
-            "• Your brain's alarm system",
-            "• Constantly scanning for danger or important stuff",
-            "• Only lets through about 1% of information!",
-            "",
-            "**The Prefrontal Cortex (The Manager) 👔**",
-            "• The 'thinking' part of your brain",
-            "• Can OVERRIDE the automatic gatekeeper",
-            "• This is where willpower comes from!",
-            "",
-            "Here's the coolest part: These systems work together in about 0.05 seconds - faster than you can blink! ⚡",
-            "",
-            "**Key Takeaways 🎓**",
-            "",
-            "🚪 **The Gatekeeper** - Your brain's filter that decides what information gets through",
-            "",
-            "⚡ **Works automatically** - Processes millions of decisions per second without you thinking",
-            "",
-            "🎯 **Follows rules** - Safety first, then interest, novelty, and your goals",
-            "",
-            "🤔 **Makes mistakes** - Can be distracted by shiny objects or let in too many worries",
-            "",
-            "💪 **Can be trained** - Practice and awareness make it smarter!",
-            "",
-            "🧠 **Multiple brain parts** - Thalamus, RAS, and Prefrontal Cortex work together",
-            "",
-            "Remember: Your Gatekeeper is trying its best to help you! Understanding how it works means you can work WITH it instead of fighting against it! 🤝"
-          ]
+          
         },
         {
           type: "interactive",
@@ -6956,7 +6753,7 @@ function initMobileOptimizations() {
     });
   }
 
-  // Add viewport height fix for mobile browsers (addresses address bar issue)
+  // Add viewport height fix for mobile browsers (addresses address bar issue).
   function setViewportHeight() {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -6966,3 +6763,4 @@ function initMobileOptimizations() {
   window.addEventListener('resize', setViewportHeight);
   window.addEventListener('orientationchange', setViewportHeight);
 }
+
