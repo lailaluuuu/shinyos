@@ -1,10 +1,3 @@
-// ShinyOS learning platform - Subject dropdowns with home page
-// Updated: Organized lessons with template structure
-// Subject lessons data
-// Note: Lesson order is determined by array position, not the 'id' field
-// Username: 3–20 characters (lowercase, numbers, underscore)
-// Lessons can be added or modified in the arrays below
-
 const subjectLessons = {
   finance: [
     {
@@ -340,6 +333,7 @@ const subjectLessons = {
         "🎉 Congratulations! You've completed Investing 101!"
       ]
     },
+    // MONEY MACHINE LESSON STARTS HERE
     {
       id: "money-machine",
       subject: "finance",
