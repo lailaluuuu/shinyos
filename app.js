@@ -166,6 +166,18 @@ const subjectLessons = {
       ]
     },
     {
+      id: 13.5,
+      type: "quiz",
+      question: "🤔 You have £1,000 to invest. Which strategy gives you the MOST diversification?",
+      options: [
+        { id: "a", text: "Buy stock in one great company", correct: false },
+        { id: "b", text: "Buy an ETF that owns 500 companies", correct: true },
+        { id: "c", text: "Keep it in cash", correct: false },
+        { id: "d", text: "Buy cryptocurrency only", correct: false }
+      ],
+      explanation: "An ETF that owns 500 companies gives you instant diversification. If one company fails, you still own 499 others. Single stocks = all eggs in one basket."
+    },
+    {
       id: 14,
       type: "content",
       title: "📈 Stocks & Dividends: Tiny Ownership Explained",
@@ -206,6 +218,18 @@ const subjectLessons = {
         "This is why markets can look chaotic day-to-day 🌪️ but more logical decade-to-decade 📊.",
         "You can't control the noise, but you can choose to focus on the signal: real businesses, real earnings, real value over time."
       ]
+    },
+    {
+      id: 16.5,
+      type: "quiz",
+      question: "💭 A company's stock drops 20% after bad news. What should you do?",
+      options: [
+        { id: "a", text: "Panic sell immediately before it drops more", correct: false },
+        { id: "b", text: "Check if the fundamentals changed or if it's just market noise", correct: true },
+        { id: "c", text: "Buy more without thinking", correct: false },
+        { id: "d", text: "Close your eyes and hope", correct: false }
+      ],
+      explanation: "Smart investors separate noise from signal. Ask: Did the company's ability to make money change? Or is the market just reacting emotionally? Don't let headlines control your decisions."
     },
     {
       id: 17,
@@ -315,6 +339,19 @@ const subjectLessons = {
         { id: "d", text: "Irrelevant ❌", correct: false }
       ],
       explanation: "Time is the multiplier that makes compounding powerful. The longer your investments compound, the more exponential the growth becomes."
+    },
+    {
+      id: 20,
+      type: "interactive",
+      title: "🎮 Risk vs. Return Challenge",
+      subtitle: "Balance your portfolio across different risk levels",
+      interactiveType: "risk-game",
+      instructions: "Allocate £10,000 across three investment types. See how your choices affect potential returns!",
+      investmentTypes: [
+        { id: "safe", name: "Safe Bonds", risk: "Low", return: "3-5%", color: "#35c27e" },
+        { id: "balanced", name: "Index Funds", risk: "Medium", return: "7-10%", color: "#fbbf24" },
+        { id: "aggressive", name: "Growth Stocks", risk: "High", return: "12-20%", color: "#ef4444" }
+      ]
     },
     {
       id: 26,
@@ -543,6 +580,29 @@ const subjectLessons = {
           ]
         },
         {
+          type: "interactive",
+          title: "🎲 Pattern Detection Game",
+          subtitle: "Can you spot real patterns vs. random noise?",
+          interactiveType: "pattern-game",
+          scenarios: [
+            {
+              sequence: "HHHTTT",
+              isRandom: false,
+              explanation: "This looks TOO perfect. Real randomness has more variation."
+            },
+            {
+              sequence: "HTHHTH",
+              isRandom: true,
+              explanation: "This is genuinely random. No pattern despite what your brain wants to see."
+            },
+            {
+              sequence: "HHHHHH",
+              isRandom: false,
+              explanation: "Six heads in a row is possible but unlikely (1.6% chance). Could be a weighted coin."
+            }
+          ]
+        },
+        {
           type: "content",
           title: "Pattern hunger 🍽️",
           imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
@@ -623,6 +683,17 @@ const subjectLessons = {
             "You created the pattern you feared.",
             "Not everything means something."
           ]
+        },
+        {
+          type: "quiz",
+          question: "Your friend doesn't text back for 3 hours. Your brain creates a story. What's the CAMERA view?",
+          options: [
+            { id: "a", text: "They're mad at me", correct: false },
+            { id: "b", text: "They're busy with someone more interesting", correct: false },
+            { id: "c", text: "No text received in 3 hours", correct: true },
+            { id: "d", text: "They're ignoring me on purpose", correct: false }
+          ],
+          explanation: "The camera only sees: 'No text received in 3 hours.' Everything else is your narrator adding story. Your brain filled the silence with meaning that might not exist."
         },
         {
           type: "content",
@@ -811,6 +882,13 @@ const subjectLessons = {
           ]
         },
         {
+          type: "interactive",
+          title: "🔦 Point Your Flashlight",
+          subtitle: "Where are you pointing your attention? Tap one to see — that's you choosing (Top-Down)!",
+          interactiveType: "flashlight",
+          items: ["Teacher talking", "Phone buzz", "Window", "Your thoughts"]
+        },
+        {
           type: "quiz",
           question: "About how many bits of information does your brain receive per second?",
           options: [
@@ -988,6 +1066,14 @@ const subjectLessons = {
           ]
         },
         {
+          type: "interactive",
+          title: "🔍 Attention Filter Challenge",
+          subtitle: "How many distractions can your Gatekeeper handle?",
+          interactiveType: "attention-game",
+          instructions: "Focus on counting the red circles. Ignore everything else!",
+          difficulty: "medium"
+        },
+        {
           type: "quiz",
           question: "Which Gatekeeper rule explains why you notice your name in a noisy room?",
           options: [
@@ -1119,8 +1205,26 @@ const subjectLessons = {
             "❌ Can ignore basic needs (food, bathroom, sleep!)",
             "",
             "**The Truth About Hyperfocus:**",
-            "Some brains (especially ADHD brains!) experience this MORE than others. It's like a superpower that's hard to control. You can't force it - it happens when you're truly engaged with something! 🚀",
-            "",
+            "Some brains (especially ADHD brains!) experience this MORE than others. It's like a superpower that's hard to control. You can't force it - it happens when you're truly engaged with something! 🚀"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "When is Hyperfocus most useful?",
+          options: [
+            { id: "a", text: "Deep work on one thing when you're fully absorbed", correct: true },
+            { id: "b", text: "Monitoring a crowded room", correct: false },
+            { id: "c", text: "Doing homework with the TV on", correct: false },
+            { id: "d", text: "Watching 10 things at once", correct: false }
+          ],
+          explanation: "Hyperfocus is best for deep work on one thing when you're fully absorbed - like coding, reading, or creating. Crowded rooms and multitasking need Broad or Narrow focus!"
+        },
+        {
+          type: "content",
+          title: "The Zoom Lens — Problems and ADHD 🔍",
+          imageUrl: "https://images.unsplash.com/photo-1516307365426-bea591f050c9?w=800&h=400&fit=crop",
+          imageAlt: "Camera lens representing focus and zoom levels",
+          paragraphs: [
             "**Common Zoom Problems:**",
             "",
             "**Problem 1: Stuck in Broad Focus 😵**",
@@ -1193,6 +1297,17 @@ const subjectLessons = {
             "",
             "Remember: You have a camera lens in your brain, and YOU can learn to be the photographer! Sometimes you need the wide shot, sometimes the close-up, and sometimes you need to capture every tiny detail! 📸✨"
           ]
+        },
+        {
+          type: "quiz",
+          question: "You're studying but keep checking your phone. Which zoom level are you stuck in?",
+          options: [
+            { id: "a", text: "Broad Focus - distracted by everything around you", correct: true },
+            { id: "b", text: "Narrow Focus - successfully focused on studying", correct: false },
+            { id: "c", text: "Hyperfocus - deeply absorbed in studying", correct: false },
+            { id: "d", text: "No focus at all", correct: false }
+          ],
+          explanation: "You're in Broad Focus mode - your Gatekeeper is letting in too many signals (phone notifications, sounds, thoughts). You need to reduce distractions to shift into Narrow Focus for effective studying."
         },
         {
           type: "quiz",
@@ -1715,6 +1830,17 @@ const subjectLessons = {
           ]
         },
         {
+          type: "quiz",
+          question: "Which is a common ADHD superpower?",
+          options: [
+            { id: "a", text: "Hyperfocus on passion projects", correct: true },
+            { id: "b", text: "Perfect time estimation", correct: false },
+            { id: "c", text: "Never getting distracted", correct: false },
+            { id: "d", text: "Preferring routine over novelty", correct: false }
+          ],
+          explanation: "ADHD brains often have the superpower of incredible hyperfocus on things they love - like building, creating, or diving deep into a topic. Different doesn't mean broken!"
+        },
+        {
           type: "content",
           title: "The Chemistry Lab ⚗️",
           imageUrl: "https://images.unsplash.com/photo-1532094349884-543bc11b2da0?w=800&h=400&fit=crop",
@@ -1746,6 +1872,17 @@ const subjectLessons = {
             "",
             "Understanding brain chemistry helps you realize that how you feel and focus isn't just about 'trying harder' - it's about actual chemical processes in your brain! 🧪✨"
           ]
+        },
+        {
+          type: "quiz",
+          question: "Which chemical is often called the motivation molecule?",
+          options: [
+            { id: "a", text: "Serotonin", correct: false },
+            { id: "b", text: "Dopamine", correct: true },
+            { id: "c", text: "GABA", correct: false },
+            { id: "d", text: "Norepinephrine", correct: false }
+          ],
+          explanation: "Dopamine is linked to reward, motivation, and focus. Low levels can make it harder to get started or stay focused - which is why brain chemistry matters!"
         },
         {
           type: "reflection",
@@ -1848,6 +1985,28 @@ const subjectLessons = {
           ]
         },
         {
+          type: "quiz",
+          question: "Which of these is a permanent upgrade, not a loadout?",
+          options: [
+            { id: "a", text: "Kindness", correct: true },
+            { id: "b", text: "Football team", correct: false },
+            { id: "c", text: "Current grades", correct: false },
+            { id: "d", text: "Hobbies", correct: false }
+          ],
+          explanation: "Kindness is part of your core - who you're choosing to be. Loadout is what you do or have (sports, grades, hobbies) and can change."
+        },
+        {
+          type: "quiz",
+          question: "\"I'm bad at math\" is best described as:",
+          options: [
+            { id: "a", text: "A permanent identity that can't change", correct: false },
+            { id: "b", text: "Your current loadout - something that can change", correct: true },
+            { id: "c", text: "A permanent upgrade", correct: false },
+            { id: "d", text: "Who you're choosing to be", correct: false }
+          ],
+          explanation: "It's loadout - something that happened or that you do. You can level up with practice or choose to see yourself differently. Your core is who you choose to be."
+        },
+        {
           type: "reflection",
           title: "⚡ The Character Core Exercise",
           prompt: "**Equip Your Core:** Pick 3 permanent upgrades you want to level up, and one small quest to \"grind XP\" for each this week.\n\n**Legacy Mode:** Imagine someone makes a documentary about you 10 years from now. What do you want them to say you were known for?\n\n💡 Your loadout is what you *do*. Your core is who you *are*. You get to choose your core."
@@ -1911,6 +2070,27 @@ const subjectLessons = {
             "**The lesson:** If we can't even agree on a color, imagine how different your narrator and your friend's narrator might be in the same situation.",
             "**Your narrator isn't showing you the truth. It's showing you ONE interpretation.**"
           ]
+        },
+        {
+          type: "interactive",
+          title: "📸 Camera vs. Narrator",
+          subtitle: "Spot the fact (camera) vs the story (narrator).",
+          interactiveType: "camera-vs-narrator",
+          scenarios: [
+            { fact: "Your friend didn't text back.", camera: "No text back yet.", narrator: "They're ignoring me." },
+            { fact: "Teacher said: Can you stay after class?", camera: "The four words the teacher said.", narrator: "I'm in trouble." }
+          ]
+        },
+        {
+          type: "quiz",
+          question: "Teacher says \"Can you stay after class?\" What part is the camera?",
+          options: [
+            { id: "a", text: "The 4 words the teacher said", correct: true },
+            { id: "b", text: "\"I'm in trouble\"", correct: false },
+            { id: "c", text: "\"They want to ask me something\"", correct: false },
+            { id: "d", text: "Your feeling of worry", correct: false }
+          ],
+          explanation: "The camera only captures what literally happened - the words spoken. Everything about what it means (trouble, ask something, etc.) is your narrator filling in the gap."
         },
         {
           type: "content",
@@ -2060,6 +2240,17 @@ const subjectLessons = {
           ]
         },
         {
+          type: "quiz",
+          question: "If you fell into a black hole feet-first, what would happen FIRST?",
+          options: [
+            { id: "a", text: "You'd be crushed instantly", correct: false },
+            { id: "b", text: "Time would stop completely", correct: false },
+            { id: "c", text: "Tidal forces would stretch you into spaghetti", correct: true },
+            { id: "d", text: "You'd see the entire future of the universe", correct: false }
+          ],
+          explanation: "Spaghettification happens BEFORE you reach the singularity. Your feet experience stronger gravity than your head, stretching you vertically and compressing you horizontally. For supermassive black holes, this happens more gently - you might cross the event horizon intact."
+        },
+        {
           type: "content",
           title: "🧠 The most disturbing thing about the event horizon",
           paragraphs: [
@@ -2136,6 +2327,15 @@ const subjectLessons = {
           ]
         },
         {
+          type: "interactive",
+          title: "⏰ Time Dilation Calculator",
+          subtitle: "See how time slows near a black hole",
+          interactiveType: "time-dilation",
+          instructions: "Adjust your distance from the black hole. Watch how time flows differently!",
+          maxDistance: 100,
+          eventHorizon: 10
+        },
+        {
           type: "content",
           title: "📸 We've actually photographed one",
           paragraphs: [
@@ -2149,6 +2349,17 @@ const subjectLessons = {
             "We orbit it.",
             "We have been orbiting it for the entire existence of our species."
           ]
+        },
+        {
+          type: "quiz",
+          question: "Why does the black hole image from 2019 show a glowing ring instead of just darkness?",
+          options: [
+            { id: "a", text: "The black hole itself is glowing", correct: false },
+            { id: "b", text: "Hot gas orbiting near the event horizon emits light before falling in", correct: true },
+            { id: "c", text: "It's a camera error", correct: false },
+            { id: "d", text: "Black holes aren't actually black", correct: false }
+          ],
+          explanation: "The ring is superheated gas (plasma) orbiting at nearly light speed. It's so hot (billions of degrees) it glows brightly before crossing the event horizon. The dark center is the black hole's shadow - the region where even light cannot escape."
         },
         {
           type: "content",
@@ -2351,6 +2562,17 @@ const subjectLessons = {
         },
         {
           type: "quiz",
+          question: "Why do we need to melt Mars' surface instead of just pumping oxygen from Earth?",
+          options: [
+            { id: "a", text: "Melting is more fun", correct: false },
+            { id: "b", text: "Mars rocks contain trapped oxygen in iron oxides - it's already there!", correct: true },
+            { id: "c", text: "We can't transport oxygen through space", correct: false },
+            { id: "d", text: "Melting makes the planet warmer", correct: false }
+          ],
+          explanation: "Mars' red color comes from iron oxide (rust) - oxygen chemically bonded to iron. There's enough oxygen trapped in Martian rocks to create a breathable atmosphere. We just need to break those chemical bonds using extreme heat (thermolysis). Shipping oxygen from Earth would require trillions of tons!"
+        },
+        {
+          type: "quiz",
           question: "After 50 years of melting Mars, what's the problem with our new atmosphere?",
           options: [
             { id: "a", text: "It's too cold and the oxygen freezes solid", correct: false },
@@ -2367,6 +2589,17 @@ const subjectLessons = {
             "We have a breathable amount of oxygen, but we need to add 79% nitrogen to make it safe and Earth-like. Unfortunately, Mars is severely lacking in nitrogen. We have to import it... from Saturn.",
             "The plan: Titan (Saturn's largest moon) has a thick atmosphere that's almost entirely nitrogen. We need 3,000 trillion tons. Titan is ~1.2 billion km from Mars. Giant automated factories on Titan's surface: laser-powered factories suck in Titan's atmosphere, compress nitrogen into liquid form, pump into bullet-shaped tanks, mass driver shoots them to Mars, tanks explode in Mars orbit mixing with oxygen. Timeline: ~2 generations (~50 years) with enough resources. Would be easier if we terraformed Venus first and had leftover nitrogen!"
           ]
+        },
+        {
+          type: "quiz",
+          question: "Why import nitrogen from Titan instead of from Earth's atmosphere?",
+          options: [
+            { id: "a", text: "Titan's nitrogen is better quality", correct: false },
+            { id: "b", text: "Titan has a massive nitrogen atmosphere we can harvest without harming Earth", correct: true },
+            { id: "c", text: "It's closer to Mars", correct: false },
+            { id: "d", text: "Titan's nitrogen is already compressed", correct: false }
+          ],
+          explanation: "Titan's atmosphere is 95% nitrogen and extremely thick - a virtually unlimited supply. Taking nitrogen from Earth would deplete our atmosphere. While Titan is far away (at Saturn), it's worth the journey because we need 3,000 trillion tons of nitrogen!"
         },
         {
           type: "quiz",
@@ -2427,6 +2660,14 @@ const subjectLessons = {
             "Nitrogen-fixing bacteria absorb N2 from the air and convert it into nitrate compounds that feed plants. They're Earth's natural fertilizer factories.",
             "First plants: species native to volcanic islands on Earth - perfectly suited to laser-blasted Martian landscape. Progression: enriched mud becomes foundation → grasslands emerge → forests grow (very tall, very fast due to lower gravity) → tree roots gather nutrients and dig deeper → roots turn more rock into soil → self-sustaining ecosystem formed."
           ]
+        },
+        {
+          type: "interactive",
+          title: "🌡️ Atmosphere Mixer",
+          subtitle: "Create the perfect atmosphere for Mars",
+          interactiveType: "atmosphere-builder",
+          targetComposition: { oxygen: 21, nitrogen: 79, co2: 0.04 },
+          instructions: "Adjust gas percentages to match Earth's atmosphere"
         },
         {
           type: "quiz",
@@ -2638,6 +2879,16 @@ const MAX_PARAGRAPHS_PER_SLIDE = 20;
             result.push({ type: "quiz", subject: subject, question: section.question, options: section.options || [], explanation: section.explanation });
           } else if (section.type === "reflection") {
             result.push({ type: "content", subject: subject, title: section.title, paragraphs: [section.prompt || ""] });
+          } else if (section.type === "interactive") {
+            result.push({
+              type: "interactive",
+              subject: subject,
+              title: section.title,
+              subtitle: section.subtitle || "",
+              interactiveType: section.interactiveType || "calculator",
+              scenarios: section.scenarios,
+              items: section.items
+            });
           }
         });
         boundaries.push({ slug: slug, startIndex: startIndex, endIndex: result.length });
@@ -3853,6 +4104,103 @@ function renderLesson() {
       contentEl.appendChild(subtitleP);
     }
     
+    const interactiveType = lesson.interactiveType || "calculator";
+    if (interactiveType === "camera-vs-narrator") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      const scenarios = lesson.scenarios || [
+        { fact: "Your friend didn't text back.", camera: "No text back yet.", narrator: "They're ignoring me." },
+        { fact: "Teacher said: Can you stay after class?", camera: "Four words the teacher said.", narrator: "I'm in trouble." }
+      ];
+      const scenario = scenarios[0];
+      const factP = document.createElement("p");
+      factP.style.fontWeight = "600";
+      factP.style.color = "#fff";
+      factP.style.marginBottom = "16px";
+      factP.textContent = "Fact (what actually happened): " + (scenario.fact || "");
+      gameEl.appendChild(factP);
+      const labelP = document.createElement("p");
+      labelP.style.fontSize = "14px";
+      labelP.style.color = "var(--text-soft)";
+      labelP.style.marginBottom = "12px";
+      labelP.textContent = "Which is the camera (just the fact), and which is the narrator (the story)?";
+      gameEl.appendChild(labelP);
+      const boxCamera = document.createElement("div");
+      boxCamera.style.padding = "12px 16px";
+      boxCamera.style.background = "rgba(53, 194, 126, 0.2)";
+      boxCamera.style.borderRadius = "8px";
+      boxCamera.style.marginBottom = "8px";
+      boxCamera.style.border = "2px solid rgba(53, 194, 126, 0.5)";
+      boxCamera.innerHTML = "<strong>Camera:</strong> " + (scenario.camera || "");
+      const boxNarrator = document.createElement("div");
+      boxNarrator.style.padding = "12px 16px";
+      boxNarrator.style.background = "rgba(184, 107, 255, 0.2)";
+      boxNarrator.style.borderRadius = "8px";
+      boxNarrator.style.border = "2px solid rgba(184, 107, 255, 0.5)";
+      boxNarrator.innerHTML = "<strong>Narrator:</strong> " + (scenario.narrator || "");
+      gameEl.appendChild(boxCamera);
+      gameEl.appendChild(boxNarrator);
+      const tipP = document.createElement("p");
+      tipP.style.fontSize = "13px";
+      tipP.style.color = "var(--text-soft)";
+      tipP.style.marginTop = "16px";
+      tipP.textContent = "The camera only captures what happened. The narrator adds the story. Learning to spot the difference is the superpower!";
+      gameEl.appendChild(tipP);
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
+    } else if (interactiveType === "flashlight") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      const items = lesson.items || ["Teacher talking", "Phone buzz", "Window", "Your thoughts"];
+      const labelP = document.createElement("p");
+      labelP.style.fontSize = "14px";
+      labelP.style.color = "var(--text-soft)";
+      labelP.style.marginBottom = "16px";
+      labelP.textContent = "Where are you pointing your flashlight? Tap one:";
+      gameEl.appendChild(labelP);
+      items.forEach(function (item, idx) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = item;
+        btn.style.display = "block";
+        btn.style.width = "100%";
+        btn.style.padding = "14px 16px";
+        btn.style.marginBottom = "8px";
+        btn.style.textAlign = "left";
+        btn.style.background = "rgba(255, 255, 255, 0.08)";
+        btn.style.border = "2px solid rgba(255, 255, 255, 0.15)";
+        btn.style.borderRadius = "8px";
+        btn.style.color = "#fff";
+        btn.style.cursor = "pointer";
+        btn.style.fontSize = "15px";
+        btn.addEventListener("click", function () {
+          [].slice.call(gameEl.querySelectorAll("button")).forEach(function (b) { b.style.borderColor = "rgba(255, 255, 255, 0.15)"; });
+          btn.style.borderColor = "rgba(53, 194, 126, 0.8)";
+          btn.style.background = "rgba(53, 194, 126, 0.15)";
+          const fb = document.getElementById("flashlightFeedback");
+          if (fb) fb.remove();
+          const feedback = document.createElement("p");
+          feedback.id = "flashlightFeedback";
+          feedback.style.marginTop = "16px";
+          feedback.style.color = "var(--text-soft)";
+          feedback.textContent = "That's you choosing where to focus — Top-Down attention! You're in control of the flashlight.";
+          gameEl.appendChild(feedback);
+        });
+        gameEl.appendChild(btn);
+      });
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
+    } else {
     // Interactive calculator container
     const calcContainer = document.createElement("div");
     calcContainer.className = "interactive-calculator slide-in-up";
@@ -4064,6 +4412,7 @@ function renderLesson() {
     // Make content visible
     contentEl.style.opacity = "1";
     contentEl.style.transition = "opacity 0.3s ease";
+    }
     
   } else if (lesson.type === "quiz") {
     // Quiz rendering section
