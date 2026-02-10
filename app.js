@@ -3380,7 +3380,7 @@ function animateElement(el, animationClass, duration = 600) {
 
 // Confetti burst for correct answers
 function triggerConfetti(x, y) {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fbbf24'];
+  const colors = ['#e53935', '#1e88e5', '#fdd835', '#43a047', '#fb8c00', '#ec407a', '#8e24aa'];
   for (let i = 0; i < 15; i++) {
     const confetti = document.createElement('div');
     confetti.className = 'confetti-particle';

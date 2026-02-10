@@ -284,12 +284,12 @@ function getNextCreature() {
   return creature;
 }
 
-// Cyberpunk confetti colors
-const cyberpunkColors = ['#00ffff', '#ff00ff', '#b86bff', '#4ea2ff', '#2ed4c4', '#ff6b9d', '#ffdd9a', '#35c27e', '#9ae6ff', '#ff00aa'];
+// Normal confetti colors (classic party palette)
+const confettiColors = ['#e53935', '#1e88e5', '#fdd835', '#43a047', '#fb8c00', '#ec407a', '#8e24aa'];
 
 // Full-screen confetti burst
 function triggerFullScreenConfetti() {
-  const colors = cyberpunkColors;
+  const colors = confettiColors;
   const confettiCount = 50; // More confetti for full screen
   
   // Create confetti from multiple points across the screen
@@ -362,8 +362,8 @@ function startFallingConfetti() {
       confetti.style.width = size + 'px';
       confetti.style.height = size + 'px';
       
-      // Random color from cyberpunk palette
-      const color = cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+      // Random color from confetti palette
+      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
       confetti.style.backgroundColor = color;
       
       // Random horizontal drift (more drift for visual interest)
