@@ -889,6 +889,12 @@ const subjectLessons = {
           items: ["Teacher talking", "Phone buzz", "Window", "Your thoughts"]
         },
         {
+          type: "interactive",
+          title: "🦔 Cup Hedgehog",
+          subtitle: "Track the hedgehog under the cups! Can you find it?",
+          interactiveType: "cup-hedgehog"
+        },
+        {
           type: "quiz",
           question: "About how many bits of information does your brain receive per second?",
           options: [
@@ -4105,7 +4111,177 @@ function renderLesson() {
     }
     
     const interactiveType = lesson.interactiveType || "calculator";
-    if (interactiveType === "camera-vs-narrator") {
+    if (interactiveType === "cup-hedgehog") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "game-panel interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      gameEl.style.textAlign = "center";
+
+      const messageP = document.createElement("p");
+      messageP.style.color = "var(--text-soft)";
+      messageP.style.marginBottom = "4px";
+      messageP.style.minHeight = "24px";
+      gameEl.appendChild(messageP);
+
+      const roundScoreP = document.createElement("p");
+      roundScoreP.style.fontSize = "14px";
+      roundScoreP.style.color = "var(--text-soft)";
+      roundScoreP.style.marginBottom = "16px";
+      gameEl.appendChild(roundScoreP);
+
+      let message = "";
+      let round = 1;
+      let score = 0;
+      let phase = "intro";
+      let cups = [];
+      let hedgehogPos = 0;
+      let animSwap = null;
+      const maxRounds = 3;
+
+      function updateDisplay() {
+        messageP.textContent = message || "Press Start to begin";
+        roundScoreP.textContent = "Round: " + round + " / " + maxRounds + " • Score: " + score;
+      }
+
+      function renderCupGrid() {
+        const existing = gameEl.querySelector(".cup-grid");
+        if (existing) existing.remove();
+        const cupGrid = document.createElement("div");
+        cupGrid.className = "cup-grid";
+        cupGrid.style.display = "grid";
+        cupGrid.style.gridTemplateColumns = "repeat(" + Math.ceil(Math.sqrt(cups.length || 1)) + ", 1fr)";
+        cupGrid.style.gap = "12px";
+        cupGrid.style.maxWidth = "520px";
+        cupGrid.style.margin = "16px auto";
+        cups.forEach(function (cupId, positionIndex) {
+          const isSwapHighlight = animSwap && (animSwap.a === positionIndex || animSwap.b === positionIndex);
+          const showHedgehog = (phase === "reveal" || phase === "result") && positionIndex === hedgehogPos;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.setAttribute("data-cup-id", cupId);
+          btn.style.height = "84px";
+          btn.style.borderRadius = "16px";
+          btn.style.border = "2px solid rgba(255,255,255,0.15)";
+          btn.style.background = isSwapHighlight ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.25)";
+          btn.style.cursor = phase === "pick" ? "pointer" : "default";
+          btn.style.fontSize = "26px";
+          btn.title = phase === "pick" ? "Pick me" : "";
+          btn.style.color = "#fff";
+          const cupSpan = document.createElement("span");
+          cupSpan.style.display = "inline-block";
+          cupSpan.style.transform = "translateY(2px)";
+          cupSpan.textContent = "🥤";
+          btn.appendChild(cupSpan);
+          if (showHedgehog) {
+            const hogSpan = document.createElement("span");
+            hogSpan.style.marginLeft = "10px";
+            hogSpan.textContent = "🦔";
+            btn.appendChild(hogSpan);
+          }
+          btn.addEventListener("click", function () {
+            onPickCup(positionIndex);
+          });
+          cupGrid.appendChild(btn);
+        });
+        gameEl.appendChild(cupGrid);
+      }
+
+      function startCupHedgehogRound(r) {
+        round = r;
+        cups = ["cup-1", "cup-2", "cup-3"];
+        hedgehogPos = Math.floor(Math.random() * cups.length);
+        animSwap = null;
+        phase = "pick";
+        message = "Watch the cups! Where is the hedgehog? Pick one.";
+        updateDisplay();
+        renderCupGrid();
+        updateStartAndResetButtons();
+      }
+
+      function onPickCup(positionIndex) {
+        if (phase !== "pick") return;
+        const correct = positionIndex === hedgehogPos;
+        if (correct) score++;
+        phase = "reveal";
+        message = correct ? "🦔 Found it! Well done!" : "Wrong cup! The hedgehog was under another one.";
+        updateDisplay();
+        renderCupGrid();
+        phase = "result";
+        if (round < maxRounds) {
+          setTimeout(function () {
+            startCupHedgehogRound(round + 1);
+          }, 1500);
+        } else {
+          message = "Game over! Final score: " + score + " / " + maxRounds + ". Press Reset to play again.";
+          updateDisplay();
+          updateStartAndResetButtons();
+        }
+      }
+
+      function resetGame() {
+        round = 1;
+        score = 0;
+        phase = "intro";
+        message = "";
+        cups = [];
+        updateDisplay();
+        renderCupGrid();
+        updateStartAndResetButtons();
+      }
+
+      const buttonContainer = document.createElement("div");
+      buttonContainer.style.marginTop = "16px";
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.gap = "12px";
+      buttonContainer.style.justifyContent = "center";
+      buttonContainer.style.flexWrap = "wrap";
+
+      const startBtn = document.createElement("button");
+      startBtn.type = "button";
+      startBtn.textContent = "Start";
+      startBtn.style.padding = "12px 24px";
+      startBtn.style.background = "linear-gradient(135deg, #b86bff, #8b5cf6)";
+      startBtn.style.color = "#fff";
+      startBtn.style.border = "none";
+      startBtn.style.borderRadius = "8px";
+      startBtn.style.fontSize = "15px";
+      startBtn.style.fontWeight = "600";
+      startBtn.style.cursor = "pointer";
+      startBtn.addEventListener("click", function () { startCupHedgehogRound(1); });
+
+      const resetBtn = document.createElement("button");
+      resetBtn.type = "button";
+      resetBtn.textContent = "Reset";
+      resetBtn.style.padding = "12px 24px";
+      resetBtn.style.background = "rgba(255, 255, 255, 0.08)";
+      resetBtn.style.color = "#fff";
+      resetBtn.style.border = "2px solid rgba(255, 255, 255, 0.15)";
+      resetBtn.style.borderRadius = "8px";
+      resetBtn.style.fontSize = "15px";
+      resetBtn.style.cursor = "pointer";
+      resetBtn.addEventListener("click", resetGame);
+
+      function updateStartAndResetButtons() {
+        buttonContainer.innerHTML = "";
+        if (phase === "intro") {
+          buttonContainer.appendChild(startBtn);
+        }
+        if (phase !== "intro") {
+          buttonContainer.appendChild(resetBtn);
+        }
+      }
+
+      updateDisplay();
+      renderCupGrid();
+      updateStartAndResetButtons();
+      gameEl.appendChild(buttonContainer);
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
+    } else if (interactiveType === "camera-vs-narrator") {
       const gameEl = document.createElement("div");
       gameEl.className = "interactive-mind slide-in-up";
       gameEl.style.animationDelay = "0.2s";
