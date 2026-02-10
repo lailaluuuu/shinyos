@@ -807,8 +807,37 @@ const subjectLessons = {
             "",
             "Your brain evolved this over millions of years to protect you from danger! 🦕→🧍",
             "",
-            "The BEST part? You can train your brain to be better at Type 1 (staying focused) while still keeping Type 2 (staying safe)!",
-            "",
+            "The BEST part? You can train your brain to be better at Type 1 (staying focused) while still keeping Type 2 (staying safe)!"
+          ]
+        },
+        {
+          type: "quiz",
+          question: "About how many bits of information does your brain receive per second?",
+          options: [
+            { id: "a", text: "~11 million", correct: true },
+            { id: "b", text: "~1 million", correct: false },
+            { id: "c", text: "~100 thousand", correct: false },
+            { id: "d", text: "~1 billion", correct: false }
+          ],
+          explanation: "Your brain receives about 11 million bits per second! That's why it needs a filter - otherwise it would overload. The Gatekeeper lets only a tiny fraction through so you can focus."
+        },
+        {
+          type: "quiz",
+          question: "What is Top-Down attention?",
+          options: [
+            { id: "a", text: "When YOUR brain automatically focuses on a loud sound", correct: false },
+            { id: "b", text: "When YOU choose where to focus (e.g. reading this lesson)", correct: true },
+            { id: "c", text: "When your flashlight is off", correct: false },
+            { id: "d", text: "When you're in hyperfocus mode only", correct: false }
+          ],
+          explanation: "Top-Down means you're the boss - you decide where to point your attention. It takes willpower. Bottom-Up is when your brain automatically grabs your attention (like a loud bang)."
+        },
+        {
+          type: "content",
+          title: "The Flashlight in the Dark — Key Takeaways 🔦",
+          imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop",
+          imageAlt: "Flashlight in darkness representing attention",
+          paragraphs: [
             "**Key Takeaways 🎓**",
             "",
             "🔦 **Attention is like a flashlight** - you can only focus on one thing at a time",
