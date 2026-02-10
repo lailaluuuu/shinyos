@@ -989,6 +989,17 @@ const subjectLessons = {
         },
         {
           type: "quiz",
+          question: "Which Gatekeeper rule explains why you notice your name in a noisy room?",
+          options: [
+            { id: "a", text: "Keep you alive", correct: false },
+            { id: "b", text: "What you care about", correct: true },
+            { id: "c", text: "What's new and different", correct: false },
+            { id: "d", text: "Your goals", correct: false }
+          ],
+          explanation: "Your name is something you care about, so the Gatekeeper gives it priority and lets it through even in a noisy room. That's Rule #2!"
+        },
+        {
+          type: "quiz",
           question: "Which rule does the Gatekeeper follow FIRST?",
           options: [
             { id: "a", text: "Keep you entertained", correct: false },
