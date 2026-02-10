@@ -4217,49 +4217,251 @@ function renderLesson() {
       instructionsP.textContent = lesson.instructions || "Focus on counting the red circles. Ignore everything else!";
       gameEl.appendChild(instructionsP);
 
-      // Game canvas area
+      let gameActive = false;
+      let redCount = 0;
+      let userGuess = null;
+      let round = 1;
+      const maxRounds = 3;
+
       const canvas = document.createElement("div");
-      canvas.style.minHeight = "200px";
+      canvas.style.minHeight = "250px";
       canvas.style.background = "rgba(0, 0, 0, 0.3)";
       canvas.style.borderRadius = "12px";
       canvas.style.padding = "32px";
       canvas.style.marginBottom = "16px";
       canvas.style.display = "flex";
-      canvas.style.flexDirection = "column";
+      canvas.style.flexWrap = "wrap";
       canvas.style.alignItems = "center";
       canvas.style.justifyContent = "center";
-
-      const placeholderText = document.createElement("div");
-      placeholderText.style.fontSize = "48px";
-      placeholderText.style.marginBottom = "16px";
-      placeholderText.textContent = "🔴🔵🟡🔴🟢🔴";
-      canvas.appendChild(placeholderText);
-
-      const countText = document.createElement("div");
-      countText.style.color = "var(--text-soft)";
-      countText.style.fontSize = "14px";
-      countText.textContent = "How many red circles? (This is a placeholder - full game coming soon!)";
-      canvas.appendChild(countText);
-
+      canvas.style.gap = "16px";
+      canvas.style.position = "relative";
       gameEl.appendChild(canvas);
 
-      const startBtn = document.createElement("button");
-      startBtn.type = "button";
-      startBtn.textContent = "Start Challenge";
-      startBtn.style.padding = "12px 24px";
-      startBtn.style.background = "linear-gradient(135deg, #b86bff, #8b5cf6)";
-      startBtn.style.color = "#fff";
-      startBtn.style.border = "none";
-      startBtn.style.borderRadius = "8px";
-      startBtn.style.fontSize = "15px";
-      startBtn.style.fontWeight = "600";
-      startBtn.style.cursor = "pointer";
-      startBtn.addEventListener("click", function() {
-        countText.textContent = "3 red circles! (Full interactive game coming in next update)";
-        startBtn.disabled = true;
-        startBtn.style.opacity = "0.5";
+      const scoreDisplay = document.createElement("div");
+      scoreDisplay.style.fontSize = "16px";
+      scoreDisplay.style.fontWeight = "600";
+      scoreDisplay.style.color = "#fff";
+      scoreDisplay.style.marginBottom = "16px";
+      scoreDisplay.textContent = `Round ${round}/${maxRounds}`;
+      gameEl.appendChild(scoreDisplay);
+
+      const inputArea = document.createElement("div");
+      inputArea.style.marginBottom = "16px";
+      inputArea.style.display = "none";
+
+      const inputLabel = document.createElement("p");
+      inputLabel.style.fontSize = "14px";
+      inputLabel.style.color = "var(--text-soft)";
+      inputLabel.style.marginBottom = "12px";
+      inputLabel.textContent = "How many RED circles did you count?";
+      inputArea.appendChild(inputLabel);
+
+      const buttonWrap = document.createElement("div");
+      buttonWrap.style.display = "flex";
+      buttonWrap.style.gap = "8px";
+      buttonWrap.style.justifyContent = "center";
+      buttonWrap.style.flexWrap = "wrap";
+
+      for (let i = 0; i <= 10; i++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = i.toString();
+        btn.style.width = "48px";
+        btn.style.height = "48px";
+        btn.style.background = "rgba(255, 255, 255, 0.08)";
+        btn.style.border = "2px solid rgba(255, 255, 255, 0.15)";
+        btn.style.borderRadius = "8px";
+        btn.style.color = "#fff";
+        btn.style.fontSize = "16px";
+        btn.style.fontWeight = "600";
+        btn.style.cursor = "pointer";
+        btn.style.transition = "all 0.2s ease";
+
+        btn.addEventListener("click", function() {
+          userGuess = i;
+          checkAnswer();
+        });
+
+        btn.addEventListener("mouseenter", function() {
+          this.style.background = "rgba(184, 107, 255, 0.3)";
+          this.style.borderColor = "rgba(184, 107, 255, 0.6)";
+          this.style.transform = "scale(1.05)";
+        });
+
+        btn.addEventListener("mouseleave", function() {
+          this.style.background = "rgba(255, 255, 255, 0.08)";
+          this.style.borderColor = "rgba(255, 255, 255, 0.15)";
+          this.style.transform = "scale(1)";
+        });
+
+        buttonWrap.appendChild(btn);
+      }
+
+      inputArea.appendChild(buttonWrap);
+      gameEl.appendChild(inputArea);
+
+      const feedback = document.createElement("p");
+      feedback.style.color = "var(--text-soft)";
+      feedback.style.fontSize = "14px";
+      feedback.style.minHeight = "24px";
+      feedback.style.marginBottom = "16px";
+      gameEl.appendChild(feedback);
+
+      const actionBtn = document.createElement("button");
+      actionBtn.type = "button";
+      actionBtn.textContent = "Start Challenge";
+      actionBtn.style.padding = "12px 24px";
+      actionBtn.style.background = "linear-gradient(135deg, #b86bff, #8b5cf6)";
+      actionBtn.style.color = "#fff";
+      actionBtn.style.border = "none";
+      actionBtn.style.borderRadius = "8px";
+      actionBtn.style.fontSize = "15px";
+      actionBtn.style.fontWeight = "600";
+      actionBtn.style.cursor = "pointer";
+      actionBtn.style.transition = "all 0.2s ease";
+
+      actionBtn.addEventListener("mouseenter", function() {
+        this.style.transform = "translateY(-2px)";
+        this.style.boxShadow = "0 4px 12px rgba(184, 107, 255, 0.4)";
       });
-      gameEl.appendChild(startBtn);
+
+      actionBtn.addEventListener("mouseleave", function() {
+        this.style.transform = "translateY(0)";
+        this.style.boxShadow = "none";
+      });
+
+      gameEl.appendChild(actionBtn);
+
+      function generateCircles() {
+        canvas.innerHTML = "";
+        const colors = ["#ef4444", "#3b82f6", "#fbbf24", "#10b981", "#8b5cf6"];
+        const colorNames = ["red", "blue", "yellow", "green", "purple"];
+
+        const totalCircles = round === 1 ? 8 : round === 2 ? 12 : 16;
+        const minRed = round === 1 ? 2 : round === 2 ? 3 : 4;
+        const maxRed = round === 1 ? 4 : round === 2 ? 6 : 8;
+
+        redCount = Math.floor(Math.random() * (maxRed - minRed + 1)) + minRed;
+
+        const circles = [];
+
+        for (let i = 0; i < redCount; i++) {
+          circles.push({ color: colors[0], name: "red" });
+        }
+
+        for (let i = 0; i < totalCircles - redCount; i++) {
+          const colorIndex = Math.floor(Math.random() * (colors.length - 1)) + 1;
+          circles.push({ color: colors[colorIndex], name: colorNames[colorIndex] });
+        }
+
+        for (let i = circles.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [circles[i], circles[j]] = [circles[j], circles[i]];
+        }
+
+        circles.forEach((circle, index) => {
+          setTimeout(() => {
+            const circleEl = document.createElement("div");
+            circleEl.style.width = "60px";
+            circleEl.style.height = "60px";
+            circleEl.style.borderRadius = "50%";
+            circleEl.style.background = `radial-gradient(circle at 30% 30%, ${circle.color}dd, ${circle.color})`;
+            circleEl.style.boxShadow = `0 4px 12px ${circle.color}66, inset -2px -2px 8px rgba(0,0,0,0.3), inset 2px 2px 8px rgba(255,255,255,0.2)`;
+            circleEl.style.animation = "pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)";
+            circleEl.setAttribute("data-color", circle.name);
+            canvas.appendChild(circleEl);
+          }, index * 100);
+        });
+
+        setTimeout(() => {
+          const distraction = document.createElement("div");
+          distraction.style.position = "absolute";
+          distraction.style.top = "8px";
+          distraction.style.right = "8px";
+          distraction.style.fontSize = "12px";
+          distraction.style.color = "rgba(255, 255, 255, 0.3)";
+          distraction.style.fontWeight = "600";
+          distraction.textContent = `${totalCircles} shapes total`;
+          canvas.appendChild(distraction);
+        }, circles.length * 100 + 200);
+      }
+
+      function checkAnswer() {
+        inputArea.style.display = "none";
+
+        if (userGuess === redCount) {
+          feedback.style.color = "#35c27e";
+          feedback.textContent = `✓ Correct! There were ${redCount} red circles. Your Gatekeeper filtered well!`;
+
+          const allCircles = canvas.querySelectorAll('[data-color]');
+          allCircles.forEach(circle => {
+            if (circle.getAttribute('data-color') === 'red') {
+              circle.style.border = "3px solid #35c27e";
+              circle.style.transform = "scale(1.1)";
+            } else {
+              circle.style.opacity = "0.3";
+            }
+          });
+        } else {
+          feedback.style.color = "#ef4444";
+          const diff = Math.abs(userGuess - redCount);
+          if (diff === 1) {
+            feedback.textContent = `✗ Close! You guessed ${userGuess}, but there were ${redCount} red circles.`;
+          } else {
+            feedback.textContent = `✗ Not quite. You guessed ${userGuess}, but there were ${redCount} red circles. Try focusing harder!`;
+          }
+
+          const allCircles = canvas.querySelectorAll('[data-color]');
+          allCircles.forEach(circle => {
+            if (circle.getAttribute('data-color') === 'red') {
+              circle.style.border = "3px solid #fbbf24";
+            } else {
+              circle.style.opacity = "0.3";
+            }
+          });
+        }
+
+        if (round < maxRounds) {
+          setTimeout(() => {
+            round++;
+            scoreDisplay.textContent = `Round ${round}/${maxRounds}`;
+            actionBtn.style.display = "inline-block";
+            actionBtn.textContent = "Next Round";
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            feedback.style.color = "#b86bff";
+            feedback.textContent = "🎉 Challenge complete! Your attention skills are improving!";
+            actionBtn.style.display = "none";
+          }, 2000);
+        }
+      }
+
+      actionBtn.addEventListener("click", function() {
+        if (!gameActive || round > 1) {
+          gameActive = true;
+          feedback.textContent = "";
+          actionBtn.style.display = "none";
+          inputArea.style.display = "none";
+
+          generateCircles();
+
+          const totalCircles = round === 1 ? 8 : round === 2 ? 12 : 16;
+          setTimeout(() => {
+            inputArea.style.display = "block";
+          }, totalCircles * 100 + 500);
+        }
+      });
+
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes pop-in {
+          0% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1.15); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
 
       contentEl.appendChild(gameEl);
       contentEl.style.opacity = "1";
