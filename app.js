@@ -5341,7 +5341,7 @@ function updateMetaForSubject(subject) {
     subjectChip.textContent = "Investing · Finance";
     unitChip.textContent = "Unit: Economic Agency 101";
     lessonTitle.textContent = "Investing — The Skill You Can Learn at Any Age";
-    lessonSubtitle.innerHTML = "Curiosity is enough. The rest is learnable.<br>Welcome to the class you didn't know existed.";
+    lessonSubtitle.innerHTML = "Curiosity is enough. The rest is learnable. ✨<br>Welcome to the class that makes the rest of life make more sense. 🎓";
     era = "Foundations";
     journalText.textContent = "Investing District · Finance. Stamps for compound growth, asset types, risk management, and your notes on building wealth.";
   } else if (subjectMetadata[subject]) {
