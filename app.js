@@ -4200,6 +4200,194 @@ function renderLesson() {
       });
       contentEl.appendChild(gameEl);
       contentEl.style.opacity = "1";
+    } else if (interactiveType === "attention-game") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      gameEl.style.textAlign = "center";
+
+      const instructionsP = document.createElement("p");
+      instructionsP.style.fontSize = "14px";
+      instructionsP.style.color = "var(--text-soft)";
+      instructionsP.style.marginBottom = "24px";
+      instructionsP.textContent = lesson.instructions || "Focus on counting the red circles. Ignore everything else!";
+      gameEl.appendChild(instructionsP);
+
+      // Game canvas area
+      const canvas = document.createElement("div");
+      canvas.style.minHeight = "200px";
+      canvas.style.background = "rgba(0, 0, 0, 0.3)";
+      canvas.style.borderRadius = "12px";
+      canvas.style.padding = "32px";
+      canvas.style.marginBottom = "16px";
+      canvas.style.display = "flex";
+      canvas.style.flexDirection = "column";
+      canvas.style.alignItems = "center";
+      canvas.style.justifyContent = "center";
+
+      const placeholderText = document.createElement("div");
+      placeholderText.style.fontSize = "48px";
+      placeholderText.style.marginBottom = "16px";
+      placeholderText.textContent = "🔴🔵🟡🔴🟢🔴";
+      canvas.appendChild(placeholderText);
+
+      const countText = document.createElement("div");
+      countText.style.color = "var(--text-soft)";
+      countText.style.fontSize = "14px";
+      countText.textContent = "How many red circles? (This is a placeholder - full game coming soon!)";
+      canvas.appendChild(countText);
+
+      gameEl.appendChild(canvas);
+
+      const startBtn = document.createElement("button");
+      startBtn.type = "button";
+      startBtn.textContent = "Start Challenge";
+      startBtn.style.padding = "12px 24px";
+      startBtn.style.background = "linear-gradient(135deg, #b86bff, #8b5cf6)";
+      startBtn.style.color = "#fff";
+      startBtn.style.border = "none";
+      startBtn.style.borderRadius = "8px";
+      startBtn.style.fontSize = "15px";
+      startBtn.style.fontWeight = "600";
+      startBtn.style.cursor = "pointer";
+      startBtn.addEventListener("click", function() {
+        countText.textContent = "3 red circles! (Full interactive game coming in next update)";
+        startBtn.disabled = true;
+        startBtn.style.opacity = "0.5";
+      });
+      gameEl.appendChild(startBtn);
+
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
+    } else if (interactiveType === "pattern-game") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+
+      const titleP = document.createElement("p");
+      titleP.style.fontSize = "16px";
+      titleP.style.fontWeight = "600";
+      titleP.style.color = "#fff";
+      titleP.style.marginBottom = "16px";
+      titleP.textContent = "Is this sequence random or does it have a pattern?";
+      gameEl.appendChild(titleP);
+
+      const scenarios = lesson.scenarios || [];
+      let currentScenario = 0;
+
+      const sequenceDisplay = document.createElement("div");
+      sequenceDisplay.style.fontSize = "32px";
+      sequenceDisplay.style.fontFamily = "monospace";
+      sequenceDisplay.style.letterSpacing = "8px";
+      sequenceDisplay.style.padding = "24px";
+      sequenceDisplay.style.background = "rgba(0, 0, 0, 0.3)";
+      sequenceDisplay.style.borderRadius = "8px";
+      sequenceDisplay.style.marginBottom = "24px";
+      sequenceDisplay.style.textAlign = "center";
+      sequenceDisplay.textContent = scenarios[0]?.sequence || "HTHHTH";
+      gameEl.appendChild(sequenceDisplay);
+
+      const buttonWrap = document.createElement("div");
+      buttonWrap.style.display = "flex";
+      buttonWrap.style.gap = "12px";
+      buttonWrap.style.marginBottom = "16px";
+
+      const randomBtn = document.createElement("button");
+      randomBtn.type = "button";
+      randomBtn.textContent = "Random";
+      randomBtn.style.flex = "1";
+      randomBtn.style.padding = "12px";
+      randomBtn.style.background = "rgba(255, 255, 255, 0.08)";
+      randomBtn.style.border = "2px solid rgba(255, 255, 255, 0.15)";
+      randomBtn.style.borderRadius = "8px";
+      randomBtn.style.color = "#fff";
+      randomBtn.style.cursor = "pointer";
+
+      const patternBtn = document.createElement("button");
+      patternBtn.type = "button";
+      patternBtn.textContent = "Has Pattern";
+      patternBtn.style.flex = "1";
+      patternBtn.style.padding = "12px";
+      patternBtn.style.background = "rgba(255, 255, 255, 0.08)";
+      patternBtn.style.border = "2px solid rgba(255, 255, 255, 0.15)";
+      patternBtn.style.borderRadius = "8px";
+      patternBtn.style.color = "#fff";
+      patternBtn.style.cursor = "pointer";
+
+      const feedback = document.createElement("p");
+      feedback.style.color = "var(--text-soft)";
+      feedback.style.fontSize = "14px";
+      feedback.style.minHeight = "40px";
+
+      function checkAnswer(isRandom) {
+        const scenario = scenarios[currentScenario];
+        const correct = isRandom === scenario.isRandom;
+        feedback.style.color = correct ? "#35c27e" : "#ef4444";
+        feedback.textContent = (correct ? "✓ Correct! " : "✗ Not quite. ") + scenario.explanation;
+        randomBtn.disabled = true;
+        patternBtn.disabled = true;
+        setTimeout(() => {
+          currentScenario = (currentScenario + 1) % scenarios.length;
+          sequenceDisplay.textContent = scenarios[currentScenario].sequence;
+          feedback.textContent = "";
+          randomBtn.disabled = false;
+          patternBtn.disabled = false;
+        }, 3000);
+      }
+
+      randomBtn.addEventListener("click", () => checkAnswer(true));
+      patternBtn.addEventListener("click", () => checkAnswer(false));
+
+      buttonWrap.appendChild(randomBtn);
+      buttonWrap.appendChild(patternBtn);
+      gameEl.appendChild(buttonWrap);
+      gameEl.appendChild(feedback);
+
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
+    } else if (interactiveType === "risk-game" || interactiveType === "atmosphere-builder" || interactiveType === "time-dilation") {
+      const gameEl = document.createElement("div");
+      gameEl.className = "interactive-mind slide-in-up";
+      gameEl.style.animationDelay = "0.2s";
+      gameEl.style.padding = "24px";
+      gameEl.style.background = "linear-gradient(135deg, rgba(184, 107, 255, 0.15), rgba(20, 18, 35, 0.8))";
+      gameEl.style.borderRadius = "var(--radius-md)";
+      gameEl.style.border = "2px solid rgba(184, 107, 255, 0.3)";
+      gameEl.style.textAlign = "center";
+
+      const titleP = document.createElement("p");
+      titleP.style.fontSize = "18px";
+      titleP.style.fontWeight = "600";
+      titleP.style.color = "#fff";
+      titleP.style.marginBottom = "16px";
+      titleP.textContent = lesson.title || "Interactive Challenge";
+      gameEl.appendChild(titleP);
+
+      const placeholder = document.createElement("div");
+      placeholder.style.padding = "48px 24px";
+      placeholder.style.background = "rgba(0, 0, 0, 0.2)";
+      placeholder.style.borderRadius = "8px";
+      placeholder.style.fontSize = "64px";
+      placeholder.style.marginBottom = "16px";
+      placeholder.textContent = interactiveType === "risk-game" ? "📊" : interactiveType === "atmosphere-builder" ? "🌡️" : "⏰";
+      gameEl.appendChild(placeholder);
+
+      const comingSoon = document.createElement("p");
+      comingSoon.style.color = "var(--text-soft)";
+      comingSoon.style.fontSize = "14px";
+      comingSoon.textContent = lesson.instructions || "Full interactive experience coming soon!";
+      gameEl.appendChild(comingSoon);
+
+      contentEl.appendChild(gameEl);
+      contentEl.style.opacity = "1";
     } else {
     // Interactive calculator container
     const calcContainer = document.createElement("div");
