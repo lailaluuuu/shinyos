@@ -4139,102 +4139,156 @@ function renderLesson() {
       let phase = "intro";
       let cups = [];
       let hedgehogPos = 0;
-      let animSwap = null;
+      let cupElements = [];
+      let cupGridEl = null;
       const maxRounds = 3;
+      const SWAP_DURATION_MS = 400;
 
       function updateDisplay() {
         messageP.textContent = message || "Press Start to begin";
         roundScoreP.textContent = "Round: " + round + " / " + maxRounds + " • Score: " + score;
       }
 
-      function renderCupGrid() {
+      function buildCupGrid() {
         const existing = gameEl.querySelector(".cup-grid");
         if (existing) existing.remove();
-        const cupGrid = document.createElement("div");
-        cupGrid.className = "cup-grid";
-        cupGrid.style.display = "grid";
-        cupGrid.style.gridTemplateColumns = "repeat(" + Math.ceil(Math.sqrt(cups.length || 1)) + ", 1fr)";
-        cupGrid.style.gap = "12px";
-        cupGrid.style.maxWidth = "520px";
-        cupGrid.style.margin = "16px auto";
+        cupGridEl = document.createElement("div");
+        cupGridEl.className = "cup-grid";
+        cupGridEl.style.display = "grid";
+        cupGridEl.style.gridTemplateColumns = "repeat(" + Math.ceil(Math.sqrt(cups.length || 1)) + ", 1fr)";
+        cupGridEl.style.gap = "12px";
+        cupGridEl.style.maxWidth = "520px";
+        cupGridEl.style.margin = "16px auto";
+        cupElements = [];
         cups.forEach(function (cupId, positionIndex) {
-          const isSwapHighlight = animSwap && (animSwap.a === positionIndex || animSwap.b === positionIndex);
-          const showHedgehog = (phase === "show" || phase === "reveal" || phase === "result") && positionIndex === hedgehogPos;
           const btn = document.createElement("button");
           btn.type = "button";
           btn.setAttribute("data-cup-id", cupId);
           btn.style.height = "84px";
           btn.style.borderRadius = "16px";
           btn.style.border = "2px solid rgba(255,255,255,0.15)";
-          btn.style.background = isSwapHighlight ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.25)";
-          btn.style.cursor = phase === "pick" ? "pointer" : "default";
+          btn.style.background = "rgba(0,0,0,0.25)";
           btn.style.fontSize = "26px";
-          btn.title = phase === "pick" ? "Pick me" : "";
           btn.style.color = "#fff";
+          btn.style.transition = "transform " + (SWAP_DURATION_MS / 1000) + "s ease-out";
           const cupSpan = document.createElement("span");
+          cupSpan.className = "cup-emoji";
           cupSpan.style.display = "inline-block";
           cupSpan.style.transform = "translateY(2px)";
           cupSpan.textContent = "🥤";
           btn.appendChild(cupSpan);
-          if (showHedgehog) {
-            const hogSpan = document.createElement("span");
+          cupGridEl.appendChild(btn);
+          cupElements.push(btn);
+        });
+        cupGridEl.addEventListener("click", function (evt) {
+          const btn = evt.target.closest("button");
+          if (!btn) return;
+          const idx = cupElements.indexOf(btn);
+          if (idx >= 0) onPickCup(idx);
+        });
+        gameEl.appendChild(cupGridEl);
+      }
+
+      function updateCupGrid() {
+        cupElements.forEach(function (btn, positionIndex) {
+          const showHedgehog = (phase === "show" || phase === "reveal" || phase === "result") && positionIndex === hedgehogPos;
+          let hogSpan = btn.querySelector(".hog-emoji");
+          if (showHedgehog && !hogSpan) {
+            hogSpan = document.createElement("span");
+            hogSpan.className = "hog-emoji";
             hogSpan.style.marginLeft = "10px";
             hogSpan.textContent = "🦔";
             btn.appendChild(hogSpan);
+          } else if (!showHedgehog && hogSpan) {
+            hogSpan.remove();
           }
-          btn.addEventListener("click", function () {
-            onPickCup(positionIndex);
-          });
-          cupGrid.appendChild(btn);
+          btn.style.cursor = phase === "pick" ? "pointer" : "default";
+          btn.disabled = phase !== "pick";
+          btn.title = phase === "pick" ? "Pick me" : "";
+          btn.style.transform = "";
         });
-        gameEl.appendChild(cupGrid);
+      }
+
+      function renderCupGrid() {
+        if (!cups || cups.length === 0) {
+          const existing = gameEl.querySelector(".cup-grid");
+          if (existing) existing.remove();
+          cupGridEl = null;
+          cupElements = [];
+          return;
+        }
+        if (!cupGridEl) buildCupGrid();
+        updateCupGrid();
+      }
+
+      function animateSwap(a, b, onComplete) {
+        if (!cupElements[a] || !cupElements[b]) { if (onComplete) onComplete(); return; }
+        var cupA = cupElements[a];
+        var cupB = cupElements[b];
+        var rectA = cupA.getBoundingClientRect();
+        var rectB = cupB.getBoundingClientRect();
+        cupGridEl.insertBefore(cupA, cupB);
+        cupGridEl.insertBefore(cupB, cupA);
+        [cupElements[a], cupElements[b]] = [cupElements[b], cupElements[a]];
+        if (hedgehogPos === a) hedgehogPos = b; else if (hedgehogPos === b) hedgehogPos = a;
+        [cups[a], cups[b]] = [cups[b], cups[a]];
+        var dxA = rectA.left - rectB.left;
+        var dyA = rectA.top - rectB.top;
+        var dxB = rectB.left - rectA.left;
+        var dyB = rectB.top - rectA.top;
+        cupA.style.transform = "translate(" + dxA + "px, " + dyA + "px)";
+        cupB.style.transform = "translate(" + dxB + "px, " + dyB + "px)";
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            cupA.style.transform = "";
+            cupB.style.transform = "";
+          });
+        });
+        setTimeout(function () {
+          if (onComplete) onComplete();
+        }, SWAP_DURATION_MS);
       }
 
       function startCupHedgehogRound(r) {
         round = r;
         cups = ["cup-1", "cup-2", "cup-3"];
         hedgehogPos = Math.floor(Math.random() * cups.length);
-        animSwap = null;
         phase = "show";
         message = "See the hedgehog? Watch closely!";
         updateDisplay();
-        renderCupGrid();
+        buildCupGrid();
+        updateCupGrid();
         updateStartAndResetButtons();
 
         setTimeout(function () {
           phase = "cover";
           message = "Cups cover it...";
           updateDisplay();
-          renderCupGrid();
+          updateCupGrid();
         }, 2000);
 
         setTimeout(function () {
           phase = "shuffle";
-          const numSwaps = 5;
-          let swapCount = 0;
+          message = "Watch the cups move!";
+          updateDisplay();
+          var numSwaps = 5;
+          var swapCount = 0;
           function doNextSwap() {
             if (swapCount >= numSwaps) {
-              animSwap = null;
               phase = "pick";
               message = "Where did the hedgehog go? Pick a cup!";
               updateDisplay();
-              renderCupGrid();
+              updateCupGrid();
               updateStartAndResetButtons();
               return;
             }
-            let a = Math.floor(Math.random() * cups.length);
-            let b = Math.floor(Math.random() * cups.length);
+            var a = Math.floor(Math.random() * cups.length);
+            var b = Math.floor(Math.random() * cups.length);
             while (b === a) b = Math.floor(Math.random() * cups.length);
-            animSwap = { a: a, b: b };
-            [cups[a], cups[b]] = [cups[b], cups[a]];
-            if (hedgehogPos === a) hedgehogPos = b; else if (hedgehogPos === b) hedgehogPos = a;
-            renderCupGrid();
             swapCount++;
-            setTimeout(function () {
-              animSwap = null;
-              renderCupGrid();
-              setTimeout(doNextSwap, 100);
-            }, 450);
+            animateSwap(a, b, function () {
+              setTimeout(doNextSwap, 80);
+            });
           }
           doNextSwap();
         }, 2500);
