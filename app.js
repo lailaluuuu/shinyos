@@ -4159,7 +4159,7 @@ function renderLesson() {
         cupGrid.style.margin = "16px auto";
         cups.forEach(function (cupId, positionIndex) {
           const isSwapHighlight = animSwap && (animSwap.a === positionIndex || animSwap.b === positionIndex);
-          const showHedgehog = (phase === "reveal" || phase === "result") && positionIndex === hedgehogPos;
+          const showHedgehog = (phase === "show" || phase === "reveal" || phase === "result") && positionIndex === hedgehogPos;
           const btn = document.createElement("button");
           btn.type = "button";
           btn.setAttribute("data-cup-id", cupId);
@@ -4195,11 +4195,49 @@ function renderLesson() {
         cups = ["cup-1", "cup-2", "cup-3"];
         hedgehogPos = Math.floor(Math.random() * cups.length);
         animSwap = null;
-        phase = "pick";
-        message = "Watch the cups! Where is the hedgehog? Pick one.";
+        phase = "show";
+        message = "See the hedgehog? Watch closely!";
         updateDisplay();
         renderCupGrid();
         updateStartAndResetButtons();
+
+        setTimeout(function () {
+          phase = "cover";
+          message = "Cups cover it...";
+          updateDisplay();
+          renderCupGrid();
+        }, 2000);
+
+        setTimeout(function () {
+          phase = "shuffle";
+          const numSwaps = 5;
+          let swapCount = 0;
+          function doNextSwap() {
+            if (swapCount >= numSwaps) {
+              animSwap = null;
+              phase = "pick";
+              message = "Where did the hedgehog go? Pick a cup!";
+              updateDisplay();
+              renderCupGrid();
+              updateStartAndResetButtons();
+              return;
+            }
+            let a = Math.floor(Math.random() * cups.length);
+            let b = Math.floor(Math.random() * cups.length);
+            while (b === a) b = Math.floor(Math.random() * cups.length);
+            animSwap = { a: a, b: b };
+            [cups[a], cups[b]] = [cups[b], cups[a]];
+            if (hedgehogPos === a) hedgehogPos = b; else if (hedgehogPos === b) hedgehogPos = a;
+            renderCupGrid();
+            swapCount++;
+            setTimeout(function () {
+              animSwap = null;
+              renderCupGrid();
+              setTimeout(doNextSwap, 100);
+            }, 450);
+          }
+          doNextSwap();
+        }, 2500);
       }
 
       function onPickCup(positionIndex) {
