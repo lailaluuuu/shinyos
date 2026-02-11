@@ -12,6 +12,7 @@ const subjectLessons = {
       id: 2,
       type: "content",
       title: "🎓 Why School Skipped This",
+      imageUrl: "images/financebear.png",
       paragraphs: [
         "The system taught: budgeting 💰, saving 💵, compound interest (explained through 4 lines), and how to fill in forms 📝.",
         "The system skipped: how wealth actually forms 💎, why assets exist, what investing is, what it funds, how to allocate capital, and why time is the cheat code ⏰.",
@@ -35,6 +36,7 @@ const subjectLessons = {
       id: 4,
       type: "content",
       title: "💡 What Investing Actually Is",
+      imageUrl: "images/financetwo.png",
       paragraphs: [
         "Most people think investing is guessing 🎲, gambling 🎰, or day-trading on a spaceship-looking app 🚀.",
         "Others think it's only for rich people 💰 or finance professionals 👔.",
@@ -65,6 +67,7 @@ const subjectLessons = {
       id: 6,
       type: "content",
       title: "🌍 Why Investing Exists",
+      imageUrl: "images/Financeone.png",
       paragraphs: [
         "Human economies grow because we invent 🔬, build 🏗️, innovate 💡, and want new things 🆕.",
         "Investing is simply how we fund innovation 🚀, growth 📈, risk ⚠️, and long-term progress 🌟.",
@@ -93,6 +96,7 @@ const subjectLessons = {
       id: 8,
       type: "content",
       title: "👻 The Invisible Enemy: Inflation",
+      imageUrl: "images/pound.png",
       paragraphs: [
         "School treats money as static 💰. It never mentions the villain that slowly steals purchasing power 😈.",
         "£100 today might only have the buying power of ~£74 in 10 years (at ~3% annual inflation) 📉",
@@ -116,6 +120,7 @@ const subjectLessons = {
       id: 10,
       type: "content",
       title: "⏰ The Cheat Code They Hid: Compound Growth",
+      imageUrl: "images/hidingmoney.png",
       paragraphs: [
         "Compound growth deserved a 6-week school module 📚, fireworks 🎆, and guest speakers 🎤.",
         "It’s growth on growth 📈. Your money earns money 💰, then that money earns money too 🔁.",
@@ -154,6 +159,7 @@ const subjectLessons = {
       id: 13,
       type: "content",
       title: "📍 Where Investing Happens (Finally Explained)",
+      imageUrl: "images/Financeone.png",
       paragraphs: [
         "Here are the main places people invest to grow money:",
         "Stocks 📈 → owning a small part of a business",
@@ -184,6 +190,7 @@ const subjectLessons = {
       id: 14,
       type: "content",
       title: "📈 Stocks & Dividends: Tiny Ownership Explained",
+      imageUrl: "images/antspound.png",
       paragraphs: [
         "A stock is a tiny slice of a real business 🏢.",
         "Businesses make products 📦, earn profits 💰, and expand 📈. Stocks let you own a part of that engine ⚙️.",
@@ -213,6 +220,7 @@ const subjectLessons = {
       id: 16,
       type: "content",
       title: "📰 Why Markets Move: News, Fear, and Hype",
+      imageUrl: "images/markethype.png",
       paragraphs: [
         "Stock prices don't move in a vacuum. They react to what's happening in the world.",
         "Earnings reports 📊, interest rates 💰, elections 🗳️, wars ⚔️, new products 🆕, and regulation 📜 all change what investors think a business is worth 💎.",
